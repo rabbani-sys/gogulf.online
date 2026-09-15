@@ -986,45 +986,291 @@
                 'https://images.unsplash.com/photo-1504609774757-b19b6eb5d14e?auto=format&fit=crop&q=80&w=400'
             ],
             initialPosts: [
+                // 1. JOBS
                 {
-                    id: 105, type: 'service', username: 'legal_translate_pro', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Legal', location: 'Dubai & Riyadh',
-                    imageUrl: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=1000',
-                    title: 'Certified Legal Translation',
-                    details: 'Fast Turnaround | Visas | Employment Contracts',
-                    status: '🟢 Available Online', actions: ['Book Service', 'Message'],
-                    likes: 312, caption: 'Ensure your immigration documents and employment contracts are legally certified. We provide 24-hour turnaround for all GCC languages. #legalservices #visa #translation #gulfjobs',
-                    comments: [{ id: 1, username: 'ahmed_khan', text: 'Do you translate medical certificates?' }], timeAgo: '30 MINS AGO', likedBy: [], savedBy: []
-                },
-                {
-                    id: 104, type: 'job', username: 'abc_company', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=ABC', location: 'Dubai, UAE',
+                    id: 201, type: 'job', username: 'abc_company', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=ABC', location: 'Dubai, UAE',
                     imageUrl: 'https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?auto=format&fit=crop&q=80&w=1000',
-                    jobTitle: '500 Hospitality Workers Required — UAE',
-                    jobDetails: 'Dubai | Multiple Positions | Accommodation Provided',
+                    title: '500 Hospitality Workers Required — UAE', details: 'Dubai | Multiple Positions | Accommodation Provided',
                     status: '🟣 Hiring', actions: ['View Demand', 'Apply Now'],
-                    likes: 4521, caption: 'Urgent requirement! We are conducting mega walk-in interviews this weekend. Tag someone looking for an opportunity! #dubaijobs #hospitality #hiring',
+                    likes: 4521, caption: 'Urgent requirement! We are conducting mega walk-in interviews this weekend. Tag someone looking for an opportunity! #dubaijobs #hospitality',
                     comments: [{ id: 1, username: 'ahmed_khan', text: 'I am interested, DM sent.' }], timeAgo: '1 HOUR AGO', likedBy: [], savedBy: []
                 },
                 {
-                    id: 103, type: 'cv', username: 'ahmed_khan', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Ahmed', location: 'India',
-                    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1000',
-                    cvTitle: 'Electrician | 5 Years Experience',
-                    cvDetails: 'Preferred Locations: UAE / Qatar',
-                    status: '🟢 Open to Work', actions: ['View Full CV', 'Contact Candidate'],
-                    likes: 890, caption: 'Looking for new opportunities in the GCC. Specialized in industrial wiring and maintenance. Immediately available. #opentowork #electrician #gulfjobs',
+                    id: 202, type: 'job', username: 'tech_innovators_gmbh', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Tech', location: 'Berlin, Germany',
+                    imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Senior Python Developer', details: 'Berlin | €65k - €85k | Relocation Support',
+                    status: '🟣 Hiring', actions: ['View Job', 'Apply Now'],
+                    likes: 1205, caption: 'Join our dynamic team in the heart of Berlin! We sponsor EU Blue Cards. #techjobs #berlin #python',
                     comments: [], timeAgo: '3 HOURS AGO', likedBy: [], savedBy: []
                 },
+                // 2. RECRUITMENT (CVs / Demands)
                 {
-                    id: 101, type: 'standard', username: 'nature_lover', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Nature', location: 'Yosemite National Park',
-                    imageUrl: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&q=80&w=1000',
-                    likes: 1245, caption: 'Majestic views everywhere you look. #yosemite #nature #hiking',
+                    id: 203, type: 'cv', username: 'ahmed_khan', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Ahmed', location: 'Mumbai, India',
+                    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Certified Electrician | 5 Years Experience', details: 'Preferred Locations: UAE / Qatar',
+                    status: '🟢 Open to Work', actions: ['View Full CV', 'Contact Candidate'],
+                    likes: 890, caption: 'Looking for new opportunities in the GCC. Specialized in industrial wiring and maintenance. #opentowork #electrician #gulfjobs',
+                    comments: [], timeAgo: '4 HOURS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 204, type: 'demand', username: 'gulf_manpower_agency', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Agency', location: 'Riyadh, KSA',
+                    imageUrl: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Urgent Manpower Demand: Construction', details: 'Riyadh | 200+ Laborers & Foremen Required',
+                    status: '🟠 Active Demand', actions: ['Submit Profiles', 'Contact Agency'],
+                    likes: 3120, caption: 'Agencies in India & Nepal, we need immediate mobilization for a NEOM sub-project. #ksa #manpower #recruitment',
+                    comments: [], timeAgo: '6 HOURS AGO', likedBy: [], savedBy: []
+                },
+                // 3. SERVICES
+                {
+                    id: 205, type: 'service', username: 'legal_translate_pro', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Legal', location: 'Dubai, UAE',
+                    imageUrl: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Certified Legal Translation', details: 'Fast Turnaround | Visas | Employment Contracts',
+                    status: '🟢 Available Online', actions: ['Book Service', 'Message'],
+                    likes: 312, caption: 'Ensure your immigration documents are legally certified. 24-hour turnaround for all GCC languages. #legalservices',
+                    comments: [], timeAgo: '7 HOURS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 206, type: 'service', username: 'cv_makeover_experts', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=CV', location: 'Remote / Global',
+                    imageUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Professional ATS-Friendly CV Writing', details: 'Gulf & Europe Formats | From AED 150',
+                    status: '🟢 Available', actions: ['View Packages', 'Enquire Now'],
+                    likes: 845, caption: 'Beat the ATS systems! Let our experts tailor your resume for maximum impact in the Gulf and European markets. #cvwriting',
+                    comments: [], timeAgo: '8 HOURS AGO', likedBy: [], savedBy: []
+                },
+                // 4. PRODUCT / MARKETPLACE
+                {
+                    id: 207, type: 'product', username: 'safety_gear_supplier', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Gear', location: 'Sharjah, UAE',
+                    imageUrl: 'https://images.unsplash.com/photo-1588612140409-775b4816c4e0?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Bulk PPE & Construction Helmets', details: 'Wholesale | ANSI Certified | Next Day Delivery',
+                    status: '📦 In Stock', actions: ['View Product', 'Request Quote'],
+                    likes: 124, caption: 'Equip your workforce safely. High-quality helmets available in bulk at wholesale prices. #construction #safetyfirst',
+                    comments: [], timeAgo: '1 DAY AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 208, type: 'product', username: 'expat_electronics', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Tech2', location: 'Doha, Qatar',
+                    imageUrl: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Refurbished Laptops for IT Pros', details: 'MacBook Pro M1 | 1 Year Warranty | QAR 2500',
+                    status: '🔥 Hot Deal', actions: ['Buy Now', 'Contact Seller'],
+                    likes: 567, caption: 'Just moved and need a reliable work laptop? Grab this pristine condition M1 MacBook. #expatlife #qatar #tech',
+                    comments: [], timeAgo: '2 DAYS AGO', likedBy: [], savedBy: []
+                },
+                // 5. EDUCATION / COURSE
+                {
+                    id: 209, type: 'course', username: 'global_safety_institute', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Edu', location: 'Online & Dubai',
+                    imageUrl: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=1000',
+                    title: 'NEBOSH IGC Safety Certification', details: '4 Weeks | KHDA Approved | Weekend Batches',
+                    status: '🎓 Enrolling', actions: ['View Syllabus', 'Enroll Now'],
+                    likes: 892, caption: 'Boost your career in Gulf construction with a globally recognized NEBOSH certificate. #nebosh #safety #training',
+                    comments: [], timeAgo: '1 DAY AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 210, type: 'course', username: 'deutsch_learn_academy', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=German', location: 'Virtual',
+                    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Intensive German B2 Preparation', details: 'Nurses & Engineers | Native Speakers | €200',
+                    status: '🎓 Next Batch: Mon', actions: ['Take Assessment', 'Join Class'],
+                    likes: 1430, caption: 'Preparing for your Ausbildung or nursing role in Germany? Clear B2 in record time. #german #ausbildung',
+                    comments: [], timeAgo: '1 DAY AGO', likedBy: [], savedBy: []
+                },
+                // 6. EVENT
+                {
+                    id: 211, type: 'event', username: 'gulf_tech_summit', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Event', location: 'DWTC, Dubai',
+                    imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Dubai Global Tech Expo 2026', details: 'Oct 15-17 | 500+ Tech Employers | Free Entry',
+                    status: '📅 Upcoming', actions: ['Register Free', 'View Agenda'],
+                    likes: 5400, caption: 'The largest congregation of IT professionals and global recruiters in the MENA region. #GITEX #dubaitech',
+                    comments: [], timeAgo: '2 DAYS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 212, type: 'event', username: 'migration_expo_india', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Expo', location: 'New Delhi, India',
+                    imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Europe Job Seekers Seminar', details: 'Nov 5 | Expert Consultants & Lawyers',
+                    status: '📅 Filling Fast', actions: ['Book Ticket', 'Share Event'],
+                    likes: 3210, caption: 'Learn the exact legal pathways to secure a job in Germany, UK, and Netherlands. #europejobs #migration',
+                    comments: [], timeAgo: '3 DAYS AGO', likedBy: [], savedBy: []
+                },
+                // 7. TRAVEL
+                {
+                    id: 213, type: 'travel', username: 'flygulf_travels', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Travel', location: 'GCC Region',
+                    imageUrl: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Exclusive Worker Fares to KSA', details: 'Extra 40KG Baggage | Flexible Dates',
+                    status: '✈️ Promo Active', actions: ['Check Fares', 'Book Flight'],
+                    likes: 902, caption: 'Special discounted fares for newly employed expats traveling to Saudi Arabia. #travel #ksa #expats',
+                    comments: [], timeAgo: '4 HOURS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 214, type: 'travel', username: 'euro_transit_guides', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Euro', location: 'Frankfurt, Germany',
+                    imageUrl: 'https://images.unsplash.com/photo-1476900543704-4312b78632f8?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Schengen Arrival Guide & Airport Pickup', details: 'Frankfurt & Munich | 24/7 Assistance',
+                    status: '🚖 Available', actions: ['Read Guide', 'Book Pickup'],
+                    likes: 154, caption: 'First time landing in Germany for your new job? Book our reliable airport transit services. #germany #relocation',
+                    comments: [], timeAgo: '5 HOURS AGO', likedBy: [], savedBy: []
+                },
+                // 8. ACCOMMODATION
+                {
+                    id: 215, type: 'accommodation', username: 'dubai_bedspace_hub', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Bed', location: 'Bur Dubai, UAE',
+                    imageUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Executive Bedspace for Professionals', details: 'Near Metro | AED 800/mo | WiFi Included',
+                    status: '🏠 2 Spots Left', actions: ['View Images', 'Contact Host'],
+                    likes: 456, caption: 'Clean, quiet, and fully furnished executive bedspace. Perfect for new arrivals! #dubaihousing',
+                    comments: [], timeAgo: '2 HOURS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 216, type: 'accommodation', username: 'berlin_expat_housing', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Apt', location: 'Mitte, Berlin',
+                    imageUrl: 'https://images.unsplash.com/photo-1502672260266-1c1de24244b7?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Furnished Studio - Anmeldung Possible', details: 'Mitte | €950/mo warm | 3-Month Min.',
+                    status: '🏠 Available Oct 1', actions: ['Apply for Rent', 'Message Agent'],
+                    likes: 1205, caption: 'Finding housing with city registration (Anmeldung) is hard. Secure this rare studio before you land! #berlin',
+                    comments: [], timeAgo: '3 HOURS AGO', likedBy: [], savedBy: []
+                },
+                // 9. VISA
+                {
+                    id: 217, type: 'visa', username: 'gulf_golden_visas', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Visa', location: 'UAE',
+                    imageUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=1000',
+                    title: 'UAE Golden Visa Nomination Service', details: 'Engineers & Doctors | 10 Year Residency',
+                    status: '🛂 Eligibility Check', actions: ['Check Eligibility', 'Consult'],
+                    likes: 3450, caption: 'Are you a skilled professional? Find out if you qualify for the UAE Golden Visa in 5 minutes. #goldenvisa #uae',
+                    comments: [], timeAgo: '5 HOURS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 218, type: 'visa', username: 'europe_migration_lawyers', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Law', location: 'Germany',
+                    imageUrl: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Germany Opportunity Card (Chancenkarte)', details: 'New Job Seeker Route | Point-based System',
+                    status: '🛂 New Rule 2026', actions: ['Calculate Points', 'Learn More'],
+                    likes: 5600, caption: 'The new Chancenkarte allows you to enter Germany to look for a job. Let us help you calculate your points! #germanyvisa',
+                    comments: [], timeAgo: '1 DAY AGO', likedBy: [], savedBy: []
+                },
+                // 10. DOCUMENT / LEGAL
+                {
+                    id: 219, type: 'document', username: 'mofa_attestation_services', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Doc', location: 'Global / UAE',
+                    imageUrl: 'https://images.unsplash.com/photo-1603796846097-bee99e4a601f?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Degree Attestation Services', details: 'India/Pak/PH to UAE/KSA | Fast Track',
+                    status: '📄 Guaranteed', actions: ['Upload Doc', 'Get Quote'],
+                    likes: 210, caption: 'Don\'t let document rejections delay your visa. We handle full MOFA and embassy attestations. #attestation',
+                    comments: [], timeAgo: '3 DAYS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 220, type: 'document', username: 'sworn_translators_eu', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Trans', location: 'Europe',
+                    imageUrl: 'https://images.unsplash.com/photo-1450101499163-c8848c66cb85?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Sworn Translations for EU Visas', details: 'Birth & Marriage Certificates | ISO Certified',
+                    status: '📄 Fast Delivery', actions: ['Request Translation', 'Contact'],
+                    likes: 180, caption: 'Applying for family reunification in Europe? You need sworn translations. We cover 40+ languages. #translation',
+                    comments: [], timeAgo: '4 DAYS AGO', likedBy: [], savedBy: []
+                },
+                // 11. NEWS / MEDIA
+                {
+                    id: 221, type: 'news', username: 'gulf_business_news', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=News', location: 'Middle East',
+                    imageUrl: 'https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Saudi Arabia Announces 500,000 New Jobs', details: 'Vision 2030 | Tourism & Tech Focus',
+                    status: '📰 Breaking', actions: ['Read Article', 'Share News'],
+                    likes: 12500, caption: 'Massive hiring drive announced for upcoming giga-projects across the Kingdom. Get your CVs ready! #saudivision2030 #news',
+                    comments: [], timeAgo: '1 HOUR AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 222, type: 'news', username: 'eu_migration_watch', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Watch', location: 'Brussels',
+                    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Schengen Visa Digitalization Rolling Out', details: 'No More Stickers | Apply Online',
+                    status: '📰 Update', actions: ['Read Details', 'Save Post'],
+                    likes: 8900, caption: 'The EU is officially moving to a fully digital Schengen visa system starting next month. Here is what it means for applicants. #schengen',
+                    comments: [], timeAgo: '5 HOURS AGO', likedBy: [], savedBy: []
+                },
+                // 12. VIDEO / SHORTS
+                {
+                    id: 223, type: 'video', username: 'civil_eng_vlogs', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Eng', location: 'Dubai Marina',
+                    imageUrl: 'https://images.unsplash.com/photo-1541888053678-4ee05553b6f2?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Day in the Life: Dubai Site Engineer', details: 'Vlog | Tips for Freshers | 3 mins',
+                    status: '🎥 Video', actions: ['Watch Video', 'Follow Creator'],
+                    likes: 45000, caption: 'Wondering what a 10-hour shift looks like on a high-rise project? 🏗️☀️ Drop your questions below! #civilengineering #dubai',
+                    comments: [], timeAgo: '1 DAY AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 224, type: 'video', username: 'ielts_ninja_coach', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Coach', location: 'Global',
+                    imageUrl: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Crack the IELTS Speaking Test: Band 8', details: 'Short Tutorial | Common Mistakes',
+                    status: '🎥 Reel', actions: ['Watch Reel', 'Save Tip'],
+                    likes: 12300, caption: 'Stop using these 5 words if you want a Band 8 in your speaking test! 🗣️📚 #ielts #studyabroad',
+                    comments: [], timeAgo: '2 DAYS AGO', likedBy: [], savedBy: []
+                },
+                // 13. AUDIO
+                {
+                    id: 225, type: 'audio', username: 'expat_podcasts', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Pod', location: 'Spotify / GoGulf',
+                    imageUrl: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Podcast: Moving to Germany with a Family', details: 'Ep. 45 | 45 Mins | Guests: The Smiths',
+                    status: '🎧 Listen', actions: ['Play Episode', 'Subscribe'],
+                    likes: 890, caption: 'We discuss schooling, child benefits, and finding larger apartments in Munich. Tune in! #podcast #germanyexpat',
+                    comments: [], timeAgo: '12 HOURS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 226, type: 'audio', username: 'gulf_hr_radio', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Radio', location: 'UAE',
+                    imageUrl: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&q=80&w=1000',
+                    title: 'UAE Labor Law 2026 Updates Explained', details: 'Legal Audio Brief | 15 Mins',
+                    status: '🎧 Audio Brief', actions: ['Play Now', 'Save Audio'],
+                    likes: 2300, caption: 'Our legal expert breaks down the new end-of-service benefits structure. Essential listening for all employees. #uaelaborlaw',
+                    comments: [], timeAgo: '1 DAY AGO', likedBy: [], savedBy: []
+                },
+                // 14. BOOK
+                {
+                    id: 227, type: 'book', username: 'gogulf_publishers', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Book', location: 'Platform Library',
+                    imageUrl: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=1000',
+                    title: 'The Ultimate Gulf Career Guide 2026', details: 'E-Book | 150 Pages | Free Download',
+                    status: '📖 E-Book', actions: ['Download PDF', 'Read Online'],
+                    likes: 5600, caption: 'From writing your CV to negotiating salary in Dirhams and Riyals. Get your free copy today. #careerguide',
+                    comments: [], timeAgo: '3 DAYS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 228, type: 'book', username: 'medical_exam_prep', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Med', location: 'Global',
+                    imageUrl: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=1000',
+                    title: 'HAAD & DHA Exam Preparation Guide', details: 'Nursing Edition | Practice Questions',
+                    status: '📖 Premium Book', actions: ['Buy Book', 'View Sample'],
+                    likes: 3400, caption: 'The highest-rated study material for nurses aiming to clear UAE medical license exams. #nursing #dha #haad',
+                    comments: [], timeAgo: '1 WEEK AGO', likedBy: [], savedBy: []
+                },
+                // 15. NOTICE
+                {
+                    id: 229, type: 'notice', username: 'embassy_updates', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Embassy', location: 'New Delhi, India',
+                    imageUrl: 'https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Public Holiday: Embassy Closure', details: 'All EU Missions | Sep 28-29',
+                    status: '📌 Official Notice', actions: ['Read Details', 'Share'],
+                    likes: 120, caption: 'Please note that visa processing will be paused for 2 days due to national holidays. Plan accordingly. #embassynotice',
+                    comments: [], timeAgo: '2 HOURS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 230, type: 'notice', username: 'gogulf_admin', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Admin', location: 'System',
+                    imageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Scheduled Maintenance: Document Vault', details: 'Downtime: 2 AM - 4 AM (GST)',
+                    status: '📌 Platform Alert', actions: ['Dismiss', 'Read More'],
+                    likes: 45, caption: 'We are upgrading our secure vault servers. Document uploads will be briefly unavailable. #systemupdate',
+                    comments: [], timeAgo: '5 HOURS AGO', likedBy: [], savedBy: []
+                },
+                // 16. STORY (Feed version for testing menu)
+                {
+                    id: 231, type: 'story', username: 'hr_manager_sarah', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Sarah', location: 'Career Fair',
+                    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Behind the Scenes: Mega Recruitment Event', details: 'Live Story Update | Expires in 24h',
+                    status: '⏳ Ephemeral', actions: ['View Story', 'Reply'],
+                    likes: 345, caption: 'We are processing over 1000 candidates today! Such great energy at the fair. #recruitment #story',
+                    comments: [], timeAgo: '1 HOUR AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 232, type: 'story', username: 'tech_guru', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Jack&backgroundColor=f0fdf4', location: 'Office',
+                    imageUrl: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Quick Tip: Structuring your Tech CV', details: 'Live Story Update | Expires in 24h',
+                    status: '⏳ Ephemeral', actions: ['View Story', 'Reply'],
+                    likes: 670, caption: 'Stop putting your education first if you have 5+ years of experience! Put projects at the top. #techcv #story',
+                    comments: [], timeAgo: '2 HOURS AGO', likedBy: [], savedBy: []
+                },
+                // 17. SOCIAL / STANDARD
+                {
+                    id: 233, type: 'social', username: 'nature_lover', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Nature', location: 'Salalah, Oman',
+                    imageUrl: 'https://images.unsplash.com/photo-1549487920-d3ba47ef0e85?auto=format&fit=crop&q=80&w=1000',
+                    likes: 1245, caption: 'Khareef season in Salalah is basically heaven on earth. So green! 🌿🇴🇲 #oman #travel #khareef',
                     comments: [{ id: 1, username: 'travel_bug', text: 'Stunning!' }], timeAgo: '2 HOURS AGO',
                     likedBy: [], savedBy: []
                 },
                 {
-                    id: 102, username: 'tech_guru', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Jack&backgroundColor=f0fdf4', location: 'Silicon Valley',
-                    imageUrl: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000',
-                    likes: 892, caption: 'My new setup is finally complete! 💻🚀 #workspace #developer',
-                    comments: [], timeAgo: '5 HOURS AGO',
+                    id: 234, type: 'social', username: 'your_username', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Felix&backgroundColor=f0fdf4', location: 'Dubai, UAE',
+                    imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000',
+                    likes: 89, caption: 'Just landed in Dubai! The journey begins now. Wish me luck! 🇦🇪💼 #newbeginnings #dubai',
+                    comments: [], timeAgo: 'JUST NOW',
                     likedBy: [], savedBy: []
                 }
             ]
@@ -1197,11 +1443,11 @@
                 const isSaved = post.savedBy && post.savedBy.includes(uid);
                 
                 return `
-                <div class="bg-white border-b sm:border border-cyan-200 sm:rounded-2xl shadow-sm sm:mb-6 max-w-lg w-full mx-auto sm:max-w-xl pb-3 overflow-hidden">
+                <div class="bg-white border-b sm:border border-emerald-200 sm:rounded-2xl shadow-sm sm:mb-6 max-w-lg w-full mx-auto sm:max-w-xl pb-3 overflow-hidden">
                     <div class="flex items-center justify-between p-3">
                         <div class="flex items-center space-x-3 cursor-pointer">
                             <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#86efac] to-[#22c55e] p-[2px] shadow-sm">
-                                <img src="${post.avatar}" loading="lazy" class="w-full h-full rounded-full border-2 border-white object-cover" />
+                                <img src="${post.avatar}" loading="lazy" class="w-full h-full rounded-full border-2 border-white object-cover bg-white" />
                             </div>
                             <div>
                                 <p class="text-sm font-bold hover:text-emerald-700 transition">${post.username}</p>
@@ -1218,20 +1464,20 @@
                         </div>
                     </div>
 
-                    ${(post.type === 'job' || post.type === 'cv' || post.type === 'service' || post.type === 'demand') ? `
+                    ${(post.title || post.jobTitle || post.cvTitle || (post.actions && post.actions.length > 0)) ? `
                     <div class="w-full bg-gradient-to-r from-emerald-50 to-[#e0f8eb] border-b border-emerald-100 p-3 flex flex-col space-y-2.5">
                         <div class="flex justify-between items-start gap-2">
                             <div>
-                                <h4 class="font-extrabold text-emerald-900 text-[15px] leading-tight">${post.jobTitle || post.cvTitle || post.title}</h4>
+                                <h4 class="font-extrabold text-emerald-900 text-[15px] leading-tight">${post.title || post.jobTitle || post.cvTitle}</h4>
                                 <p class="text-[12px] text-emerald-700 font-bold mt-0.5 flex items-center gap-1">
-                                    <img src="https://img.icons8.com/3d-fluency/96/map-marker.png" class="w-3.5 h-3.5"/> ${post.jobDetails || post.cvDetails || post.details}
+                                    <img src="https://img.icons8.com/3d-fluency/96/map-marker.png" class="w-3.5 h-3.5"/> ${post.details || post.jobDetails || post.cvDetails || 'Details Unavailable'}
                                 </p>
                             </div>
                             ${post.status ? `<div class="shrink-0 text-[10px] bg-white border border-emerald-200 text-black px-2 py-1 rounded-md font-extrabold shadow-sm whitespace-nowrap uppercase tracking-wider">${post.status}</div>` : ''}
                         </div>
                         <div class="flex gap-2 w-full mt-1">
                             ${(post.actions || []).map((btn, i) => `
-                                <button class="flex-1 ${i === 0 ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-md hover:scale-[1.02]' : 'bg-white text-emerald-800 border border-emerald-200 hover:bg-emerald-50'} font-extrabold text-xs py-2 rounded-lg transition-transform text-center">
+                                <button onclick="window.openActionModal(${post.id})" class="flex-1 ${i === 0 ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-md hover:scale-[1.02]' : 'bg-white text-emerald-800 border border-emerald-200 hover:bg-emerald-50'} font-extrabold text-xs py-2 rounded-lg transition-transform text-center">
                                     ${btn}
                                 </button>
                             `).join('')}
