@@ -493,7 +493,7 @@
                     <!-- Professional Services -->
                     <div class="bg-white border border-cyan-200 rounded-2xl p-5 hover:shadow-lg hover:scale-105 transition-all cursor-pointer group flex flex-col items-center text-center relative overflow-hidden">
                         <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-orange-100 transition-colors z-10">
-                            <img src="https://img.icons8.com/3d-fluency/96/customer-support.png" class="w-10 h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="Services">
+                            <img src="https://img.icons8.com/3d-fluency/96/settings.png" class="w-10 h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="Services">
                         </div>
                         <h3 class="font-extrabold text-gray-800 text-sm sm:text-base z-10">Services</h3>
                         <p class="text-[11px] text-gray-500 mt-1 z-10">Legal translation, consultants, and accounting.</p>
@@ -817,18 +817,18 @@
                             { name: 'Visa & Immig.', icon: 'passport' },
                             { name: 'Education', icon: 'graduation-cap' },
                             { name: 'Training', icon: 'medal' },
-                            { name: 'Skills', icon: 'parse-from-clipboard' },
+                            { name: 'Skills', icon: 'brain' },
                             { name: 'Travel', icon: 'airplane-take-off' },
                             { name: 'Accommodation', icon: 'city' },
                             { name: 'Documents', icon: 'document' },
                             { name: 'Finance', icon: 'money-bag' },
                             { name: 'Relocation', icon: 'truck' },
-                            { name: 'Services', icon: 'customer-support' },
+                            { name: 'Services', icon: 'settings' },
                             { name: 'Community', icon: 'group' },
                             { name: 'Marketplace', icon: 'shopping-cart' },
                             { name: 'Media', icon: 'clapperboard' },
                             { name: 'Guides', icon: 'books' },
-                            { name: 'My Journey', icon: 'treasure-map' },
+                            { name: 'My Journey', icon: 'compass' },
                             { name: 'Dashboard', icon: 'bar-chart' }
                         ];
                         
@@ -847,6 +847,88 @@
                 <div class="mt-12 bg-gradient-to-r from-emerald-50 to-cyan-50 border border-emerald-100 rounded-2xl p-6 text-center">
                     <h3 class="font-extrabold text-emerald-900">Your Journey Starts Here</h3>
                     <p class="text-sm text-emerald-700 font-semibold mt-1">Gulf First, Europe Next. A single platform for your global mobility.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. SMART POST CONTEXT MENU -->
+        <div id="post-menu-overlay" class="fixed inset-0 z-[250] bg-gray-900/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 flex items-center justify-center p-4">
+            <div id="post-menu-content" class="bg-white/95 backdrop-blur-xl border border-emerald-200/50 shadow-2xl rounded-2xl w-full max-w-sm overflow-hidden transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+                <div class="flex justify-between items-center p-3 border-b border-gray-100 bg-gray-50/50 select-none">
+                    <div id="post-menu-title" class="text-sm font-extrabold text-gray-800 ml-2 tracking-tight">
+                        Options
+                    </div>
+                    <button onclick="window.closePostMenu()" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-200 text-gray-500 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+                <div id="post-menu-body" class="overflow-y-auto flex flex-col p-2">
+                    <!-- Injected via JS dynamically based on post type -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. MASTER REPORT SYSTEM -->
+        <div id="report-modal-overlay" class="fixed inset-0 z-[260] bg-gray-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 flex items-center justify-center p-4">
+            <div id="report-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+                <div class="p-4 border-b border-gray-100 text-center relative">
+                    <h3 class="font-extrabold text-gray-900 text-lg">Report This Post</h3>
+                    <button onclick="window.closeReportModal()" class="absolute right-4 top-4 text-gray-400 hover:text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div>
+                <div class="p-4 overflow-y-auto">
+                    <p class="text-sm font-bold text-gray-600 mb-3">Why are you reporting this?</p>
+                    <div class="space-y-1" id="report-reasons-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+                <div class="p-4 border-t border-gray-100 flex gap-3">
+                    <button onclick="window.closeReportModal()" class="flex-1 py-2.5 rounded-xl font-bold text-sm bg-gray-100 text-gray-700 hover:bg-gray-200">Cancel</button>
+                    <button onclick="window.submitReport()" class="flex-1 py-2.5 rounded-xl font-bold text-sm bg-red-600 text-white hover:bg-red-700 shadow-md">Submit Report</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. BLOCK CONFIRMATION MODAL -->
+        <div id="block-modal-overlay" class="fixed inset-0 z-[270] bg-gray-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 flex items-center justify-center p-4">
+            <div id="block-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 opacity-0 transition-all duration-300 text-center p-6">
+                <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-100">
+                    <img src="https://img.icons8.com/3d-fluency/96/denied.png" class="w-10 h-10 drop-shadow-sm">
+                </div>
+                <h3 class="font-extrabold text-gray-900 text-xl mb-2" id="block-modal-title">Block Account?</h3>
+                <p class="text-sm font-semibold text-gray-500 mb-6">You will no longer see this account's posts, messages, or interactions on the platform.</p>
+                <div class="flex flex-col gap-2">
+                    <button onclick="window.submitBlock()" class="w-full py-3 rounded-xl font-extrabold text-sm bg-red-600 text-white hover:bg-red-700 shadow-md transition-colors">Block Account</button>
+                    <button onclick="window.closeBlockModal()" class="w-full py-3 rounded-xl font-extrabold text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. SAVE TO COLLECTION MODAL -->
+        <div id="save-modal-overlay" class="fixed inset-0 z-[260] bg-gray-900/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200 flex items-center justify-center p-4">
+            <div id="save-modal-content" class="bg-white/95 backdrop-blur-xl border border-emerald-200/50 rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 opacity-0 transition-all duration-300 flex flex-col">
+                <div class="flex justify-between items-center p-4 border-b border-gray-100">
+                    <h3 class="font-extrabold text-gray-900 text-lg flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/bookmark-ribbon.png" class="w-6 h-6"> Save to Collection</h3>
+                    <button onclick="window.closeSaveCollectionModal()" class="text-gray-400 hover:text-gray-700"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div>
+                <div class="p-3 overflow-y-auto max-h-[60vh] space-y-1">
+                    <button class="w-full flex items-center gap-3 p-3 hover:bg-emerald-50 rounded-xl transition-colors border border-transparent hover:border-emerald-100 text-left group">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-xl group-hover:bg-white group-hover:shadow-sm">⭐</div><span class="font-bold text-gray-800">Saved</span>
+                    </button>
+                    <button class="w-full flex items-center gap-3 p-3 hover:bg-emerald-50 rounded-xl transition-colors border border-transparent hover:border-emerald-100 text-left group">
+                        <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-xl group-hover:bg-white group-hover:shadow-sm">💼</div><span class="font-bold text-gray-800">Jobs</span>
+                    </button>
+                    <button class="w-full flex items-center gap-3 p-3 hover:bg-emerald-50 rounded-xl transition-colors border border-transparent hover:border-emerald-100 text-left group">
+                        <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center text-xl group-hover:bg-white group-hover:shadow-sm">🎓</div><span class="font-bold text-gray-800">Education</span>
+                    </button>
+                    <button class="w-full flex items-center gap-3 p-3 hover:bg-emerald-50 rounded-xl transition-colors border border-transparent hover:border-emerald-100 text-left group">
+                        <div class="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center text-xl group-hover:bg-white group-hover:shadow-sm">📄</div><span class="font-bold text-gray-800">Visa & Documents</span>
+                    </button>
+                    <button class="w-full flex items-center gap-3 p-3 hover:bg-emerald-50 rounded-xl transition-colors border border-transparent hover:border-emerald-100 text-left group">
+                        <div class="w-10 h-10 bg-rose-50 rounded-lg flex items-center justify-center text-xl group-hover:bg-white group-hover:shadow-sm">🏠</div><span class="font-bold text-gray-800">Accommodation</span>
+                    </button>
+                    <button class="w-full flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors border border-dashed border-gray-300 text-left group mt-2">
+                        <div class="w-10 h-10 flex items-center justify-center text-2xl font-light text-gray-400 group-hover:text-gray-700">+</div><span class="font-bold text-gray-600 group-hover:text-gray-900">Create New Collection</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1123,7 +1205,7 @@
                                 ${post.location ? `<p class="text-[11px] text-gray-500 font-medium">${post.location}</p>` : ''}
                             </div>
                         </div>
-                        <button class="text-gray-600 hover:text-black hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/more.png" loading="lazy" class="w-6 h-6 drop-shadow-sm" alt="More"></button>
+                        <button onclick="window.openPostMenu(${post.id})" class="text-gray-600 hover:text-black hover:scale-110 transition-transform p-1 rounded-full hover:bg-gray-100"><img src="https://img.icons8.com/3d-fluency/96/more.png" loading="lazy" class="w-6 h-6 drop-shadow-sm" alt="More"></button>
                     </div>
 
                     <div class="w-full bg-gray-50 flex items-center justify-center relative overflow-hidden group select-none border-y border-gray-100" style="min-height: 300px;">
@@ -2073,6 +2155,214 @@
             }, 300);
         };
 
+        // === SMART POST CONTEXT MENU LOGIC ===
+        window.openPostMenu = function(postId) {
+            const post = window.AppState.posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            const isOwner = post.username === window.AppState.currentUser.username;
+            const t = post.type || 'standard';
+            let menuHtml = '';
+
+            const getIcon = (name) => `https://img.icons8.com/3d-fluency/96/${name}.png`;
+            const btn = (icon, text, action, extraClass = '') => `
+                <button onclick="${action};" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-emerald-50 rounded-xl transition-colors border border-transparent hover:border-emerald-100 group text-left ${extraClass}">
+                    <img src="${getIcon(icon)}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <span class="text-sm font-extrabold text-gray-800 group-hover:text-emerald-900">${text}</span>
+                </button>
+            `;
+
+            if (isOwner) {
+                document.getElementById('post-menu-title').innerText = 'Manage Your Post';
+                menuHtml += btn('edit', 'Edit Post', `console.log('Edit')`);
+                menuHtml += btn('pin', 'Pin to Profile', `console.log('Pin')`);
+                menuHtml += btn('bookmark-ribbon', 'Save to Collection', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                menuHtml += btn('forward', 'Share', `console.log('Share')`);
+                menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
+                
+                if (t === 'job') {
+                    menuHtml += `<div class="h-px bg-gray-200 my-1 mx-2"></div>`;
+                    menuHtml += btn('group', 'View Applicants', `console.log('Applicants')`);
+                    menuHtml += btn('combo-chart', 'Job Insights', `console.log('Insights')`);
+                    menuHtml += btn('pause', 'Close Job', `console.log('Close')`);
+                } else if (t === 'service') {
+                    menuHtml += `<div class="h-px bg-gray-200 my-1 mx-2"></div>`;
+                    menuHtml += btn('combo-chart', 'Service Insights', `console.log('Insights')`);
+                    menuHtml += btn('envelope-opened', 'View Requests', `console.log('Requests')`);
+                }
+
+                menuHtml += `<div class="h-px bg-gray-200 my-1 mx-2"></div>`;
+                menuHtml += `
+                <button onclick="console.log('Delete'); window.closePostMenu();" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-red-50 rounded-xl transition-colors border border-transparent hover:border-red-100 group text-left">
+                    <img src="${getIcon('trash')}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <span class="text-sm font-extrabold text-red-600 group-hover:text-red-700">Delete Post</span>
+                </button>`;
+            } else {
+                document.getElementById('post-menu-title').innerText = 'Post Options';
+                
+                // Content Specific Actions
+                if (t === 'job') {
+                    menuHtml += btn('bookmark-ribbon', 'Save Job', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                    menuHtml += btn('resume', 'Apply Now', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('forward', 'Share Job', `console.log('Share')`);
+                    menuHtml += btn('link', 'Copy Job Link', `console.log('Copy')`);
+                    menuHtml += btn('add-user-male', 'Follow Employer', `console.log('Follow')`);
+                    menuHtml += btn('chat', 'Contact Employer', `window.closePostMenu(); window.openActionModal(${postId});`);
+                } else if (t === 'demand' || t === 'cv') {
+                    menuHtml += btn('bookmark-ribbon', 'Save Post', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                    menuHtml += btn('resume', 'View & Apply', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('forward', 'Share', `console.log('Share')`);
+                    menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
+                    menuHtml += btn('add-user-male', `Follow ${post.username}`, `console.log('Follow')`);
+                    menuHtml += btn('chat', 'Contact / Message', `window.closePostMenu(); window.openActionModal(${postId});`);
+                } else if (t === 'service') {
+                    menuHtml += btn('bookmark-ribbon', 'Save Service', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                    menuHtml += btn('eye', 'View Service', `console.log('View')`);
+                    menuHtml += btn('shopping-cart', 'Request Service', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('chat', 'Contact Provider', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('forward', 'Share Service', `console.log('Share')`);
+                    menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
+                    menuHtml += btn('add-user-male', 'Follow Provider', `console.log('Follow')`);
+                } else {
+                    // Standard Social Menu
+                    menuHtml += btn('bookmark-ribbon', 'Save Post', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                    menuHtml += btn('forward', 'Share Post', `console.log('Share')`);
+                    menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
+                    menuHtml += btn('add-user-male', `Follow @${post.username}`, `console.log('Follow')`);
+                }
+
+                menuHtml += `<div class="h-px bg-gray-200 my-1 mx-2"></div>`;
+                
+                // Safety & Moderation Actions
+                menuHtml += btn('invisible', 'Not Interested', `console.log('Hide'); window.closePostMenu();`);
+                menuHtml += `
+                <button onclick="window.closePostMenu(); window.openReportModal(${postId});" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-amber-50 rounded-xl transition-colors border border-transparent hover:border-amber-100 group text-left">
+                    <img src="${getIcon('warning-shield')}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <span class="text-sm font-extrabold text-amber-600 group-hover:text-amber-700">Report Content</span>
+                </button>`;
+                menuHtml += `
+                <button onclick="window.closePostMenu(); window.openReportModal(${postId}, true);" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-red-50 rounded-xl transition-colors border border-transparent hover:border-red-100 group text-left">
+                    <img src="${getIcon('siren')}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <span class="text-sm font-extrabold text-red-600 group-hover:text-red-700">Report Scam / Fraud</span>
+                </button>`;
+                menuHtml += `
+                <button onclick="window.closePostMenu(); window.openBlockModal('${post.username}');" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-gray-100 rounded-xl transition-colors border border-transparent hover:border-gray-300 group text-left">
+                    <img src="${getIcon('denied')}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <span class="text-sm font-extrabold text-gray-600 group-hover:text-gray-900">Block @${post.username}</span>
+                </button>`;
+            }
+
+            document.getElementById('post-menu-body').innerHTML = menuHtml;
+            
+            const overlay = document.getElementById('post-menu-overlay');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                document.getElementById('post-menu-content').classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        };
+
+        window.closePostMenu = function() {
+            const overlay = document.getElementById('post-menu-overlay');
+            overlay.classList.add('opacity-0');
+            document.getElementById('post-menu-content').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 200);
+        };
+
+        // --- Master Report Modals ---
+        window.openReportModal = function(postId, isScam = false) {
+            const reasons = [
+                'Scam or fraud', 'Fake job / opportunity', 'Fake account / impersonation', 
+                'Misleading information', 'Spam', 'Harassment or bullying', 
+                'Inappropriate content', 'Hate or abusive content', 
+                'Fake / counterfeit product', 'Privacy issue', 'Other'
+            ];
+            
+            const html = reasons.map(r => `
+                <label class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-gray-200">
+                    <input type="radio" name="report_reason" value="${r}" class="w-4 h-4 text-emerald-600 accent-emerald-600" ${isScam && r === 'Scam or fraud' ? 'checked' : ''}>
+                    <span class="text-sm font-bold text-gray-700">${r}</span>
+                </label>
+            `).join('');
+            
+            document.getElementById('report-reasons-list').innerHTML = html;
+            
+            const overlay = document.getElementById('report-modal-overlay');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                document.getElementById('report-modal-content').classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        };
+
+        window.closeReportModal = function() {
+            const overlay = document.getElementById('report-modal-overlay');
+            overlay.classList.add('opacity-0');
+            document.getElementById('report-modal-content').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 200);
+        };
+
+        window.submitReport = function() {
+            const checked = document.querySelector('input[name="report_reason"]:checked');
+            if(checked) {
+                window.closeReportModal();
+                // Simulate success toast or action
+                setTimeout(() => alert('Thank you. We have received your report and our moderation team will review it shortly.'), 300);
+            } else {
+                alert('Please select a reason for reporting.');
+            }
+        };
+
+        // --- Block Modals ---
+        window.openBlockModal = function(username) {
+            document.getElementById('block-modal-title').innerText = `Block @${username}?`;
+            const overlay = document.getElementById('block-modal-overlay');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                document.getElementById('block-modal-content').classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        };
+
+        window.closeBlockModal = function() {
+            const overlay = document.getElementById('block-modal-overlay');
+            overlay.classList.add('opacity-0');
+            document.getElementById('block-modal-content').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 200);
+        };
+
+        window.submitBlock = function() {
+            window.closeBlockModal();
+            setTimeout(() => alert('Account blocked successfully.'), 300);
+        };
+
+        // --- Save Collections Modals ---
+        window.openSaveCollectionModal = function(postId) {
+            const overlay = document.getElementById('save-modal-overlay');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                document.getElementById('save-modal-content').classList.remove('scale-95', 'opacity-0');
+            }, 10);
+            // Behind the scenes, mark as saved in primary DB list
+            window.toggleSave(postId);
+        };
+
+        window.closeSaveCollectionModal = function() {
+            const overlay = document.getElementById('save-modal-overlay');
+            overlay.classList.add('opacity-0');
+            document.getElementById('save-modal-content').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 200);
+        };
+
         // === AUTHENTICATION MODAL ENGINE ===
         window.authMode = 'login';
 
@@ -2515,7 +2805,7 @@
                 html = `
                     <div class="flex items-center justify-between mb-4">
                         <div>
-                            <h2 class="text-3xl font-extrabold text-emerald-900 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/parse-from-clipboard.png" class="w-10 h-10"> Career Toolkit</h2>
+                            <h2 class="text-3xl font-extrabold text-emerald-900 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/brain.png" class="w-10 h-10"> Career Toolkit</h2>
                             <p class="text-sm font-bold text-gray-500 mt-1">AI-powered tools to build your profile, CV, and interview skills.</p>
                         </div>
                     </div>
@@ -2734,7 +3024,7 @@
                 html = `
                     <div class="flex items-center justify-between mb-4">
                         <div>
-                            <h2 class="text-3xl font-extrabold text-emerald-900 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/treasure-map.png" class="w-10 h-10"> My Global Mobility Journey</h2>
+                            <h2 class="text-3xl font-extrabold text-emerald-900 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/compass.png" class="w-10 h-10"> My Global Mobility Journey</h2>
                             <p class="text-sm font-bold text-gray-500 mt-1">The central operating layer for your global progression.</p>
                         </div>
                     </div>
