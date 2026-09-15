@@ -2164,7 +2164,7 @@
             if (!post) return;
             
             const isOwner = post.username === window.AppState.currentUser.username;
-            const t = post.type || 'standard';
+            const category = post.type || 'standard';
             let menuHtml = '';
 
             const getIcon = (name) => `https://img.icons8.com/3d-fluency/96/${name}.png`;
@@ -2175,6 +2175,7 @@
                 </button>
             `;
 
+            // 1. OWNER MENU
             if (isOwner) {
                 document.getElementById('post-menu-title').innerText = 'Manage Your Post';
                 menuHtml += btn('edit', 'Edit Post', `console.log('Edit')`);
@@ -2183,12 +2184,13 @@
                 menuHtml += btn('forward', 'Share', `console.log('Share')`);
                 menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
                 
-                if (t === 'job') {
+                // Category Specific Actions for Owners
+                if (category === 'job') {
                     menuHtml += `<div class="h-px bg-gray-200 my-1 mx-2"></div>`;
                     menuHtml += btn('group', 'View Applicants', `console.log('Applicants')`);
                     menuHtml += btn('combo-chart', 'Job Insights', `console.log('Insights')`);
                     menuHtml += btn('pause', 'Close Job', `console.log('Close')`);
-                } else if (t === 'service') {
+                } else if (category === 'service') {
                     menuHtml += `<div class="h-px bg-gray-200 my-1 mx-2"></div>`;
                     menuHtml += btn('combo-chart', 'Service Insights', `console.log('Insights')`);
                     menuHtml += btn('envelope-opened', 'View Requests', `console.log('Requests')`);
@@ -2200,34 +2202,65 @@
                     <img src="${getIcon('trash')}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
                     <span class="text-sm font-extrabold text-red-600 group-hover:text-red-700">Delete Post</span>
                 </button>`;
+            
+            // 2. VISITOR MENU
             } else {
                 document.getElementById('post-menu-title').innerText = 'Post Options';
                 
-                // Content Specific Actions
-                if (t === 'job') {
+                // Category Specific Actions
+                if (category === 'job') {
                     menuHtml += btn('bookmark-ribbon', 'Save Job', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
                     menuHtml += btn('resume', 'Apply Now', `window.closePostMenu(); window.openActionModal(${postId});`);
                     menuHtml += btn('forward', 'Share Job', `console.log('Share')`);
                     menuHtml += btn('link', 'Copy Job Link', `console.log('Copy')`);
                     menuHtml += btn('add-user-male', 'Follow Employer', `console.log('Follow')`);
                     menuHtml += btn('chat', 'Contact Employer', `window.closePostMenu(); window.openActionModal(${postId});`);
-                } else if (t === 'demand' || t === 'cv') {
-                    menuHtml += btn('bookmark-ribbon', 'Save Post', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
-                    menuHtml += btn('resume', 'View & Apply', `window.closePostMenu(); window.openActionModal(${postId});`);
+                
+                } else if (category === 'demand' || category === 'cv') {
+                    menuHtml += btn('bookmark-ribbon', 'Save Recruitment', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                    menuHtml += btn('resume', 'Apply / Register', `window.closePostMenu(); window.openActionModal(${postId});`);
                     menuHtml += btn('forward', 'Share', `console.log('Share')`);
                     menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
-                    menuHtml += btn('add-user-male', `Follow ${post.username}`, `console.log('Follow')`);
-                    menuHtml += btn('chat', 'Contact / Message', `window.closePostMenu(); window.openActionModal(${postId});`);
-                } else if (t === 'service') {
+                    menuHtml += btn('add-user-male', `Follow Recruiter`, `console.log('Follow')`);
+                    menuHtml += btn('chat', 'Contact Recruiter', `window.closePostMenu(); window.openActionModal(${postId});`);
+                
+                } else if (category === 'service') {
                     menuHtml += btn('bookmark-ribbon', 'Save Service', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
                     menuHtml += btn('eye', 'View Service', `console.log('View')`);
-                    menuHtml += btn('shopping-cart', 'Request Service', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('envelope-opened', 'Request Service', `window.closePostMenu(); window.openActionModal(${postId});`);
                     menuHtml += btn('chat', 'Contact Provider', `window.closePostMenu(); window.openActionModal(${postId});`);
                     menuHtml += btn('forward', 'Share Service', `console.log('Share')`);
                     menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
                     menuHtml += btn('add-user-male', 'Follow Provider', `console.log('Follow')`);
+                
+                } else if (category === 'course') {
+                    menuHtml += btn('bookmark-ribbon', 'Save Course', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                    menuHtml += btn('graduation-cap', 'View Course', `console.log('View')`);
+                    menuHtml += btn('envelope-opened', 'Enquire', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('chat', 'Contact Institution', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('forward', 'Share', `console.log('Share')`);
+                    menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
+                    menuHtml += btn('add-user-male', 'Follow Institution', `console.log('Follow')`);
+
+                } else if (category === 'event') {
+                    menuHtml += btn('bookmark-ribbon', 'Save Event', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                    menuHtml += btn('calendar', 'Add to Calendar', `console.log('Calendar')`);
+                    menuHtml += btn('ticket', 'View / Register', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('forward', 'Share Event', `console.log('Share')`);
+                    menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
+                    menuHtml += btn('add-user-male', 'Follow Organizer', `console.log('Follow')`);
+                    
+                } else if (category === 'visa') {
+                    menuHtml += btn('bookmark-ribbon', 'Save Information', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
+                    menuHtml += btn('passport', 'View Details', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('envelope-opened', 'Enquire', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('chat', 'Contact Provider', `window.closePostMenu(); window.openActionModal(${postId});`);
+                    menuHtml += btn('forward', 'Share', `console.log('Share')`);
+                    menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
+                    menuHtml += btn('add-user-male', 'Follow Provider', `console.log('Follow')`);
+                
                 } else {
-                    // Standard Social Menu
+                    // Standard Social Menu Fallback
                     menuHtml += btn('bookmark-ribbon', 'Save Post', `window.closePostMenu(); window.openSaveCollectionModal(${postId});`);
                     menuHtml += btn('forward', 'Share Post', `console.log('Share')`);
                     menuHtml += btn('link', 'Copy Link', `console.log('Copy')`);
@@ -2236,7 +2269,7 @@
 
                 menuHtml += `<div class="h-px bg-gray-200 my-1 mx-2"></div>`;
                 
-                // Safety & Moderation Actions
+                // Safety & Moderation Actions (Universal)
                 menuHtml += btn('hide', 'Not Interested', `console.log('Hide'); window.closePostMenu();`);
                 menuHtml += `
                 <button onclick="window.closePostMenu(); window.openReportModal(${postId});" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-amber-50 rounded-xl transition-colors border border-transparent hover:border-amber-100 group text-left">
