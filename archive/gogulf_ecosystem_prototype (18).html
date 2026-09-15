@@ -1,0 +1,513 @@
+<!-- ... existing code ... -->
+                    <!-- Hajj & Umrah -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="moon-star" class="w-4 h-4 mr-3 text-gulf-gold"></i> Hajj & Umrah</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" onclick="showPilgrimageDetail(); return false;" class="text-xs text-gulf-muted hover:text-gulf-gold hover:font-bold py-1.5 transition-all">Umrah Packages</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Hajj Official Info</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Ziyarat Guides</a>
+                        </div>
+                    </details>
+
+                    <!-- Marketplace & Living -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="shopping-bag" class="w-4 h-4 mr-3 text-rose-500"></i> Souq & Settlement</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" onclick="showMarketplace(); return false;" class="text-xs text-gulf-muted hover:text-rose-500 hover:font-bold py-1.5 transition-all">Marketplace</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Accommodation / Stay</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Newcomer's Centre</a>
+                        </div>
+                    </details>
+                    
+                    <div class="h-px bg-gray-200/50 my-4"></div>
+<!-- ... existing code ... -->
+                    <!-- 2. Job Listing Card -->
+                    <div onclick="showJobDetail()" class="col-span-1 row-span-1 bg-white rounded-2xl p-4 shadow-sm card-hover-effect border border-gray-100 flex flex-col justify-between cursor-pointer group">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="w-10 h-10 rounded-xl bg-gulf-emerald/10 flex items-center justify-center"><i data-lucide="briefcase" class="w-5 h-5 text-gulf-emerald"></i></div>
+                                <span class="text-[9px] font-bold text-white bg-gulf-blue px-2 py-1 rounded-md uppercase tracking-wide">Hiring</span>
+                            </div>
+                            <h3 class="font-bold text-gulf-navy text-sm leading-tight mb-1 group-hover:text-gulf-blue transition-colors">Senior Software Engineer</h3>
+                            <p class="text-[10px] text-gulf-muted">TechCorp • Riyadh, KSA</p>
+                        </div>
+                        <div class="text-xs font-extrabold text-gulf-emerald mt-2">SAR 25k - 35k</div>
+                    </div>
+
+                    <!-- 3. Square Photo Post -->
+                    <div onclick="showTourDetail()" class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden cursor-pointer group shadow-sm card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1542640244-7e672d62082b?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <i data-lucide="map" class="absolute top-3 right-3 w-4 h-4 text-white drop-shadow-md"></i>
+                        <div class="absolute bottom-3 left-3 flex items-center space-x-2">
+                            <img src="https://api.dicebear.com/7.x/initials/svg?seed=DE&backgroundColor=0052FF" class="w-6 h-6 rounded-full border border-white">
+                            <span class="text-white text-[10px] font-semibold drop-shadow-md">Dubai Escapes</span>
+                        </div>
+                    </div>
+
+                    <!-- 4. Large Promo / Featured Card (Spans 2 cols, 2 rows) -->
+                    <div onclick="showPilgrimageDetail()" class="col-span-2 row-span-2 relative rounded-2xl overflow-hidden cursor-pointer group shadow-sm card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur px-3 py-1.5 rounded-pill shadow-md flex items-center space-x-1">
+                            <i data-lucide="moon-star" class="w-4 h-4 text-gulf-gold"></i>
+                            <span class="text-xs font-bold text-gulf-navy">Premium Umrah</span>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-5">
+                            <h3 class="text-white font-extrabold text-xl md:text-2xl mb-1">Ramadan VIP Packages 2026</h3>
+                            <p class="text-white/80 text-sm mb-3">Experience the Holy Month with unparalleled comfort. 5-Star facing the Haram.</p>
+                            <button class="bg-gulf-gold hover:bg-yellow-400 text-gulf-navy font-bold py-2 px-4 rounded-lg w-fit text-xs transition-colors">Book Now</button>
+                        </div>
+                    </div>
+<!-- ... existing code ... -->
+                            <div class="flex items-center space-x-3 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center"><i data-lucide="sparkles" class="w-5 h-5 text-white"></i></div>
+                                <div class="text-left">
+                                    <p class="text-xs font-bold text-white">Ask AK GLORA</p>
+                                    <p class="text-[10px] text-white/80">Check visa rules for this tour</p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-white relative z-10 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- ================= END TRAVEL / TOUR DETAIL VIEW ================= -->
+
+            <!-- ================= PILGRIMAGE (UMRAH/HAJJ) DETAIL VIEW ================= -->
+            <div id="pilgrimage-detail-view" class="hidden max-w-[1000px] mx-auto w-full pb-24 pt-4 md:pt-6 px-4 transition-opacity duration-300 opacity-0">
+                
+                <!-- Back Navigation -->
+                <button onclick="showHome()" class="flex items-center text-gulf-muted hover:text-gulf-navy font-semibold text-xs mb-4 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4 mr-1.5"></i> Back to Explore
+                </button>
+
+                <!-- Hero Section (Calm, Serene Styling) -->
+                <div class="bg-white rounded-card-hero shadow-card border border-white overflow-hidden mb-6">
+                    
+                    <div class="relative w-full h-56 md:h-80 bg-gray-100 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent"></div>
+                        
+                        <!-- Trust Badges (Crucial for Pilgrimage) -->
+                        <div class="absolute top-4 left-4 flex flex-col space-y-2">
+                            <span class="bg-white/95 backdrop-blur text-gulf-emerald text-[10px] font-bold px-3 py-1.5 rounded-pill shadow-md flex items-center border border-gulf-emerald/20">
+                                <i data-lucide="shield-check" class="w-4 h-4 mr-1.5"></i> MOHU Approved Provider
+                            </span>
+                            <span class="bg-gulf-navy/90 backdrop-blur text-gulf-gold text-[10px] font-bold px-3 py-1.5 rounded-pill shadow-md flex items-center border border-gulf-gold/30 w-fit">
+                                <i data-lucide="star" class="w-3 h-3 mr-1 fill-current"></i> 4.9/5 Excellent
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Header Content -->
+                    <div class="p-6 md:px-8 md:pb-8 relative -mt-16 z-10">
+                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                            
+                            <!-- Title & Provider -->
+                            <div class="flex-1 bg-white/80 backdrop-blur-xl p-5 rounded-2xl shadow-sm border border-white">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <span class="bg-gulf-gold/10 text-gulf-gold text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider border border-gulf-gold/20 flex items-center">
+                                        <i data-lucide="moon-star" class="w-3 h-3 mr-1"></i> Ramadan VIP
+                                    </span>
+                                    <span class="text-xs font-bold text-gulf-muted flex items-center">
+                                        14 Nights • Makkah & Madinah
+                                    </span>
+                                </div>
+                                <h1 class="text-2xl md:text-3xl font-extrabold text-gulf-navy leading-tight mb-3">Premium 15-Day Ramadan Umrah Experience</h1>
+                                
+                                <div class="flex items-center space-x-3 mt-4">
+                                    <img src="https://api.dicebear.com/7.x/initials/svg?seed=AH&backgroundColor=046A38" class="w-10 h-10 rounded-full shadow-sm border-2 border-white">
+                                    <div>
+                                        <p class="text-[10px] text-gulf-muted uppercase font-bold tracking-wider">Authorized Operator</p>
+                                        <p class="text-sm font-bold text-gulf-navy flex items-center">
+                                            Al-Haram Travels <i data-lucide="badge-check" class="w-4 h-4 text-gulf-emerald ml-1"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Booking/Enquiry Card (Sticky on desktop) -->
+                            <div class="w-full md:w-[320px] bg-white rounded-2xl p-5 shadow-card border border-gray-100 flex-shrink-0 relative">
+                                <div class="flex items-end justify-between mb-4 pb-4 border-b border-gray-100">
+                                    <div>
+                                        <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider mb-1">Package Price From</p>
+                                        <p class="text-2xl font-extrabold text-gulf-emerald">SAR 4,500</p>
+                                    </div>
+                                    <p class="text-[10px] font-bold text-gulf-muted text-right">Per Person<br>(Quad Sharing)</p>
+                                </div>
+                                
+                                <div class="space-y-3 mb-5 text-sm">
+                                    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-50 border border-transparent">
+                                        <div class="flex items-center text-gulf-navy font-semibold"><i data-lucide="calendar" class="w-4 h-4 mr-2 text-gulf-muted"></i> Departs: 1st Ramadan</div>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gulf-emerald cursor-pointer transition-colors">
+                                        <div class="flex items-center text-gulf-navy font-semibold"><i data-lucide="users" class="w-4 h-4 mr-2 text-gulf-muted"></i> Family of 4</div>
+                                        <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted"></i>
+                                    </div>
+                                </div>
+
+                                <button class="w-full bg-gradient-to-r from-gulf-emerald to-gulf-emerald-light hover:shadow-card hover:-translate-y-0.5 text-white py-3.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center space-x-2">
+                                    <i data-lucide="send" class="w-5 h-5"></i> <span>Request Booking</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Left Column: Details -->
+                    <div class="md:col-span-2 space-y-8">
+                        
+                        <!-- Quick Stats (Pilgrimage Specific) -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div class="bg-white p-3 rounded-xl border border-gray-100 text-center shadow-sm">
+                                <i data-lucide="hotel" class="w-5 h-5 text-gulf-gold mx-auto mb-1"></i>
+                                <p class="text-[10px] font-bold text-gulf-muted uppercase">Makkah</p>
+                                <p class="text-xs font-bold text-gulf-navy">5-Star (50m to Haram)</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-gray-100 text-center shadow-sm">
+                                <i data-lucide="hotel" class="w-5 h-5 text-gulf-gold mx-auto mb-1"></i>
+                                <p class="text-[10px] font-bold text-gulf-muted uppercase">Madinah</p>
+                                <p class="text-xs font-bold text-gulf-navy">5-Star (Front Row)</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-gray-100 text-center shadow-sm">
+                                <i data-lucide="bus" class="w-5 h-5 text-gulf-emerald mx-auto mb-1"></i>
+                                <p class="text-[10px] font-bold text-gulf-muted uppercase">Transport</p>
+                                <p class="text-xs font-bold text-gulf-navy">VIP Train / Bus</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-xl border border-gray-100 text-center shadow-sm">
+                                <i data-lucide="file-check" class="w-5 h-5 text-gulf-blue mx-auto mb-1"></i>
+                                <p class="text-[10px] font-bold text-gulf-muted uppercase">Visa</p>
+                                <p class="text-xs font-bold text-gulf-navy">E-Visa Included</p>
+                            </div>
+                        </div>
+
+                        <!-- Package Overview -->
+                        <section class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-lg font-extrabold text-gulf-navy mb-3">Spiritual Journey Overview</h3>
+                            <p class="text-sm text-gulf-text leading-relaxed">
+                                Dedicate your focus entirely to Ibadah while we handle the logistics. This premium package is designed for utmost comfort during the blessed month of Ramadan. You will be staying in handpicked 5-star hotels directly facing the Holy Mosques, ensuring minimal walking distance. The package includes comprehensive Ziyarat in both holy cities guided by certified scholars.
+                            </p>
+                        </section>
+
+                        <!-- Accommodation Details -->
+                        <section class="space-y-4">
+                            <h3 class="text-lg font-extrabold text-gulf-navy">Accommodation Details</h3>
+                            
+                            <div class="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                                <div class="w-full md:w-48 h-32 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col justify-center">
+                                    <div class="flex items-center text-gulf-gold mb-1">
+                                        <i data-lucide="star" class="w-3 h-3 fill-current"></i><i data-lucide="star" class="w-3 h-3 fill-current"></i><i data-lucide="star" class="w-3 h-3 fill-current"></i><i data-lucide="star" class="w-3 h-3 fill-current"></i><i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                    </div>
+                                    <h4 class="font-bold text-gulf-navy text-base">Swissôtel Makkah (or similar)</h4>
+                                    <p class="text-xs text-gulf-muted mt-1"><i data-lucide="map-pin" class="w-3 h-3 inline mr-1 text-gulf-emerald"></i> Abraj Al Bait Complex • 50m from King Abdulaziz Gate</p>
+                                    <p class="text-xs font-semibold text-gulf-navy mt-2">7 Nights • Breakfast Included</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                                <div class="w-full md:w-48 h-32 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1565552643952-25e40e69cb45?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col justify-center">
+                                    <div class="flex items-center text-gulf-gold mb-1">
+                                        <i data-lucide="star" class="w-3 h-3 fill-current"></i><i data-lucide="star" class="w-3 h-3 fill-current"></i><i data-lucide="star" class="w-3 h-3 fill-current"></i><i data-lucide="star" class="w-3 h-3 fill-current"></i><i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                    </div>
+                                    <h4 class="font-bold text-gulf-navy text-base">Pullman Zamzam Madina (or similar)</h4>
+                                    <p class="text-xs text-gulf-muted mt-1"><i data-lucide="map-pin" class="w-3 h-3 inline mr-1 text-gulf-emerald"></i> Front Row • 100m from Al-Masjid an-Nabawi</p>
+                                    <p class="text-xs font-semibold text-gulf-navy mt-2">7 Nights • Breakfast Included</p>
+                                </div>
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <!-- Right Column: Rules & Guides -->
+                    <div class="space-y-6">
+                        
+                        <!-- Official Notice -->
+                        <div class="bg-blue-50/50 rounded-xl p-5 border border-blue-100">
+                            <h3 class="font-bold text-gulf-blue flex items-center text-sm mb-3">
+                                <i data-lucide="info" class="w-4 h-4 mr-2"></i> Official Requirements
+                            </h3>
+                            <ul class="space-y-3 text-xs text-gulf-navy">
+                                <li class="flex items-start">
+                                    <i data-lucide="check-square" class="w-4 h-4 text-gulf-blue mr-2 shrink-0"></i>
+                                    <span>Valid passport with at least 6 months validity.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="check-square" class="w-4 h-4 text-gulf-blue mr-2 shrink-0"></i>
+                                    <span>Meningitis ACWY vaccination certificate.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i data-lucide="check-square" class="w-4 h-4 text-gulf-blue mr-2 shrink-0"></i>
+                                    <span>Nusuk App registration required for Rawdah permits.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- AI Spiritual Guide -->
+                        <div class="bg-gradient-to-br from-gulf-navy to-[#1a2f4c] rounded-xl p-5 shadow-floating text-white relative overflow-hidden group">
+                            <div class="absolute -right-8 -top-8 w-24 h-24 bg-gulf-gold/20 rounded-full blur-2xl"></div>
+                            <div class="flex items-center space-x-3 mb-4 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20"><i data-lucide="book-open" class="w-5 h-5 text-gulf-gold"></i></div>
+                                <div>
+                                    <p class="text-sm font-bold">Pilgrimage Assistant</p>
+                                    <p class="text-[10px] text-gray-300">Powered by AK GLORA</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-200 mb-4 relative z-10 leading-relaxed">Ask questions about Ihram rules, Tawaf procedures, or get customized packing checklists for your journey.</p>
+                            <button class="w-full bg-white hover:bg-gray-50 text-gulf-navy py-2.5 rounded-lg text-xs font-bold transition-colors flex items-center justify-center space-x-2 relative z-10">
+                                <span>Start Guidance Chat</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- ================= END PILGRIMAGE DETAIL VIEW ================= -->
+
+            <!-- ================= MARKETPLACE VIEW ================= -->
+            <div id="marketplace-view" class="hidden max-w-[1200px] mx-auto w-full pb-24 pt-4 md:pt-6 px-4 transition-opacity duration-300 opacity-0">
+                
+                <!-- Marketplace Header -->
+                <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-extrabold text-gulf-navy mb-2 flex items-center">
+                            Gulf Souq <i data-lucide="shopping-bag" class="w-6 h-6 ml-2 text-rose-500"></i>
+                        </h1>
+                        <p class="text-sm text-gulf-muted">Discover products, services, and digital goods tailored for the Gulf community.</p>
+                    </div>
+                    
+                    <!-- Marketplace Search -->
+                    <div class="w-full md:w-72 relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gulf-muted"></i>
+                        <input type="text" placeholder="Search products & services..." class="w-full bg-white border border-gray-200 rounded-xl py-2 pl-9 pr-4 text-sm focus:outline-none focus:border-gulf-blue focus:ring-1 focus:ring-gulf-blue transition-all">
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="flex items-center space-x-3 overflow-x-auto hide-scrollbar pb-4 mb-4">
+                    <button class="px-5 py-2 bg-gulf-navy text-white rounded-pill text-xs font-bold whitespace-nowrap shadow-sm">All Items</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap"><i data-lucide="monitor" class="w-3 h-3 inline mr-1"></i> Electronics</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap"><i data-lucide="wrench" class="w-3 h-3 inline mr-1"></i> Services</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap"><i data-lucide="graduation-cap" class="w-3 h-3 inline mr-1"></i> Courses</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap"><i data-lucide="home" class="w-3 h-3 inline mr-1"></i> Accommodation</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap"><i data-lucide="book" class="w-3 h-3 inline mr-1"></i> Digital Guides</button>
+                </div>
+
+                <!-- Social-Commerce Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    
+                    <!-- Item 1: Service -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover-effect group flex flex-col">
+                        <!-- Seller Header -->
+                        <div class="p-3 flex items-center justify-between border-b border-gray-50">
+                            <div class="flex items-center space-x-2">
+                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=VA&backgroundColor=0052FF" class="w-6 h-6 rounded-full border border-gray-200">
+                                <span class="text-[10px] font-bold text-gulf-navy">Visa Assist Pro <i data-lucide="badge-check" class="w-3 h-3 inline text-gulf-blue"></i></span>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                        </div>
+                        <!-- Media -->
+                        <div class="relative w-full aspect-square bg-gray-100 overflow-hidden cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-2 left-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[9px] font-bold text-gulf-navy shadow-sm">Service</div>
+                        </div>
+                        <!-- Content -->
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-gulf-navy text-sm leading-tight mb-1 cursor-pointer group-hover:text-gulf-blue transition-colors">UAE Golden Visa Consultation & Processing</h3>
+                                <div class="flex items-center text-[10px] text-gulf-muted mb-3">
+                                    <i data-lucide="star" class="w-3 h-3 text-gulf-gold fill-current mr-1"></i> 4.9 (120 reviews) • Dubai
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-50">
+                                <span class="text-base font-extrabold text-gulf-navy">AED 500</span>
+                                <div class="flex space-x-2">
+                                    <button class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gulf-muted hover:text-red-500 hover:bg-red-50 transition-colors"><i data-lucide="heart" class="w-4 h-4"></i></button>
+                                    <button class="w-8 h-8 rounded-full bg-gulf-blue text-white flex items-center justify-center hover:bg-blue-700 transition-colors shadow-sm"><i data-lucide="shopping-cart" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Digital Product -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover-effect group flex flex-col">
+                        <div class="p-3 flex items-center justify-between border-b border-gray-50">
+                            <div class="flex items-center space-x-2">
+                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=CG&backgroundColor=046A38" class="w-6 h-6 rounded-full border border-gray-200">
+                                <span class="text-[10px] font-bold text-gulf-navy">Career Guides Middle East</span>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                        </div>
+                        <div class="relative w-full aspect-square bg-gray-100 overflow-hidden cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-2 left-2 bg-gulf-emerald text-white px-2 py-1 rounded text-[9px] font-bold shadow-sm">Digital eBook</div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-gulf-navy text-sm leading-tight mb-1 cursor-pointer group-hover:text-gulf-blue transition-colors">The Ultimate Guide to Relocating to Riyadh (2026 Edition)</h3>
+                                <div class="flex items-center text-[10px] text-gulf-muted mb-3">
+                                    <i data-lucide="star" class="w-3 h-3 text-gulf-gold fill-current mr-1"></i> 5.0 (89 reviews) • Instant DL
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-50">
+                                <span class="text-base font-extrabold text-gulf-emerald">SAR 45</span>
+                                <div class="flex space-x-2">
+                                    <button class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gulf-muted hover:text-red-500 hover:bg-red-50 transition-colors"><i data-lucide="heart" class="w-4 h-4"></i></button>
+                                    <button class="w-8 h-8 rounded-full bg-gulf-navy text-white flex items-center justify-center hover:bg-black transition-colors shadow-sm"><i data-lucide="download" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: Physical Product (Umrah) -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover-effect group flex flex-col">
+                        <div class="p-3 flex items-center justify-between border-b border-gray-50">
+                            <div class="flex items-center space-x-2">
+                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=HS&backgroundColor=D4AF37" class="w-6 h-6 rounded-full border border-gray-200">
+                                <span class="text-[10px] font-bold text-gulf-navy">Haram Stores <i data-lucide="badge-check" class="w-3 h-3 inline text-gulf-gold"></i></span>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                        </div>
+                        <div class="relative w-full aspect-square bg-gray-100 overflow-hidden cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1605371924599-2d0365da1ae0?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-2 left-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[9px] font-bold text-gulf-navy shadow-sm">Product</div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-gulf-navy text-sm leading-tight mb-1 cursor-pointer group-hover:text-gulf-blue transition-colors">Premium Egyptian Cotton Ihram Set (2 Pieces)</h3>
+                                <div class="flex items-center text-[10px] text-gulf-muted mb-3">
+                                    <i data-lucide="star" class="w-3 h-3 text-gulf-gold fill-current mr-1"></i> 4.8 (450 reviews) • Ships to GCC
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-50">
+                                <span class="text-base font-extrabold text-gulf-navy">SAR 120</span>
+                                <div class="flex space-x-2">
+                                    <button class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gulf-muted hover:text-red-500 hover:bg-red-50 transition-colors"><i data-lucide="heart" class="w-4 h-4"></i></button>
+                                    <button class="w-8 h-8 rounded-full bg-gulf-blue text-white flex items-center justify-center hover:bg-blue-700 transition-colors shadow-sm"><i data-lucide="shopping-cart" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 4: Course -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden card-hover-effect group flex flex-col">
+                        <div class="p-3 flex items-center justify-between border-b border-gray-50">
+                            <div class="flex items-center space-x-2">
+                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=AL&backgroundColor=8B5CF6" class="w-6 h-6 rounded-full border border-gray-200">
+                                <span class="text-[10px] font-bold text-gulf-navy">Arabic Learning Co.</span>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                        </div>
+                        <div class="relative w-full aspect-square bg-gray-100 overflow-hidden cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1546410531-b4d4512bd945?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-2 left-2 bg-violet-500 text-white px-2 py-1 rounded text-[9px] font-bold shadow-sm">Online Course</div>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-gulf-navy text-sm leading-tight mb-1 cursor-pointer group-hover:text-gulf-blue transition-colors">Business Arabic for Expats (Beginner to Intermediate)</h3>
+                                <div class="flex items-center text-[10px] text-gulf-muted mb-3">
+                                    <i data-lucide="star" class="w-3 h-3 text-gulf-gold fill-current mr-1"></i> 4.7 (210 reviews) • 12 Modules
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-50">
+                                <span class="text-base font-extrabold text-gulf-navy">AED 299</span>
+                                <div class="flex space-x-2">
+                                    <button class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gulf-muted hover:text-red-500 hover:bg-red-50 transition-colors"><i data-lucide="heart" class="w-4 h-4"></i></button>
+                                    <button class="w-8 h-8 rounded-full bg-gulf-navy text-white flex items-center justify-center hover:bg-black transition-colors shadow-sm"><i data-lucide="play" class="w-4 h-4 ml-0.5"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ================= END MARKETPLACE VIEW ================= -->
+
+            
+        </section>
+<!-- ... existing code ... -->
+        // View Toggling Logic (Home vs Discover vs specific views)
+        const homeView = document.getElementById('home-view');
+        const discoverView = document.getElementById('discover-view');
+        const jobView = document.getElementById('job-detail-view');
+        const employerView = document.getElementById('employer-detail-view');
+        const recruiterView = document.getElementById('recruiter-detail-view');
+        const tourView = document.getElementById('tour-detail-view');
+        const pilgrimageView = document.getElementById('pilgrimage-detail-view');
+        const marketplaceView = document.getElementById('marketplace-view');
+        const navHome = document.getElementById('nav-home');
+        const navDiscover = document.getElementById('nav-discover');
+        const scrollArea = document.getElementById('main-scroll-area');
+
+        function hideAllViews() {
+            [homeView, discoverView, jobView, employerView, recruiterView, tourView, pilgrimageView, marketplaceView].forEach(view => {
+                if (view) {
+                    view.classList.replace('opacity-100', 'opacity-0');
+                    setTimeout(() => view.classList.add('hidden'), 300);
+                }
+            });
+        }
+
+        function resetNavStates() {
+            navHome.classList.replace('text-gulf-blue', 'text-gulf-text');
+            navHome.classList.replace('bg-white', 'hover:bg-white/80');
+            navHome.classList.remove('shadow-sm');
+            
+            navDiscover.classList.replace('text-gulf-blue', 'text-gulf-text');
+            navDiscover.classList.replace('bg-white', 'hover:bg-white/80');
+            navDiscover.classList.remove('shadow-sm');
+        }
+
+        function showView(viewToShow, updateNav = null) {
+            resetNavStates();
+            
+            if (updateNav === 'home') {
+                navHome.classList.replace('text-gulf-text', 'text-gulf-blue');
+                navHome.classList.replace('hover:bg-white/80', 'bg-white');
+                navHome.classList.add('shadow-sm');
+            } else if (updateNav === 'discover') {
+                navDiscover.classList.replace('text-gulf-text', 'text-gulf-blue');
+                navDiscover.classList.replace('hover:bg-white/80', 'bg-white');
+                navDiscover.classList.add('shadow-sm');
+            }
+
+            hideAllViews();
+            
+            setTimeout(() => {
+                if(viewToShow) {
+                    viewToShow.classList.remove('hidden');
+                    scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+                    requestAnimationFrame(() => {
+                        viewToShow.classList.replace('opacity-0', 'opacity-100');
+                    });
+                }
+            }, 300);
+        }
+
+        function showHome() { showView(homeView, 'home'); }
+        function showDiscover() { showView(discoverView, 'discover'); }
+        function showJobDetail() { showView(jobView); }
+        function showEmployerProfile() { showView(employerView); }
+        function showRecruiterProfile() { showView(recruiterView); }
+        function showTourDetail() { showView(tourView); }
+        function showPilgrimageDetail() { showView(pilgrimageView); }
+        function showMarketplace() { showView(marketplaceView); }
+    </script>
+</body>
+</html>

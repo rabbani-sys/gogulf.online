@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Leo's Space Adventure</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0b0f19; /* Deep space dark blue */
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #cartoonContainer {
+            position: relative;
+            width: 100%;
+            max-width: 900px; /* Slightly wider for cinematic feel */
+            aspect-ratio: 16 / 9;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(79, 172, 254, 0.3);
+            border: 6px solid #1a2a40;
+            border-radius: 20px;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Start Screen */
+        #startScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 10;
+        }
+
+        #startScreen h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            background: -webkit-linear-gradient(#fff, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        #startScreen p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #a8c0ff;
+        }
+
+        #startBtn {
+            padding: 18px 50px;
+            font-size: 1.6rem;
+            background: linear-gradient(to right, #f6d365 0%, #fda085 100%);
+            color: #111;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 800;
+            box-shadow: 0 8px 25px rgba(253, 160, 133, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #startBtn:hover {
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 12px 30px rgba(253, 160, 133, 0.7);
+        }
+        
+        #startBtn:active {
+            transform: scale(0.95);
+        }
+
+        /* Subtitle Bar */
+        #subtitles {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 15, 30, 0.85);
+            border: 2px solid rgba(79, 172, 254, 0.4);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            text-align: center;
+            width: 85%;
+            display: none;
+            z-index: 5;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px #000;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: opacity 0.3s;
+        }
+
+        /* Loading / Transition overlay */
+        #fadeOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 8;
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cartoonContainer">
+        <canvas id="cartoonCanvas"></canvas>
+        <div id="fadeOverlay"></div>
+        
+        <div id="startScreen">
+            <h1>Astro Leo's Dream</h1>
+            <p>A 5-Minute Epic Space Adventure</p>
+            <button id="startBtn">Play Movie</button>
+        </div>
+
+        <div id="subtitles"></div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('cartoonCanvas');
+        const ctx = canvas.getContext('2d');
+        const startScreen = document.getElementById('startScreen');
+        const startBtn = document.getElementById('startBtn');
+        const subtitleEl = document.getElementById('subtitles');
+        const fadeOverlay = document.getElementById('fadeOverlay');
+
+        // Internal resolution for drawing (High Res)
+        const width = 1200;
+        const height = 675; // 16:9 aspect ratio
+        canvas.width = width;
+        canvas.height = height;
+
+        // Engine State
+        let animationId;
+        let startTime = 0;
+        let isPlaying = false;
+        
+        // Total duration: 5 minutes = 300,000 milliseconds
+        const totalDuration = 300000; 
+
+        // --- SCENE DEFINITIONS (5 Minutes Total) ---
+        // Scene 1: Dreaming on Earth (0s - 45s) -> Leo looks at stars, builds a cardboard rocket.
+        // Scene 2: The Launch (45s - 90s) -> The rocket becomes real (imagination!), blasting off through clouds to space.
+        // Scene 3: Space Journey (90s - 150s) -> Traveling past planets, asteroids, floating in zero-G.
+        // Scene 4: Planet Blurp & Zog (150s - 225s) -> Lands on alien planet, meets Zog, plays a glowing space ball game.
+        // Scene 5: Return & Inspire (225s - 300s) -> Flies home, lands, tells friends, becomes a real astronaut (timeskip).
+        const scenes = {
+            dreaming: { start: 0, end: 45000 },
+            launch: { start: 45000, end: 90000 },
+            journey: { start: 90000, end: 150000 },
+            alienPlanet: { start: 150000, end: 225000 },
+            returnHome: { start: 225000, end: 300000 }
+        };
+
+        // --- ENTITIES & OBJECTS ---
+        
+        // Leo (The Boy/Astronaut)
+        const leo = { x: 0, y: 0, scale: 1, visible: false, state: 'boy', angle: 0, armAngle: 0, legOffset: 0, opacity: 1 };
+        // Rocket
+        const rocket = { x: 0, y: 0, scale: 1, angle: 0, visible: false, flame: 0, state: 'cardboard', doorOpen: 0 };
+        // Zog (The Alien)
+        const zog = { x: 0, y: 0, scale: 1, visible: false, armAngle: 0, legOffset: 0, hover: 0 };
+        // Space Ball
+        const spaceBall = { x: 0, y: 0, visible: false, glow: 0 };
+        
+        // Environment details
+        const earthStars = Array.from({ length: 80 }, () => ({ x: Math.random() * width, y: Math.random() * (height * 0.7), size: Math.random() * 2.5 + 0.5, twinkle: Math.random() * Math.PI * 2 }));
+        const spaceStars = Array.from({ length: 200 }, () => ({ x: Math.random() * width, y: Math.random() * height, size: Math.random() * 3 + 1, speed: Math.random() * 2 + 0.1 }));
+        const asteroids = Array.from({ length: 5 }, () => ({ x: width + Math.random() * 500, y: Math.random() * height, size: Math.random() * 30 + 10, speed: Math.random() * 3 + 2, angle: Math.random() * Math.PI*2, rotSpeed: (Math.random() - 0.5) * 0.05 }));
+        const clouds = [
+            {x: 100, y: 400, s: 1.5, speed: 0.2}, {x: 500, y: 450, s: 2, speed: 0.15}, 
+            {x: 900, y: 380, s: 1.2, speed: 0.3}, {x: -200, y: 500, s: 1.8, speed: 0.25}
+        ];
+
+        // --- HELPER FUNCTIONS ---
+        let currentSubtitle = "";
+        function setSubtitle(text) {
+            if (currentSubtitle !== text) {
+                currentSubtitle = text;
+                if (text) {
+                    subtitleEl.textContent = text;
+                    subtitleEl.style.display = 'block';
+                    subtitleEl.style.opacity = 1;
+                } else {
+                    subtitleEl.style.opacity = 0;
+                    setTimeout(() => { if(!currentSubtitle) subtitleEl.style.display = 'none'; }, 300);
+                }
+            }
+        }
+
+        // --- DRAWING FUNCTIONS ---
+
+        function drawNightSky(time) {
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, '#040b16');
+            gradient.addColorStop(0.6, '#0f203b');
+            gradient.addColorStop(1, '#1b3a5a');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            // Moon
+            ctx.fillStyle = '#f6f1d3';
+            ctx.beginPath(); ctx.arc(1000, 150, 60, 0, Math.PI*2); ctx.fill();
+            // Moon craters
+            ctx.fillStyle = 'rgba(200, 190, 160, 0.4)';
+            ctx.beginPath(); ctx.arc(980, 130, 15, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(1020, 160, 20, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(970, 170, 10, 0, Math.PI*2); ctx.fill();
+
+            // Stars
+            ctx.fillStyle = 'white';
+            earthStars.forEach(star => {
+                const alpha = (Math.sin(time * 0.002 + star.twinkle) + 1) / 2 * 0.8 + 0.2;
+                ctx.globalAlpha = alpha;
+                ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI*2); ctx.fill();
+            });
+            ctx.globalAlpha = 1.0;
+        }
+
+        function drawEarthGround() {
+            // Hill 1 (Back)
+            ctx.fillStyle = '#0a3a2a';
+            ctx.beginPath(); ctx.ellipse(300, height, 500, 250, 0, Math.PI, 0); ctx.fill();
+            // Hill 2 (Mid)
+            ctx.fillStyle = '#0f523a';
+            ctx.beginPath(); ctx.ellipse(900, height, 600, 200, 0, Math.PI, 0); ctx.fill();
+            // Foreground Grass
+            const grad = ctx.createLinearGradient(0, height-100, 0, height);
+            grad.addColorStop(0, '#167a52'); grad.addColorStop(1, '#0c4d32');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, height - 120, width, 120);
+        }
+
+        function drawHouse(x, y) {
+            ctx.save(); ctx.translate(x, y);
+            // Main body
+            ctx.fillStyle = '#8c5230'; ctx.fillRect(-70, -100, 140, 100);
+            // Roof
+            ctx.fillStyle = '#5c2210';
+            ctx.beginPath(); ctx.moveTo(-90, -100); ctx.lineTo(0, -160); ctx.lineTo(90, -100); ctx.fill();
+            // Window (Glowing)
+            ctx.fillStyle = '#ffeaa7'; ctx.fillRect(-40, -80, 30, 30);
+            ctx.fillStyle = 'rgba(255, 234, 167, 0.3)';
+            ctx.beginPath(); ctx.moveTo(-40, -50); ctx.lineTo(-10, -50); ctx.lineTo(-100, 150); ctx.lineTo(-180, 150); ctx.fill();
+            ctx.fillStyle = '#555'; ctx.fillRect(-23, -80, 4, 30); ctx.fillRect(-40, -67, 30, 4); // Panes
+            ctx.restore();
+        }
+
+        function drawLeo(x, y, scale, state, angle, armAngle, legOffset, opacity = 1) {
+            if (opacity <= 0) return;
+            ctx.save();
+            ctx.globalAlpha = opacity;
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
+            ctx.rotate(angle);
+
+            if (state === 'boy') {
+                // Legs
+                ctx.strokeStyle = '#0984e3'; ctx.lineWidth = 12; ctx.lineCap = 'round';
+                ctx.beginPath(); ctx.moveTo(-10, 30); ctx.lineTo(-15 + legOffset, 60); ctx.stroke(); // L
+                ctx.beginPath(); ctx.moveTo(10, 30); ctx.lineTo(15 - legOffset, 60); ctx.stroke(); // R
+                // Shoes
+                ctx.fillStyle = '#2d3436';
+                ctx.beginPath(); ctx.ellipse(-15 + legOffset - 5, 63, 12, 6, 0, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(15 - legOffset + 5, 63, 12, 6, 0, 0, Math.PI*2); ctx.fill();
+
+                // Arms (L)
+                ctx.save(); ctx.translate(-15, 5); ctx.rotate(-armAngle);
+                ctx.strokeStyle = '#fdcb6e'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-10, 25); ctx.stroke(); ctx.restore();
+                
+                // Torso (T-shirt)
+                ctx.fillStyle = '#d63031';
+                ctx.beginPath(); ctx.roundRect(-18, 0, 36, 35, 10); ctx.fill();
+
+                // Arm (R)
+                ctx.save(); ctx.translate(15, 5); ctx.rotate(armAngle);
+                ctx.strokeStyle = '#fdcb6e'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(10, 25); ctx.stroke(); ctx.restore();
+
+                // Head
+                ctx.fillStyle = '#ffeaa7'; ctx.beginPath(); ctx.arc(0, -25, 25, 0, Math.PI*2); ctx.fill();
+                // Hair
+                ctx.fillStyle = '#632b04';
+                ctx.beginPath(); ctx.arc(0, -28, 26, Math.PI, 0); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(-25, -28); ctx.lineTo(-30, -10); ctx.lineTo(-15, -20); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(25, -28); ctx.lineTo(30, -10); ctx.lineTo(15, -20); ctx.fill();
+                // Face
+                ctx.fillStyle = '#2d3436'; ctx.beginPath(); ctx.arc(-8, -25, 3, 0, Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(8, -25, 3, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(0, -15, 6, 0, Math.PI); ctx.stroke(); // Smile
+            } 
+            else if (state === 'astronaut') {
+                // Spacesuit Legs
+                ctx.strokeStyle = '#dfe6e9'; ctx.lineWidth = 16; ctx.lineCap = 'round';
+                ctx.beginPath(); ctx.moveTo(-12, 35); ctx.lineTo(-18 + legOffset, 65); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(12, 35); ctx.lineTo(18 - legOffset, 65); ctx.stroke();
+                // Boots
+                ctx.fillStyle = '#636e72';
+                ctx.beginPath(); ctx.ellipse(-18 + legOffset - 5, 70, 15, 8, 0, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(18 - legOffset + 5, 70, 15, 8, 0, 0, Math.PI*2); ctx.fill();
+
+                // Arms
+                ctx.save(); ctx.translate(-20, 10); ctx.rotate(-armAngle);
+                ctx.strokeStyle = '#dfe6e9'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-15, 30); ctx.stroke();
+                ctx.fillStyle='#0984e3'; ctx.beginPath(); ctx.arc(-15, 30, 8, 0, Math.PI*2); ctx.fill(); // glove
+                ctx.restore();
+
+                // Torso (Suit)
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath(); ctx.roundRect(-22, 0, 44, 45, 12); ctx.fill();
+                // Chest controls
+                ctx.fillStyle = '#0984e3'; ctx.fillRect(-10, 10, 20, 15);
+                ctx.fillStyle = '#d63031'; ctx.beginPath(); ctx.arc(-4, 17, 3, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#00b894'; ctx.beginPath(); ctx.arc(4, 17, 3, 0, Math.PI*2); ctx.fill();
+
+                // Arm R
+                ctx.save(); ctx.translate(20, 10); ctx.rotate(armAngle);
+                ctx.strokeStyle = '#dfe6e9'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(15, 30); ctx.stroke();
+                ctx.fillStyle='#0984e3'; ctx.beginPath(); ctx.arc(15, 30, 8, 0, Math.PI*2); ctx.fill(); // glove
+                ctx.restore();
+
+                // Helmet Base
+                ctx.fillStyle = '#dfe6e9'; ctx.beginPath(); ctx.arc(0, -30, 32, 0, Math.PI*2); ctx.fill();
+                // Helmet Visor
+                ctx.fillStyle = 'rgba(116, 185, 255, 0.7)'; ctx.beginPath(); ctx.arc(0, -30, 25, 0, Math.PI*2); ctx.fill();
+                // Visor reflection
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.beginPath(); ctx.ellipse(-10, -40, 12, 6, -Math.PI/4, 0, Math.PI*2); ctx.fill();
+                // Face faintly visible
+                ctx.globalAlpha = 0.5 * opacity;
+                ctx.fillStyle = '#2d3436'; ctx.beginPath(); ctx.arc(-8, -32, 2, 0, Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(8, -32, 2, 0, Math.PI*2); ctx.fill();
+                ctx.globalAlpha = opacity;
+            }
+
+            ctx.restore();
+        }
+
+        function drawRocket(x, y, scale, angle, flame, state, doorOpen = 0) {
+            ctx.save(); ctx.translate(x, y); ctx.scale(scale, scale); ctx.rotate(angle);
+
+            if (state === 'cardboard') {
+                // Cardboard box look
+                ctx.fillStyle = '#d2a679'; // cardboard color
+                ctx.beginPath(); ctx.moveTo(0, -80); ctx.lineTo(30, -30); ctx.lineTo(30, 50); ctx.lineTo(-30, 50); ctx.lineTo(-30, -30); ctx.closePath(); ctx.fill();
+                ctx.strokeStyle = '#8b5a2b'; ctx.lineWidth = 3; ctx.stroke();
+                
+                // Details (marker drawings)
+                ctx.strokeStyle = '#222'; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.arc(0, 0, 15, 0, Math.PI*2); ctx.stroke(); // drawn window
+                ctx.beginPath(); ctx.moveTo(-20, 20); ctx.lineTo(20, 20); ctx.stroke(); // line
+                
+                // Wings (taped on)
+                ctx.fillStyle = '#c19a6b';
+                ctx.beginPath(); ctx.moveTo(-30, 20); ctx.lineTo(-60, 50); ctx.lineTo(-30, 50); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(30, 20); ctx.lineTo(60, 50); ctx.lineTo(30, 50); ctx.fill(); ctx.stroke();
+
+                if (flame > 0) {
+                    ctx.fillStyle = 'rgba(255, 100, 0, 0.5)'; // Fake fire
+                    ctx.beginPath(); ctx.moveTo(-20, 50); ctx.lineTo(0, 50 + flame*30); ctx.lineTo(20, 50); ctx.fill();
+                }
+            } 
+            else if (state === 'real') {
+                // Engine flames
+                if (flame > 0) {
+                    const fLength = 50 + flame * 80 + Math.random() * 20;
+                    const grad = ctx.createLinearGradient(0, 60, 0, 60 + fLength);
+                    grad.addColorStop(0, '#fff'); grad.addColorStop(0.2, '#ffd700'); grad.addColorStop(0.6, '#ff4500'); grad.addColorStop(1, 'transparent');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath(); ctx.moveTo(-25, 60); ctx.lineTo(0, 60 + fLength); ctx.lineTo(25, 60); ctx.fill();
+                    
+                    // Inner flame
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath(); ctx.moveTo(-10, 60); ctx.lineTo(0, 60 + fLength*0.4); ctx.lineTo(10, 60); ctx.fill();
+                }
+
+                // Fins
+                ctx.fillStyle = '#d63031';
+                ctx.beginPath(); ctx.moveTo(-40, 20); ctx.lineTo(-70, 70); ctx.lineTo(-40, 60); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(40, 20); ctx.lineTo(70, 70); ctx.lineTo(40, 60); ctx.fill();
+
+                // Main Body
+                const bodyGrad = ctx.createLinearGradient(-40, 0, 40, 0);
+                bodyGrad.addColorStop(0, '#e0e0e0'); bodyGrad.addColorStop(0.5, '#ffffff'); bodyGrad.addColorStop(1, '#cccccc');
+                ctx.fillStyle = bodyGrad;
+                ctx.beginPath(); ctx.moveTo(0, -100); ctx.quadraticCurveTo(40, -40, 40, 60); ctx.lineTo(-40, 60); ctx.quadraticCurveTo(-40, -40, 0, -100); ctx.fill();
+
+                // Details & Stripes
+                ctx.fillStyle = '#0984e3'; ctx.fillRect(-37, -20, 74, 15);
+                ctx.fillStyle = '#d63031'; ctx.fillRect(-39, 40, 78, 10);
+                
+                // Window
+                ctx.fillStyle = '#74b9ff'; ctx.beginPath(); ctx.arc(0, 5, 20, 0, Math.PI*2); ctx.fill();
+                ctx.strokeStyle = '#2d3436'; ctx.lineWidth = 4; ctx.stroke();
+                ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.beginPath(); ctx.arc(-5, 0, 8, 0, Math.PI*2); ctx.fill();
+
+                // Door (for end scene)
+                if (doorOpen > 0) {
+                    ctx.fillStyle = '#2d3436'; // dark inside
+                    ctx.beginPath(); ctx.roundRect(-20, 20, 40, 40, 5); ctx.fill();
+                    
+                    // Ramp
+                    ctx.fillStyle = '#a4b0be';
+                    ctx.beginPath(); ctx.moveTo(-20, 60); ctx.lineTo(20, 60); ctx.lineTo(20 + 20*doorOpen, 60 + 50*doorOpen); ctx.lineTo(-20 - 20*doorOpen, 60 + 50*doorOpen); ctx.fill();
+                }
+            }
+            ctx.restore();
+        }
+
+        function drawSpaceBackground(time, speed) {
+            // Deep space gradient
+            const grad = ctx.createLinearGradient(0, 0, width, height);
+            grad.addColorStop(0, '#020014');
+            grad.addColorStop(0.5, '#0b0c2a');
+            grad.addColorStop(1, '#1c103f');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, width, height);
+
+            // Nebula clouds
+            ctx.globalAlpha = 0.2;
+            ctx.fillStyle = '#8a2be2'; ctx.beginPath(); ctx.ellipse(400, 200, 300, 150, Math.PI/6, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#00ced1'; ctx.beginPath(); ctx.ellipse(900, 500, 400, 200, -Math.PI/8, 0, Math.PI*2); ctx.fill();
+            ctx.globalAlpha = 1.0;
+
+            // Moving Stars
+            ctx.fillStyle = 'white';
+            spaceStars.forEach(star => {
+                star.x -= star.speed * speed;
+                if (star.x < 0) { star.x = width; star.y = Math.random() * height; }
+                
+                const alpha = (Math.sin(time * 0.005 + star.speed) + 1) / 2 * 0.5 + 0.5;
+                ctx.globalAlpha = alpha;
+                
+                // Streak effect for fast stars
+                if (speed > 5) {
+                    ctx.beginPath(); ctx.moveTo(star.x, star.y); ctx.lineTo(star.x + star.speed * speed, star.y);
+                    ctx.strokeStyle = 'white'; ctx.lineWidth = star.size/2; ctx.stroke();
+                } else {
+                    ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI*2); ctx.fill();
+                }
+            });
+            ctx.globalAlpha = 1.0;
+
+            // Asteroids
+            asteroids.forEach(ast => {
+                ast.x -= ast.speed * speed;
+                ast.angle += ast.rotSpeed;
+                if (ast.x < -100) { ast.x = width + 100; ast.y = Math.random() * height; }
+                
+                ctx.save(); ctx.translate(ast.x, ast.y); ctx.rotate(ast.angle);
+                ctx.fillStyle = '#555'; ctx.strokeStyle = '#333'; ctx.lineWidth = 2;
+                ctx.beginPath();
+                // Jagged rock shape
+                for(let i=0; i<Math.PI*2; i+=Math.PI/4) {
+                    let r = ast.size * (0.8 + Math.random()*0.4 - 0.2); // slight precalc would be better, but ok for now
+                    if(i===0) ctx.moveTo(Math.cos(i)*ast.size, Math.sin(i)*ast.size);
+                    else ctx.lineTo(Math.cos(i)*ast.size, Math.sin(i)*ast.size);
+                }
+                ctx.closePath(); ctx.fill(); ctx.stroke();
+                // craters
+                ctx.fillStyle = '#444'; ctx.beginPath(); ctx.arc(ast.size/3, -ast.size/4, ast.size/4, 0, Math.PI*2); ctx.fill();
+                ctx.restore();
+            });
+        }
+
+        function drawPlanetBlurp() {
+            // Sky
+            const grad = ctx.createLinearGradient(0, 0, 0, height);
+            grad.addColorStop(0, '#ff9a9e'); grad.addColorStop(0.5, '#fecfef'); grad.addColorStop(1, '#a1c4fd');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, width, height);
+            
+            // Giant ringed planet in sky
+            ctx.save(); ctx.translate(250, 150); ctx.rotate(-Math.PI/6);
+            ctx.fillStyle = '#ff7675'; ctx.beginPath(); ctx.arc(0, 0, 80, 0, Math.PI*2); ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)'; ctx.lineWidth = 15;
+            ctx.beginPath(); ctx.ellipse(0, 0, 140, 30, 0, 0, Math.PI*2); ctx.stroke();
+            ctx.restore();
+
+            // Alien Ground (Bumpy purple/pink terrain)
+            ctx.fillStyle = '#6c5ce7';
+            ctx.beginPath(); ctx.moveTo(0, height);
+            ctx.bezierCurveTo(300, height-150, 600, height-50, width, height-180);
+            ctx.lineTo(width, height); ctx.fill();
+
+            ctx.fillStyle = '#a29bfe';
+            ctx.beginPath(); ctx.moveTo(0, height);
+            ctx.bezierCurveTo(400, height-80, 800, height-200, width, height-100);
+            ctx.lineTo(width, height); ctx.fill();
+
+            // Weird alien plants
+            const drawPlant = (px, py, s) => {
+                ctx.save(); ctx.translate(px, py); ctx.scale(s, s);
+                ctx.strokeStyle = '#00b894'; ctx.lineWidth = 8;
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(-20, -50, 0, -100); ctx.stroke();
+                ctx.fillStyle = '#fdcb6e'; ctx.beginPath(); ctx.arc(0, -100, 15, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#e17055'; ctx.beginPath(); ctx.arc(0, -100, 8, 0, Math.PI*2); ctx.fill();
+                ctx.restore();
+            }
+            drawPlant(150, height-80, 1);
+            drawPlant(850, height-120, 1.5);
+            drawPlant(950, height-100, 0.8);
+        }
+
+        function drawZog(x, y, scale, armAngle, legOffset, hover) {
+            ctx.save(); ctx.translate(x, y + hover); ctx.scale(scale, scale);
+
+            // Legs/Tentacles (3 of them)
+            ctx.strokeStyle = '#00cec9'; ctx.lineWidth = 10; ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(-15, 30); ctx.quadraticCurveTo(-30 + legOffset, 50, -25, 70); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0, 35); ctx.quadraticCurveTo(0, 55, 0, 75); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(15, 30); ctx.quadraticCurveTo(30 - legOffset, 50, 25, 70); ctx.stroke();
+
+            // Arms
+            ctx.save(); ctx.translate(-25, 0); ctx.rotate(-armAngle);
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(-20, 20, -40, 10); ctx.stroke(); ctx.restore();
+            
+            ctx.save(); ctx.translate(25, 0); ctx.rotate(armAngle);
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(20, 20, 40, 10); ctx.stroke(); ctx.restore();
+
+            // Body/Head (Blob shape)
+            ctx.fillStyle = '#81ecec';
+            ctx.beginPath(); ctx.ellipse(0, 0, 35, 40, 0, 0, Math.PI*2); ctx.fill();
+
+            // Antennae
+            ctx.strokeStyle = '#00cec9'; ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.moveTo(-15, -35); ctx.quadraticCurveTo(-25, -60, -10, -70); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(15, -35); ctx.quadraticCurveTo(25, -60, 10, -70); ctx.stroke();
+            ctx.fillStyle = '#fd79a8';
+            ctx.beginPath(); ctx.arc(-10, -70, 8, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(10, -70, 8, 0, Math.PI*2); ctx.fill();
+
+            // Eye (Cyclops)
+            ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(0, -10, 18, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#6c5ce7'; ctx.beginPath(); ctx.arc(0, -10, 8, 0, Math.PI*2); ctx.fill(); // iris
+            ctx.fillStyle = 'black'; ctx.beginPath(); ctx.arc(0, -10, 4, 0, Math.PI*2); ctx.fill(); // pupil
+            ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(-3, -13, 2, 0, Math.PI*2); ctx.fill(); // gleam
+
+            // Mouth (happy)
+            ctx.strokeStyle = '#00b894'; ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.arc(0, 15, 12, 0, Math.PI); ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function drawSpaceBall(x, y, glow) {
+            ctx.save(); ctx.translate(x, y);
+            
+            // Glow aura
+            const grad = ctx.createRadialGradient(0, 0, 5, 0, 0, 30 + glow*10);
+            grad.addColorStop(0, 'rgba(253, 203, 110, 1)');
+            grad.addColorStop(1, 'rgba(253, 203, 110, 0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.arc(0, 0, 40, 0, Math.PI*2); ctx.fill();
+            
+            // Core
+            ctx.fillStyle = '#ffeaa7';
+            ctx.beginPath(); ctx.arc(0, 0, 12, 0, Math.PI*2); ctx.fill();
+            ctx.strokeStyle = '#fdcb6e'; ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.arc(0, 0, 12, 0, Math.PI, true); ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function update(elapsed) {
+            // SCENE 1: Dreaming (0 - 45s)
+            if (elapsed < scenes.dreaming.end) {
+                const p = elapsed / scenes.dreaming.end; // 0 to 1
+                
+                drawNightSky(elapsed);
+                drawEarthGround();
+                drawHouse(200, height - 100);
+
+                leo.visible = true; leo.state = 'boy';
+                leo.x = 600; leo.y = height - 180;
+                
+                rocket.visible = true; rocket.state = 'cardboard';
+                rocket.x = 800; rocket.y = height - 180;
+                rocket.scale = 1.5;
+
+                if (p < 0.2) {
+                    setSubtitle("This is Leo. He loves looking at the stars.");
+                    leo.armAngle = Math.sin(elapsed*0.005) * 0.2 + 0.2; // pointing up
+                } else if (p < 0.5) {
+                    setSubtitle("Every night, he dreams of going to space.");
+                    leo.armAngle = 0;
+                    leo.x = 600 + Math.sin(elapsed*0.002)*10; // slight pacing
+                } else if (p < 0.8) {
+                    setSubtitle("So, he built his very own rocket ship!");
+                    leo.x = 700; // moves near rocket
+                    rocket.angle = Math.sin(elapsed*0.01)*0.05; // wobbling slightly
+                } else {
+                    setSubtitle("\"Ready for liftoff!\" said Leo.");
+                    leo.opacity = 1 - ((p - 0.8) / 0.2); // Leo fades out as he "enters" rocket
+                }
+            }
+
+            // SCENE 2: Launch (45s - 90s)
+            else if (elapsed < scenes.launch.end) {
+                const sElapsed = elapsed - scenes.launch.start;
+                const duration = scenes.launch.end - scenes.launch.start;
+                const p = sElapsed / duration;
+
+                leo.visible = false;
+                rocket.visible = true;
+
+                // Magic transition from cardboard to real
+                if (p < 0.2) {
+                    drawNightSky(elapsed); drawEarthGround();
+                    rocket.x = 800; rocket.y = height - 180;
+                    rocket.flame = p / 0.2; // Flame builds up
+                    rocket.angle = Math.sin(sElapsed * 0.05) * 0.1; // shaking violently
+                    
+                    if (p > 0.1) rocket.state = 'real'; // Transformation!
+                    
+                    setSubtitle("10, 9, 8... BLAST OFF!");
+                } else {
+                    // Sky changes as we go up
+                    const skyProg = (p - 0.2) / 0.8;
+                    const r = Math.max(0, 4 - skyProg*20); // darken sky
+                    ctx.fillStyle = `rgb(${r}, ${r}, ${r+20})`;
+                    ctx.fillRect(0, 0, width, height);
+
+                    // Draw passing clouds
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    clouds.forEach(c => {
+                        c.y += c.speed * 20; // moving down fast
+                        if(c.y > height + 100) { c.y = -100; c.x = Math.random()*width; }
+                        ctx.beginPath(); ctx.arc(c.x, c.y, 40*c.s, 0, Math.PI*2); ctx.arc(c.x+30*c.s, c.y-20*c.s, 50*c.s, 0, Math.PI*2); ctx.arc(c.x+70*c.s, c.y, 40*c.s, 0, Math.PI*2); ctx.fill();
+                    });
+
+                    rocket.state = 'real';
+                    rocket.flame = 1 + Math.random()*0.2;
+                    rocket.x = width/2;
+                    rocket.angle = 0;
+                    
+                    // Fly up into center, then hover
+                    if (skyProg < 0.3) {
+                        rocket.y = height + 100 - (skyProg/0.3) * (height/2 + 100);
+                        setSubtitle("Whoooosh! Up into the sky!");
+                    } else {
+                        rocket.y = height/2 + Math.sin(sElapsed*0.01)*20; // hover mid screen
+                        setSubtitle("Higher and higher, past the clouds!");
+                    }
+                }
+            }
+
+            // SCENE 3: Space Journey (90s - 150s)
+            else if (elapsed < scenes.journey.end) {
+                const sElapsed = elapsed - scenes.journey.start;
+                const duration = scenes.journey.end - scenes.journey.start;
+                const p = sElapsed / duration;
+
+                const speed = (p < 0.2) ? p * 15 : (p > 0.8) ? (1-p)*15 : 15; // ease in/out speed
+                drawSpaceBackground(elapsed, speed);
+
+                rocket.visible = true; rocket.state = 'real';
+                rocket.angle = Math.PI / 2; // Pointing right
+                rocket.flame = (speed > 5) ? 1 : 0.2;
+                rocket.x = width/3 + Math.sin(sElapsed*0.005)*50;
+                rocket.y = height/2 + Math.cos(sElapsed*0.003)*30;
+
+                if (p < 0.3) {
+                    setSubtitle("Space! It's so dark and sparkly.");
+                } else if (p < 0.6) {
+                    setSubtitle("Look out for those asteroids, Leo!");
+                    // Asteroids are drawn in drawSpaceBackground
+                } else {
+                    setSubtitle("Wait, what is that colorful planet ahead?");
+                }
+            }
+
+            // SCENE 4: Alien Planet (150s - 225s)
+            else if (elapsed < scenes.alienPlanet.end) {
+                const sElapsed = elapsed - scenes.alienPlanet.start;
+                const duration = scenes.alienPlanet.end - scenes.alienPlanet.start;
+                const p = sElapsed / duration;
+
+                drawPlanetBlurp();
+
+                if (p < 0.15) {
+                    // Landing
+                    rocket.visible = true; rocket.angle = 0; rocket.state = 'real';
+                    rocket.x = 250;
+                    rocket.y = -100 + (p/0.15)*(height - 200);
+                    rocket.flame = 1 - (p/0.15);
+                    setSubtitle("Landing sequence engaged.");
+                } else {
+                    rocket.y = height - 200; rocket.flame = 0; rocket.doorOpen = 1;
+                    leo.visible = true; leo.state = 'astronaut'; leo.opacity = 1;
+                    zog.visible = true;
+
+                    if (p < 0.3) {
+                        // Leo steps out
+                        leo.x = 250 + ((p-0.15)/0.15)*150;
+                        leo.y = height - 120;
+                        leo.legOffset = Math.sin(sElapsed*0.01)*15;
+                        zog.x = width + 100; // offscreen right
+                        setSubtitle("Wow, Planet Blurp is bouncy!");
+                    } else if (p < 0.45) {
+                        // Zog appears
+                        leo.legOffset = 0; leo.armAngle = 0;
+                        zog.x = width - ((p-0.3)/0.15)*350;
+                        zog.y = height - 150;
+                        zog.hover = Math.sin(sElapsed*0.008)*20;
+                        zog.legOffset = Math.sin(sElapsed*0.015)*10;
+                        setSubtitle("Hello? Is anyone there?");
+                    } else if (p < 0.55) {
+                        // Meet and greet
+                        zog.x = width - 350;
+                        leo.armAngle = Math.sin(sElapsed*0.01)*0.5 + 0.5; // wave
+                        zog.armAngle = Math.sin(sElapsed*0.015)*0.8; // enthusiastic wave
+                        setSubtitle("\"Glorp blop!\" said the alien. His name was Zog.");
+                    } else {
+                        // Play space ball
+                        spaceBall.visible = true;
+                        spaceBall.glow = Math.sin(sElapsed*0.01);
+                        const playTime = (p - 0.55) / 0.45; // 0 to 1
+                        const cycle = (playTime * 6) % 1; // 6 throws
+
+                        if (cycle < 0.5) {
+                            // Leo to Zog
+                            leo.armAngle = (0.5 - cycle)*Math.PI; zog.armAngle = 0;
+                            spaceBall.x = leo.x + 40 + cycle*2*(zog.x - leo.x - 80);
+                            spaceBall.y = height - 150 - Math.sin(cycle*2*Math.PI)*100;
+                            setSubtitle("They played zero-gravity catch!");
+                        } else {
+                            // Zog to Leo
+                            zog.armAngle = (1 - cycle)*Math.PI; leo.armAngle = 0;
+                            spaceBall.x = zog.x - 40 - (cycle-0.5)*2*(zog.x - leo.x - 80);
+                            spaceBall.y = height - 150 - Math.sin((cycle-0.5)*2*Math.PI)*100;
+                            setSubtitle("Zog was very good at it.");
+                        }
+                    }
+                }
+            }
+
+            // SCENE 5: Return Home & Inspire (225s - 300s)
+            else if (elapsed < scenes.returnHome.end) {
+                const sElapsed = elapsed - scenes.returnHome.start;
+                const duration = scenes.returnHome.end - scenes.returnHome.start;
+                const p = sElapsed / duration;
+
+                spaceBall.visible = false;
+                
+                if (p < 0.15) {
+                    // Goodbye
+                    drawPlanetBlurp();
+                    rocket.visible = true; rocket.x = 250; rocket.y = height-200; rocket.doorOpen = 1;
+                    zog.visible = true; zog.x = width - 350; zog.y = height-150; zog.armAngle = Math.sin(sElapsed*0.01)*0.5;
+                    
+                    leo.visible = true; leo.state = 'astronaut';
+                    leo.x = 400 - (p/0.15)*150; // walk back to ship
+                    leo.y = height - 120;
+                    leo.legOffset = Math.sin(sElapsed*0.01)*15;
+                    
+                    setSubtitle("\"Time to go home, Zog. Goodbye!\"");
+                } else if (p < 0.3) {
+                    // Blasting off
+                    drawPlanetBlurp();
+                    leo.visible = false; zog.visible = false;
+                    rocket.doorOpen = 0;
+                    rocket.y = height-200 - Math.pow((p-0.15)/0.15, 2)*800; // accelerate up
+                    rocket.flame = 1;
+                    setSubtitle("Next stop: Earth.");
+                } else if (p < 0.5) {
+                    // Journey back (fast)
+                    drawSpaceBackground(elapsed, 25);
+                    rocket.y = height/2; rocket.x = width/2; rocket.angle = -Math.PI/2; // flying left
+                    rocket.flame = 1;
+                    setSubtitle("Traveling at the speed of light...");
+                } else if (p < 0.7) {
+                    // Back in room/yard - Timeskip
+                    drawNightSky(elapsed); drawEarthGround(); drawHouse(200, height-100);
+                    rocket.visible = false;
+                    leo.visible = true; leo.state = 'boy'; leo.x = 600; leo.y = height-180;
+                    leo.armAngle = 0; leo.legOffset = 0; leo.opacity = 1;
+                    setSubtitle("Was it just a dream?");
+                } else if (p < 0.9) {
+                    // Grown up astronaut
+                    drawNightSky(elapsed); drawEarthGround(); drawHouse(200, height-100);
+                    // Fade effect
+                    if (p < 0.75) {
+                        fadeOverlay.style.opacity = (p - 0.7) / 0.05;
+                    } else if (p < 0.8) {
+                        leo.state = 'astronaut'; // Timeskip change!
+                        leo.scale = 1.2; // Grown up
+                        fadeOverlay.style.opacity = 1 - ((p - 0.75) / 0.05);
+                    }
+                    leo.visible = true; leo.x = 600; leo.y = height-190;
+                    leo.armAngle = Math.sin(elapsed*0.005)*0.3 - Math.PI/4; // Pointing to sky proudly
+                    setSubtitle("No. Years later, Leo's dream came true.");
+                } else {
+                    // End hold
+                    drawNightSky(elapsed); drawEarthGround(); drawHouse(200, height-100);
+                    leo.visible = true; leo.state = 'astronaut'; leo.scale = 1.2;
+                    setSubtitle("He became a real astronaut! The End.");
+                }
+            } else {
+                // Done
+                isPlaying = false;
+                setSubtitle("Animation Complete. Refresh to replay.");
+                startScreen.style.display = 'flex';
+                startScreen.querySelector('h1').textContent = "The End";
+                startScreen.querySelector('p').textContent = "Thanks for watching!";
+                startBtn.textContent = "Replay Movie";
+            }
+        }
+
+        function animate(timestamp) {
+            if (!isPlaying) return;
+
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+
+            // Clear canvas fully
+            ctx.clearRect(0, 0, width, height);
+
+            // Update & Draw based on timeline
+            update(elapsed);
+
+            // Draw objects that exist across scenes (handled inside update mostly for layer control)
+            if (rocket.visible) drawRocket(rocket.x, rocket.y, rocket.scale, rocket.angle, rocket.flame, rocket.state, rocket.doorOpen);
+            if (zog.visible) drawZog(zog.x, zog.y, zog.scale, zog.armAngle, zog.legOffset, zog.hover);
+            if (leo.visible) drawLeo(leo.x, leo.y, leo.scale, leo.state, leo.angle, leo.armAngle, leo.legOffset, leo.opacity);
+            if (spaceBall.visible) drawSpaceBall(spaceBall.x, spaceBall.y, spaceBall.glow);
+
+            // Time bar at top
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.fillRect(0, 0, width, 5);
+            ctx.fillStyle = '#0984e3';
+            ctx.fillRect(0, 0, (elapsed/totalDuration)*width, 5);
+
+            if (elapsed < totalDuration && isPlaying) {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            startScreen.style.display = 'none';
+            isPlaying = true;
+            startTime = null; 
+            
+            // Reset states
+            leo.scale = 1; leo.opacity = 1; rocket.scale = 1; rocket.doorOpen = 0; zog.scale = 1;
+            fadeOverlay.style.opacity = 0;
+            
+            cancelAnimationFrame(animationId);
+            animationId = requestAnimationFrame(animate);
+        });
+
+        // Initial preview draw
+        drawNightSky(0);
+        drawEarthGround();
+        drawHouse(200, height-100);
+        drawLeo(600, height-180, 1, 'boy', 0, 0, 0, 1);
+        drawRocket(800, height-180, 1.5, 0, 0, 'cardboard');
+        
+    </script>
+</body>
+</html>

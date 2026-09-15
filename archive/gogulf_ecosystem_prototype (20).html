@@ -1,0 +1,193 @@
+<!-- ... existing code ... -->
+                                <!-- Quick Actions -->
+                                <div class="flex items-center space-x-2 mr-4">
+                                    <button class="p-2 text-gulf-muted hover:text-gulf-emerald transition-colors rounded-full hover:bg-gulf-green-bg/50"><i data-lucide="home" class="w-5 h-5"></i></button>
+                                    <button class="relative p-2 text-gulf-muted hover:text-gulf-emerald transition-colors rounded-full hover:bg-gulf-green-bg/50">
+                                        <i data-lucide="message-square" class="w-5 h-5"></i>
+                                    </button>
+                                    <button class="relative p-2 text-gulf-muted hover:text-gulf-emerald transition-colors rounded-full hover:bg-gulf-green-bg/50">
+                                        <i data-lucide="bell" class="w-5 h-5"></i>
+                                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                                    </button>
+                                    <button onclick="openCart()" class="relative p-2 text-gulf-muted hover:text-gulf-emerald transition-colors rounded-full hover:bg-gulf-green-bg/50">
+                                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                                        <span class="absolute top-1 right-1 w-2 h-2 bg-gulf-emerald rounded-full border border-white"></span>
+                                    </button>
+                                    <button class="p-2 text-gulf-muted hover:text-gulf-emerald transition-colors rounded-full hover:bg-gulf-green-bg/50"><i data-lucide="sparkles" class="w-5 h-5"></i></button>
+                                </div>
+
+                                <!-- User Menu Dropdown (Hover) -->
+<!-- ... existing code ... -->
+                                <div id="acc-marketplace" class="hidden pl-11 pr-3 py-2 space-y-1">
+                                    <a href="#" onclick="showMarketplace()" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Marketplace Home</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Products</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Services</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Books & Guides</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Courses</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Wishlist</a>
+                                    <a href="#" onclick="openCart()" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Cart</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Orders</a>
+                                </div>
+                            </div>
+<!-- ... existing code ... -->
+            <!-- ================= START UNIVERSAL BOOKING ENGINE ================= -->
+            <div id="booking-engine-overlay" class="fixed inset-0 bg-gulf-navy/60 backdrop-blur-sm z-[100] hidden flex items-end md:items-center justify-center opacity-0 transition-opacity duration-300">
+<!-- ... existing code ... -->
+                    </div>
+                </div>
+            </div>
+            <!-- ================= END UNIVERSAL BOOKING ENGINE ================= -->
+
+            <!-- ================= START UNIVERSAL CART OVERLAY ================= -->
+            <div id="universal-cart-overlay" class="fixed inset-0 bg-gulf-navy/60 backdrop-blur-sm z-[110] hidden flex justify-end opacity-0 transition-opacity duration-300">
+                <div id="universal-cart-panel" class="w-full max-w-md bg-white h-full shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+                    
+                    <!-- Cart Header -->
+                    <div class="flex items-center justify-between p-6 border-b border-gray-100 bg-gulf-green-bg/30">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-gulf-emerald/10 flex items-center justify-center text-gulf-emerald">
+                                <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-extrabold text-gulf-navy">Your Cart</h2>
+                                <p class="text-[11px] font-bold text-gulf-muted uppercase">2 Items</p>
+                            </div>
+                        </div>
+                        <button onclick="closeCart()" class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gulf-muted hover:bg-gray-100 transition-colors shadow-sm">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Cart Items (Scrollable) -->
+                    <div class="flex-1 overflow-y-auto p-6 space-y-5 custom-scrollbar bg-gray-50/50">
+                        
+                        <!-- Cart Item 1: Service/Consultation -->
+                        <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex space-x-4 relative group">
+                            <button class="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition-colors">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                            <div class="w-20 h-20 rounded-xl bg-gulf-navy flex-shrink-0 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=200" alt="Legal" class="w-full h-full object-cover opacity-80 mix-blend-overlay">
+                                <div class="absolute inset-0 flex items-center justify-center text-white">
+                                    <i data-lucide="scale" class="w-8 h-8"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[10px] font-bold text-gulf-blue uppercase tracking-wider bg-gulf-blue/10 px-2 py-0.5 rounded-full inline-block mb-1">Consultation</span>
+                                    <h3 class="text-sm font-bold text-gulf-navy leading-tight">UAE Work Visa Legal Review</h3>
+                                    <div class="flex items-center mt-1">
+                                        <p class="text-[10px] text-gulf-text">Al Fahidi Legal Group</p>
+                                        <i data-lucide="badge-check" class="w-3 h-3 text-gulf-emerald ml-1"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-end justify-between mt-3">
+                                    <div class="flex items-center space-x-2 bg-gray-50 border border-gray-100 rounded-lg p-1">
+                                        <button class="w-6 h-6 rounded flex items-center justify-center text-gulf-muted hover:bg-white hover:shadow-sm"><i data-lucide="minus" class="w-3 h-3"></i></button>
+                                        <span class="text-xs font-bold text-gulf-navy w-4 text-center">1</span>
+                                        <button class="w-6 h-6 rounded flex items-center justify-center text-gulf-muted hover:bg-white hover:shadow-sm"><i data-lucide="plus" class="w-3 h-3"></i></button>
+                                    </div>
+                                    <span class="font-extrabold text-gulf-navy">SAR 450</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Item 2: Physical Product / Marketplace -->
+                        <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex space-x-4 relative group">
+                            <button class="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition-colors">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                            <div class="w-20 h-20 rounded-xl bg-gray-100 flex-shrink-0 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1555626906-fcf10d6851b4?auto=format&fit=crop&q=80&w=200" alt="SIM" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[10px] font-bold text-purple-600 uppercase tracking-wider bg-purple-100 px-2 py-0.5 rounded-full inline-block mb-1">Product</span>
+                                    <h3 class="text-sm font-bold text-gulf-navy leading-tight">Visitor eSIM (50GB Data)</h3>
+                                    <div class="flex items-center mt-1">
+                                        <p class="text-[10px] text-gulf-text">Mobily Official</p>
+                                        <i data-lucide="badge-check" class="w-3 h-3 text-gulf-emerald ml-1"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-end justify-between mt-3">
+                                    <div class="flex items-center space-x-2 bg-gray-50 border border-gray-100 rounded-lg p-1">
+                                        <button class="w-6 h-6 rounded flex items-center justify-center text-gulf-muted hover:bg-white hover:shadow-sm"><i data-lucide="minus" class="w-3 h-3"></i></button>
+                                        <span class="text-xs font-bold text-gulf-navy w-4 text-center">2</span>
+                                        <button class="w-6 h-6 rounded flex items-center justify-center text-gulf-muted hover:bg-white hover:shadow-sm"><i data-lucide="plus" class="w-3 h-3"></i></button>
+                                    </div>
+                                    <span class="font-extrabold text-gulf-navy">SAR 200</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Cart Summary & Checkout -->
+                    <div class="border-t border-gray-100 bg-white p-6 rounded-b-3xl md:rounded-none z-10 shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+                        <!-- Promo Code Input -->
+                        <div class="flex mb-5">
+                            <input type="text" placeholder="Promo code or Voucher" class="flex-1 border border-gray-200 rounded-l-xl p-3 text-sm focus:border-gulf-emerald focus:ring-1 focus:ring-gulf-emerald outline-none">
+                            <button class="bg-gulf-navy hover:bg-black text-white px-4 rounded-r-xl text-sm font-bold transition-colors">Apply</button>
+                        </div>
+
+                        <!-- Breakdown -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gulf-text">Subtotal</span>
+                                <span class="font-bold text-gulf-navy">SAR 650.00</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gulf-text flex items-center">Fees <i data-lucide="info" class="w-3 h-3 ml-1 text-gray-400"></i></span>
+                                <span class="font-bold text-gulf-navy">SAR 15.00</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gulf-text flex items-center">Taxes (VAT 15%)</span>
+                                <span class="font-bold text-gulf-navy">SAR 99.75</span>
+                            </div>
+                            <div class="flex justify-between text-sm text-gulf-emerald">
+                                <span class="font-bold">Discount (NEWGULF)</span>
+                                <span class="font-bold">- SAR 50.00</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between border-t border-gray-100 pt-4 mb-6">
+                            <span class="text-base font-bold text-gulf-navy">Total</span>
+                            <span class="text-2xl font-extrabold text-gulf-emerald">SAR 714.75</span>
+                        </div>
+
+                        <button onclick="closeCart(); openBookingFlow('Cart Checkout', 'Multiple Items', 'SAR 714.75')" class="w-full bg-gradient-to-r from-gulf-emerald to-gulf-emerald-light hover:shadow-card hover:-translate-y-0.5 text-white py-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center space-x-2">
+                            <span>Proceed to Checkout</span> <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- ================= END UNIVERSAL CART OVERLAY ================= -->
+
+        </section>
+    </div>
+<!-- ... existing code ... -->
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // ================= CART LOGIC =================
+        const cartOverlay = document.getElementById('universal-cart-overlay');
+        const cartPanel = document.getElementById('universal-cart-panel');
+
+        function openCart() {
+            cartOverlay.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                cartOverlay.classList.replace('opacity-0', 'opacity-100');
+                cartPanel.classList.replace('translate-x-full', 'translate-x-0');
+            });
+        }
+
+        function closeCart() {
+            cartOverlay.classList.replace('opacity-100', 'opacity-0');
+            cartPanel.classList.replace('translate-x-0', 'translate-x-full');
+            setTimeout(() => {
+                cartOverlay.classList.add('hidden');
+            }, 300);
+        }
+        
+        // Setup View Switcher
+<!-- ... existing code ... -->

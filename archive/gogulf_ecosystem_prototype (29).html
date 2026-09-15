@@ -1,0 +1,386 @@
+<!-- ... existing code ... -->
+    <body class="bg-[#f8fafc] text-gulf-navy font-sans antialiased overflow-x-hidden">
+
+        <!-- ================= TOP HEADER ================= -->
+        <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm safe-pt">
+            <!-- Top Row -->
+            <div class="flex items-center justify-between px-4 h-16 max-w-[1920px] mx-auto">
+                <!-- Left: Hamburger (Mobile) & Logo -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Mobile Hamburger -->
+                    <button class="md:hidden text-gulf-navy p-1.5 -ml-1.5 rounded-lg hover:bg-gray-100 active-scale" onclick="document.getElementById('mobile-more-menu').classList.remove('translate-x-[-100%]')">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <!-- Logo -->
+                    <a href="#" onclick="switchView('view-home')" class="flex items-center gap-2 active-scale">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-gulf-blue to-gulf-navy flex items-center justify-center shadow-lg relative overflow-hidden group shrink-0">
+                            <!-- Golden Falcon Overlay -->
+                            <svg class="absolute inset-0 w-full h-full opacity-20 group-hover:opacity-40 transition-opacity" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M50 20 Q70 40 90 30 Q70 60 50 80 Q30 60 10 30 Q30 40 50 20 Z" fill="#D4AF37"/>
+                            </svg>
+                            <span class="text-white font-bold text-base sm:text-lg relative z-10">GG</span>
+                        </div>
+                        <span class="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gulf-navy to-gulf-blue tracking-tight truncate">GoGulf.online</span>
+                    </a>
+                </div>
+
+                <!-- Middle: Desktop Search -->
+                <div class="hidden md:flex flex-1 max-w-2xl mx-8">
+<!-- ... existing code ... -->
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Search Bar (Below Header Top Row) -->
+            <div class="md:hidden px-4 pb-3 pt-1">
+                <div class="relative w-full">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4"></i>
+                    <input type="text" placeholder="Search GoGulf..." class="w-full bg-gray-100/80 text-gray-800 text-sm rounded-full pl-11 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gulf-blue focus:bg-white transition-all border border-gray-200/50">
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Bottom Navigation (Native App Style) -->
+<!-- ... existing code ... -->
+                    <button onclick="document.getElementById('role-switcher-modal').classList.add('hidden')" class="w-full mt-4 bg-gray-100 text-gulf-navy py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors active-scale">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= MOBILE MORE MENU ================= -->
+        <div id="mobile-more-menu" class="fixed inset-0 z-[100] bg-white transform translate-x-[-100%] transition-transform duration-300 ease-in-out flex flex-col md:hidden">
+            <!-- Menu Header -->
+            <div class="flex items-center justify-between px-4 h-16 border-b border-gray-100 safe-pt shrink-0 bg-white">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-gulf-blue to-gulf-navy flex items-center justify-center text-white font-bold relative overflow-hidden">
+                        <span class="relative z-10 text-sm">GG</span>
+                    </div>
+                    <span class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gulf-navy to-gulf-blue tracking-tight">GoGulf.online</span>
+                </div>
+                <button onclick="document.getElementById('mobile-more-menu').classList.add('translate-x-[-100%]')" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 active-scale">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <!-- Menu Content (Scrollable) -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-4 safe-pb bg-gray-50/50">
+                <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-6">
+                    <!-- Direct Links -->
+                    <a href="#" onclick="switchView('view-home'); document.getElementById('mobile-more-menu').classList.add('translate-x-[-100%]')" class="flex items-center gap-3 p-4 text-gulf-navy font-semibold hover:bg-gray-50 border-b border-gray-50 active-scale">
+                        <i data-lucide="home" class="w-5 h-5 text-gulf-blue"></i> Home
+                    </a>
+                    <a href="#" onclick="switchView('view-discover'); document.getElementById('mobile-more-menu').classList.add('translate-x-[-100%]')" class="flex items-center gap-3 p-4 text-gulf-navy font-semibold hover:bg-gray-50 border-b border-gray-100 active-scale">
+                        <i data-lucide="search" class="w-5 h-5 text-gulf-gold"></i> Explore
+                    </a>
+
+                    <!-- Accordion Items -->
+                    <!-- Jobs -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-jobs')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="briefcase" class="w-5 h-5 text-gray-500"></i> Jobs</div>
+                            <i data-lucide="chevron-down" id="menu-jobs-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-jobs" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Search Jobs</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">My Applications</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Employers -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-employers')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="building-2" class="w-5 h-5 text-gray-500"></i> Employers</div>
+                            <i data-lucide="chevron-down" id="menu-employers-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-employers" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Top Companies</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Company Reviews</a>
+                        </div>
+                    </div>
+
+                    <!-- Recruiters / RAs -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-ras')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="users" class="w-5 h-5 text-gray-500"></i> Recruiters / RAs</div>
+                            <i data-lucide="chevron-down" id="menu-ras-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-ras" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" onclick="switchView('view-recruiter'); document.getElementById('mobile-more-menu').classList.add('translate-x-[-100%]')" class="block py-1 hover:text-gulf-blue">Find Agencies</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Verify Agency</a>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-edu')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="graduation-cap" class="w-5 h-5 text-gray-500"></i> Education</div>
+                            <i data-lucide="chevron-down" id="menu-edu-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-edu" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Courses</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Universities</a>
+                        </div>
+                    </div>
+
+                    <!-- Visa -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-visa')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="file-text" class="w-5 h-5 text-gray-500"></i> Visa</div>
+                            <i data-lucide="chevron-down" id="menu-visa-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-visa" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Visa Types</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Status Check</a>
+                        </div>
+                    </div>
+
+                    <!-- Travel -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-travel')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="plane" class="w-5 h-5 text-gray-500"></i> Travel</div>
+                            <i data-lucide="chevron-down" id="menu-travel-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-travel" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Book Flights</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Travel Guides</a>
+                        </div>
+                    </div>
+
+                    <!-- Tours -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-tours')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="map" class="w-5 h-5 text-gray-500"></i> Tours</div>
+                            <i data-lucide="chevron-down" id="menu-tours-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-tours" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">City Tours</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Desert Safaris</a>
+                        </div>
+                    </div>
+
+                    <!-- Umrah -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-umrah')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="moon" class="w-5 h-5 text-gray-500"></i> Umrah</div>
+                            <i data-lucide="chevron-down" id="menu-umrah-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-umrah" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" onclick="switchView('view-umrah'); document.getElementById('mobile-more-menu').classList.add('translate-x-[-100%]')" class="block py-1 hover:text-gulf-blue">Packages</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Preparation</a>
+                        </div>
+                    </div>
+
+                    <!-- Hajj -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-hajj')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="sun" class="w-5 h-5 text-gray-500"></i> Hajj</div>
+                            <i data-lucide="chevron-down" id="menu-hajj-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-hajj" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Packages</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Guidelines</a>
+                        </div>
+                    </div>
+
+                    <!-- Marketplace -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-market')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="shopping-bag" class="w-5 h-5 text-gray-500"></i> Marketplace</div>
+                            <i data-lucide="chevron-down" id="menu-market-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-market" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" onclick="switchView('view-marketplace'); document.getElementById('mobile-more-menu').classList.add('translate-x-[-100%]')" class="block py-1 hover:text-gulf-blue">Products & Services</a>
+                        </div>
+                    </div>
+
+                    <!-- Stay -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-stay')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="bed" class="w-5 h-5 text-gray-500"></i> Stay</div>
+                            <i data-lucide="chevron-down" id="menu-stay-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-stay" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Hotels</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Apartments</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobility -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-mobility')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="car" class="w-5 h-5 text-gray-500"></i> Mobility</div>
+                            <i data-lucide="chevron-down" id="menu-mobility-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-mobility" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Car Rental</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Public Transport</a>
+                        </div>
+                    </div>
+
+                    <!-- News -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-news')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="newspaper" class="w-5 h-5 text-gray-500"></i> News</div>
+                            <i data-lucide="chevron-down" id="menu-news-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-news" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Latest</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Business</a>
+                        </div>
+                    </div>
+
+                    <!-- Community -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-community')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="users-2" class="w-5 h-5 text-gray-500"></i> Community</div>
+                            <i data-lucide="chevron-down" id="menu-community-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-community" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Groups</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Events</a>
+                        </div>
+                    </div>
+
+                    <!-- Tools -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-tools')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="wrench" class="w-5 h-5 text-gray-500"></i> Tools</div>
+                            <i data-lucide="chevron-down" id="menu-tools-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-tools" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">CV Builder</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Salary Calculator</a>
+                        </div>
+                    </div>
+
+                    <!-- Guides -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-guides')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="book-open" class="w-5 h-5 text-gray-500"></i> Guides</div>
+                            <i data-lucide="chevron-down" id="menu-guides-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-guides" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Relocation</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Legal</a>
+                        </div>
+                    </div>
+
+                    <!-- AK GLORA -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-glora')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="bot" class="w-5 h-5 text-gulf-emerald"></i> AK GLORA</div>
+                            <i data-lucide="chevron-down" id="menu-glora-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-glora" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Ask a Question</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">AI Career Coach</a>
+                        </div>
+                    </div>
+
+                    <!-- Communication -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-comm')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="message-circle" class="w-5 h-5 text-gray-500"></i> Communication</div>
+                            <i data-lucide="chevron-down" id="menu-comm-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-comm" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Messages</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Meetings</a>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-noti')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <i data-lucide="bell" class="w-5 h-5 text-gray-500"></i>
+                                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
+                                </div>
+                                Notifications
+                            </div>
+                            <i data-lucide="chevron-down" id="menu-noti-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-noti" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">All Alerts</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Settings</a>
+                        </div>
+                    </div>
+
+                    <!-- My Journey -->
+                    <div class="border-b border-gray-50">
+                        <button onclick="toggleMobileMenu('menu-journey')" class="w-full flex items-center justify-between p-4 text-gulf-navy font-medium hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="compass" class="w-5 h-5 text-gray-500"></i> My Journey</div>
+                            <i data-lucide="chevron-down" id="menu-journey-icon" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                        </button>
+                        <div id="menu-journey" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Track Progress</a>
+                            <a href="#" class="block py-1 hover:text-gulf-blue">Checklist</a>
+                        </div>
+                    </div>
+
+                    <!-- Premium -->
+                    <div>
+                        <button onclick="toggleMobileMenu('menu-premium')" class="w-full flex items-center justify-between p-4 text-gulf-gold font-bold hover:bg-gray-50 active-scale">
+                            <div class="flex items-center gap-3"><i data-lucide="star" class="w-5 h-5 text-gulf-gold fill-current"></i> Premium</div>
+                            <i data-lucide="chevron-down" id="menu-premium-icon" class="w-4 h-4 text-gulf-gold transition-transform"></i>
+                        </button>
+                        <div id="menu-premium" class="hidden bg-gray-50 px-12 py-2 space-y-3 text-sm text-gray-600 shadow-inner">
+                            <a href="#" class="block py-1 hover:text-gulf-gold">Upgrade</a>
+                            <a href="#" class="block py-1 hover:text-gulf-gold">Features</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Static Links -->
+                <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm mb-8">
+                    <a href="#" onclick="switchView('view-dashboard'); document.getElementById('mobile-more-menu').classList.add('translate-x-[-100%]')" class="flex items-center gap-3 p-4 text-gulf-navy font-semibold hover:bg-gray-50 border-b border-gray-50 active-scale">
+                        <i data-lucide="user" class="w-5 h-5 text-gray-500"></i> My Dashboard
+                    </a>
+                    <a href="#" class="flex items-center gap-3 p-4 text-gulf-navy font-semibold hover:bg-gray-50 border-b border-gray-50 active-scale">
+                        <i data-lucide="settings" class="w-5 h-5 text-gray-500"></i> Settings
+                    </a>
+                    <a href="#" class="flex items-center gap-3 p-4 text-gulf-navy font-semibold hover:bg-gray-50 active-scale">
+                        <i data-lucide="help-circle" class="w-5 h-5 text-gray-500"></i> Help
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SCRIPTS ================= -->
+        <script>
+            // View Switching Logic
+            function switchView(viewId) {
+                // Hide all views
+                document.querySelectorAll('#main-content > div').forEach(el => {
+                    el.classList.add('hidden');
+                });
+                // Show target view
+                const target = document.getElementById(viewId);
+                if(target) target.classList.remove('hidden');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Mobile Accordion Toggle
+            function toggleMobileMenu(id) {
+                const el = document.getElementById(id);
+                const icon = document.getElementById(id + '-icon');
+                if(el && icon) {
+                    if(el.classList.contains('hidden')) {
+                        el.classList.remove('hidden');
+                        icon.classList.add('rotate-180');
+                    } else {
+                        el.classList.add('hidden');
+                        icon.classList.remove('rotate-180');
+                    }
+                }
+            }
+
+            // Setup Desktop Account Dropdown Toggle
+<!-- ... existing code ... -->

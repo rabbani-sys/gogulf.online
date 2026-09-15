@@ -1,0 +1,300 @@
+<!-- ... existing code ... -->
+                                    <div class="p-2 space-y-1">
+                                        <a href="#" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="user" class="w-4 h-4 mr-3"></i> My Profile
+                                        </a>
+                                        <a href="#" onclick="showDashboard()" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="layout-dashboard" class="w-4 h-4 mr-3"></i> My Dashboard
+                                        </a>
+                                        <a href="#" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="compass" class="w-4 h-4 mr-3"></i> My Journey
+                                        </a>
+<!-- ... existing code ... -->
+                                        <button class="w-full py-2 bg-white border border-gray-200 text-gulf-navy rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors">
+                                            Order Again
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- ================= END MY ORDERS ================= -->
+
+                    <!-- ================= START USER DASHBOARD ================= -->
+                    <div id="view-dashboard" class="hidden animate-fade-in space-y-6 pb-20">
+                        
+                        <!-- Welcome Header -->
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 space-y-4 md:space-y-0">
+                            <div>
+                                <h2 class="text-3xl font-extrabold text-gulf-navy tracking-tight">Good morning, Ahmed <span class="text-3xl">👋</span></h2>
+                                <p class="text-gulf-text mt-1 text-sm">Here is a summary of your Gulf journey and upcoming activities.</p>
+                            </div>
+                            <button class="bg-gulf-navy text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md hover:bg-black transition-colors flex items-center">
+                                <i data-lucide="sparkles" class="w-4 h-4 mr-2 text-gulf-emerald"></i> Personalize Dashboard
+                            </button>
+                        </div>
+
+                        <!-- Main Dashboard Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            
+                            <!-- Left Column: Progress & Quick Actions (Takes 2 columns on lg) -->
+                            <div class="lg:col-span-2 space-y-6">
+                                
+                                <!-- Journey Progress Card -->
+                                <div class="bg-white rounded-3xl p-6 shadow-card border border-gray-100">
+                                    <div class="flex justify-between items-center mb-6">
+                                        <h3 class="text-lg font-bold text-gulf-navy flex items-center">
+                                            <i data-lucide="milestone" class="w-5 h-5 mr-2 text-gulf-emerald"></i> Journey Progress
+                                        </h3>
+                                        <button class="text-xs font-bold text-gulf-blue hover:underline">View Detailed Journey</button>
+                                    </div>
+                                    
+                                    <div class="space-y-4">
+                                        <!-- Profile -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-gulf-navy">Profile</span><span class="text-gulf-emerald">100%</span></div>
+                                            <div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-gulf-emerald h-2 rounded-full shadow-[0_0_8px_rgba(20,184,166,0.6)]" style="width: 100%"></div></div>
+                                        </div>
+                                        <!-- Career -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-gulf-navy">Career</span><span class="text-gulf-blue">75%</span></div>
+                                            <div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-gulf-blue h-2 rounded-full" style="width: 75%"></div></div>
+                                        </div>
+                                        <!-- Applications -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-gulf-navy">Applications</span><span class="text-blue-500">60%</span></div>
+                                            <div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-blue-500 h-2 rounded-full" style="width: 60%"></div></div>
+                                        </div>
+                                        <!-- Documents -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-gulf-navy">Documents</span><span class="text-purple-500">80%</span></div>
+                                            <div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-purple-500 h-2 rounded-full" style="width: 80%"></div></div>
+                                        </div>
+                                        <!-- Visa -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-gulf-navy">Visa & Work Permit</span><span class="text-amber-500">40%</span></div>
+                                            <div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-amber-500 h-2 rounded-full" style="width: 40%"></div></div>
+                                        </div>
+                                        <!-- Travel -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-gray-400">Travel</span><span class="text-gray-400">0%</span></div>
+                                            <div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-gray-300 h-2 rounded-full" style="width: 0%"></div></div>
+                                        </div>
+                                        <!-- Settlement -->
+                                        <div>
+                                            <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-gray-400">Settlement</span><span class="text-gray-400">0%</span></div>
+                                            <div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-gray-300 h-2 rounded-full" style="width: 0%"></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Actions -->
+                                <div>
+                                    <h3 class="text-sm font-bold text-gulf-muted uppercase tracking-wider mb-3 ml-1">Quick Actions</h3>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                        <!-- Action 1 -->
+                                        <button class="flex flex-col items-center justify-center p-4 bg-white border border-gray-100 rounded-2xl hover:border-gulf-emerald hover:shadow-md transition-all group">
+                                            <div class="w-12 h-12 bg-emerald-50 text-gulf-emerald rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="briefcase" class="w-5 h-5"></i></div>
+                                            <span class="text-xs font-bold text-gulf-navy text-center">Find Jobs</span>
+                                        </button>
+                                        <!-- Action 2 -->
+                                        <button class="flex flex-col items-center justify-center p-4 bg-white border border-gray-100 rounded-2xl hover:border-gulf-blue hover:shadow-md transition-all group">
+                                            <div class="w-12 h-12 bg-blue-50 text-gulf-blue rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+                                            <span class="text-xs font-bold text-gulf-navy text-center">Build CV</span>
+                                        </button>
+                                        <!-- Action 3 -->
+                                        <button class="flex flex-col items-center justify-center p-4 bg-white border border-gray-100 rounded-2xl hover:border-purple-500 hover:shadow-md transition-all group">
+                                            <div class="w-12 h-12 bg-purple-50 text-purple-500 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="send" class="w-5 h-5"></i></div>
+                                            <span class="text-xs font-bold text-gulf-navy text-center">Apply</span>
+                                        </button>
+                                        <!-- Action 4 -->
+                                        <button class="flex flex-col items-center justify-center p-4 bg-white border border-gray-100 rounded-2xl hover:border-blue-400 hover:shadow-md transition-all group">
+                                            <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="plane" class="w-5 h-5"></i></div>
+                                            <span class="text-xs font-bold text-gulf-navy text-center">Book Travel</span>
+                                        </button>
+                                        <!-- Action 5 -->
+                                        <button class="flex flex-col items-center justify-center p-4 bg-white border border-gray-100 rounded-2xl hover:border-amber-500 hover:shadow-md transition-all group">
+                                            <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="home" class="w-5 h-5"></i></div>
+                                            <span class="text-xs font-bold text-gulf-navy text-center">Accommodation</span>
+                                        </button>
+                                        <!-- Action 6 -->
+                                        <button class="flex flex-col items-center justify-center p-4 bg-white border border-gray-100 rounded-2xl hover:border-pink-500 hover:shadow-md transition-all group">
+                                            <div class="w-12 h-12 bg-pink-50 text-pink-500 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="map" class="w-5 h-5"></i></div>
+                                            <span class="text-xs font-bold text-gulf-navy text-center">Explore Tours</span>
+                                        </button>
+                                        <!-- Action 7 -->
+                                        <button class="flex flex-col items-center justify-center p-4 bg-gradient-to-br from-gulf-navy to-black rounded-2xl hover:shadow-lg transition-all group sm:col-span-2 md:col-span-2 relative overflow-hidden">
+                                            <div class="absolute right-[-10px] top-[-10px] w-20 h-20 bg-gulf-emerald/20 blur-xl rounded-full"></div>
+                                            <div class="w-12 h-12 bg-white/10 text-gulf-emerald rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="bot" class="w-5 h-5"></i></div>
+                                            <span class="text-xs font-bold text-white text-center">Ask AK GLORA</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Right Column: Upcoming -->
+                            <div class="space-y-6">
+                                <div class="bg-white rounded-3xl p-6 shadow-card border border-gray-100 h-full">
+                                    <div class="flex justify-between items-center mb-6">
+                                        <h3 class="text-lg font-bold text-gulf-navy flex items-center">
+                                            <i data-lucide="calendar" class="w-5 h-5 mr-2 text-gulf-blue"></i> Upcoming
+                                        </h3>
+                                        <button class="text-xs font-bold text-gulf-muted hover:text-gulf-navy"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                                    </div>
+                                    
+                                    <div class="relative">
+                                        <!-- Timeline Line -->
+                                        <div class="absolute left-[15px] top-4 bottom-4 w-0.5 bg-gray-100"></div>
+                                        
+                                        <!-- Item 1: Interview -->
+                                        <div class="flex relative pb-6 group">
+                                            <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center z-10 shrink-0 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                                                <i data-lucide="video" class="w-4 h-4"></i>
+                                            </div>
+                                            <div class="ml-4 bg-gray-50 p-3 rounded-xl w-full border border-gray-100 group-hover:border-blue-200 transition-colors cursor-pointer">
+                                                <p class="text-[10px] font-bold text-blue-600 uppercase tracking-wide mb-0.5">Tomorrow • 10:00 AM</p>
+                                                <p class="text-sm font-bold text-gulf-navy">Final Interview: Emirates</p>
+                                                <p class="text-xs text-gulf-text flex items-center mt-1"><i data-lucide="link" class="w-3 h-3 mr-1"></i> Join Video Call</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Item 2: Appointment -->
+                                        <div class="flex relative pb-6 group">
+                                            <div class="w-8 h-8 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center z-10 shrink-0 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white transition-all shadow-sm">
+                                                <i data-lucide="building-2" class="w-4 h-4"></i>
+                                            </div>
+                                            <div class="ml-4 bg-gray-50 p-3 rounded-xl w-full border border-gray-100 group-hover:border-amber-200 transition-colors cursor-pointer">
+                                                <p class="text-[10px] font-bold text-amber-600 uppercase tracking-wide mb-0.5">Sep 18 • 09:30 AM</p>
+                                                <p class="text-sm font-bold text-gulf-navy">Visa Medical Appointment</p>
+                                                <p class="text-xs text-gulf-text flex items-center mt-1"><i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> VFS Global Centre</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Item 3: Payment -->
+                                        <div class="flex relative pb-6 group">
+                                            <div class="w-8 h-8 bg-gulf-emerald/20 text-gulf-emerald rounded-full flex items-center justify-center z-10 shrink-0 group-hover:scale-110 group-hover:bg-gulf-emerald group-hover:text-white transition-all shadow-sm">
+                                                <i data-lucide="credit-card" class="w-4 h-4"></i>
+                                            </div>
+                                            <div class="ml-4 bg-gray-50 p-3 rounded-xl w-full border border-gray-100 group-hover:border-gulf-emerald/30 transition-colors cursor-pointer">
+                                                <p class="text-[10px] font-bold text-gulf-emerald uppercase tracking-wide mb-0.5">Sep 20 • Auto-Pay</p>
+                                                <p class="text-sm font-bold text-gulf-navy">Course Installment (Tabby)</p>
+                                                <p class="text-xs text-gulf-text font-mono mt-1">650.00 SAR</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Item 4: Deadline -->
+                                        <div class="flex relative pb-6 group">
+                                            <div class="w-8 h-8 bg-red-100 text-red-500 rounded-full flex items-center justify-center z-10 shrink-0 group-hover:scale-110 group-hover:bg-red-500 group-hover:text-white transition-all shadow-sm">
+                                                <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                                            </div>
+                                            <div class="ml-4 bg-gray-50 p-3 rounded-xl w-full border border-red-100 bg-red-50/30 transition-colors cursor-pointer">
+                                                <p class="text-[10px] font-bold text-red-500 uppercase tracking-wide mb-0.5">Sep 22 • ACTION REQ.</p>
+                                                <p class="text-sm font-bold text-gulf-navy">Upload Passport Copy</p>
+                                                <p class="text-xs text-red-400 font-bold mt-1">Required for Work Permit</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Item 5: Booking -->
+                                        <div class="flex relative group">
+                                            <div class="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center z-10 shrink-0 group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-sm">
+                                                <i data-lucide="plane-takeoff" class="w-4 h-4"></i>
+                                            </div>
+                                            <div class="ml-4 bg-gray-50 p-3 rounded-xl w-full border border-gray-100 group-hover:border-purple-200 transition-colors cursor-pointer">
+                                                <p class="text-[10px] font-bold text-purple-600 uppercase tracking-wide mb-0.5">Nov 02 • Confirmed</p>
+                                                <p class="text-sm font-bold text-gulf-navy">Flight to Dubai (DXB)</p>
+                                                <p class="text-xs text-gulf-text flex items-center mt-1"><i data-lucide="ticket" class="w-3 h-3 mr-1"></i> EK 818</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recommended Section -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-extrabold text-gulf-navy mb-4 flex items-center">
+                                <i data-lucide="sparkles" class="w-5 h-5 mr-2 text-gulf-blue"></i> Recommended for You
+                            </h3>
+                            <div class="flex space-x-4 overflow-x-auto pb-4 custom-scrollbar">
+                                
+                                <!-- Recommended Job -->
+                                <div class="w-64 flex-shrink-0 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <span class="bg-blue-50 text-gulf-blue text-[10px] font-bold px-2 py-0.5 rounded">Top Job Match</span>
+                                        <i data-lucide="bookmark" class="w-4 h-4 text-gray-400"></i>
+                                    </div>
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="building" class="w-4 h-4 text-white"></i></div>
+                                        <h4 class="text-sm font-bold text-gulf-navy leading-tight">Senior Project Manager</h4>
+                                    </div>
+                                    <p class="text-xs text-gulf-text mb-2">NEOM • Tabuk, KSA</p>
+                                    <p class="text-xs font-bold text-gulf-emerald">35,000 - 45,000 SAR / mo</p>
+                                </div>
+
+                                <!-- Recommended Course -->
+                                <div class="w-64 flex-shrink-0 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <span class="bg-purple-50 text-purple-600 text-[10px] font-bold px-2 py-0.5 rounded">Recommended Course</span>
+                                        <i data-lucide="bookmark" class="w-4 h-4 text-gray-400"></i>
+                                    </div>
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="graduation-cap" class="w-4 h-4 text-purple-600"></i></div>
+                                        <h4 class="text-sm font-bold text-gulf-navy leading-tight">Gulf Business Culture</h4>
+                                    </div>
+                                    <p class="text-xs text-gulf-text mb-2">Knowledge Hub • Online</p>
+                                    <p class="text-xs font-bold text-gulf-navy">Free with GoGulf Premium</p>
+                                </div>
+
+                                <!-- Recommended Tour -->
+                                <div class="w-64 flex-shrink-0 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <span class="bg-amber-50 text-amber-600 text-[10px] font-bold px-2 py-0.5 rounded">Weekend Escape</span>
+                                        <i data-lucide="bookmark" class="w-4 h-4 text-gray-400"></i>
+                                    </div>
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <div class="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                                            <img src="https://images.unsplash.com/photo-1542385151-efd9000785a0?w=100&h=100&fit=crop" class="w-full h-full object-cover">
+                                        </div>
+                                        <h4 class="text-sm font-bold text-gulf-navy leading-tight">Desert Safari Elite</h4>
+                                    </div>
+                                    <p class="text-xs text-gulf-text mb-2">Dubai • 6 Hours</p>
+                                    <p class="text-xs font-bold text-gulf-navy">From 350.00 AED</p>
+                                </div>
+
+                                <!-- Recommended Guide -->
+                                <div class="w-64 flex-shrink-0 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <span class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded">Essential Guide</span>
+                                        <i data-lucide="bookmark" class="w-4 h-4 text-gray-400"></i>
+                                    </div>
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <div class="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="book-open" class="w-4 h-4 text-white"></i></div>
+                                        <h4 class="text-sm font-bold text-gulf-navy leading-tight">Relocating to Riyadh 2026</h4>
+                                    </div>
+                                    <p class="text-xs text-gulf-text mb-2">Housing, Transport, Culture</p>
+                                    <p class="text-xs font-bold text-gulf-blue">Read Now</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- ================= END USER DASHBOARD ================= -->
+
+                </div>
+                
+            </main>
+<!-- ... existing code ... -->
+        function showPayments() { switchView('view-payments'); }
+        function showBookings() { switchView('view-bookings'); }
+        function showOrders() { switchView('view-orders'); }
+        function showDashboard() { switchView('view-dashboard'); }
+
+        function switchView(viewId) {
+            // Hide all views
+            const views = ['view-home', 'view-discover', 'view-job-detail', 'view-employer-profile', 'view-recruiter-profile', 'view-umrah-detail', 'view-marketplace', 'view-payments', 'view-bookings', 'view-orders', 'view-dashboard'];
+            views.forEach(id => {
+<!-- ... existing code ... -->

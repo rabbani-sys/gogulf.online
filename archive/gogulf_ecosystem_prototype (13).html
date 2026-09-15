@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GoGulf.online | Work • Study • Travel • Belong</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'gulf-green-bg': '#E6F0EA', // Soft Saudi-inspired green
+                        'gulf-navy': '#0A192F', // Deep midnight navy
+                        'gulf-blue': '#0052FF', // Electric blue
+                        'gulf-cyan': '#00E5FF',
+                        'gulf-emerald': '#046A38',
+                        'gulf-emerald-light': '#34D399',
+                        'gulf-gold': '#D4AF37',
+                        'gulf-butter': '#FDF0A6', // Buttery yellow
+                        'gulf-surface': '#FFFFFF',
+                        'gulf-text': '#1E293B',
+                        'gulf-muted': '#64748B',
+                    },
+                    borderRadius: {
+                        'sm-ctrl': '10px',
+                        'card-std': '14px',
+                        'card-lg': '18px',
+                        'card-hero': '24px',
+                        'pill': '9999px',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(4, 106, 56, 0.05)',
+                        'card': '0 4px 15px rgba(0, 0, 0, 0.03)',
+                        'card-hover': '0 20px 40px -15px rgba(4, 106, 56, 0.2)',
+                        'floating': '0 12px 30px rgba(0, 82, 255, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #E6F0EA; /* Soft Green Theme */
+            color: #1E293B;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Custom Scrollbar for sidebars */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        .custom-scroll:hover::-webkit-scrollbar-thumb { background: #94A3B8; }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .brand-gradient {
+            background: linear-gradient(135deg, #34D399 0%, #FDF0A6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ai-gradient-bg {
+            background: linear-gradient(135deg, #0A192F 0%, #0052FF 50%, #00E5FF 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card-hover-effect {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(4, 106, 56, 0.2);
+        }
+
+        /* Accordion reset */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        
+        .typewriter::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="antialiased h-screen flex flex-col overflow-hidden text-sm">
+
+    <!-- 6. DESKTOP TOP BAR (Fixed) -->
+    <header class="glass-nav w-full h-[72px] fixed top-0 z-50 flex items-center justify-between px-4 lg:px-6 shadow-sm">
+        
+        <!-- Left: Logo & Branding -->
+        <div class="flex flex-col cursor-pointer w-[280px] flex-shrink-0 group">
+            <div class="flex items-center space-x-3">
+                <!-- Custom SVG Logo: Kaaba, Palm, Burj Khalifa, Stars, Falcon -->
+                <div class="relative w-10 h-10 rounded-xl bg-gulf-navy flex items-center justify-center shadow-md overflow-hidden transform group-hover:scale-105 transition-all duration-300">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="relative z-10 drop-shadow-md">
+                        <!-- Star -->
+                        <path d="M4 4L5 2L6 4L8 5L6 6L5 8L4 6L2 5L4 4Z" fill="#FDF0A6"/>
+                        <path d="M19 3L19.5 2L20 3L21 3.5L20 4L19.5 5L19 4L18 3.5L19 3Z" fill="#FDF0A6"/>
+                        
+                        <!-- Golden Soaring Falcon -->
+                        <path d="M4 6 C 7 3.5, 9.5 4.5, 11 6.5 L 12 8 L 13 6.5 C 14.5 4.5, 17 3.5, 20 6 C 17 5.5, 14.5 6.5, 13 9 L 12 11 L 11 9 C 9.5 6.5, 7 5.5, 4 6 Z" fill="#D4AF37" class="drop-shadow-sm"/>
+
+                        <!-- Burj Khalifa silhouette -->
+                        <path d="M12 2L12 10M11 10L13 10L14 22L10 22L11 10Z" stroke="#34D399" stroke-width="1.5" stroke-linejoin="round"/>
+                        
+                        <!-- Palm Tree -->
+                        <path d="M16 12C17.5 10.5 19 11 21 11C19 13 17 14 16 12Z" fill="#34D399"/>
+                        <path d="M16 14C17.5 13 20 13 22 14C20 16 17 17 16 14Z" fill="#34D399"/>
+                        <path d="M16 12C15.5 10 16 8 18 6C17 9 15 10 16 12Z" fill="#34D399"/>
+                        
+                        <!-- Kaaba block -->
+                        <rect x="4" y="14" width="6" height="8" fill="#FDF0A6" stroke="#0A192F" stroke-width="0.5"/>
+                        <line x1="4" y1="16" x2="10" y2="16" stroke="#D4AF37" stroke-width="1"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-baseline space-x-1">
+                        <span class="text-xl font-extrabold tracking-tighter text-gulf-navy">Go<span class="brand-gradient drop-shadow-sm">Gulf</span></span>
+                        <span class="text-[9px] font-medium text-gulf-muted">by Rabbani's</span>
+                    </div>
+                    <span class="text-[10px] font-semibold text-gulf-emerald tracking-wide">Work • Study • Travel • Belong</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Global Search -->
+        <div class="hidden md:flex flex-1 max-w-2xl mx-8">
+            <div class="w-full bg-white/60 border border-gray-200/60 rounded-full h-10 flex items-center px-2 hover:bg-white transition-colors focus-within:bg-white focus-within:border-gulf-blue focus-within:ring-2 focus-within:ring-gulf-blue/20">
+                <select class="bg-transparent text-xs font-semibold text-gulf-text border-none focus:outline-none pl-2 pr-1 cursor-pointer">
+                    <option>All</option>
+                    <option>Jobs</option>
+                    <option>People</option>
+                    <option>Tours</option>
+                </select>
+                <div class="h-5 w-px bg-gray-300 mx-2"></div>
+                <i data-lucide="search" class="w-4 h-4 text-gulf-muted mx-1"></i>
+                <input type="text" id="global-search" placeholder="Search jobs, people, companies, tours..." class="flex-1 bg-transparent border-none focus:outline-none text-sm text-gulf-text px-2">
+            </div>
+        </div>
+
+        <!-- Right: Actions & Account -->
+        <div class="flex items-center space-x-2 md:space-x-4">
+            <button class="hidden md:flex p-2 text-gulf-text hover:bg-gulf-green-bg rounded-full transition-colors relative group">
+                <i data-lucide="home" class="w-5 h-5"></i>
+                <span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[10px] bg-gulf-navy text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Home</span>
+            </button>
+            <button class="p-2 text-gulf-text hover:bg-gulf-green-bg rounded-full transition-colors relative group">
+                <i data-lucide="message-square" class="w-5 h-5"></i>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <button class="p-2 text-gulf-text hover:bg-gulf-green-bg rounded-full transition-colors relative">
+                <i data-lucide="bell" class="w-5 h-5"></i>
+                <span class="absolute top-1 right-1 w-4 h-4 bg-gulf-blue text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
+            </button>
+            <button class="hidden lg:flex items-center space-x-1.5 bg-gulf-navy text-white px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-black transition-colors">
+                <i data-lucide="sparkles" class="w-4 h-4 text-gulf-cyan"></i>
+                <span>AK GLORA</span>
+            </button>
+            
+            <!-- Account Dropdown Trigger -->
+            <div class="relative ml-2 cursor-pointer group">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq" alt="Profile" class="w-9 h-9 rounded-full border-2 border-gulf-surface shadow-sm group-hover:border-gulf-blue transition-colors">
+                
+                <!-- Dropdown Menu -->
+                <div class="absolute right-0 mt-2 w-56 bg-white rounded-card-lg shadow-floating border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50 overflow-hidden">
+                    <div class="p-3 border-b border-gray-50 flex items-center space-x-3">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq" class="w-10 h-10 rounded-full">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-gulf-navy">Tariq Al-Fayed</span>
+                            <span class="text-xs text-gulf-muted">GoGulf ID: #88392</span>
+                        </div>
+                    </div>
+                    <div class="p-2 flex flex-col space-y-1 text-sm text-gulf-text">
+                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gulf-green-bg rounded-md"><i data-lucide="layout-dashboard" class="w-4 h-4 mr-3 text-gulf-muted"></i> My Dashboard</a>
+                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gulf-green-bg rounded-md"><i data-lucide="compass" class="w-4 h-4 mr-3 text-gulf-blue"></i> My Journey</a>
+                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gulf-green-bg rounded-md"><i data-lucide="calendar-check" class="w-4 h-4 mr-3 text-gulf-muted"></i> Bookings & Orders</a>
+                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gulf-green-bg rounded-md"><i data-lucide="file-text" class="w-4 h-4 mr-3 text-gulf-muted"></i> Documents Vault</a>
+                        <div class="h-px bg-gray-100 my-1"></div>
+                        <a href="#" class="flex items-center px-3 py-2 hover:bg-gulf-green-bg rounded-md"><i data-lucide="settings" class="w-4 h-4 mr-3 text-gulf-muted"></i> Settings</a>
+                        <a href="#" class="flex items-center px-3 py-2 hover:bg-red-50 text-red-600 rounded-md"><i data-lucide="log-out" class="w-4 h-4 mr-3"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN 3-ZONE LAYOUT -->
+    <main class="flex-1 flex overflow-hidden pt-[72px] max-w-[1920px] mx-auto w-full">
+        
+        <!-- ZONE 1: LEFT SIDEBAR (Master Navigation) -->
+        <aside class="hidden lg:flex flex-col w-[280px] bg-white/50 backdrop-blur-md border-r border-white/60 h-full overflow-y-auto custom-scroll flex-shrink-0">
+            <div class="p-4 flex flex-col space-y-1">
+                
+                <!-- Sidebar Nav Helper -->
+                <p class="text-[10px] font-bold text-gulf-muted uppercase tracking-wider mb-2 pl-2">GoGulf Ecosystem</p>
+
+                <!-- Universal Create Button (Desktop) -->
+                <button onclick="toggleCreateModal()" class="w-full mb-4 bg-gradient-to-r from-gulf-emerald to-gulf-emerald-light hover:shadow-card hover:-translate-y-0.5 text-white font-bold py-2.5 px-4 rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center space-x-2 active:scale-95 group relative overflow-hidden">
+                    <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                    <i data-lucide="plus" class="w-5 h-5 relative z-10"></i>
+                    <span class="relative z-10">Create</span>
+                </button>
+
+                <a href="#" onclick="showHome(); return false;" id="nav-home" class="flex items-center px-3 py-2 bg-white shadow-sm rounded-lg text-gulf-blue font-semibold mb-2 transition-all">
+                    <i data-lucide="home" class="w-4 h-4 mr-3"></i> Home Feed
+                </a>
+                <a href="#" onclick="showDiscover(); return false;" id="nav-discover" class="flex items-center px-3 py-2 text-gulf-text hover:bg-white/80 rounded-lg transition-all">
+                    <i data-lucide="compass" class="w-4 h-4 mr-3 text-gulf-muted"></i> Explore Everything
+                </a>
+                <a href="#" onclick="toggleShortsModal(); return false;" class="flex items-center px-3 py-2 text-gulf-text hover:bg-white/80 rounded-lg transition-colors group">
+                    <i data-lucide="play-square" class="w-4 h-4 mr-3 text-rose-500 group-hover:scale-110 transition-transform"></i> Watch Shorts
+                </a>
+
+                <!-- Huge Accordion Menu System -->
+                <div class="mt-4 space-y-1">
+                    
+                    <!-- Jobs -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="briefcase" class="w-4 h-4 mr-3 text-gulf-emerald"></i> Jobs & Careers</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Find Jobs</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Skilled Jobs</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Executive Jobs</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">My Applications</a>
+                        </div>
+                    </details>
+
+                    <!-- Employers & Recruiters -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="building-2" class="w-4 h-4 mr-3 text-gulf-navy"></i> Hiring Network</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Discover Employers</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Recruitment Agencies (RAs)</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Career Consultants</a>
+                        </div>
+                    </details>
+
+                    <!-- Education -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="graduation-cap" class="w-4 h-4 mr-3 text-gulf-blue"></i> Education & Skills</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Find Courses</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Scholarships</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Universities</a>
+                        </div>
+                    </details>
+
+                    <!-- Visas & Documents -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="passport" class="w-4 h-4 mr-3 text-violet-600"></i> Visas & Docs</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Visa Finder</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Work Permits</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Document Vault</a>
+                        </div>
+                    </details>
+
+                    <!-- Travel & Mobility -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="plane-takeoff" class="w-4 h-4 mr-3 text-gulf-cyan"></i> Travel & Tours</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Flights & Hotels</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Mobility & Transfers</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Explore Tours</a>
+                        </div>
+                    </details>
+
+                    <!-- Hajj & Umrah -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="moon-star" class="w-4 h-4 mr-3 text-gulf-gold"></i> Hajj & Umrah</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Umrah Packages</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Hajj Official Info</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Ziyarat Guides</a>
+                        </div>
+                    </details>
+
+                    <!-- Marketplace & Living -->
+                    <details class="group">
+                        <summary class="flex items-center justify-between px-3 py-2 cursor-pointer text-gulf-text hover:bg-white/60 rounded-lg">
+                            <div class="flex items-center font-medium"><i data-lucide="shopping-bag" class="w-4 h-4 mr-3 text-rose-500"></i> Souq & Settlement</div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="pl-10 pr-2 py-1 flex flex-col space-y-1 border-l-2 border-gulf-green-bg ml-5">
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Marketplace</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Accommodation / Stay</a>
+                            <a href="#" class="text-xs text-gulf-muted hover:text-gulf-navy py-1.5">Newcomer's Centre</a>
+                        </div>
+                    </details>
+                    
+                    <div class="h-px bg-gray-200/50 my-4"></div>
+
+                    <!-- Tools & AI -->
+                    <a href="#" class="flex items-center px-3 py-2 text-gulf-text hover:bg-white/80 rounded-lg transition-colors">
+                        <i data-lucide="wrench" class="w-4 h-4 mr-3 text-gulf-muted"></i> Tools & Guides
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gulf-text hover:bg-white/80 rounded-lg transition-colors">
+                        <i data-lucide="newspaper" class="w-4 h-4 mr-3 text-gulf-muted"></i> News & Community
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gulf-text hover:bg-white/80 rounded-lg transition-colors">
+                        <i data-lucide="map" class="w-4 h-4 mr-3 text-gulf-muted"></i> GoGulf Centres
+                    </a>
+                    <a href="#" class="flex items-center px-3 py-2 bg-gradient-to-r from-gulf-navy to-[#1a2f4c] text-white rounded-lg shadow-sm group">
+                        <i data-lucide="star" class="w-4 h-4 mr-3 text-gulf-gold group-hover:scale-110 transition-transform"></i> GoGulf Premium
+                    </a>
+                </div>
+                
+                <div class="mt-8 pb-8 text-center text-xs text-gulf-muted">
+                    <p>© 2026 GoGulf.online</p>
+                    <div class="flex justify-center space-x-2 mt-2">
+                        <a href="#" class="hover:text-gulf-navy">Privacy</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-gulf-navy">Terms</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-gulf-navy">Help</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ZONE 2: MAIN SOCIAL / WORKSPACE (Center) -->
+        <section class="flex-1 overflow-y-auto custom-scroll relative" id="main-scroll-area">
+            
+            <!-- ================= HOME FEED VIEW ================= -->
+            <div id="home-view" class="max-w-[700px] mx-auto w-full pb-24 pt-4 md:pt-8 px-4 transition-opacity duration-300">
+                
+                <!-- Stories / Shorts Ring -->
+                <div class="mb-8">
+                    <h2 class="text-sm font-semibold text-gulf-navy mb-3 px-1">Ecosystem Highlights</h2>
+                    <div class="flex space-x-3 overflow-x-auto hide-scrollbar pb-2">
+                        
+                        <!-- Add Story (User) -->
+                        <div class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0">
+                            <div class="w-16 h-16 rounded-full bg-white border-2 border-dashed border-gray-300 flex items-center justify-center relative hover:bg-gray-50 transition-colors">
+                                <i data-lucide="plus" class="w-6 h-6 text-gulf-muted"></i>
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq" class="absolute inset-0 w-full h-full rounded-full opacity-30 object-cover">
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-muted">Your Story</span>
+                        </div>
+                        
+                        <!-- Jobs (Emerald Gradient) -->
+                        <div onclick="toggleShortsModal()" class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-gulf-emerald to-gulf-emerald-light p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white flex items-center justify-center relative">
+                                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=100&q=80" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                    <div class="absolute inset-0 bg-black/20"></div>
+                                    <i data-lucide="briefcase" class="w-5 h-5 text-white relative z-10 drop-shadow-md"></i>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Jobs</span>
+                        </div>
+
+                        <!-- Saudi (Deep Green) -->
+                        <div onclick="toggleShortsModal()" class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-[#046A38] to-[#1E3A2D] p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white relative">
+                                    <img src="https://images.unsplash.com/photo-1588714477688-662eb74f38eb?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Saudi</span>
+                        </div>
+
+                        <!-- Dubai (Electric Blue) -->
+                        <div onclick="toggleShortsModal()" class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-gulf-blue to-gulf-cyan p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white relative">
+                                    <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Dubai</span>
+                        </div>
+
+                        <!-- Travel (Cyan) -->
+                        <div onclick="toggleShortsModal()" class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-400 to-teal-300 p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white flex items-center justify-center relative">
+                                    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=100&q=80" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                    <div class="absolute inset-0 bg-black/20"></div>
+                                    <i data-lucide="plane-takeoff" class="w-5 h-5 text-white relative z-10 drop-shadow-md"></i>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Travel</span>
+                        </div>
+
+                        <!-- Tours (Sunset/Magenta) -->
+                        <div class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-rose-500 to-orange-400 p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white relative">
+                                    <img src="https://images.unsplash.com/photo-1542640244-7e672d62082b?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Tours</span>
+                        </div>
+
+                        <!-- Umrah (Gold) -->
+                        <div class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-gulf-gold to-yellow-300 p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white relative">
+                                    <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Umrah</span>
+                        </div>
+
+                        <!-- Hajj (Gold/Navy) -->
+                        <div class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-gulf-navy to-gulf-gold p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white flex items-center justify-center relative">
+                                    <img src="https://images.unsplash.com/photo-1565552643952-25e40e69cb45?auto=format&fit=crop&w=100&q=80" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Hajj</span>
+                        </div>
+
+                        <!-- Education (Violet/Navy) -->
+                        <div class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-400 p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white flex items-center justify-center relative">
+                                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=100&q=80" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                    <div class="absolute inset-0 bg-violet-900/30"></div>
+                                    <i data-lucide="graduation-cap" class="w-5 h-5 text-white relative z-10 drop-shadow-md"></i>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Education</span>
+                        </div>
+
+                        <!-- Community (Teal) -->
+                        <div class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-400 p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white flex items-center justify-center relative">
+                                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=100&q=80" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                    <div class="absolute inset-0 bg-teal-900/30"></div>
+                                    <i data-lucide="users" class="w-5 h-5 text-white relative z-10 drop-shadow-md"></i>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Community</span>
+                        </div>
+
+                        <!-- Employers (Brand) -->
+                        <div class="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0 group">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-gray-800 to-gray-500 p-[2px]">
+                                <div class="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white flex items-center justify-center relative">
+                                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=100&q=80" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                    <div class="absolute inset-0 bg-black/40"></div>
+                                    <i data-lucide="building-2" class="w-5 h-5 text-white relative z-10 drop-shadow-md"></i>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-medium text-gulf-navy">Employers</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- AI Global Search / Action Bar -->
+                <div class="w-full bg-white rounded-card-hero p-2 shadow-card flex items-center mb-6 border border-white relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite]"></div>
+                    <div class="w-12 h-12 rounded-2xl bg-gulf-green-bg flex items-center justify-center text-gulf-navy flex-shrink-0 z-10">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-gulf-blue"></i>
+                    </div>
+                    <div class="flex-grow px-4 relative z-10">
+                        <p class="text-sm text-gulf-muted">Ask AK GLORA: <span id="ai-typewriter" class="text-gulf-navy font-medium typewriter">Search jobs in Riyadh...</span></p>
+                    </div>
+                    <button class="px-5 py-2.5 ai-gradient-bg text-white font-semibold rounded-xl text-sm transition-transform active:scale-95 flex-shrink-0 shadow-sm z-10">
+                        Explore
+                    </button>
+                </div>
+
+                <!-- Feed Filters -->
+                <div class="flex items-center space-x-2 mb-6 overflow-x-auto hide-scrollbar pb-1">
+                    <button class="px-4 py-1.5 bg-gulf-navy text-white rounded-pill text-xs font-semibold whitespace-nowrap">Opportunity Stream</button>
+                    <button class="px-4 py-1.5 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 transition-colors whitespace-nowrap">Marketplace</button>
+                    <button class="px-4 py-1.5 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 transition-colors whitespace-nowrap">Community</button>
+                </div>
+
+                <!-- Stream Cards -->
+                <div class="flex flex-col space-y-6">
+                    
+                    <!-- Post 1: Social-First Job Opportunity -->
+                    <article class="bg-white rounded-card-lg shadow-card border border-white card-hover-effect overflow-hidden">
+                        <!-- Post Header -->
+                        <div class="p-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-3 cursor-pointer">
+                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=AE&backgroundColor=0A192F" class="w-11 h-11 rounded-full border border-gray-100 shadow-sm">
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-gulf-navy flex items-center text-sm">
+                                        Aramco Enterprise <i data-lucide="badge-check" class="w-4 h-4 text-gulf-blue ml-1.5"></i>
+                                    </span>
+                                    <span class="text-[11px] text-gulf-muted flex items-center mt-0.5">
+                                        <i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> Dhahran, KSA • 2h ago
+                                    </span>
+                                </div>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy p-1 rounded-full hover:bg-gray-50 transition-colors"><i data-lucide="more-horizontal" class="w-5 h-5"></i></button>
+                        </div>
+                        
+                        <!-- Post Content -->
+                        <div class="px-4 pb-3">
+                            <p class="text-sm text-gulf-text leading-relaxed">
+                                We are expanding our operations! Looking for visionary engineers to lead offshore operations and implement new AI-driven extraction methodologies. Join us in shaping the future of energy. 🛢️⚡
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <a href="#" class="text-gulf-blue text-xs font-medium hover:underline">#EngineeringJobs</a>
+                                <a href="#" class="text-gulf-blue text-xs font-medium hover:underline">#SaudiVision2030</a>
+                                <a href="#" class="text-gulf-blue text-xs font-medium hover:underline">#Hiring</a>
+                            </div>
+                        </div>
+
+                        <!-- Large Visual & Metadata -->
+                        <div class="relative w-full h-64 bg-gray-100 border-y border-gray-50 group cursor-pointer overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1577720580479-7d839d829c73?auto=format&fit=crop&w=1200&q=80" alt="Offshore Rig" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <!-- Job Metadata Overlay -->
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gulf-navy/90 via-gulf-navy/60 to-transparent p-4 pt-12">
+                                <div class="flex justify-between items-end">
+                                    <div>
+                                        <span class="bg-gulf-blue text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wide mb-2 inline-block shadow-sm">Hiring Now</span>
+                                        <h3 class="text-white font-bold text-lg leading-tight">Senior Petroleum Engineer</h3>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-gulf-gold font-bold text-base block shadow-sm">SAR 45k - 60k</span>
+                                        <span class="text-gray-300 text-[10px]">Full-Time</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Bar -->
+                        <div class="px-4 py-3 bg-white flex items-center justify-between border-b border-gray-50">
+                            <div class="flex items-center space-x-5">
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-red-500 transition-colors group">
+                                    <i data-lucide="heart" class="w-5 h-5 group-hover:fill-red-500"></i>
+                                    <span class="text-xs font-semibold">2.4K</span>
+                                </button>
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-gulf-blue transition-colors group">
+                                    <i data-lucide="message-circle" class="w-5 h-5 group-hover:fill-gulf-blue"></i>
+                                    <span class="text-xs font-semibold">142</span>
+                                </button>
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-gulf-emerald transition-colors group">
+                                    <i data-lucide="send" class="w-5 h-5"></i>
+                                    <span class="text-xs font-semibold">312</span>
+                                </button>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy transition-colors">
+                                <i data-lucide="bookmark" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Call to Action -->
+                        <div class="p-3 bg-gray-50/50 flex justify-end">
+                            <button onclick="showJobDetail()" class="bg-gulf-navy hover:bg-black text-white px-5 py-2 rounded-xl text-sm font-semibold transition-colors shadow-sm flex items-center space-x-2 w-full md:w-auto justify-center">
+                                <span>View & Apply</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Post 2: Social-First Service/Marketplace (Umrah) -->
+                    <article class="bg-white rounded-card-lg shadow-card border border-white card-hover-effect overflow-hidden">
+                        <!-- Post Header -->
+                        <div class="p-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-3 cursor-pointer">
+                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=AH&backgroundColor=046A38" class="w-11 h-11 rounded-full border border-gray-100 shadow-sm">
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-gulf-navy flex items-center text-sm">
+                                        Al-Haram Travels <i data-lucide="badge-check" class="w-4 h-4 text-gulf-emerald ml-1.5"></i>
+                                    </span>
+                                    <span class="text-[11px] text-gulf-muted flex items-center mt-0.5">
+                                        <i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> Mecca, KSA • 5h ago
+                                    </span>
+                                </div>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy p-1 rounded-full hover:bg-gray-50 transition-colors"><i data-lucide="more-horizontal" class="w-5 h-5"></i></button>
+                        </div>
+                        
+                        <!-- Post Content -->
+                        <div class="px-4 pb-3">
+                            <p class="text-sm text-gulf-text leading-relaxed">
+                                Experience the serenity of the Holy Month with our meticulously planned VIP packages. 5-star stays facing the Haram, luxury transfers, and dedicated guides. Limited spots remain! 🕋✨
+                            </p>
+                        </div>
+
+                        <!-- Large Visual & Metadata -->
+                        <div class="relative w-full h-[280px] bg-gray-100 border-y border-gray-50 group cursor-pointer overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1200&q=80" alt="Kaaba" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            
+                            <!-- Floating Badge -->
+                            <div class="absolute top-4 left-4 bg-white/95 backdrop-blur px-3 py-1.5 rounded-pill shadow-md flex items-center space-x-1">
+                                <i data-lucide="star" class="w-4 h-4 text-gulf-gold fill-current"></i>
+                                <span class="text-xs font-bold text-gulf-navy">4.9 / 5.0 (200+ Reviews)</span>
+                            </div>
+
+                            <!-- Tour Metadata Overlay -->
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 pt-16">
+                                <h3 class="text-white font-bold text-lg leading-tight mb-2">Premium VIP Umrah Package - Ramadan</h3>
+                                <div class="flex flex-wrap gap-2 mb-1">
+                                    <span class="flex items-center text-[10px] text-white/90 bg-white/20 backdrop-blur px-2 py-1 rounded border border-white/10"><i data-lucide="hotel" class="w-3 h-3 mr-1 text-gulf-butter"></i> 5-Star Hotel</span>
+                                    <span class="flex items-center text-[10px] text-white/90 bg-white/20 backdrop-blur px-2 py-1 rounded border border-white/10"><i data-lucide="bus" class="w-3 h-3 mr-1 text-gulf-butter"></i> VIP Transport</span>
+                                    <span class="flex items-center text-[10px] text-white/90 bg-white/20 backdrop-blur px-2 py-1 rounded border border-white/10"><i data-lucide="file-check" class="w-3 h-3 mr-1 text-gulf-butter"></i> E-Visa Included</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Bar -->
+                        <div class="px-4 py-3 bg-white flex items-center justify-between border-b border-gray-50">
+                            <div class="flex items-center space-x-5">
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-red-500 transition-colors group">
+                                    <i data-lucide="heart" class="w-5 h-5 group-hover:fill-red-500"></i>
+                                    <span class="text-xs font-semibold">5.1K</span>
+                                </button>
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-gulf-blue transition-colors group">
+                                    <i data-lucide="message-circle" class="w-5 h-5 group-hover:fill-gulf-blue"></i>
+                                    <span class="text-xs font-semibold">840</span>
+                                </button>
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-gulf-emerald transition-colors group">
+                                    <i data-lucide="send" class="w-5 h-5"></i>
+                                    <span class="text-xs font-semibold">1.2K</span>
+                                </button>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy transition-colors">
+                                <i data-lucide="bookmark" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Call to Action -->
+                        <div class="p-3 bg-gray-50/50 flex items-center justify-between">
+                            <span class="text-lg font-extrabold text-gulf-emerald px-2">SAR 4,500</span>
+                            <button class="bg-gradient-to-r from-gulf-emerald to-gulf-emerald-light hover:shadow-md hover:-translate-y-0.5 text-white px-6 py-2 rounded-xl text-sm font-semibold transition-all flex items-center space-x-2 w-full md:w-auto justify-center">
+                                <i data-lucide="calendar-days" class="w-4 h-4"></i> <span>Book Package</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Post 3: News / Community Post -->
+                    <article class="bg-white rounded-card-lg shadow-card border border-white card-hover-effect overflow-hidden">
+                        <!-- Post Header -->
+                        <div class="p-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-3 cursor-pointer">
+                                <img src="https://api.dicebear.com/7.x/initials/svg?seed=NM&backgroundColor=00E5FF" class="w-11 h-11 rounded-full border border-gray-100 shadow-sm">
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-gulf-navy flex items-center text-sm">
+                                        NEOM <i data-lucide="badge-check" class="w-4 h-4 text-gulf-cyan ml-1.5"></i>
+                                    </span>
+                                    <span class="text-[11px] text-gulf-muted flex items-center mt-0.5">
+                                        <i data-lucide="map-pin" class="w-3 h-3 mr-1"></i> Tabuk, KSA • 1d ago
+                                    </span>
+                                </div>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy p-1 rounded-full hover:bg-gray-50 transition-colors"><i data-lucide="more-horizontal" class="w-5 h-5"></i></button>
+                        </div>
+                        
+                        <!-- Post Content -->
+                        <div class="px-4 pb-3">
+                            <p class="text-sm text-gulf-text leading-relaxed">
+                                The future is taking shape. Progress at THE LINE continues as we build a cognitive city that puts humans first. Discover how we are redefining urban living. 🌍🏙️
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <a href="#" class="text-gulf-blue text-xs font-medium hover:underline">#NEOM</a>
+                                <a href="#" class="text-gulf-blue text-xs font-medium hover:underline">#TheLine</a>
+                                <a href="#" class="text-gulf-blue text-xs font-medium hover:underline">#Future</a>
+                            </div>
+                        </div>
+
+                        <!-- Large Visual -->
+                        <div class="relative w-full h-72 bg-gray-100 border-y border-gray-50 group cursor-pointer overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80" alt="Futuristic City" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        </div>
+
+                        <!-- Action Bar -->
+                        <div class="px-4 py-3 bg-white flex items-center justify-between border-b border-gray-50">
+                            <div class="flex items-center space-x-5">
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-red-500 transition-colors group">
+                                    <i data-lucide="heart" class="w-5 h-5 group-hover:fill-red-500"></i>
+                                    <span class="text-xs font-semibold">12K</span>
+                                </button>
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-gulf-blue transition-colors group">
+                                    <i data-lucide="message-circle" class="w-5 h-5 group-hover:fill-gulf-blue"></i>
+                                    <span class="text-xs font-semibold">3.2K</span>
+                                </button>
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-gulf-emerald transition-colors group">
+                                    <i data-lucide="send" class="w-5 h-5"></i>
+                                    <span class="text-xs font-semibold">5.4K</span>
+                                </button>
+                            </div>
+                            <button class="text-gulf-muted hover:text-gulf-navy transition-colors">
+                                <i data-lucide="bookmark" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Call to Action -->
+                        <div class="p-3 bg-gray-50/50 flex justify-end">
+                            <button class="text-gulf-navy hover:text-gulf-blue px-4 py-2 rounded-xl text-sm font-semibold transition-colors flex items-center space-x-2">
+                                <span>Read More</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+
+            <!-- ================= DISCOVER GRID VIEW ================= -->
+            <div id="discover-view" class="hidden max-w-[1000px] mx-auto w-full pb-24 pt-4 md:pt-6 px-4 transition-opacity duration-300 opacity-0">
+                
+                <!-- Discover Header & Search -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-extrabold text-gulf-navy mb-2">Explore the Gulf</h1>
+                    <p class="text-sm text-gulf-muted">Discover trending jobs, breathtaking tours, top universities, and viral shorts.</p>
+                </div>
+
+                <!-- Discover Tabs (Sticky) -->
+                <div class="flex items-center space-x-3 overflow-x-auto hide-scrollbar pb-3 mb-4 sticky top-0 bg-[#E6F0EA]/95 backdrop-blur-xl z-30 pt-2 -mx-4 px-4">
+                    <button class="px-5 py-2 bg-gulf-navy text-white rounded-pill text-xs font-bold whitespace-nowrap shadow-md">For You</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap">Jobs</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap">Travel</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap">Education</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap">Tours</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap">Umrah</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap">Hajj</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap">Services</button>
+                    <button class="px-4 py-2 bg-white text-gulf-muted border border-gray-200 rounded-pill text-xs font-semibold hover:bg-gray-50 hover:text-gulf-navy transition-colors whitespace-nowrap">News</button>
+                </div>
+
+                <!-- Visual Discovery Grid (Masonry-style CSS Grid) -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-[160px]">
+                    
+                    <!-- 1. Vertical Reel / Short (Spans 2 rows) -->
+                    <div onclick="toggleShortsModal()" class="row-span-2 col-span-1 relative rounded-2xl overflow-hidden cursor-pointer group shadow-sm card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1542640244-7e672d62082b?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-3">
+                            <div class="flex items-center space-x-1.5 mb-1.5">
+                                <i data-lucide="play-circle" class="w-4 h-4 text-white"></i>
+                                <span class="text-white text-[11px] font-bold">2.4M</span>
+                            </div>
+                            <p class="text-white text-xs font-bold leading-tight line-clamp-2">Dubai Marina hidden gems you must visit 🇦🇪✨</p>
+                        </div>
+                        <i data-lucide="video" class="absolute top-3 right-3 w-4 h-4 text-white drop-shadow-md"></i>
+                    </div>
+
+                    <!-- 2. Job Listing Card -->
+                    <div class="col-span-1 row-span-1 bg-white rounded-2xl p-4 shadow-sm card-hover-effect border border-gray-100 flex flex-col justify-between cursor-pointer group">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="w-10 h-10 rounded-xl bg-gulf-emerald/10 flex items-center justify-center"><i data-lucide="briefcase" class="w-5 h-5 text-gulf-emerald"></i></div>
+                                <span class="text-[9px] font-bold text-white bg-gulf-blue px-2 py-1 rounded-md uppercase tracking-wide">Hiring</span>
+                            </div>
+                            <h3 class="font-bold text-gulf-navy text-sm leading-tight mb-1 group-hover:text-gulf-blue transition-colors">Senior Software Engineer</h3>
+                            <p class="text-[10px] text-gulf-muted">TechCorp • Riyadh, KSA</p>
+                        </div>
+                        <div class="text-xs font-extrabold text-gulf-emerald mt-2">SAR 25k - 35k</div>
+                    </div>
+
+                    <!-- 3. Square Photo Post -->
+                    <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden cursor-pointer group shadow-sm card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <i data-lucide="image" class="absolute top-3 right-3 w-4 h-4 text-white drop-shadow-md"></i>
+                        <div class="absolute bottom-3 left-3 flex items-center space-x-2">
+                            <img src="https://api.dicebear.com/7.x/initials/svg?seed=AE&backgroundColor=0A192F" class="w-6 h-6 rounded-full border border-white">
+                            <span class="text-white text-[10px] font-semibold drop-shadow-md">Aramco</span>
+                        </div>
+                    </div>
+
+                    <!-- 4. Large Promo / Featured Card (Spans 2 cols, 2 rows) -->
+                    <div class="col-span-2 row-span-2 relative rounded-2xl overflow-hidden cursor-pointer group shadow-sm card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-white/95 backdrop-blur px-3 py-1.5 rounded-pill shadow-md flex items-center space-x-1">
+                            <i data-lucide="moon-star" class="w-4 h-4 text-gulf-gold"></i>
+                            <span class="text-xs font-bold text-gulf-navy">Premium Umrah</span>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-5">
+                            <h3 class="text-white font-extrabold text-xl md:text-2xl mb-1">Ramadan VIP Packages 2026</h3>
+                            <p class="text-white/80 text-sm mb-3">Experience the Holy Month with unparalleled comfort. 5-Star facing the Haram.</p>
+                            <button class="bg-gulf-gold hover:bg-yellow-400 text-gulf-navy font-bold py-2 px-4 rounded-lg w-fit text-xs transition-colors">Book Now</button>
+                        </div>
+                    </div>
+
+                    <!-- 5. Standard Short (Spans 2 rows) -->
+                    <div onclick="toggleShortsModal()" class="row-span-2 col-span-1 relative rounded-2xl overflow-hidden cursor-pointer group shadow-sm card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-3">
+                            <div class="flex items-center space-x-1.5 mb-1.5">
+                                <i data-lucide="play-circle" class="w-4 h-4 text-white"></i>
+                                <span class="text-white text-[11px] font-bold">850K</span>
+                            </div>
+                            <p class="text-white text-xs font-bold leading-tight line-clamp-2">Moving to Dubai? Here's what you need to know 🌴</p>
+                        </div>
+                    </div>
+
+                    <!-- 6. Education / Course Card -->
+                    <div class="col-span-1 row-span-1 bg-gulf-navy rounded-2xl p-4 shadow-sm card-hover-effect flex flex-col justify-between cursor-pointer group relative overflow-hidden">
+                        <div class="absolute -right-6 -top-6 w-24 h-24 bg-gulf-blue rounded-full blur-2xl opacity-40"></div>
+                        <div class="relative z-10">
+                            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center mb-2"><i data-lucide="graduation-cap" class="w-4 h-4 text-white"></i></div>
+                            <h3 class="font-bold text-white text-sm leading-tight mb-1">Master's in AI</h3>
+                            <p class="text-[10px] text-gray-400">King Abdullah University</p>
+                        </div>
+                        <div class="relative z-10 flex items-center text-[10px] text-gulf-cyan font-bold mt-2">
+                            <span>View Program</span> <i data-lucide="chevron-right" class="w-3 h-3 ml-0.5"></i>
+                        </div>
+                    </div>
+
+                    <!-- 7. Small Service Card -->
+                    <div class="col-span-1 row-span-1 bg-white rounded-2xl p-4 shadow-sm card-hover-effect border border-gray-100 flex flex-col justify-center items-center text-center cursor-pointer group">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <i data-lucide="file-check-2" class="w-6 h-6 text-blue-500"></i>
+                        </div>
+                        <h3 class="font-bold text-gulf-navy text-xs">Visa Assist</h3>
+                        <p class="text-[9px] text-gulf-muted mt-0.5">Fast-track processing</p>
+                    </div>
+
+                    <!-- 8. Square Photo Post -->
+                    <div class="col-span-1 row-span-1 relative rounded-2xl overflow-hidden cursor-pointer group shadow-sm card-hover-effect hidden md:block">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <i data-lucide="users" class="absolute top-3 right-3 w-4 h-4 text-white drop-shadow-md"></i>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ================= END DISCOVER GRID ================= -->
+
+            <!-- ================= JOB DETAIL VIEW ================= -->
+            <div id="job-detail-view" class="hidden max-w-[900px] mx-auto w-full pb-24 pt-4 md:pt-6 px-4 transition-opacity duration-300 opacity-0">
+                
+                <!-- Back Navigation -->
+                <button onclick="showHome()" class="flex items-center text-gulf-muted hover:text-gulf-navy font-semibold text-xs mb-4 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4 mr-1.5"></i> Back to Stream
+                </button>
+
+                <!-- Main Job Card Container -->
+                <div class="bg-white rounded-card-hero shadow-card border border-white overflow-hidden mb-6">
+                    
+                    <!-- Cover & Identity -->
+                    <div class="relative w-full h-40 md:h-56 bg-gulf-navy overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1577720580479-7d839d829c73?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover opacity-60">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        
+                        <!-- Top Badges -->
+                        <div class="absolute top-4 left-4 flex space-x-2">
+                            <span class="bg-gulf-blue text-white text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wide shadow-sm flex items-center">
+                                <i data-lucide="flame" class="w-3 h-3 mr-1"></i> Hot Job
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Header Content -->
+                    <div class="px-6 relative -mt-12 mb-6">
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            <!-- Employer Logo & Title -->
+                            <div class="flex items-end space-x-4">
+                                <div class="w-24 h-24 rounded-2xl bg-white p-1.5 shadow-md border-2 border-white relative z-10">
+                                    <div class="w-full h-full rounded-xl bg-gulf-navy flex items-center justify-center overflow-hidden">
+                                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=AE&backgroundColor=0A192F" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm">
+                                        <i data-lucide="badge-check" class="w-5 h-5 text-gulf-blue fill-current"></i>
+                                    </div>
+                                </div>
+                                <div class="pb-1">
+                                    <h1 class="text-xl md:text-2xl font-extrabold text-gulf-navy leading-tight">Senior Petroleum Engineer</h1>
+                                    <div class="flex items-center text-sm font-medium text-gulf-muted mt-1">
+                                        <a href="#" class="hover:text-gulf-blue transition-colors">Aramco Enterprise</a>
+                                        <span class="mx-2">•</span>
+                                        <span class="flex items-center"><i data-lucide="map-pin" class="w-3.5 h-3.5 mr-1"></i> Dhahran, KSA</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Primary Desktop Actions -->
+                            <div class="hidden md:flex items-center space-x-3 pb-1">
+                                <button class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gulf-muted hover:text-red-500 hover:bg-red-50 transition-colors border border-gray-100">
+                                    <i data-lucide="heart" class="w-5 h-5"></i>
+                                </button>
+                                <button class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gulf-muted hover:text-gulf-navy hover:bg-gray-200 transition-colors border border-gray-100">
+                                    <i data-lucide="share-2" class="w-5 h-5"></i>
+                                </button>
+                                <button class="bg-gradient-to-r from-gulf-emerald to-gulf-emerald-light hover:shadow-card hover:-translate-y-0.5 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center space-x-2">
+                                    <i data-lucide="zap" class="w-4 h-4"></i> <span>Apply Now</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics Bar -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-gray-100 border-y border-gray-100">
+                        <div class="bg-white p-4 flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-gulf-emerald/10 flex items-center justify-center text-gulf-emerald flex-shrink-0"><i data-lucide="wallet" class="w-5 h-5"></i></div>
+                            <div>
+                                <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Salary</p>
+                                <p class="text-sm font-extrabold text-gulf-navy">SAR 45k - 60k <span class="text-[10px] font-normal text-gulf-muted">/mo</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-gulf-blue/10 flex items-center justify-center text-gulf-blue flex-shrink-0"><i data-lucide="briefcase" class="w-5 h-5"></i></div>
+                            <div>
+                                <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Job Type</p>
+                                <p class="text-sm font-extrabold text-gulf-navy">Full-Time, On-site</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-violet-50 flex items-center justify-center text-violet-600 flex-shrink-0"><i data-lucide="graduation-cap" class="w-5 h-5"></i></div>
+                            <div>
+                                <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Experience</p>
+                                <p class="text-sm font-extrabold text-gulf-navy">8+ Years</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 flex-shrink-0"><i data-lucide="timer" class="w-5 h-5"></i></div>
+                            <div>
+                                <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Posted</p>
+                                <p class="text-sm font-extrabold text-gulf-navy">2 Hours Ago</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Grid Content -->
+                    <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        
+                        <!-- Left Column: Job Description & Details -->
+                        <div class="md:col-span-2 space-y-8">
+                            
+                            <!-- Description -->
+                            <section>
+                                <h3 class="text-base font-extrabold text-gulf-navy mb-3 flex items-center">
+                                    <i data-lucide="align-left" class="w-4 h-4 mr-2 text-gulf-muted"></i> About the Role
+                                </h3>
+                                <div class="text-sm text-gulf-text leading-relaxed space-y-3">
+                                    <p>We are expanding our offshore operations and are looking for visionary petroleum engineers to lead extraction methodologies and implement AI-driven well optimization. You will join a world-class team dedicated to shaping the future of sustainable energy in the Kingdom.</p>
+                                    <p>The successful candidate will oversee day-to-day reservoir management, coordinate with drilling operations, and spearhead the implementation of our new 'Digital Oilfield' initiative in alignment with Saudi Vision 2030.</p>
+                                </div>
+                            </section>
+
+                            <!-- Requirements -->
+                            <section>
+                                <h3 class="text-base font-extrabold text-gulf-navy mb-3 flex items-center">
+                                    <i data-lucide="check-square" class="w-4 h-4 mr-2 text-gulf-muted"></i> Requirements
+                                </h3>
+                                <ul class="space-y-2 text-sm text-gulf-text">
+                                    <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-gulf-emerald mr-2 mt-0.5 flex-shrink-0"></i> Bachelor’s or Master’s degree in Petroleum Engineering.</li>
+                                    <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-gulf-emerald mr-2 mt-0.5 flex-shrink-0"></i> Minimum of 8 years of experience in reservoir engineering and offshore drilling.</li>
+                                    <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-gulf-emerald mr-2 mt-0.5 flex-shrink-0"></i> Proficiency in reservoir simulation software (Eclipse, Petrel).</li>
+                                    <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-gulf-emerald mr-2 mt-0.5 flex-shrink-0"></i> Strong leadership skills and ability to manage cross-cultural teams.</li>
+                                </ul>
+                            </section>
+
+                            <!-- Skills Tags -->
+                            <section>
+                                <h3 class="text-base font-extrabold text-gulf-navy mb-3 flex items-center">
+                                    <i data-lucide="sparkles" class="w-4 h-4 mr-2 text-gulf-muted"></i> Required Skills
+                                </h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold text-gulf-navy">Reservoir Engineering</span>
+                                    <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold text-gulf-navy">Offshore Drilling</span>
+                                    <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold text-gulf-navy">Petrel</span>
+                                    <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold text-gulf-navy">Project Management</span>
+                                    <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold text-gulf-navy">AI Implementation</span>
+                                </div>
+                            </section>
+
+                        </div>
+
+                        <!-- Right Column: Gulf Mobility Context & Employer -->
+                        <div class="space-y-6">
+                            
+                            <!-- GoGulf Exclusive: Mobility & Settlement -->
+                            <div class="bg-gulf-green-bg/50 border border-[#cce3d5] rounded-xl p-5 relative overflow-hidden">
+                                <div class="absolute -right-4 -top-4 w-16 h-16 bg-gulf-emerald/10 rounded-full blur-xl"></div>
+                                <h3 class="text-sm font-extrabold text-gulf-emerald mb-4 flex items-center">
+                                    <i data-lucide="plane-takeoff" class="w-4 h-4 mr-2"></i> Mobility & Relocation
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gulf-navy shadow-sm flex-shrink-0"><i data-lucide="file-check-2" class="w-4 h-4"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-gulf-navy">Visa Sponsorship</p>
+                                            <p class="text-[11px] text-gulf-muted">Fully sponsored Iqama for applicant and family.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gulf-navy shadow-sm flex-shrink-0"><i data-lucide="home" class="w-4 h-4"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-gulf-navy">Accommodation</p>
+                                            <p class="text-[11px] text-gulf-muted">Provided in premium secure executive compound.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gulf-navy shadow-sm flex-shrink-0"><i data-lucide="plane" class="w-4 h-4"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-gulf-navy">Annual Flights</p>
+                                            <p class="text-[11px] text-gulf-muted">Business class tickets home for family included.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gulf-navy shadow-sm flex-shrink-0"><i data-lucide="heart-pulse" class="w-4 h-4"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-gulf-navy">Medical</p>
+                                            <p class="text-[11px] text-gulf-muted">Class A VIP Health Insurance.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- About Employer -->
+                            <div class="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                                <h3 class="text-xs font-bold text-gulf-muted uppercase tracking-wider mb-3">About The Employer</h3>
+                                <div class="flex items-center space-x-3 mb-3">
+                                    <img src="https://api.dicebear.com/7.x/initials/svg?seed=AE&backgroundColor=0A192F" class="w-10 h-10 rounded-lg shadow-sm border border-gray-200">
+                                    <div>
+                                        <p class="text-sm font-bold text-gulf-navy">Aramco Enterprise</p>
+                                        <p class="text-[10px] text-gulf-muted">Energy & Mining • 10k+ Employees</p>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gulf-text leading-relaxed mb-4">Aramco is a global integrated energy and chemicals company. We are driven by the core belief that energy is opportunity.</p>
+                                <button onclick="showEmployerProfile()" class="w-full py-2 bg-white border border-gray-200 hover:bg-gray-100 rounded-lg text-xs font-semibold text-gulf-navy transition-colors">View Company Profile</button>
+                            </div>
+
+                            <!-- AI Assistant Context -->
+                            <button class="w-full p-4 ai-gradient-bg rounded-xl shadow-md group relative overflow-hidden flex items-center justify-between transition-transform active:scale-95">
+                                <div class="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                                <div class="flex items-center space-x-3 relative z-10">
+                                    <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center"><i data-lucide="sparkles" class="w-5 h-5 text-white"></i></div>
+                                    <div class="text-left">
+                                        <p class="text-xs font-bold text-white">Ask AK GLORA</p>
+                                        <p class="text-[10px] text-white/80">Analyze my CV for this role</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-white relative z-10 group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Similar Opportunities -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-extrabold text-gulf-navy mb-4">Similar Opportunities</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center justify-between hover:border-gulf-blue transition-colors cursor-pointer group">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-gulf-navy flex items-center justify-center text-white font-bold text-xs">BP</div>
+                                <div>
+                                    <p class="text-sm font-bold text-gulf-navy group-hover:text-gulf-blue transition-colors">Reservoir Manager</p>
+                                    <p class="text-[10px] text-gulf-muted">BP Middle East • Abu Dhabi, UAE</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs font-bold text-gulf-emerald">AED 50k+</p>
+                                <p class="text-[10px] text-gulf-muted">Hybrid</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center justify-between hover:border-gulf-blue transition-colors cursor-pointer group">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-lg bg-gray-900 flex items-center justify-center text-white font-bold text-xs">SLB</div>
+                                <div>
+                                    <p class="text-sm font-bold text-gulf-navy group-hover:text-gulf-blue transition-colors">Digital Oilfield Lead</p>
+                                    <p class="text-[10px] text-gulf-muted">Schlumberger • Al Khobar, KSA</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs font-bold text-gulf-emerald">SAR 40k</p>
+                                <p class="text-[10px] text-gulf-muted">On-site</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ================= END JOB DETAIL VIEW ================= -->
+
+            <!-- ================= EMPLOYER PROFILE VIEW ================= -->
+            <div id="employer-detail-view" class="hidden max-w-[1000px] mx-auto w-full pb-24 pt-4 md:pt-6 px-4 transition-opacity duration-300 opacity-0">
+                
+                <!-- Back Navigation -->
+                <button onclick="showJobDetail()" class="flex items-center text-gulf-muted hover:text-gulf-navy font-semibold text-xs mb-4 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4 mr-1.5"></i> Back to Job
+                </button>
+
+                <!-- Profile Header Card -->
+                <div class="bg-white rounded-card-hero shadow-card border border-white overflow-hidden mb-6 relative">
+                    
+                    <!-- Cover Image -->
+                    <div class="w-full h-48 md:h-64 bg-gray-200 relative">
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gulf-navy/60 to-transparent"></div>
+                    </div>
+
+                    <!-- Profile Info Overlap -->
+                    <div class="px-6 relative -mt-16 pb-6">
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            
+                            <!-- Identity -->
+                            <div class="flex items-end space-x-5">
+                                <div class="w-32 h-32 rounded-3xl bg-white p-1.5 shadow-md border-4 border-white relative z-10 flex-shrink-0">
+                                    <div class="w-full h-full rounded-2xl bg-gulf-navy flex items-center justify-center overflow-hidden">
+                                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=AE&backgroundColor=0A192F" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-sm">
+                                        <i data-lucide="badge-check" class="w-6 h-6 text-gulf-blue fill-current"></i>
+                                    </div>
+                                </div>
+                                <div class="pb-1">
+                                    <h1 class="text-2xl md:text-3xl font-extrabold text-gulf-navy leading-tight">Aramco Enterprise</h1>
+                                    <div class="flex flex-wrap items-center text-sm font-medium text-gulf-muted mt-1.5 gap-x-3 gap-y-1">
+                                        <span class="flex items-center text-gulf-emerald font-bold"><i data-lucide="users" class="w-4 h-4 mr-1"></i> 1.2M Followers</span>
+                                        <span>•</span>
+                                        <span>Energy & Mining</span>
+                                        <span>•</span>
+                                        <span class="flex items-center"><i data-lucide="map-pin" class="w-3.5 h-3.5 mr-1"></i> Dhahran, KSA</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Primary Actions -->
+                            <div class="flex items-center space-x-3 pb-1 w-full md:w-auto">
+                                <button class="flex-1 md:flex-none bg-gulf-navy hover:bg-black text-white px-8 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center space-x-2 shadow-sm">
+                                    <i data-lucide="user-plus" class="w-4 h-4"></i> <span>Follow</span>
+                                </button>
+                                <button class="flex-1 md:flex-none bg-white hover:bg-gray-50 border border-gray-200 text-gulf-navy px-6 py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center space-x-2">
+                                    <i data-lucide="briefcase" class="w-4 h-4 text-gulf-blue"></i> <span>View Jobs</span>
+                                </button>
+                                <button class="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center text-gulf-muted hover:text-gulf-navy hover:bg-gray-200 transition-colors border border-gray-100 flex-shrink-0">
+                                    <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Company Bio -->
+                        <p class="mt-5 text-sm text-gulf-text leading-relaxed max-w-3xl">
+                            We are a global integrated energy and chemicals company. We are driven by the core belief that energy is opportunity. From producing approximately one in every eight barrels of the world’s oil supply to developing new energy technologies, our global team is dedicated to creating impact in all that we do.
+                        </p>
+                    </div>
+
+                    <!-- Social Tabs -->
+                    <div class="flex items-center px-4 overflow-x-auto hide-scrollbar border-t border-gray-100 pt-1">
+                        <button class="px-6 py-4 text-sm font-bold text-gulf-blue border-b-2 border-gulf-blue whitespace-nowrap">Posts</button>
+                        <button class="px-6 py-4 text-sm font-bold text-gulf-muted hover:text-gulf-navy transition-colors whitespace-nowrap flex items-center">Jobs <span class="ml-2 bg-gulf-emerald text-white text-[10px] px-1.5 py-0.5 rounded-md">32</span></button>
+                        <button class="px-6 py-4 text-sm font-bold text-gulf-muted hover:text-gulf-navy transition-colors whitespace-nowrap">Shorts</button>
+                        <button class="px-6 py-4 text-sm font-bold text-gulf-muted hover:text-gulf-navy transition-colors whitespace-nowrap">Stories</button>
+                        <button class="px-6 py-4 text-sm font-bold text-gulf-muted hover:text-gulf-navy transition-colors whitespace-nowrap">About</button>
+                    </div>
+                </div>
+
+                <!-- Employer Feed Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Left: Main Feed (Spans 2 cols) -->
+                    <div class="md:col-span-2 space-y-6">
+                        
+                        <!-- Pinned Post: Culture/News -->
+                        <article class="bg-white rounded-card-lg shadow-card border border-white overflow-hidden card-hover-effect">
+                            <div class="p-4 flex items-center justify-between border-b border-gray-50">
+                                <div class="flex items-center text-[10px] font-bold text-gulf-muted uppercase tracking-wider">
+                                    <i data-lucide="pin" class="w-3 h-3 mr-1.5"></i> Pinned Post
+                                </div>
+                                <span class="text-xs text-gulf-muted">2d ago</span>
+                            </div>
+                            <div class="px-4 py-3">
+                                <p class="text-sm text-gulf-text leading-relaxed">
+                                    Proud to announce our new state-of-the-art Innovation Center in Dhahran! 🏢✨ This facility will house over 500 top researchers working on AI, robotics, and sustainable energy solutions for Vision 2030. #Innovation #Vision2030
+                                </p>
+                            </div>
+                            <div class="relative w-full h-64 bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover">
+                            </div>
+                            <div class="px-4 py-3 flex items-center space-x-5 border-t border-gray-50">
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-red-500 transition-colors"><i data-lucide="heart" class="w-5 h-5"></i><span class="text-xs font-semibold">4.8K</span></button>
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-gulf-blue transition-colors"><i data-lucide="message-circle" class="w-5 h-5"></i><span class="text-xs font-semibold">324</span></button>
+                                <button class="flex items-center space-x-1.5 text-gulf-muted hover:text-gulf-emerald transition-colors"><i data-lucide="send" class="w-5 h-5"></i></button>
+                            </div>
+                        </article>
+
+                        <!-- Job Post Highlight -->
+                        <article class="bg-white rounded-card-lg shadow-card border border-white overflow-hidden card-hover-effect">
+                            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-gulf-green-bg/50 to-transparent">
+                                <div>
+                                    <span class="bg-gulf-blue text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wide mb-2 inline-block shadow-sm">Actively Hiring</span>
+                                    <h3 class="text-lg font-bold text-gulf-navy leading-tight">Digital Transformation Lead</h3>
+                                    <p class="text-xs text-gulf-muted mt-1"><i data-lucide="map-pin" class="w-3 h-3 inline"></i> Riyadh, KSA • Full-Time</p>
+                                </div>
+                                <button class="bg-gulf-navy hover:bg-black text-white px-5 py-2 rounded-xl text-sm font-semibold transition-colors shadow-sm flex items-center justify-center space-x-2 whitespace-nowrap">
+                                    <span>Apply Now</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <!-- Right: About & Highlights -->
+                    <div class="space-y-6">
+                        
+                        <!-- About Widget -->
+                        <div class="bg-white rounded-card-lg p-5 shadow-card border border-gray-50">
+                            <h3 class="font-bold text-gulf-navy flex items-center text-sm mb-4">
+                                <i data-lucide="info" class="w-4 h-4 text-gulf-muted mr-2"></i> Company Info
+                            </h3>
+                            <div class="space-y-4 text-sm">
+                                <div class="flex items-start space-x-3">
+                                    <i data-lucide="globe" class="w-4 h-4 text-gulf-muted mt-0.5"></i>
+                                    <div>
+                                        <p class="font-semibold text-gulf-navy">Website</p>
+                                        <a href="#" class="text-gulf-blue hover:underline text-xs">aramco.com</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <i data-lucide="users" class="w-4 h-4 text-gulf-muted mt-0.5"></i>
+                                    <div>
+                                        <p class="font-semibold text-gulf-navy">Company Size</p>
+                                        <p class="text-gulf-muted text-xs">10,001+ employees</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <i data-lucide="building" class="w-4 h-4 text-gulf-muted mt-0.5"></i>
+                                    <div>
+                                        <p class="font-semibold text-gulf-navy">Headquarters</p>
+                                        <p class="text-gulf-muted text-xs">Dhahran, Eastern Province</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-gulf-muted mt-0.5"></i>
+                                    <div>
+                                        <p class="font-semibold text-gulf-navy">Founded</p>
+                                        <p class="text-gulf-muted text-xs">1933</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Featured Shorts Widget -->
+                        <div class="bg-white rounded-card-lg p-5 shadow-card border border-gray-50">
+                            <h3 class="font-bold text-gulf-navy flex items-center text-sm mb-4">
+                                <i data-lucide="play-square" class="w-4 h-4 text-rose-500 mr-2"></i> Employee Life Shorts
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div onclick="toggleShortsModal()" class="relative h-32 rounded-xl overflow-hidden cursor-pointer group">
+                                    <img src="https://images.unsplash.com/photo-1542640244-7e672d62082b?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                                        <i data-lucide="play" class="w-8 h-8 text-white opacity-80 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                                    </div>
+                                </div>
+                                <div onclick="toggleShortsModal()" class="relative h-32 rounded-xl overflow-hidden cursor-pointer group">
+                                    <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                                        <i data-lucide="play" class="w-8 h-8 text-white opacity-80 group-hover:opacity-100 transition-opacity drop-shadow-md"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- ================= END EMPLOYER PROFILE VIEW ================= -->
+
+            
+        </section>
+
+        <!-- ZONE 3: RIGHT PANEL (Recommendations & Journey) -->
+        <aside class="hidden xl:flex flex-col w-[340px] border-l border-white/60 p-6 h-full overflow-y-auto custom-scroll flex-shrink-0 bg-white/30 backdrop-blur-sm">
+            
+            <!-- Premium Positioning / Identity Card -->
+            <div class="bg-gradient-to-br from-gulf-navy to-[#1a2f4c] rounded-card-lg p-5 text-white shadow-card mb-6 relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-gulf-blue rounded-full blur-3xl opacity-20"></div>
+                <div class="relative z-10">
+                    <h3 class="text-lg font-bold mb-1 brand-gradient">Your Gulf Journey</h3>
+                    <p class="text-xs text-gray-300 mb-4">Track your progress from discovery to settlement.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center text-sm">
+                            <div class="w-6 h-6 rounded-full bg-gulf-emerald flex items-center justify-center mr-3"><i data-lucide="check" class="w-3 h-3 text-white"></i></div>
+                            <span class="text-gray-200">Profile Created</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <div class="w-6 h-6 rounded-full bg-gulf-blue/20 border border-gulf-blue flex items-center justify-center mr-3"><i data-lucide="circle-dot" class="w-3 h-3 text-gulf-cyan"></i></div>
+                            <span class="font-semibold">Career Assessment</span>
+                        </div>
+                        <div class="flex items-center text-sm opacity-50">
+                            <div class="w-6 h-6 rounded-full border border-gray-500 flex items-center justify-center mr-3"><i data-lucide="lock" class="w-3 h-3"></i></div>
+                            <span>Visa Application</span>
+                        </div>
+                    </div>
+                    <button class="w-full mt-5 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-xs font-semibold transition-colors backdrop-blur-md">View Full Roadmap</button>
+                </div>
+            </div>
+
+            <!-- Insights Widget -->
+            <div class="bg-white rounded-card-lg p-5 shadow-card border border-gray-50 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-gulf-navy flex items-center text-sm">
+                        <i data-lucide="trending-up" class="w-4 h-4 text-gulf-emerald mr-2"></i> Gulf Insights
+                    </h3>
+                </div>
+                <div class="space-y-4">
+                    <div class="cursor-pointer group">
+                        <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider mb-0.5">Tech • UAE</p>
+                        <p class="text-sm font-semibold text-gulf-navy group-hover:text-gulf-blue transition-colors">AI Engineers in High Demand</p>
+                        <p class="text-xs text-gulf-muted mt-1">4.2k active opportunities</p>
+                    </div>
+                    <div class="h-px w-full bg-gray-100"></div>
+                    <div class="cursor-pointer group">
+                        <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider mb-0.5">Travel • Seasons</p>
+                        <p class="text-sm font-semibold text-gulf-navy group-hover:text-gulf-blue transition-colors">Ramadan Umrah Early Bookings</p>
+                        <p class="text-xs text-gulf-muted mt-1">Packages filling fast</p>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- FLOATING AI BUTTON (AK GLORA) -->
+    <button class="fixed bottom-20 md:bottom-8 right-4 md:right-8 w-14 h-14 rounded-full ai-gradient-bg shadow-floating flex items-center justify-center text-white z-50 hover:scale-110 active:scale-95 transition-transform border-2 border-white group">
+        <i data-lucide="sparkles" class="w-6 h-6"></i>
+        <!-- Tooltip -->
+        <span class="absolute right-16 bg-gulf-navy text-white text-xs font-semibold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-md">
+            Ask AK GLORA
+        </span>
+    </button>
+
+    <!-- MOBILE BOTTOM NAVIGATION (Shows on small screens) -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-nav z-40 border-t border-gray-200 pb-[env(safe-area-inset-bottom,20px)]">
+        <div class="flex items-center justify-around h-[65px] px-2">
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gulf-blue">
+                <i data-lucide="home" class="w-6 h-6"></i>
+                <span class="text-[10px] font-semibold mt-1">Home</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gulf-muted hover:text-gulf-navy">
+                <i data-lucide="briefcase" class="w-6 h-6"></i>
+                <span class="text-[10px] font-semibold mt-1">Jobs</span>
+            </a>
+            
+            <!-- Universal Create Action (Mobile) -->
+            <div class="relative w-full h-full flex justify-center -mt-5">
+                <button onclick="toggleCreateModal()" class="w-12 h-12 rounded-full bg-gradient-to-tr from-gulf-emerald to-gulf-emerald-light text-white shadow-floating flex items-center justify-center border-[3px] border-[#E6F0EA] active:scale-95 transition-transform group">
+                    <i data-lucide="plus" class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300"></i>
+                </button>
+            </div>
+
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gulf-muted hover:text-gulf-navy">
+                <i data-lucide="plane" class="w-6 h-6"></i>
+                <span class="text-[10px] font-semibold mt-1">Travel</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gulf-muted hover:text-gulf-navy">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq" alt="Profile" class="w-6 h-6 rounded-full border border-gray-300">
+                <span class="text-[10px] font-semibold mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- UNIVERSAL CREATE MODAL -->
+    <div id="create-modal" class="fixed inset-0 z-[100] hidden items-end md:items-center justify-center">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-gulf-navy/40 backdrop-blur-sm transition-opacity duration-300 opacity-0" id="create-backdrop" onclick="toggleCreateModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative w-full md:w-[600px] bg-white md:rounded-card-hero rounded-t-card-hero shadow-2xl transition-all duration-300 transform translate-y-full md:translate-y-10 md:scale-95 opacity-0 flex flex-col max-h-[90vh] z-10" id="create-content">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-5 border-b border-gray-100">
+                <div>
+                    <h2 class="text-lg font-extrabold text-gulf-navy">Create New</h2>
+                    <p class="text-xs text-gulf-muted">What would you like to share with the Gulf today?</p>
+                </div>
+                <button onclick="toggleCreateModal()" class="p-2 bg-gray-50 rounded-full text-gulf-muted hover:text-gulf-navy hover:bg-gray-200 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <!-- Scrollable Options -->
+            <div class="p-5 overflow-y-auto custom-scroll">
+                
+                <!-- Social & Community (Public) -->
+                <h3 class="text-[10px] font-bold text-gulf-emerald uppercase tracking-wider mb-3">Social & Community</h3>
+                <div class="grid grid-cols-3 md:grid-cols-4 gap-3 mb-6">
+                    <button class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gulf-green-bg hover:shadow-sm transition-all group">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="edit-3" class="w-4 h-4 text-gulf-blue"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-navy">Post</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gulf-green-bg hover:shadow-sm transition-all group">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="image" class="w-4 h-4 text-violet-500"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-navy">Story</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gulf-green-bg hover:shadow-sm transition-all group">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="video" class="w-4 h-4 text-rose-500"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-navy">Short</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gulf-green-bg hover:shadow-sm transition-all group">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="file-text" class="w-4 h-4 text-gulf-cyan"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-navy">Article</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gulf-green-bg hover:shadow-sm transition-all group">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="calendar" class="w-4 h-4 text-orange-500"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-navy">Event</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gulf-green-bg hover:shadow-sm transition-all group">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="users" class="w-4 h-4 text-gulf-emerald"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-navy">Group</span>
+                    </button>
+                    <button class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl hover:bg-gulf-green-bg hover:shadow-sm transition-all group">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i data-lucide="megaphone" class="w-4 h-4 text-gulf-gold"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-navy">Alert</span>
+                    </button>
+                </div>
+
+                <!-- Business & Marketplace (Permissions Required) -->
+                <h3 class="text-[10px] font-bold text-gulf-muted uppercase tracking-wider mb-2 flex items-center">
+                    Marketplace & Business <i data-lucide="lock" class="w-3 h-3 ml-1.5 text-gray-400"></i>
+                </h3>
+                <div class="mb-4 bg-gray-50 rounded-lg p-3 flex items-start space-x-3 border border-gray-100">
+                    <i data-lucide="shield-alert" class="w-4 h-4 text-gulf-blue mt-0.5 flex-shrink-0"></i>
+                    <p class="text-[11px] text-gulf-muted leading-relaxed">You are on a standard user account. Upgrade to a <a href="#" class="text-gulf-blue font-semibold hover:underline">Partner Account</a> to unlock business creation tools like job postings, tours, and courses.</p>
+                </div>
+                
+                <div class="grid grid-cols-3 md:grid-cols-4 gap-3 opacity-50 cursor-not-allowed">
+                    <div class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2"><i data-lucide="briefcase" class="w-4 h-4 text-gulf-muted"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-muted">Job Post</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2"><i data-lucide="shopping-bag" class="w-4 h-4 text-gulf-muted"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-muted">Product</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2"><i data-lucide="wrench" class="w-4 h-4 text-gulf-muted"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-muted">Service</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2"><i data-lucide="map" class="w-4 h-4 text-gulf-muted"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-muted">Tour</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2"><i data-lucide="graduation-cap" class="w-4 h-4 text-gulf-muted"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-muted">Course</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center p-3 bg-gray-50 rounded-xl">
+                        <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2"><i data-lucide="building-2" class="w-4 h-4 text-gulf-muted"></i></div>
+                        <span class="text-[11px] font-semibold text-gulf-muted">Company</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. SHORTS MOBILE-FIRST UI (Modal Overlay) -->
+    <div id="shorts-modal" class="fixed inset-0 z-[120] hidden bg-black/95 backdrop-blur-xl flex items-center justify-center transition-opacity duration-300 opacity-0">
+        <!-- Close Button -->
+        <button onclick="toggleShortsModal()" class="absolute top-4 right-4 md:top-8 md:right-8 text-white p-3 bg-white/10 rounded-full hover:bg-white/20 transition-colors z-50 backdrop-blur-md">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+
+        <!-- Vertical Video Container -->
+        <div class="relative w-full h-full md:w-[420px] md:h-[85vh] md:max-h-[850px] bg-gray-900 md:rounded-[32px] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] md:border-[6px] border-black flex flex-col transform transition-transform duration-300 translate-y-10" id="shorts-content">
+            
+            <!-- Video/Image Background (Simulating Short) -->
+            <img src="https://images.unsplash.com/photo-1542640244-7e672d62082b?auto=format&fit=crop&w=800&q=80" class="absolute inset-0 w-full h-full object-cover opacity-90" alt="Short Video">
+            
+            <!-- Top Gradient overlay -->
+            <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/70 to-transparent z-10 pointer-events-none"></div>
+            
+            <!-- Bottom Gradient overlay -->
+            <div class="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-t from-black via-black/60 to-transparent z-10 pointer-events-none"></div>
+
+            <!-- UI Overlay (z-20) -->
+            <div class="relative z-20 flex-1 flex flex-col justify-end p-4">
+                
+                <div class="flex items-end justify-between mb-2">
+                    <!-- Left: Context & Description -->
+                    <div class="flex-1 pr-12 text-white">
+                        
+                        <!-- Entity Metadata (Job/Product/Tour attached) -->
+                        <div class="flex items-center space-x-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-lg w-fit border border-white/20 mb-3 shadow-lg cursor-pointer hover:bg-white/20 transition-colors">
+                            <i data-lucide="briefcase" class="w-4 h-4 text-gulf-emerald-light"></i>
+                            <span class="text-xs font-bold text-white">Engineering Roles Attached</span>
+                            <i data-lucide="chevron-right" class="w-3 h-3 text-white/70"></i>
+                        </div>
+
+                        <!-- Profile Info -->
+                        <div class="flex items-center space-x-3 mb-3">
+                            <img src="https://api.dicebear.com/7.x/initials/svg?seed=NE&backgroundColor=0A192F" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+                            <div class="flex flex-col">
+                                <h3 class="font-bold text-base flex items-center drop-shadow-md">
+                                    NEOM Careers <i data-lucide="badge-check" class="w-4 h-4 text-gulf-cyan ml-1.5"></i>
+                                </h3>
+                            </div>
+                            <button class="px-3 py-1 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white text-[11px] font-bold rounded-pill transition-colors">Follow</button>
+                        </div>
+                        
+                        <!-- Caption -->
+                        <p class="text-sm font-medium drop-shadow-md mb-2 leading-snug">
+                            Experience the future of living. We are actively hiring for THE LINE. Watch how our engineers are building tomorrow. 🇸🇦✨
+                        </p>
+                        
+                        <!-- Audio Track -->
+                        <div class="flex items-center space-x-2 text-white/80 text-xs font-medium bg-black/30 w-fit px-2 py-1 rounded-md backdrop-blur-sm">
+                            <i data-lucide="music" class="w-3 h-3 animate-pulse"></i>
+                            <span class="marquee">Original Audio - NEOM Official</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Actions Rail -->
+                    <div class="flex flex-col items-center space-y-5 pb-2">
+                        <button class="flex flex-col items-center group">
+                            <div class="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white/20 transition-colors">
+                                <i data-lucide="heart" class="w-6 h-6 text-white group-hover:fill-red-500 group-hover:text-red-500 transition-colors"></i>
+                            </div>
+                            <span class="text-white text-[11px] font-bold mt-1.5 drop-shadow-md">24.5K</span>
+                        </button>
+                        <button class="flex flex-col items-center group">
+                            <div class="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white/20 transition-colors">
+                                <i data-lucide="message-circle" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <span class="text-white text-[11px] font-bold mt-1.5 drop-shadow-md">1.2K</span>
+                        </button>
+                        <button class="flex flex-col items-center group">
+                            <div class="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white/20 transition-colors">
+                                <i data-lucide="bookmark" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <span class="text-white text-[11px] font-bold mt-1.5 drop-shadow-md">Save</span>
+                        </button>
+                        <button class="flex flex-col items-center group">
+                            <div class="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white/20 transition-colors">
+                                <i data-lucide="share-2" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <span class="text-white text-[11px] font-bold mt-1.5 drop-shadow-md">Share</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bottom Sticky Action Bar (CTA + AI) -->
+                <div class="flex items-center space-x-3 pt-3 pb-[env(safe-area-inset-bottom,10px)]">
+                    <!-- Primary CTA (Contextual based on tag) -->
+                    <button class="flex-1 bg-white hover:bg-gray-100 text-gulf-navy font-bold py-3.5 px-4 rounded-xl shadow-[0_4px_20px_rgba(255,255,255,0.2)] flex items-center justify-center space-x-2 active:scale-95 transition-transform">
+                        <i data-lucide="zap" class="w-5 h-5 text-gulf-emerald"></i>
+                        <span>Apply for Roles</span>
+                    </button>
+                    
+                    <!-- AI Assistant Contextual Button -->
+                    <button class="w-14 h-14 flex-shrink-0 ai-gradient-bg rounded-xl shadow-lg flex items-center justify-center active:scale-95 transition-transform relative group border border-white/20">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
+                        <span class="absolute -top-12 bg-gulf-navy/90 backdrop-blur-md text-white text-xs font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Ask AI about this</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Fake Progress Bar -->
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/20 z-30">
+                <div class="h-full bg-white w-1/3 rounded-r-full"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // AI Typewriter Effect Logic
+        const typewriterElement = document.getElementById('ai-typewriter');
+        const phrases = [
+            'Search jobs in Riyadh...',
+            'Find VIP Umrah packages...',
+            'Network with Gulf recruiters...',
+            'Book a flight to Dubai...',
+            'Explore student scholarships...'
+        ];
+        
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000; // Pause at end of phrase
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500; // Pause before typing next word
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        // Start typewriter on load
+        window.onload = () => {
+            setTimeout(typeEffect, 1000);
+        };
+
+        // Create Modal Logic
+        const createModal = document.getElementById('create-modal');
+        const createBackdrop = document.getElementById('create-backdrop');
+        const createContent = document.getElementById('create-content');
+        let isCreateModalOpen = false;
+
+        function toggleCreateModal() {
+            isCreateModalOpen = !isCreateModalOpen;
+            
+            if (isCreateModalOpen) {
+                // Open
+                createModal.classList.remove('hidden');
+                createModal.classList.add('flex');
+                
+                // Small delay to allow display:block to apply before animating opacity/transform
+                requestAnimationFrame(() => {
+                    createBackdrop.classList.remove('opacity-0');
+                    createBackdrop.classList.add('opacity-100');
+                    
+                    createContent.classList.remove('opacity-0', 'translate-y-full', 'md:translate-y-10', 'md:scale-95');
+                    createContent.classList.add('opacity-100', 'translate-y-0', 'md:scale-100');
+                });
+            } else {
+                // Close
+                createBackdrop.classList.remove('opacity-100');
+                createBackdrop.classList.add('opacity-0');
+                
+                createContent.classList.remove('opacity-100', 'translate-y-0', 'md:scale-100');
+                createContent.classList.add('opacity-0', 'translate-y-full', 'md:translate-y-10', 'md:scale-95');
+                
+                // Wait for animation to finish before hiding
+                setTimeout(() => {
+                    createModal.classList.add('hidden');
+                    createModal.classList.remove('flex');
+                }, 300); // Matches the duration-300 class
+            }
+        }
+
+        // View Toggling Logic (Home vs Discover)
+        const homeView = document.getElementById('home-view');
+        const discoverView = document.getElementById('discover-view');
+        const jobView = document.getElementById('job-detail-view');
+        const employerView = document.getElementById('employer-detail-view');
+        const navHome = document.getElementById('nav-home');
+        const navDiscover = document.getElementById('nav-discover');
+        const scrollArea = document.getElementById('main-scroll-area');
+
+        function showHome() {
+            // Update Active Nav States
+            navHome.classList.replace('text-gulf-text', 'text-gulf-blue');
+            navHome.classList.replace('hover:bg-white/80', 'bg-white');
+            navHome.classList.add('shadow-sm', 'bg-white');
+            
+            navDiscover.classList.replace('text-gulf-blue', 'text-gulf-text');
+            navDiscover.classList.replace('bg-white', 'hover:bg-white/80');
+            navDiscover.classList.remove('shadow-sm');
+
+            // Hide Discover & Job, Show Home with Fade
+            discoverView.classList.replace('opacity-100', 'opacity-0');
+            jobView.classList.replace('opacity-100', 'opacity-0');
+            employerView.classList.replace('opacity-100', 'opacity-0');
+            
+            setTimeout(() => {
+                discoverView.classList.add('hidden');
+                jobView.classList.add('hidden');
+                employerView.classList.add('hidden');
+                homeView.classList.remove('hidden');
+                // Scroll to top when switching
+                scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                requestAnimationFrame(() => {
+                    homeView.classList.replace('opacity-0', 'opacity-100');
+                });
+            }, 300);
+        }
+
+        function showDiscover() {
+            // Update Active Nav States
+            navDiscover.classList.replace('text-gulf-text', 'text-gulf-blue');
+            navDiscover.classList.replace('hover:bg-white/80', 'bg-white');
+            navDiscover.classList.add('shadow-sm', 'bg-white');
+            
+            navHome.classList.replace('text-gulf-blue', 'text-gulf-text');
+            navHome.classList.replace('bg-white', 'hover:bg-white/80');
+            navHome.classList.remove('shadow-sm');
+
+            // Hide Home & Job, Show Discover with Fade
+            homeView.classList.replace('opacity-100', 'opacity-0');
+            jobView.classList.replace('opacity-100', 'opacity-0');
+            employerView.classList.replace('opacity-100', 'opacity-0');
+            
+            setTimeout(() => {
+                homeView.classList.add('hidden');
+                jobView.classList.add('hidden');
+                employerView.classList.add('hidden');
+                discoverView.classList.remove('hidden');
+                // Scroll to top when switching
+                scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                requestAnimationFrame(() => {
+                    discoverView.classList.replace('opacity-0', 'opacity-100');
+                });
+            }, 300);
+        }
+
+        function showJobDetail() {
+            // Reset Nav States conceptually (or keep active context if desired, currently dropping highlights to focus on job)
+            navHome.classList.replace('text-gulf-blue', 'text-gulf-text');
+            navHome.classList.replace('bg-white', 'hover:bg-white/80');
+            navHome.classList.remove('shadow-sm');
+            
+            navDiscover.classList.replace('text-gulf-blue', 'text-gulf-text');
+            navDiscover.classList.replace('bg-white', 'hover:bg-white/80');
+            navDiscover.classList.remove('shadow-sm');
+
+            // Hide Home & Discover, Show Job Detail with Fade
+            homeView.classList.replace('opacity-100', 'opacity-0');
+            discoverView.classList.replace('opacity-100', 'opacity-0');
+            employerView.classList.replace('opacity-100', 'opacity-0');
+            
+            setTimeout(() => {
+                homeView.classList.add('hidden');
+                discoverView.classList.add('hidden');
+                employerView.classList.add('hidden');
+                jobView.classList.remove('hidden');
+                // Scroll to top when switching
+                scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                requestAnimationFrame(() => {
+                    jobView.classList.replace('opacity-0', 'opacity-100');
+                });
+            }, 300);
+        }
+
+        function showEmployerProfile() {
+            // Reset Nav States
+            navHome.classList.replace('text-gulf-blue', 'text-gulf-text');
+            navHome.classList.replace('bg-white', 'hover:bg-white/80');
+            navHome.classList.remove('shadow-sm');
+            
+            navDiscover.classList.replace('text-gulf-blue', 'text-gulf-text');
+            navDiscover.classList.replace('bg-white', 'hover:bg-white/80');
+            navDiscover.classList.remove('shadow-sm');
+
+            // Hide others, Show Employer with Fade
+            homeView.classList.replace('opacity-100', 'opacity-0');
+            discoverView.classList.replace('opacity-100', 'opacity-0');
+            jobView.classList.replace('opacity-100', 'opacity-0');
+            
+            setTimeout(() => {
+                homeView.classList.add('hidden');
+                discoverView.classList.add('hidden');
+                jobView.classList.add('hidden');
+                employerView.classList.remove('hidden');
+                // Scroll to top when switching
+                scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                requestAnimationFrame(() => {
+                    employerView.classList.replace('opacity-0', 'opacity-100');
+                });
+            }, 300);
+        }
+    </script>
+</body>
+</html>

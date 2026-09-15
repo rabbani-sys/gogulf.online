@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>goGULF.online | Professional Replica</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* === CUSTOM CSS CATEGORY === */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Ensure inputs don't zoom on mobile on focus */
+        input[type="text"] {
+            font-size: 16px; 
+        }
+        @media (min-width: 640px) {
+            input[type="text"] {
+                font-size: 14px;
+            }
+        }
+        
+        /* Interactive Animations */
+        @keyframes heart-burst {
+            0% { transform: scale(0); opacity: 0; }
+            15% { transform: scale(1.2); opacity: 0.9; }
+            30% { transform: scale(1); opacity: 1; }
+            70% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        .animate-heart-burst {
+            animation: heart-burst 1s ease-in-out forwards;
+        }
+
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .view-section.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-[#f0fdf4] min-h-screen text-black font-sans antialiased flex selection:bg-black selection:text-white">
+
+    <!-- === NAVIGATION CATEGORY === -->
+    
+    <!-- Mobile Top Nav -->
+    <nav class="sm:hidden fixed top-0 w-full bg-white border-b border-cyan-200 h-14 z-50 flex items-center justify-between px-4">
+        <div class="flex flex-col select-none pt-1 cursor-pointer" onclick="window.switchView('home')">
+            <span class="font-extrabold text-xl tracking-tight text-black leading-none">
+                goGULF.online
+            </span>
+            <span class="text-[10px] italic text-gray-600 mt-1 font-semibold leading-none">
+                naukri 9 minute me !
+            </span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="relative cursor-pointer hover:opacity-70 transition-opacity" onclick="window.switchView('notifications')">
+                <i data-lucide="heart" class="w-6 h-6"></i>
+                <div class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></div>
+            </div>
+            <div class="cursor-pointer hover:opacity-70 transition-opacity" onclick="window.switchView('messages')">
+                <i data-lucide="message-circle" class="w-6 h-6"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Nav -->
+    <div class="fixed bottom-0 w-full bg-white border-t border-cyan-200 flex justify-around items-center h-12 z-50 px-2 sm:hidden pb-safe">
+        <button onclick="window.switchView('home')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors" data-target="home"><i data-lucide="home" class="w-6 h-6"></i></button>
+        <button onclick="window.switchView('search')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors" data-target="search"><i data-lucide="search" class="w-6 h-6"></i></button>
+        <button onclick="window.switchView('reels')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors" data-target="reels"><i data-lucide="film" class="w-6 h-6"></i></button>
+        <button onclick="window.switchView('messages')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors" data-target="messages"><i data-lucide="message-circle" class="w-6 h-6"></i></button>
+        <button onclick="window.switchView('profile')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors" data-target="profile">
+            <img src="https://i.pravatar.cc/150?u=1" alt="Profile" class="w-6 h-6 rounded-full border border-cyan-200" />
+        </button>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <aside class="hidden sm:flex flex-col w-[72px] xl:w-64 border-r border-cyan-200 h-screen fixed left-0 top-0 bg-white z-50 py-4 xl:px-4 shrink-0 transition-all duration-300">
+        <div class="mb-8 mt-4 flex items-center justify-center xl:justify-start xl:px-2 cursor-pointer h-14" onclick="window.switchView('home')">
+            <div class="hidden xl:flex flex-col select-none">
+                <span class="font-extrabold text-xl tracking-tight text-black leading-none">
+                    goGULF.online
+                </span>
+                <span class="text-[10px] font-bold text-gray-800 mt-[2px]">
+                    by Rabbani's
+                </span>
+                <span class="text-[11px] italic text-gray-600 mt-1 font-semibold">
+                    naukri 9 minute me !
+                </span>
+            </div>
+            <div class="xl:hidden font-extrabold text-2xl text-black">gG</div>
+        </div>
+
+        <div class="flex-1 flex flex-col space-y-1 xl:space-y-2 w-full px-2 xl:px-0 mt-2">
+            <button onclick="window.switchView('home')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-bold" data-target="home">
+                <div class="relative group-hover:scale-105 transition-transform"><i data-lucide="home" class="w-6 h-6 xl:mr-4"></i></div>
+                <span class="hidden xl:block text-base">Home</span>
+            </button>
+            <button onclick="window.switchView('search')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal" data-target="search">
+                <div class="relative group-hover:scale-105 transition-transform"><i data-lucide="search" class="w-6 h-6 xl:mr-4"></i></div>
+                <span class="hidden xl:block text-base">Search</span>
+            </button>
+            <button onclick="window.switchView('explore')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal" data-target="explore">
+                <div class="relative group-hover:scale-105 transition-transform"><i data-lucide="compass" class="w-6 h-6 xl:mr-4"></i></div>
+                <span class="hidden xl:block text-base">Explore</span>
+            </button>
+            <button onclick="window.switchView('reels')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal" data-target="reels">
+                <div class="relative group-hover:scale-105 transition-transform"><i data-lucide="film" class="w-6 h-6 xl:mr-4"></i></div>
+                <span class="hidden xl:block text-base">Reels</span>
+            </button>
+            <button onclick="window.switchView('messages')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal" data-target="messages">
+                <div class="relative group-hover:scale-105 transition-transform"><i data-lucide="message-circle" class="w-6 h-6 xl:mr-4"></i></div>
+                <span class="hidden xl:block text-base">Messages</span>
+            </button>
+            <button onclick="window.switchView('notifications')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal" data-target="notifications">
+                <div class="relative group-hover:scale-105 transition-transform"><i data-lucide="heart" class="w-6 h-6 xl:mr-4"></i></div>
+                <span class="hidden xl:block text-base">Notifications</span>
+            </button>
+            <button class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal">
+                <div class="relative group-hover:scale-105 transition-transform"><i data-lucide="plus-square" class="w-6 h-6 xl:mr-4"></i></div>
+                <span class="hidden xl:block text-base">Create</span>
+            </button>
+            <button onclick="window.switchView('profile')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal" data-target="profile">
+                <div class="relative group-hover:scale-105 transition-transform">
+                    <img src="https://i.pravatar.cc/150?u=1" alt="Profile" class="w-6 h-6 rounded-full xl:mr-4 border border-cyan-200" />
+                </div>
+                <span class="hidden xl:block text-base">Profile</span>
+            </button>
+        </div>
+
+        <div class="mt-auto px-2 xl:px-0 mb-4">
+            <button class="flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group">
+                <div class="relative group-hover:scale-105 transition-transform">
+                    <i data-lucide="menu" class="w-6 h-6 xl:mr-4"></i>
+                </div>
+                <span class="hidden xl:block text-base">More</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- === VIEWS CATEGORY === -->
+    <main class="flex-1 w-full pt-14 sm:pt-0 sm:ml-[72px] xl:ml-64 flex justify-center pb-12 sm:pb-0">
+        
+        <!-- 1. HOME FEED VIEW -->
+        <div id="view-home" class="view-section active w-full max-w-4xl justify-center xl:justify-start flex-row">
+            <!-- Feed Column -->
+            <div class="w-full max-w-[470px] flex flex-col items-center">
+                <!-- Stories Container -->
+                <div class="w-full bg-white sm:bg-transparent border-b sm:border-0 sm:border-b-cyan-200 py-3 sm:py-4 px-0 sm:mb-6 sm:mt-6 max-w-full relative group">
+                    <button onclick="window.scrollStories('left')" class="hidden sm:flex opacity-0 group-hover:opacity-100 transition-opacity absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white/90 border border-cyan-200 rounded-full p-1.5 shadow-md hover:bg-white text-black items-center justify-center">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+                    <div id="stories-container" class="flex space-x-4 overflow-x-auto px-4 pb-2 scrollbar-hide scroll-smooth relative z-0">
+                        <!-- Stories injected by JS -->
+                    </div>
+                    <button onclick="window.scrollStories('right')" class="hidden sm:flex opacity-0 group-hover:opacity-100 transition-opacity absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white/90 border border-cyan-200 rounded-full p-1.5 shadow-md hover:bg-white text-black items-center justify-center">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <!-- Posts Container -->
+                <div id="posts-container" class="w-full flex flex-col items-center space-y-4 pb-20 sm:pb-8">
+                    <!-- Posts injected by JS -->
+                    <div class="text-gray-500 text-sm py-10 animate-pulse">Loading amazing content...</div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar Suggestions -->
+            <div class="hidden lg:block w-[320px] pt-8 pl-8 pr-4 text-black font-sans">
+                <!-- User Profile Mini -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-4 cursor-pointer" onclick="window.switchView('profile')">
+                        <img src="https://i.pravatar.cc/150?u=1" alt="Your profile" class="w-11 h-11 rounded-full border border-cyan-200" />
+                        <div>
+                            <p class="text-sm font-semibold">your_username</p>
+                            <p class="text-sm text-gray-500">Your Name</p>
+                        </div>
+                    </div>
+                    <button class="text-xs font-semibold text-black hover:text-gray-600 transition-colors">Switch</button>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-semibold text-gray-500">Suggested for you</p>
+                    <button class="text-xs font-semibold hover:text-gray-600 transition-colors">See All</button>
+                </div>
+                <div id="suggestions-container" class="space-y-4">
+                    <!-- Suggestions injected by JS -->
+                </div>
+                <!-- Footer Links -->
+                <div class="mt-8">
+                    <div class="flex flex-wrap gap-x-2 gap-y-1 text-xs text-gray-400">
+                        <a href="#" class="hover:underline">About</a><span>·</span>
+                        <a href="#" class="hover:underline">Help</a><span>·</span>
+                        <a href="#" class="hover:underline">Jobs</a><span>·</span>
+                        <a href="#" class="hover:underline">Privacy</a><span>·</span>
+                        <a href="#" class="hover:underline">Terms</a>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-4 uppercase">
+                        © 2026 goGULF.online by Rabbani's
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SEARCH & EXPLORE VIEW -->
+        <div id="view-search" class="view-section w-full max-w-4xl p-4 sm:p-8 flex-col items-center">
+            <div class="w-full max-w-3xl mb-6 relative">
+                <input type="text" placeholder="Search accounts, tags, places..." class="w-full bg-white border border-cyan-200 rounded-lg py-2 px-10 outline-none focus:ring-1 focus:ring-emerald-500">
+                <i data-lucide="search" class="absolute left-3 top-2.5 w-5 h-5 text-gray-400"></i>
+            </div>
+            <div class="w-full max-w-3xl grid grid-cols-3 gap-1 sm:gap-4" id="explore-grid">
+                <!-- Grid injected by JS -->
+            </div>
+        </div>
+        <div id="view-explore" class="view-section w-full max-w-4xl p-4 sm:p-8 flex-col items-center">
+            <h2 class="w-full max-w-3xl text-xl font-bold mb-4">Explore Content</h2>
+            <div class="w-full max-w-3xl grid grid-cols-3 gap-1 sm:gap-4" id="explore-grid-2">
+                 <!-- Grid injected by JS -->
+            </div>
+        </div>
+
+        <!-- 3. REELS VIEW -->
+        <div id="view-reels" class="view-section w-full max-w-md p-4 flex-col items-center justify-center">
+            <div class="relative w-full h-[70vh] sm:h-[80vh] bg-black rounded-xl overflow-hidden shadow-xl border border-gray-800 flex items-center justify-center text-white">
+                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover opacity-80" />
+                <div class="absolute bottom-4 left-4 z-10 flex flex-col space-y-2">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://i.pravatar.cc/150?u=5" class="w-8 h-8 rounded-full border border-white" />
+                        <span class="font-bold text-sm text-white">travel_bug</span>
+                        <button class="border border-white text-white text-xs px-2 py-1 rounded-md ml-2 hover:bg-white hover:text-black transition">Follow</button>
+                    </div>
+                    <p class="text-sm text-white w-3/4">Finding peace in the mountains 🏔️ #nature #reels</p>
+                </div>
+                <div class="absolute bottom-4 right-4 z-10 flex flex-col items-center space-y-6">
+                    <button class="flex flex-col items-center"><i data-lucide="heart" class="w-7 h-7 text-white"></i><span class="text-xs mt-1">45.2K</span></button>
+                    <button class="flex flex-col items-center"><i data-lucide="message-circle" class="w-7 h-7 text-white"></i><span class="text-xs mt-1">1.2K</span></button>
+                    <button class="flex flex-col items-center"><i data-lucide="send" class="w-7 h-7 text-white"></i></button>
+                    <button class="flex flex-col items-center"><i data-lucide="more-vertical" class="w-7 h-7 text-white"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. MESSAGES VIEW -->
+        <div id="view-messages" class="view-section w-full max-w-4xl p-0 sm:p-6 flex-col sm:flex-row">
+            <div class="w-full sm:w-1/3 bg-white border border-cyan-200 sm:rounded-l-lg h-[80vh] flex flex-col">
+                <div class="p-4 border-b border-cyan-200 font-bold text-lg flex justify-between items-center">
+                    your_username <i data-lucide="edit" class="w-5 h-5 text-gray-500 cursor-pointer"></i>
+                </div>
+                <div class="flex-1 overflow-y-auto" id="messages-list">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+            <div class="hidden sm:flex w-2/3 bg-gray-50 border-y border-r border-cyan-200 rounded-r-lg h-[80vh] flex-col items-center justify-center text-center p-8">
+                <div class="w-24 h-24 rounded-full border-2 border-black flex items-center justify-center mb-4">
+                    <i data-lucide="send" class="w-10 h-10 -ml-1 mt-1 text-black"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Your Messages</h3>
+                <p class="text-gray-500 mb-4">Send private photos and messages to a friend or group.</p>
+                <button class="bg-emerald-600 text-white font-semibold py-1.5 px-4 rounded-lg hover:bg-emerald-700">Send Message</button>
+            </div>
+        </div>
+
+        <!-- 5. PROFILE VIEW -->
+        <div id="view-profile" class="view-section w-full max-w-4xl p-4 sm:p-8 flex-col items-center">
+            <div class="w-full max-w-3xl flex flex-col sm:flex-row items-center sm:items-start mb-8 sm:space-x-10">
+                <div class="w-24 h-24 sm:w-36 sm:h-36 rounded-full bg-gradient-to-tr from-emerald-300 to-emerald-600 p-1 mb-4 sm:mb-0 shrink-0">
+                    <img src="https://i.pravatar.cc/150?u=1" class="w-full h-full rounded-full border-4 border-white object-cover" />
+                </div>
+                <div class="flex flex-col w-full text-center sm:text-left">
+                    <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-4">
+                        <h2 class="text-xl font-semibold">your_username</h2>
+                        <div class="flex space-x-2">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-black font-semibold px-4 py-1.5 rounded-lg text-sm transition">Edit Profile</button>
+                            <button class="bg-gray-100 hover:bg-gray-200 text-black font-semibold px-4 py-1.5 rounded-lg text-sm transition">View Archive</button>
+                        </div>
+                    </div>
+                    <div class="hidden sm:flex space-x-8 mb-4">
+                        <p><span class="font-bold">12</span> posts</p>
+                        <p><span class="font-bold">1.2K</span> followers</p>
+                        <p><span class="font-bold">45</span> following</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-sm text-black">Your Name</p>
+                        <p class="text-sm text-gray-600 whitespace-pre-line">Digital Creator 🎨
+                        Passionate about design & code.
+                        Building the future, one pixel at a time.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Profile Tabs -->
+            <div class="w-full max-w-3xl border-t border-cyan-200 flex justify-center space-x-12 mb-4">
+                <button class="flex items-center space-x-2 py-4 border-t-2 border-black -mt-[1px] text-black font-semibold text-xs tracking-widest uppercase">
+                    <i data-lucide="grid" class="w-4 h-4"></i> <span>Posts</span>
+                </button>
+                <button class="flex items-center space-x-2 py-4 text-gray-500 font-semibold text-xs tracking-widest uppercase">
+                    <i data-lucide="bookmark" class="w-4 h-4"></i> <span>Saved</span>
+                </button>
+            </div>
+            <!-- Profile Grid -->
+            <div class="w-full max-w-3xl grid grid-cols-3 gap-1 sm:gap-4" id="profile-grid">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+        
+        <!-- 6. NOTIFICATIONS VIEW -->
+        <div id="view-notifications" class="view-section w-full max-w-lg p-4 sm:p-8 flex-col border-x border-cyan-200 bg-white min-h-[80vh]">
+            <h2 class="text-2xl font-bold mb-6">Notifications</h2>
+            <div class="space-y-4" id="notifications-list">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- === LOGIC & FIREBASE INTEGRATION CATEGORY === -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, updateDoc, onSnapshot, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Environment variables
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'gogulf-replica-v1';
+        const firebaseConfigStr = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
+        let firebaseConfig = {};
+        try { firebaseConfig = JSON.parse(firebaseConfigStr); } catch (e) {}
+
+        // Global State
+        window.AppState = {
+            posts: [],
+            currentUser: { username: 'your_username', avatar: 'https://i.pravatar.cc/150?u=1' },
+            userId: null
+        };
+
+        // === MOCK DATA CATEGORY ===
+        const MOCK_DATA = {
+            stories: [
+                { id: 1, username: 'your_story', avatar: 'https://i.pravatar.cc/150?u=1', isUser: true, hasUnseen: false },
+                { id: 2, username: 'nature_lover', avatar: 'https://i.pravatar.cc/150?u=2', hasUnseen: true },
+                { id: 3, username: 'tech_guru', avatar: 'https://i.pravatar.cc/150?u=3', hasUnseen: true },
+                { id: 4, username: 'foodie_delight', avatar: 'https://i.pravatar.cc/150?u=4', hasUnseen: false },
+                { id: 5, username: 'travel_bug', avatar: 'https://i.pravatar.cc/150?u=5', hasUnseen: true },
+                { id: 6, username: 'art_daily', avatar: 'https://i.pravatar.cc/150?u=6', hasUnseen: true },
+                { id: 7, username: 'music_vibes', avatar: 'https://i.pravatar.cc/150?u=7', hasUnseen: false },
+                { id: 8, username: 'fitness_junkie', avatar: 'https://i.pravatar.cc/150?u=8', hasUnseen: true },
+                { id: 9, username: 'daily_news', avatar: 'https://i.pravatar.cc/150?u=9', hasUnseen: true }
+            ],
+            suggestions: [
+                { id: 1, username: 'photography_hub', avatar: 'https://i.pravatar.cc/150?u=10', reason: 'Followed by tech_guru', isFollowing: false },
+                { id: 2, username: 'sneaker_head', avatar: 'https://i.pravatar.cc/150?u=11', reason: 'Suggested for you', isFollowing: false },
+                { id: 3, username: 'coffee_addict', avatar: 'https://i.pravatar.cc/150?u=12', reason: 'New to Instagram', isFollowing: false },
+            ],
+            messages: [
+                { id: 1, user: 'tech_guru', avatar: 'https://i.pravatar.cc/150?u=3', text: 'Sent you a reel', time: '2h' },
+                { id: 2, user: 'nature_lover', avatar: 'https://i.pravatar.cc/150?u=2', text: 'Stunning view right?', time: '5h' },
+                { id: 3, user: 'foodie_delight', avatar: 'https://i.pravatar.cc/150?u=4', text: 'Let’s grab food tomorrow.', time: '1d' },
+            ],
+            exploreImages: [
+                'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&q=80&w=400',
+                'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&q=80&w=400',
+                'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&q=80&w=400',
+                'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&q=80&w=400',
+                'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=400',
+                'https://images.unsplash.com/photo-1504609774757-b19b6eb5d14e?auto=format&fit=crop&q=80&w=400'
+            ],
+            initialPosts: [
+                {
+                    id: 101, username: 'nature_lover', avatar: 'https://i.pravatar.cc/150?u=2', location: 'Yosemite National Park',
+                    imageUrl: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&q=80&w=1000',
+                    likes: 1245, caption: 'Majestic views everywhere you look. #yosemite #nature #hiking',
+                    comments: [{ id: 1, username: 'travel_bug', text: 'Stunning!' }], timeAgo: '2 HOURS AGO',
+                    likedBy: [], savedBy: []
+                },
+                {
+                    id: 102, username: 'tech_guru', avatar: 'https://i.pravatar.cc/150?u=3', location: 'Silicon Valley',
+                    imageUrl: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000',
+                    likes: 892, caption: 'My new setup is finally complete! 💻🚀 #workspace #developer',
+                    comments: [], timeAgo: '5 HOURS AGO',
+                    likedBy: [], savedBy: []
+                }
+            ]
+        };
+
+        let db, auth;
+
+        // === INITIALIZATION CATEGORY ===
+        async function initializeAppWrapper() {
+            if (Object.keys(firebaseConfig).length > 0) {
+                try {
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined') {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    window.AppState.userId = auth.currentUser?.uid || crypto.randomUUID();
+                    setupPostsListener();
+                } catch (e) {
+                    console.error("Firebase setup failed, using local mode", e);
+                    useLocalMode();
+                }
+            } else {
+                useLocalMode();
+            }
+            renderStaticViews();
+            lucide.createIcons();
+        }
+
+        function useLocalMode() {
+            window.AppState.userId = 'local-user';
+            window.AppState.posts = MOCK_DATA.initialPosts;
+            window.renderPosts();
+        }
+
+        // === DATABASE OPERATIONS CATEGORY ===
+        function setupPostsListener() {
+            const postsRef = collection(db, 'artifacts', appId, 'public', 'data', 'posts');
+            onSnapshot(postsRef, (snapshot) => {
+                if (snapshot.empty) {
+                    seedDatabase(postsRef);
+                } else {
+                    window.AppState.posts = snapshot.docs.map(doc => doc.data()).sort((a,b) => b.id - a.id);
+                    window.renderPosts();
+                }
+            }, (error) => {
+                console.error("Data sync error:", error);
+            });
+        }
+
+        async function seedDatabase(postsRef) {
+            MOCK_DATA.initialPosts.forEach(async (post) => {
+                await setDoc(doc(postsRef, String(post.id)), post);
+            });
+        }
+
+        async function updatePostInDB(postId, newData) {
+            if (!db) {
+                // Local mode fallback
+                const postIndex = window.AppState.posts.findIndex(p => p.id === postId);
+                if(postIndex > -1) {
+                    window.AppState.posts[postIndex] = { ...window.AppState.posts[postIndex], ...newData };
+                    window.renderPosts();
+                }
+                return;
+            }
+            try {
+                const postRef = doc(db, 'artifacts', appId, 'public', 'data', 'posts', String(postId));
+                await updateDoc(postRef, newData);
+            } catch(e) { console.error("Error updating DB", e); }
+        }
+
+        // === UI RENDERERS CATEGORY ===
+        window.renderPosts = function() {
+            const container = document.getElementById('posts-container');
+            const uid = window.AppState.userId;
+            
+            if (!window.AppState.posts || window.AppState.posts.length === 0) {
+                container.innerHTML = '<div class="text-gray-500 py-10">No posts available.</div>';
+                return;
+            }
+
+            container.innerHTML = window.AppState.posts.map(post => {
+                const isLiked = post.likedBy && post.likedBy.includes(uid);
+                const isSaved = post.savedBy && post.savedBy.includes(uid);
+                
+                return `
+                <div class="bg-white border-b sm:border border-cyan-200 sm:rounded-2xl sm:shadow-sm sm:mb-6 max-w-lg w-full mx-auto sm:max-w-xl pb-3 overflow-hidden">
+                    <div class="flex items-center justify-between p-3">
+                        <div class="flex items-center space-x-3 cursor-pointer">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#86efac] to-[#22c55e] p-[2px]">
+                                <img src="${post.avatar}" class="w-full h-full rounded-full border-2 border-white object-cover" />
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold hover:text-gray-600 transition">${post.username}</p>
+                                ${post.location ? `<p class="text-[11px] text-gray-500">${post.location}</p>` : ''}
+                            </div>
+                        </div>
+                        <button class="text-gray-600 hover:text-black"><i data-lucide="more-horizontal" class="w-5 h-5"></i></button>
+                    </div>
+
+                    <div class="w-full bg-[#f0fdf4] flex items-center justify-center relative overflow-hidden group select-none" style="min-height: 300px;">
+                        <img src="${post.imageUrl}" class="w-full h-auto object-cover max-h-[600px] cursor-pointer" ondblclick="window.handleDoubleClick(${post.id})" />
+                        <div id="big-heart-${post.id}" class="absolute hidden flex items-center justify-center z-10 pointer-events-none drop-shadow-2xl">
+                            <svg aria-label="Like" fill="white" height="100" viewBox="0 0 48 48" width="100">
+                                <path d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="px-3 pt-3 flex justify-between items-center">
+                        <div class="flex space-x-4">
+                            <button onclick="window.toggleLike(${post.id})" class="hover:opacity-50 transition">
+                                <i data-lucide="heart" class="w-6 h-6 ${isLiked ? 'text-red-500 animate-pulse' : 'text-black'}" fill="${isLiked ? '#ef4444' : 'none'}"></i>
+                            </button>
+                            <button class="hover:opacity-50 transition"><i data-lucide="message-circle" class="w-6 h-6 -scale-x-100 text-black"></i></button>
+                            <button class="hover:opacity-50 transition"><i data-lucide="send" class="w-6 h-6 text-black"></i></button>
+                        </div>
+                        <button onclick="window.toggleSave(${post.id})" class="hover:opacity-50 transition">
+                            <i data-lucide="bookmark" class="w-6 h-6 text-black" fill="${isSaved ? 'currentColor' : 'none'}"></i>
+                        </button>
+                    </div>
+
+                    <div class="px-3 mt-2">
+                        <p class="text-sm font-semibold cursor-pointer">${(post.likes || 0).toLocaleString()} likes</p>
+                    </div>
+                    <div class="px-3 mt-1 text-sm">
+                        <p><span class="font-semibold cursor-pointer mr-2">${post.username}</span>${post.caption}</p>
+                    </div>
+                    <div class="px-3 mt-1 text-sm">
+                        ${(post.comments || []).length > 2 ? `<p class="text-gray-500 cursor-pointer mb-1">View all ${post.comments.length} comments</p>` : ''}
+                        ${(post.comments || []).slice(-3).map(c => `
+                            <p class="mt-1"><span class="font-semibold mr-2">${c.username}</span>${c.text}</p>
+                        `).join('')}
+                    </div>
+                    <div class="px-3 mt-2 mb-2">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wide">${post.timeAgo}</p>
+                    </div>
+                    <div class="hidden sm:flex px-3 pt-3 border-t border-cyan-200 items-center">
+                        <button class="p-1 pr-3"><i data-lucide="smile" class="w-5 h-5 text-gray-600 hover:text-black"></i></button>
+                        <input id="comment-input-${post.id}" type="text" placeholder="Add a comment..." 
+                            class="flex-1 text-sm bg-transparent outline-none placeholder-gray-500 text-black"
+                            onkeypress="window.handleCommentKeyPress(event, ${post.id})" oninput="window.togglePostButton(${post.id})" />
+                        <button id="comment-btn-${post.id}" onclick="window.submitComment(${post.id})"
+                            class="text-emerald-700 font-semibold text-sm opacity-50 cursor-default transition-all pointer-events-none">Post</button>
+                    </div>
+                </div>
+            `}).join('');
+            lucide.createIcons();
+        };
+
+        function renderStaticViews() {
+            // Stories
+            document.getElementById('stories-container').innerHTML = MOCK_DATA.stories.map(s => `
+                <div class="flex flex-col items-center flex-shrink-0 cursor-pointer w-[70px]" onclick="window.viewStory(${s.id})">
+                    <div class="relative w-16 h-16 rounded-full p-[2px] ${s.hasUnseen ? 'bg-gradient-to-tr from-emerald-300 to-emerald-600' : 'bg-gray-200'} transition-colors duration-300">
+                        <div class="bg-white p-[2px] rounded-full w-full h-full">
+                            <img src="${s.avatar}" class="w-full h-full rounded-full object-cover" />
+                        </div>
+                    </div>
+                    <span class="text-xs mt-1 truncate w-full text-center tracking-tight ${s.hasUnseen ? 'font-semibold' : 'text-gray-500'}">${s.username}</span>
+                </div>
+            `).join('');
+
+            // Suggestions
+            document.getElementById('suggestions-container').innerHTML = MOCK_DATA.suggestions.map(u => `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <img src="${u.avatar}" class="w-8 h-8 rounded-full border border-cyan-200" />
+                        <div>
+                            <p class="text-sm font-semibold">${u.username}</p>
+                            <p class="text-xs text-gray-500 w-[160px] truncate">${u.reason}</p>
+                        </div>
+                    </div>
+                    <button onclick="window.toggleFollow(${u.id})" class="text-xs font-semibold ${u.isFollowing ? 'text-gray-500' : 'text-black'}">
+                        ${u.isFollowing ? 'Following' : 'Follow'}
+                    </button>
+                </div>
+            `).join('');
+
+            // Explore Grid
+            const makeGrid = () => MOCK_DATA.exploreImages.map(img => `
+                <div class="aspect-square bg-gray-100 hover:opacity-90 cursor-pointer overflow-hidden border border-cyan-200 rounded-sm">
+                    <img src="${img}" class="w-full h-full object-cover" />
+                </div>
+            `).join('');
+            document.getElementById('explore-grid').innerHTML = makeGrid();
+            document.getElementById('explore-grid-2').innerHTML = makeGrid();
+            document.getElementById('profile-grid').innerHTML = makeGrid();
+
+            // Messages List
+            document.getElementById('messages-list').innerHTML = MOCK_DATA.messages.map(m => `
+                <div class="flex items-center space-x-4 p-4 hover:bg-[#f0fdf4] cursor-pointer border-b border-gray-50">
+                    <img src="${m.avatar}" class="w-12 h-12 rounded-full border border-cyan-200" />
+                    <div class="flex-1">
+                        <p class="font-semibold text-sm">${m.user}</p>
+                        <p class="text-xs text-gray-500 truncate">${m.text} · ${m.time}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Notifications List
+            document.getElementById('notifications-list').innerHTML = `
+                <div class="flex items-center justify-between p-2">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://i.pravatar.cc/150?u=2" class="w-10 h-10 rounded-full border border-cyan-200" />
+                        <p class="text-sm"><span class="font-bold">nature_lover</span> started following you. <span class="text-gray-500">2h</span></p>
+                    </div>
+                    <button class="bg-emerald-600 text-white text-xs px-4 py-1.5 rounded-lg font-semibold">Follow Back</button>
+                </div>
+            `;
+            
+            lucide.createIcons();
+        }
+
+        // === INTERACTION LOGIC CATEGORY ===
+        
+        window.switchView = function(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show target view
+            const target = document.getElementById('view-' + viewId);
+            if(target) target.classList.add('active');
+
+            // Update Nav Active States
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const icon = btn.querySelector('i');
+                const text = btn.querySelector('span');
+                if (btn.getAttribute('data-target') === viewId) {
+                    if (text) text.classList.replace('font-normal', 'font-bold');
+                    btn.classList.add('bg-[#f0fdf4]');
+                } else {
+                    if (text) text.classList.replace('font-bold', 'font-normal');
+                    btn.classList.remove('bg-[#f0fdf4]');
+                }
+            });
+            window.scrollTo(0, 0);
+        };
+
+        window.scrollStories = function(direction) {
+            const container = document.getElementById('stories-container');
+            if (container) {
+                const scrollAmount = 300;
+                if (direction === 'left') {
+                    container.scrollLeft -= scrollAmount;
+                } else {
+                    container.scrollLeft += scrollAmount;
+                }
+            }
+        };
+
+        window.toggleLike = function(postId) {
+            const post = window.AppState.posts.find(p => p.id === postId);
+            if(!post) return;
+            const uid = window.AppState.userId;
+            let newLikedBy = post.likedBy || [];
+            let newLikes = post.likes || 0;
+
+            if (newLikedBy.includes(uid)) {
+                newLikedBy = newLikedBy.filter(id => id !== uid);
+                newLikes--;
+            } else {
+                newLikedBy.push(uid);
+                newLikes++;
+            }
+            updatePostInDB(postId, { likedBy: newLikedBy, likes: newLikes });
+        };
+
+        window.handleDoubleClick = function(postId) {
+            const post = window.AppState.posts.find(p => p.id === postId);
+            if(post && !(post.likedBy || []).includes(window.AppState.userId)) {
+                window.toggleLike(postId);
+            }
+            // Animation
+            const heartOverlay = document.getElementById(`big-heart-${postId}`);
+            if (heartOverlay) {
+                heartOverlay.classList.remove('hidden');
+                heartOverlay.classList.add('animate-heart-burst');
+                setTimeout(() => {
+                    heartOverlay.classList.add('hidden');
+                    heartOverlay.classList.remove('animate-heart-burst');
+                }, 1000);
+            }
+        };
+
+        window.toggleSave = function(postId) {
+            const post = window.AppState.posts.find(p => p.id === postId);
+            if(!post) return;
+            const uid = window.AppState.userId;
+            let newSavedBy = post.savedBy || [];
+            
+            if (newSavedBy.includes(uid)) {
+                newSavedBy = newSavedBy.filter(id => id !== uid);
+            } else {
+                newSavedBy.push(uid);
+            }
+            updatePostInDB(postId, { savedBy: newSavedBy });
+        };
+
+        window.submitComment = function(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            if (!input) return;
+            const text = input.value.trim();
+            if (text) {
+                const post = window.AppState.posts.find(p => p.id === postId);
+                const comments = post.comments || [];
+                const newComment = { 
+                    id: Date.now(), 
+                    username: window.AppState.currentUser.username, 
+                    text: text 
+                };
+                updatePostInDB(postId, { comments: [...comments, newComment] });
+                input.value = '';
+                window.togglePostButton(postId); // Disable button
+            }
+        };
+
+        window.handleCommentKeyPress = function(event, postId) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                window.submitComment(postId);
+            }
+        };
+
+        window.togglePostButton = function(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const btn = document.getElementById(`comment-btn-${postId}`);
+            if (input && input.value.trim().length > 0) {
+                btn.classList.remove('opacity-50', 'cursor-default', 'pointer-events-none');
+                btn.classList.add('cursor-pointer', 'hover:text-emerald-900');
+            } else if (btn) {
+                btn.classList.add('opacity-50', 'cursor-default', 'pointer-events-none');
+                btn.classList.remove('cursor-pointer', 'hover:text-emerald-900');
+            }
+        };
+
+        window.viewStory = function(storyId) {
+            const sIndex = MOCK_DATA.stories.findIndex(s => s.id === storyId);
+            if(sIndex > -1) {
+                MOCK_DATA.stories[sIndex].hasUnseen = false;
+                renderStaticViews();
+            }
+        };
+
+        window.toggleFollow = function(userId) {
+            const sIndex = MOCK_DATA.suggestions.findIndex(s => s.id === userId);
+            if(sIndex > -1) {
+                MOCK_DATA.suggestions[sIndex].isFollowing = !MOCK_DATA.suggestions[sIndex].isFollowing;
+                renderStaticViews();
+            }
+        };
+
+        // === BOOTSTRAP CATEGORY ===
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeAppWrapper();
+        });
+
+    </script>
+</body>
+</html>

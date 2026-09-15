@@ -1,0 +1,152 @@
+<!-- ... existing code ... -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA & Mobile Native Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#032b43"> <!-- Matches gulf-blue -->
+    <meta name="description" content="GoGulf - The Ultimate Gulf Ecosystem">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="https://placehold.co/180x180/032b43/ffffff?text=GG">
+
+    <title>GoGulf Ecosystem Prototype</title>
+<!-- ... existing code ... -->
+                            <button onclick="switchView('view-corporate-os')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-slate-100 transition-colors group">
+                                <div class="flex items-center gap-3 text-slate-800 font-medium"><i data-lucide="building" class="w-5 h-5 text-slate-600"></i> Corporate OS</div>
+                            </button>
+                        </div>
+                        
+                        <!-- Auth / Security Section -->
+                        <div class="pt-4 mt-4 border-t border-gray-200 space-y-1">
+                            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Account & Security</p>
+                            <button onclick="switchView('view-auth')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-gray-100 transition-colors group">
+                                <div class="flex items-center gap-3 text-gray-700 font-medium"><i data-lucide="shield-check" class="w-5 h-5 text-gray-400 group-hover:text-gulf-blue"></i> Authentication</div>
+                            </button>
+                        </div>
+                    </nav>
+
+                    <!-- User Profile Snippet (Bottom) -->
+<!-- ... existing code ... -->
+                            <button onclick="switchView('view-corporate-os')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition-colors text-left group">
+                                <i data-lucide="building" class="w-5 h-5 text-slate-600"></i>
+                                <span class="text-slate-800 font-medium text-sm">Corporate OS</span>
+                            </button>
+                        </div>
+                        
+                        <div class="h-px bg-gray-200 my-2"></div>
+                        
+                        <p class="px-3 text-xs font-bold text-gray-400 uppercase tracking-wider mt-2 mb-1">Account & Security</p>
+                        <button onclick="switchView('view-auth')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-gray-400"></i>
+                            <span class="text-gray-700 font-medium text-sm">Authentication</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+<!-- ... existing code ... -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: AUTHENTICATION ================= -->
+                <!-- ARCHITECTURE NOTE: 
+                     - Single Authenticated User Identity across all platforms.
+                     - RBAC (Role-Based Access Control) MUST be enforced server-side/database-side (e.g. Supabase RLS). 
+                     - Frontend hiding is purely for UX, not security.
+                     - Roles include: CANDIDATE, STUDENT, WORKER, EMPLOYER, RECRUITER, RA, AGENT, CONSULTANT, PROVIDER, TOUR_OPERATOR, EDUCATION_PROVIDER, OFFICE_STAFF, MANAGER, ADMIN, SUPER_ADMIN.
+                -->
+                <div id="view-auth" class="hidden min-h-screen bg-gray-50 flex items-center justify-center p-4">
+                    <div class="max-w-md w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative">
+                        
+                        <!-- Top decorative accent -->
+                        <div class="h-2 bg-gradient-to-r from-gulf-blue via-gulf-gold to-gulf-blue w-full"></div>
+                        
+                        <div class="p-8">
+                            <div class="text-center mb-8">
+                                <div class="w-16 h-16 bg-gradient-to-br from-gulf-blue to-blue-900 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-lg border border-blue-800">
+                                    <svg viewBox="0 0 100 100" class="w-10 h-10 text-white" fill="none" stroke="currentColor">
+                                        <!-- Kaaba -->
+                                        <rect x="25" y="45" width="25" height="30" fill="currentColor" stroke="none" />
+                                        <path d="M25 55 L50 55" stroke="white" stroke-width="2" />
+                                        
+                                        <!-- Burj Khalifa -->
+                                        <path d="M65 75 L65 35 L62 35 L60 45 L58 45 L58 75 Z" fill="currentColor" stroke="none" />
+                                        <path d="M63 35 L63 15 L64 15 L64 35 Z" fill="currentColor" stroke="none" />
+                                        
+                                        <!-- Falcon overlapping -->
+                                        <path d="M15 30 Q 30 15 45 25 Q 60 10 80 20 Q 65 30 50 28 Q 35 35 25 35 Z" fill="none" stroke="#d4af37" stroke-width="3" />
+                                    </svg>
+                                </div>
+                                <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Welcome to GoGulf</h1>
+                                <p class="text-sm text-gray-500 mt-2">One account for the entire Gulf ecosystem.</p>
+                            </div>
+
+                            <!-- Tabs -->
+                            <div class="flex p-1 bg-gray-100 rounded-xl mb-6">
+                                <button class="flex-1 py-2 text-sm font-bold bg-white rounded-lg shadow-sm text-gray-900">Sign In</button>
+                                <button class="flex-1 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Create Account</button>
+                            </div>
+
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Email or Phone</label>
+                                    <input type="text" placeholder="name@example.com or +971..." class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gulf-blue focus:border-transparent transition-all">
+                                </div>
+                                
+                                <button type="button" class="w-full bg-gulf-blue hover:bg-blue-900 text-white font-bold py-3 rounded-xl transition-colors shadow-md shadow-blue-900/20 active-scale">
+                                    Continue
+                                </button>
+                            </form>
+
+                            <div class="relative my-6">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-gray-200"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-3 bg-white text-gray-500 text-xs uppercase font-bold tracking-widest">Or continue with</span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <button class="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors text-sm font-bold text-gray-700 active-scale">
+                                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+                                    Google
+                                </button>
+                                <button class="w-full flex items-center justify-center gap-3 px-4 py-3 bg-[#000000] text-white rounded-xl hover:bg-gray-900 transition-colors text-sm font-bold active-scale">
+                                    <i data-lucide="apple" class="w-5 h-5 fill-current"></i>
+                                    Apple
+                                </button>
+                            </div>
+                            
+                            <!-- OTP Note / Context -->
+                            <p class="text-[10px] text-center text-gray-400 mt-6 mt-8 max-w-xs mx-auto">
+                                By continuing, you agree to our <a href="#" class="text-gulf-blue hover:underline">Terms of Service</a> and <a href="#" class="text-gulf-blue hover:underline">Privacy Policy</a>. OTP verification will be required for secure transactions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- ================= PWA INSTALL BANNER (MOCK) ================= -->
+        <!-- Shows on mobile to prompt native installation -->
+        <div id="pwa-install-banner" class="fixed bottom-[80px] left-4 right-4 sm:hidden bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.15)] p-4 z-40 border border-gray-100 flex items-center gap-4 transition-transform duration-300">
+            <div class="w-12 h-12 bg-gulf-blue rounded-xl flex items-center justify-center shrink-0 shadow-inner">
+                <i data-lucide="download" class="w-6 h-6 text-white"></i>
+            </div>
+            <div class="flex-1">
+                <p class="text-sm font-bold text-gray-900">Install GoGulf App</p>
+                <p class="text-xs text-gray-500 leading-tight mt-0.5">Add to home screen for a faster, native experience.</p>
+            </div>
+            <button onclick="this.parentElement.style.display='none'" class="bg-gray-100 hover:bg-gray-200 text-gray-900 px-4 py-2 rounded-xl text-sm font-bold transition-colors active-scale">Install</button>
+            <button onclick="this.parentElement.style.display='none'" class="text-gray-400 hover:text-gray-600 p-1 -mr-2"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+
+        <!-- ================= FLOATING AI BUTTON (AK GLORA) ================= -->
+<!-- ... existing code ... -->

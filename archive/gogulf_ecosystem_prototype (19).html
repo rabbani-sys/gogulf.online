@@ -1,0 +1,349 @@
+<!-- ... existing code ... -->
+                                    <div class="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gulf-emerald cursor-pointer transition-colors">
+                                        <div class="flex items-center text-gulf-navy font-semibold"><i data-lucide="users" class="w-4 h-4 mr-2 text-gulf-muted"></i> Family of 4</div>
+                                        <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted"></i>
+                                    </div>
+                                </div>
+
+                                <button onclick="openBookingFlow('Umrah Package', 'Premium 15-Day Ramadan Umrah', 'SAR 4,500')" class="w-full bg-gradient-to-r from-gulf-emerald to-gulf-emerald-light hover:shadow-card hover:-translate-y-0.5 text-white py-3.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center space-x-2">
+                                    <i data-lucide="send" class="w-5 h-5"></i> <span>Request Booking</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- ... existing code ... -->
+                </div>
+            </div>
+            <!-- ================= END MARKETPLACE VIEW ================= -->
+
+            <!-- ================= UNIVERSAL BOOKING ENGINE ================= -->
+            <div id="booking-engine-overlay" class="fixed inset-0 bg-gulf-navy/60 backdrop-blur-sm z-[100] hidden flex items-end md:items-center justify-center opacity-0 transition-opacity duration-300">
+                <div class="bg-white w-full max-w-2xl md:rounded-3xl rounded-t-3xl h-[85vh] md:h-[80vh] flex flex-col shadow-2xl transform translate-y-full md:translate-y-8 transition-transform duration-300" id="booking-engine-modal">
+                    
+                    <!-- Header -->
+                    <div class="flex items-center justify-between p-5 md:p-6 border-b border-gray-100 bg-gulf-green-bg/30 rounded-t-3xl">
+                        <div>
+                            <p class="text-[10px] font-bold text-gulf-emerald uppercase tracking-wider mb-1" id="booking-category">Secure Checkout</p>
+                            <h2 class="text-xl font-extrabold text-gulf-navy" id="booking-title">Booking Item</h2>
+                        </div>
+                        <button onclick="closeBookingFlow()" class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gulf-muted hover:bg-gray-100 transition-colors shadow-sm">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Progress Tracker -->
+                    <div class="px-6 py-4 border-b border-gray-100 bg-white">
+                        <div class="flex items-center justify-between relative">
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-100 rounded-full -z-10"></div>
+                            <div id="booking-progress-bar" class="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-gulf-emerald rounded-full -z-10 transition-all duration-500 w-0"></div>
+                            
+                            <div class="flex flex-col items-center bg-white px-2">
+                                <div id="step-icon-1" class="w-8 h-8 rounded-full bg-gulf-emerald text-white flex items-center justify-center shadow-md transition-colors"><i data-lucide="calendar" class="w-4 h-4"></i></div>
+                                <span class="text-[9px] font-bold text-gulf-navy mt-1">Options</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white px-2">
+                                <div id="step-icon-2" class="w-8 h-8 rounded-full bg-gray-100 text-gulf-muted flex items-center justify-center transition-colors"><i data-lucide="user" class="w-4 h-4"></i></div>
+                                <span class="text-[9px] font-bold text-gulf-muted mt-1">Details</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white px-2">
+                                <div id="step-icon-3" class="w-8 h-8 rounded-full bg-gray-100 text-gulf-muted flex items-center justify-center transition-colors"><i data-lucide="credit-card" class="w-4 h-4"></i></div>
+                                <span class="text-[9px] font-bold text-gulf-muted mt-1">Payment</span>
+                            </div>
+                            <div class="flex flex-col items-center bg-white px-2">
+                                <div id="step-icon-4" class="w-8 h-8 rounded-full bg-gray-100 text-gulf-muted flex items-center justify-center transition-colors"><i data-lucide="check-circle" class="w-4 h-4"></i></div>
+                                <span class="text-[9px] font-bold text-gulf-muted mt-1">Done</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scrollable Content Area -->
+                    <div class="flex-1 overflow-y-auto p-6 custom-scrollbar bg-gray-50/50">
+                        
+                        <!-- Step 1: Availability & Options -->
+                        <div id="booking-step-1" class="space-y-6">
+                            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                                <h3 class="font-bold text-gulf-navy mb-4">Select Dates</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="border border-gulf-emerald bg-gulf-green-bg/20 p-3 rounded-xl cursor-pointer">
+                                        <p class="text-[10px] text-gulf-muted font-bold uppercase">Check-in / Start</p>
+                                        <p class="text-sm font-bold text-gulf-navy mt-1 flex items-center"><i data-lucide="calendar-days" class="w-4 h-4 mr-2 text-gulf-emerald"></i> 01 Mar 2026</p>
+                                    </div>
+                                    <div class="border border-gray-200 p-3 rounded-xl cursor-pointer hover:border-gulf-blue transition-colors">
+                                        <p class="text-[10px] text-gulf-muted font-bold uppercase">Check-out / End</p>
+                                        <p class="text-sm font-bold text-gulf-navy mt-1 flex items-center"><i data-lucide="calendar-days" class="w-4 h-4 mr-2 text-gulf-muted"></i> 15 Mar 2026</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                                <h3 class="font-bold text-gulf-navy mb-4">Guests & Configuration</h3>
+                                <div class="flex items-center justify-between p-3 border border-gray-100 rounded-xl mb-3">
+                                    <div>
+                                        <p class="text-sm font-bold text-gulf-navy">Adults</p>
+                                        <p class="text-[10px] text-gulf-muted">Ages 12 or above</p>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gulf-navy hover:bg-gray-200"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                                        <span class="font-bold text-gulf-navy w-4 text-center">2</span>
+                                        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gulf-navy hover:bg-gray-200"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 border border-gray-100 rounded-xl">
+                                    <div>
+                                        <p class="text-sm font-bold text-gulf-navy">Children</p>
+                                        <p class="text-[10px] text-gulf-muted">Ages 2-11</p>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gulf-navy hover:bg-gray-200"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                                        <span class="font-bold text-gulf-navy w-4 text-center">0</span>
+                                        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gulf-navy hover:bg-gray-200"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Details & Add-ons -->
+                        <div id="booking-step-2" class="space-y-6 hidden">
+                            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                                <h3 class="font-bold text-gulf-navy mb-4">Lead Traveler Details</h3>
+                                <div class="space-y-4">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="text-[10px] font-bold text-gulf-muted uppercase mb-1 block">First Name</label>
+                                            <input type="text" value="Ahmad" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:border-gulf-emerald focus:ring-1 focus:ring-gulf-emerald outline-none">
+                                        </div>
+                                        <div>
+                                            <label class="text-[10px] font-bold text-gulf-muted uppercase mb-1 block">Last Name</label>
+                                            <input type="text" value="Hassan" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:border-gulf-emerald focus:ring-1 focus:ring-gulf-emerald outline-none">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-bold text-gulf-muted uppercase mb-1 block">Email Address</label>
+                                        <input type="email" value="ahmad@example.com" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:border-gulf-emerald focus:ring-1 focus:ring-gulf-emerald outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-bold text-gulf-muted uppercase mb-1 block">Passport Number</label>
+                                        <div class="flex relative">
+                                            <input type="text" placeholder="Enter passport number" class="w-full border border-gray-200 rounded-lg p-2.5 pr-10 text-sm focus:border-gulf-emerald focus:ring-1 focus:ring-gulf-emerald outline-none">
+                                            <i data-lucide="scan-line" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-gulf-blue cursor-pointer"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                                <h3 class="font-bold text-gulf-navy mb-4">Journey Add-ons</h3>
+                                <label class="flex items-start space-x-3 p-3 border border-gulf-emerald bg-gulf-green-bg/10 rounded-xl mb-3 cursor-pointer">
+                                    <input type="checkbox" checked class="mt-1 w-4 h-4 text-gulf-emerald rounded border-gray-300 focus:ring-gulf-emerald">
+                                    <div class="flex-1">
+                                        <p class="text-sm font-bold text-gulf-navy">Fast-Track Visa Processing</p>
+                                        <p class="text-[10px] text-gulf-muted">Let GoGulf handle your Nusuk and E-Visa requirements automatically.</p>
+                                    </div>
+                                    <span class="text-sm font-extrabold text-gulf-emerald">+SAR 150</span>
+                                </label>
+                                <label class="flex items-start space-x-3 p-3 border border-gray-100 hover:border-gray-300 rounded-xl cursor-pointer transition-colors">
+                                    <input type="checkbox" class="mt-1 w-4 h-4 text-gulf-emerald rounded border-gray-300 focus:ring-gulf-emerald">
+                                    <div class="flex-1">
+                                        <p class="text-sm font-bold text-gulf-navy">Airport Meet & Greet</p>
+                                        <p class="text-[10px] text-gulf-muted">VIP assistance upon arrival at Jeddah Airport.</p>
+                                    </div>
+                                    <span class="text-sm font-extrabold text-gulf-navy">+SAR 250</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Checkout -->
+                        <div id="booking-step-3" class="space-y-6 hidden">
+                            <div class="bg-gradient-to-br from-gulf-navy to-[#1a2f4c] p-6 rounded-2xl shadow-floating text-white relative overflow-hidden">
+                                <div class="absolute -right-8 -top-8 w-32 h-32 bg-gulf-gold/20 rounded-full blur-3xl"></div>
+                                <h3 class="font-bold text-white mb-4 relative z-10 flex items-center">
+                                    <i data-lucide="shield-check" class="w-5 h-5 mr-2 text-gulf-emerald"></i> Secure Payment
+                                </h3>
+                                
+                                <div class="space-y-4 relative z-10">
+                                    <button class="w-full bg-black hover:bg-gray-900 text-white p-3 rounded-xl flex items-center justify-center space-x-2 transition-colors">
+                                        <i data-lucide="apple" class="w-5 h-5 fill-current"></i> <span class="font-bold">Pay</span>
+                                    </button>
+                                    
+                                    <div class="flex items-center space-x-4">
+                                        <div class="h-px bg-white/20 flex-1"></div>
+                                        <span class="text-[10px] font-bold text-white/50 uppercase">Or pay with card</span>
+                                        <div class="h-px bg-white/20 flex-1"></div>
+                                    </div>
+
+                                    <div class="space-y-3">
+                                        <input type="text" placeholder="Card Number" class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-sm text-white placeholder-white/50 focus:border-gulf-gold focus:ring-1 focus:ring-gulf-gold outline-none backdrop-blur-sm">
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <input type="text" placeholder="MM/YY" class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-sm text-white placeholder-white/50 focus:border-gulf-gold focus:ring-1 focus:ring-gulf-gold outline-none backdrop-blur-sm">
+                                            <input type="text" placeholder="CVC" class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-sm text-white placeholder-white/50 focus:border-gulf-gold focus:ring-1 focus:ring-gulf-gold outline-none backdrop-blur-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                                <h3 class="font-bold text-gulf-navy mb-3">Order Summary</h3>
+                                <div class="space-y-2 text-sm mb-4 pb-4 border-b border-gray-100">
+                                    <div class="flex justify-between text-gulf-text"><span id="booking-summary-title">Premium Umrah</span> <span id="booking-summary-price">SAR 4,500</span></div>
+                                    <div class="flex justify-between text-gulf-text"><span>Fast-Track Visa</span> <span>SAR 150</span></div>
+                                    <div class="flex justify-between text-gulf-text"><span>Taxes & Fees</span> <span>SAR 230</span></div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-gulf-navy">Total to Pay</span>
+                                    <span class="text-xl font-extrabold text-gulf-emerald">SAR 4,880</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Confirmation -->
+                        <div id="booking-step-4" class="hidden flex flex-col items-center justify-center py-10 text-center">
+                            <div class="w-20 h-20 bg-gulf-emerald/10 rounded-full flex items-center justify-center mb-6">
+                                <i data-lucide="check-circle-2" class="w-10 h-10 text-gulf-emerald"></i>
+                            </div>
+                            <h2 class="text-2xl font-extrabold text-gulf-navy mb-2">Booking Confirmed!</h2>
+                            <p class="text-sm text-gulf-text mb-6 max-w-sm">Your journey is officially booked. We've sent the receipt and itinerary to your email.</p>
+                            
+                            <div class="bg-white border border-gray-100 shadow-sm p-4 rounded-xl mb-8 w-full max-w-xs">
+                                <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider mb-1">Booking Reference</p>
+                                <p class="text-lg font-bold text-gulf-navy tracking-widest">GGLF-8492-MK</p>
+                            </div>
+
+                            <button onclick="closeBookingFlow()" class="bg-gulf-navy hover:bg-black text-white px-8 py-3 rounded-xl font-bold shadow-sm transition-colors w-full max-w-xs">
+                                View in My Journey
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer / Actions -->
+                    <div id="booking-footer" class="p-5 md:p-6 border-t border-gray-100 bg-white rounded-b-3xl flex justify-between items-center">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-gulf-muted font-bold uppercase">Total Price</span>
+                            <span class="text-lg font-extrabold text-gulf-navy" id="booking-footer-price">SAR 4,880</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button id="btn-booking-back" onclick="prevBookingStep()" class="hidden px-5 py-2.5 rounded-xl border border-gray-200 text-gulf-navy font-bold hover:bg-gray-50 transition-colors text-sm">
+                                Back
+                            </button>
+                            <button id="btn-booking-next" onclick="nextBookingStep()" class="bg-gulf-emerald hover:bg-green-600 text-white px-8 py-2.5 rounded-xl font-bold shadow-sm transition-colors text-sm flex items-center">
+                                Next <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </section>
+    </div>
+
+    <!-- Functional Script -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+<!-- ... existing code ... -->
+        function showMarketplace() { showView(marketplaceView); }
+
+        // ================= UNIVERSAL BOOKING ENGINE LOGIC =================
+        let currentBookingStep = 1;
+        const totalBookingSteps = 4;
+        const overlay = document.getElementById('booking-engine-overlay');
+        const modal = document.getElementById('booking-engine-modal');
+        
+        function openBookingFlow(category, title, price) {
+            // Set dynamic content
+            document.getElementById('booking-category').innerText = category;
+            document.getElementById('booking-title').innerText = title;
+            document.getElementById('booking-summary-title').innerText = title;
+            
+            // Reset to step 1
+            currentBookingStep = 1;
+            updateBookingUI();
+            
+            // Show modal with animation
+            overlay.classList.remove('hidden');
+            // Small delay to allow display:block to apply before animating opacity/transform
+            requestAnimationFrame(() => {
+                overlay.classList.replace('opacity-0', 'opacity-100');
+                modal.classList.replace('translate-y-full', 'translate-y-0');
+                modal.classList.replace('md:translate-y-8', 'md:translate-y-0');
+            });
+        }
+
+        function closeBookingFlow() {
+            // Hide with animation
+            overlay.classList.replace('opacity-100', 'opacity-0');
+            modal.classList.replace('translate-y-0', 'translate-y-full');
+            modal.classList.replace('md:translate-y-0', 'md:translate-y-8');
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        function nextBookingStep() {
+            if (currentBookingStep < totalBookingSteps) {
+                currentBookingStep++;
+                updateBookingUI();
+            }
+        }
+
+        function prevBookingStep() {
+            if (currentBookingStep > 1) {
+                currentBookingStep--;
+                updateBookingUI();
+            }
+        }
+
+        function updateBookingUI() {
+            // Hide all steps
+            for(let i=1; i<=totalBookingSteps; i++) {
+                document.getElementById(`booking-step-${i}`).classList.add('hidden');
+            }
+            // Show current step
+            document.getElementById(`booking-step-${currentBookingStep}`).classList.remove('hidden');
+
+            // Update Progress Bar & Icons
+            const progressWidths = ['w-0', 'w-1/3', 'w-2/3', 'w-full'];
+            const progressBar = document.getElementById('booking-progress-bar');
+            progressBar.className = `absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-gulf-emerald rounded-full -z-10 transition-all duration-500 ${progressWidths[currentBookingStep-1]}`;
+
+            for(let i=1; i<=totalBookingSteps; i++) {
+                const icon = document.getElementById(`step-icon-${i}`);
+                if(i < currentBookingStep) {
+                    icon.className = "w-8 h-8 rounded-full bg-gulf-emerald text-white flex items-center justify-center shadow-md transition-colors";
+                } else if(i === currentBookingStep) {
+                    icon.className = "w-8 h-8 rounded-full bg-gulf-emerald text-white flex items-center justify-center shadow-md transition-colors ring-4 ring-gulf-emerald/20";
+                } else {
+                    icon.className = "w-8 h-8 rounded-full bg-gray-100 text-gulf-muted flex items-center justify-center transition-colors";
+                }
+            }
+
+            // Footer Buttons Logic
+            const btnBack = document.getElementById('btn-booking-back');
+            const btnNext = document.getElementById('btn-booking-next');
+            const footer = document.getElementById('booking-footer');
+
+            if(currentBookingStep === 1) {
+                btnBack.classList.add('hidden');
+                btnNext.innerHTML = 'Next <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>';
+                footer.classList.remove('hidden');
+            } else if (currentBookingStep === 3) {
+                btnBack.classList.remove('hidden');
+                btnNext.innerHTML = 'Pay Securely <i data-lucide="lock" class="w-4 h-4 ml-2"></i>';
+                footer.classList.remove('hidden');
+            } else if (currentBookingStep === totalBookingSteps) {
+                footer.classList.add('hidden'); // Hide footer on success screen
+            } else {
+                btnBack.classList.remove('hidden');
+                btnNext.innerHTML = 'Next <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>';
+                footer.classList.remove('hidden');
+            }
+            
+            // Re-initialize icons if new HTML was injected (safety catch)
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

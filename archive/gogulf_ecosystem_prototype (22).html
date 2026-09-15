@@ -1,0 +1,550 @@
+<!-- ... existing code ... -->
+                                <!-- User Menu Dropdown (Hover) -->
+                                <div class="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50 overflow-hidden">
+                                    <div class="p-4 border-b border-gray-50 bg-gray-50/50">
+                                        <p class="text-sm font-bold text-gulf-navy">Ahmed Al-Sayed</p>
+                                        <p class="text-xs text-gulf-text mt-0.5">ID: GG-8492-MK</p>
+                                    </div>
+                                    <div class="p-2 space-y-1">
+                                        <a href="#" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="user" class="w-4 h-4 mr-3"></i> My Profile
+                                        </a>
+                                        <a href="#" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="layout-dashboard" class="w-4 h-4 mr-3"></i> My Dashboard
+                                        </a>
+                                        <a href="#" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="compass" class="w-4 h-4 mr-3"></i> My Journey
+                                        </a>
+                                        <a href="#" onclick="showBookings()" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="calendar-check" class="w-4 h-4 mr-3"></i> Bookings & Orders
+                                        </a>
+                                        <a href="#" onclick="showPayments()" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="credit-card" class="w-4 h-4 mr-3"></i> Payments & Wallet
+                                        </a>
+                                        <a href="#" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="folder-open" class="w-4 h-4 mr-3"></i> Documents
+                                        </a>
+                            <div class="space-y-1 mt-1">
+                                <button onclick="toggleAccordion('acc-journey')" class="w-full flex items-center justify-between px-3 py-2 text-sm font-bold text-gulf-navy hover:bg-gulf-green-bg/30 rounded-xl transition-colors">
+                                    <div class="flex items-center"><i data-lucide="compass" class="w-4 h-4 mr-3 text-gulf-muted"></i> My Journey</div>
+                                    <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted transition-transform duration-200" id="icon-acc-journey"></i>
+                                </button>
+                                <div id="acc-journey" class="hidden pl-11 pr-3 py-2 space-y-1">
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Journey Overview</a>
+                                    <a href="#" onclick="showBookings()" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Bookings & Orders</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Visa Journey</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Relocation Journey</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Tasks & Deadlines</a>
+                                    <a href="#" onclick="showPayments()" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Payments & Wallet</a>
+                                </div>
+                            </div>
+                        </div>
+<!-- ... existing code ... -->
+                                <div id="acc-journey" class="hidden pl-11 pr-3 py-2 space-y-1">
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Journey Overview</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Career Journey</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Visa Journey</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Relocation Journey</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Umrah Journey</a>
+                                    <a href="#" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Tasks & Deadlines</a>
+                                    <a href="#" onclick="showPayments()" class="block py-1.5 text-sm text-gulf-text hover:text-gulf-emerald font-medium">Payments</a>
+                                </div>
+                            </div>
+<!-- ... existing code ... -->
+                    <div id="checkout-footer" class="p-6 border-t border-gray-100 bg-white flex justify-between items-center rounded-b-3xl">
+                        <button id="checkout-btn-back" onclick="goToCheckoutStep(1)" class="px-6 py-3 text-sm font-bold text-gulf-muted hover:text-gulf-navy transition-colors hidden">
+                            Back
+                        </button>
+                        <div class="flex-1"></div>
+                        <button id="checkout-btn-next" onclick="goToCheckoutStep(2)" class="bg-gulf-navy hover:bg-black text-white px-8 py-3 rounded-xl text-sm font-bold shadow-md transition-all flex items-center">
+                            Continue to Review <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </button>
+                        <button id="checkout-btn-pay" onclick="goToCheckoutStep(4)" class="bg-gradient-to-r from-gulf-emerald to-gulf-emerald-light hover:shadow-card text-white px-8 py-3 rounded-xl text-sm font-bold shadow-md transition-all hidden items-center">
+                            <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Pay SAR 714.75
+                        </button>
+                        <button id="checkout-btn-done" onclick="closeCheckout(); showPayments();" class="w-full bg-gulf-navy hover:bg-black text-white px-8 py-3 rounded-xl text-sm font-bold shadow-md transition-all hidden justify-center">
+                            View My Payments & Orders
+                        </button>
+                    </div>
+<!-- ... existing code ... -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ================= END MARKETPLACE ================= -->
+
+                <!-- ================= START PAYMENTS ENGINE ================= -->
+                <div id="view-payments" class="hidden animate-fade-in space-y-6 pb-20">
+                    
+                    <!-- Header & Security Banner -->
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 space-y-4 md:space-y-0">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-gulf-navy">Payments & Wallet</h2>
+                            <p class="text-gulf-text mt-1 text-sm">Manage your transactions, saved methods, and invoices securely.</p>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 flex items-center space-x-3 shadow-sm">
+                            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-gulf-blue shadow-sm">
+                                <i data-lucide="shield-check" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gulf-navy">Bank-Grade Security</p>
+                                <p class="text-[10px] text-gulf-text leading-tight">PCI-DSS Compliant • Tokenized Data<br>Raw card details are never stored.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Financial Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1 -->
+                        <div class="bg-gradient-to-br from-gulf-navy to-black p-6 rounded-3xl shadow-card relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-gulf-emerald/20 blur-3xl rounded-full"></div>
+                            <div class="relative z-10 flex flex-col h-full justify-between">
+                                <div class="flex items-center justify-between mb-8">
+                                    <div class="w-10 h-10 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center text-white">
+                                        <i data-lucide="wallet" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-white/60 text-xs font-bold uppercase tracking-wider">GoGulf Wallet</span>
+                                </div>
+                                <div>
+                                    <p class="text-white/70 text-sm mb-1">Available Balance</p>
+                                    <div class="flex items-end space-x-2">
+                                        <span class="text-4xl font-extrabold text-white">0.00</span>
+                                        <span class="text-lg font-bold text-gulf-emerald mb-1">SAR</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2 -->
+                        <div class="bg-white p-6 rounded-3xl shadow-card border border-gray-100 flex flex-col justify-between">
+                            <div class="flex items-center justify-between mb-8">
+                                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-gulf-blue">
+                                    <i data-lucide="credit-card" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-gulf-text text-sm mb-1">Total Spent (2026)</p>
+                                <div class="flex items-end space-x-2">
+                                    <span class="text-3xl font-extrabold text-gulf-navy">8,450.00</span>
+                                    <span class="text-sm font-bold text-gulf-muted mb-1">SAR</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white p-6 rounded-3xl shadow-card border border-gray-100 flex flex-col justify-between hover:-translate-y-1 transition-transform cursor-pointer">
+                            <div class="flex items-center justify-between mb-8">
+                                <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600">
+                                    <i data-lucide="receipt" class="w-5 h-5"></i>
+                                </div>
+                                <span class="bg-purple-100 text-purple-600 px-2 py-1 rounded-lg text-[10px] font-bold">1 Active</span>
+                            </div>
+                            <div>
+                                <p class="text-gulf-text text-sm mb-1">Installments (BNPL)</p>
+                                <div class="flex items-end space-x-2">
+                                    <span class="text-3xl font-extrabold text-gulf-navy">650.00</span>
+                                    <span class="text-sm font-bold text-gulf-muted mb-1">SAR / mo</span>
+                                </div>
+                                <p class="text-[10px] font-bold text-gulf-blue mt-2 flex items-center">View Schedule <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Tabs -->
+                    <div class="bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden">
+                        <!-- Tab Headers -->
+                        <div class="flex border-b border-gray-100 overflow-x-auto custom-scrollbar">
+                            <button class="px-6 py-4 text-sm font-bold text-gulf-emerald border-b-2 border-gulf-emerald flex items-center whitespace-nowrap">
+                                <i data-lucide="list-ordered" class="w-4 h-4 mr-2"></i> Transactions
+                            </button>
+                            <button class="px-6 py-4 text-sm font-bold text-gulf-muted hover:text-gulf-navy transition-colors flex items-center whitespace-nowrap">
+                                <i data-lucide="credit-card" class="w-4 h-4 mr-2"></i> Saved Methods
+                            </button>
+                            <button class="px-6 py-4 text-sm font-bold text-gulf-muted hover:text-gulf-navy transition-colors flex items-center whitespace-nowrap">
+                                <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Invoices
+                            </button>
+                            <button class="px-6 py-4 text-sm font-bold text-gulf-muted hover:text-gulf-navy transition-colors flex items-center whitespace-nowrap">
+                                <i data-lucide="settings-2" class="w-4 h-4 mr-2"></i> Preferences
+                            </button>
+                        </div>
+
+                        <!-- Tab Content: Transactions -->
+                        <div class="p-6">
+                            
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-lg font-bold text-gulf-navy">Recent Transactions</h3>
+                                <div class="flex space-x-2">
+                                    <button class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-gulf-text hover:bg-gray-50 flex items-center">
+                                        <i data-lucide="filter" class="w-3 h-3 mr-1"></i> Filter
+                                    </button>
+                                    <button class="px-3 py-1.5 border border-gray-200 rounded-lg text-xs font-bold text-gulf-text hover:bg-gray-50 flex items-center">
+                                        <i data-lucide="download" class="w-3 h-3 mr-1"></i> Export
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Transaction 1 (Completed) -->
+                                <div class="flex items-center justify-between p-4 border border-gray-100 hover:border-gulf-emerald/30 rounded-2xl transition-colors bg-gray-50/50 hover:bg-white group">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 rounded-full bg-gulf-emerald/10 text-gulf-emerald flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="plane" class="w-5 h-5"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-bold text-gulf-navy group-hover:text-gulf-emerald transition-colors">Flight: Riyadh to Dubai</h4>
+                                            <p class="text-xs text-gulf-text mt-0.5">Emirates Airlines • Ref: #GG-FL-892</p>
+                                            <div class="flex items-center mt-1">
+                                                <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-[10px] font-bold">Completed</span>
+                                                <span class="text-[10px] text-gray-400 ml-2">Sep 12, 2026 • 14:30</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="block text-base font-extrabold text-gulf-navy">- 850.00 SAR</span>
+                                        <div class="flex items-center justify-end text-[10px] text-gulf-text mt-1 space-x-1">
+                                            <i data-lucide="credit-card" class="w-3 h-3"></i> <span>•••• 4242</span>
+                                        </div>
+                                        <button class="text-[10px] font-bold text-gulf-blue hover:underline mt-2">View Receipt</button>
+                                    </div>
+                                </div>
+
+                                <!-- Transaction 2 (Pending/Installment) -->
+                                <div class="flex items-center justify-between p-4 border border-gray-100 hover:border-gulf-emerald/30 rounded-2xl transition-colors bg-gray-50/50 hover:bg-white group">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="book-open" class="w-5 h-5"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-bold text-gulf-navy group-hover:text-gulf-emerald transition-colors">Digital Marketing Certification</h4>
+                                            <p class="text-xs text-gulf-text mt-0.5">Knowledge Hub Academy • Ref: #GG-ED-114</p>
+                                            <div class="flex items-center mt-1">
+                                                <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded text-[10px] font-bold">Installment 2/4</span>
+                                                <span class="text-[10px] text-gray-400 ml-2">Sep 01, 2026 • 09:15</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="block text-base font-extrabold text-gulf-navy">- 650.00 SAR</span>
+                                        <div class="flex items-center justify-end text-[10px] text-gulf-text mt-1 space-x-1">
+                                            <div class="px-1 bg-[#3EFFB0] text-black rounded text-[8px] font-bold">tabby</div> <span>Split Payment</span>
+                                        </div>
+                                        <button class="text-[10px] font-bold text-gulf-blue hover:underline mt-2">Manage Payment</button>
+                                    </div>
+                                </div>
+
+                                <!-- Transaction 3 (Refunded) -->
+                                <div class="flex items-center justify-between p-4 border border-gray-100 hover:border-gulf-emerald/30 rounded-2xl transition-colors bg-gray-50/50 hover:bg-white group">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="briefcase" class="w-5 h-5"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-bold text-gulf-navy line-through decoration-gray-300">CV Translation Service</h4>
+                                            <p class="text-xs text-gulf-text mt-0.5">GoGulf Services • Ref: #GG-SR-773</p>
+                                            <div class="flex items-center mt-1">
+                                                <span class="px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-[10px] font-bold">Refunded</span>
+                                                <span class="text-[10px] text-gray-400 ml-2">Aug 28, 2026 • 11:20</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="block text-base font-extrabold text-green-600">+ 150.00 SAR</span>
+                                        <div class="flex items-center justify-end text-[10px] text-gulf-text mt-1 space-x-1">
+                                            <i data-lucide="corner-down-left" class="w-3 h-3"></i> <span>To Apple Pay</span>
+                                        </div>
+                                        <button class="text-[10px] font-bold text-gulf-blue hover:underline mt-2">View Details</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <button class="w-full mt-6 py-3 border border-gray-200 rounded-xl text-sm font-bold text-gulf-navy hover:bg-gray-50 transition-colors">
+                                Load More Transactions
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tokenized Saved Methods Section -->
+                    <div class="bg-white rounded-3xl shadow-card border border-gray-100 p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h3 class="text-lg font-bold text-gulf-navy">Saved Payment Methods</h3>
+                                <p class="text-xs text-gulf-text">Manage your secure tokenized payment methods.</p>
+                            </div>
+                            <button class="bg-gulf-navy hover:bg-black text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors flex items-center">
+                                <i data-lucide="plus" class="w-4 h-4 mr-1"></i> Add Method
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Tokenized Card 1 -->
+                            <div class="border-2 border-gulf-emerald bg-gulf-green-bg/20 rounded-2xl p-4 relative">
+                                <div class="absolute top-4 right-4 flex space-x-2">
+                                    <span class="bg-gulf-emerald text-white text-[10px] font-bold px-2 py-0.5 rounded">Default</span>
+                                    <button class="text-gray-400 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                </div>
+                                <div class="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center text-[12px] font-bold text-blue-800 mb-6 shadow-sm">VISA</div>
+                                <p class="font-mono text-sm font-bold text-gulf-navy tracking-widest mb-1">•••• •••• •••• 4242</p>
+                                <div class="flex justify-between text-xs text-gulf-text">
+                                    <span>Token Active</span>
+                                    <span>Exp: 12/28</span>
+                                </div>
+                            </div>
+
+                            <!-- Digital Wallet 1 -->
+                            <div class="border border-gray-200 hover:border-gray-300 rounded-2xl p-4 relative bg-gray-50">
+                                <div class="absolute top-4 right-4">
+                                    <button class="text-gray-400 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                </div>
+                                <div class="w-12 h-8 bg-black text-white rounded flex items-center justify-center mb-6 shadow-sm">
+                                    <i data-lucide="apple" class="w-4 h-4"></i>
+                                </div>
+                                <p class="text-sm font-bold text-gulf-navy mb-1">Apple Pay</p>
+                                <div class="flex justify-between text-xs text-gulf-text">
+                                    <span>Device Token Linked</span>
+                                </div>
+                            </div>
+
+                            <!-- Digital Wallet 2 -->
+                            <div class="border border-gray-200 hover:border-gray-300 rounded-2xl p-4 relative bg-gray-50">
+                                <div class="absolute top-4 right-4">
+                                    <button class="text-gray-400 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                </div>
+                                <div class="w-12 h-8 bg-purple-600 text-white rounded flex items-center justify-center text-[10px] font-bold mb-6 shadow-sm">
+                                    stc pay
+                                </div>
+                                <p class="text-sm font-bold text-gulf-navy mb-1">STC Pay Wallet</p>
+                                <div class="flex justify-between text-xs text-gulf-text">
+                                    <span>+966 50 *** **67</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- ================= END PAYMENTS ENGINE ================= -->
+
+                <!-- ================= START MY BOOKINGS ================= -->
+                <div id="view-bookings" class="hidden animate-fade-in space-y-6 pb-20">
+                    
+                    <!-- Header -->
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 space-y-4 md:space-y-0">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-gulf-navy">My Bookings & Orders</h2>
+                            <p class="text-gulf-text mt-1 text-sm">Manage your flights, hotels, Umrah packages, courses, and services.</p>
+                        </div>
+                        <div class="relative">
+                            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gulf-muted"></i>
+                            <input type="text" placeholder="Search bookings (e.g. BKG-UM-9921)" class="pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-gulf-emerald focus:ring-1 focus:ring-gulf-emerald w-full md:w-64 bg-white shadow-sm">
+                        </div>
+                    </div>
+
+                    <!-- Category Filters -->
+                    <div class="flex space-x-2 overflow-x-auto custom-scrollbar pb-2">
+                        <button class="px-5 py-2 bg-gulf-navy text-white rounded-full text-sm font-bold whitespace-nowrap shadow-sm">All Bookings</button>
+                        <button class="px-5 py-2 bg-white border border-gray-200 text-gulf-text hover:border-gulf-emerald hover:text-gulf-emerald rounded-full text-sm font-bold whitespace-nowrap transition-colors">✈️ Flights</button>
+                        <button class="px-5 py-2 bg-white border border-gray-200 text-gulf-text hover:border-gulf-emerald hover:text-gulf-emerald rounded-full text-sm font-bold whitespace-nowrap transition-colors">🕋 Umrah & Hajj</button>
+                        <button class="px-5 py-2 bg-white border border-gray-200 text-gulf-text hover:border-gulf-emerald hover:text-gulf-emerald rounded-full text-sm font-bold whitespace-nowrap transition-colors">🏨 Hotels</button>
+                        <button class="px-5 py-2 bg-white border border-gray-200 text-gulf-text hover:border-gulf-emerald hover:text-gulf-emerald rounded-full text-sm font-bold whitespace-nowrap transition-colors">🎓 Courses</button>
+                        <button class="px-5 py-2 bg-white border border-gray-200 text-gulf-text hover:border-gulf-emerald hover:text-gulf-emerald rounded-full text-sm font-bold whitespace-nowrap transition-colors">🚗 Transport</button>
+                    </div>
+
+                    <!-- Bookings List -->
+                    <div class="space-y-4">
+
+                        <!-- Booking Card 1: Umrah (Upcoming) -->
+                        <div class="bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden group">
+                            <div class="flex flex-col md:flex-row">
+                                <!-- Status/Icon Column -->
+                                <div class="bg-gulf-green-bg/30 p-6 flex flex-col items-center justify-center md:w-40 border-b md:border-b-0 md:border-r border-gray-100">
+                                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gulf-emerald shadow-sm mb-3">
+                                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                    </div>
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold whitespace-nowrap">Confirmed</span>
+                                </div>
+                                
+                                <!-- Details Column -->
+                                <div class="p-6 flex-1">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gulf-navy group-hover:text-gulf-emerald transition-colors">Premium Executive Umrah Package</h3>
+                                            <p class="text-sm text-gulf-text flex items-center mt-1">
+                                                Provided by <span class="font-bold text-gulf-navy ml-1">Al Hidayah Tours</span>
+                                                <svg class="w-4 h-4 text-blue-500 ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                            </p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-xs text-gulf-muted font-mono bg-gray-50 px-2 py-1 rounded">ID: BKG-UM-9921</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                                        <div>
+                                            <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Date</p>
+                                            <p class="text-sm font-bold text-gulf-navy">Oct 15 - Oct 29, 2026</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Travelers</p>
+                                            <p class="text-sm font-bold text-gulf-navy">2 Adults, 1 Child</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Payment</p>
+                                            <p class="text-sm font-bold text-green-600 flex items-center"><i data-lucide="check-circle" class="w-3 h-3 mr-1"></i> Fully Paid</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Documents</p>
+                                            <p class="text-sm font-bold text-amber-500 flex items-center"><i data-lucide="alert-circle" class="w-3 h-3 mr-1"></i> Passport Req.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Actions Column -->
+                                <div class="p-6 bg-gray-50/50 flex flex-col justify-center space-y-2 md:w-56 border-t md:border-t-0 md:border-l border-gray-100">
+                                    <button class="w-full py-2 bg-gulf-emerald text-white rounded-xl text-sm font-bold shadow-sm hover:bg-gulf-emerald-light transition-colors flex items-center justify-center">
+                                        <i data-lucide="download" class="w-4 h-4 mr-2"></i> Download Voucher
+                                    </button>
+                                    <button class="w-full py-2 bg-white border border-gray-200 text-gulf-navy rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors flex items-center justify-center">
+                                        <i data-lucide="folder-up" class="w-4 h-4 mr-2"></i> Upload Docs
+                                    </button>
+                                    <div class="flex justify-between mt-2 pt-2 border-t border-gray-200">
+                                        <button class="text-xs text-gulf-text hover:text-red-500 font-bold transition-colors">Cancel</button>
+                                        <button class="text-xs text-gulf-blue hover:underline font-bold transition-colors flex items-center"><i data-lucide="headphones" class="w-3 h-3 mr-1"></i> Support</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Booking Card 2: Flight (Upcoming) -->
+                        <div class="bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden group">
+                            <div class="flex flex-col md:flex-row">
+                                <!-- Status/Icon Column -->
+                                <div class="bg-blue-50/50 p-6 flex flex-col items-center justify-center md:w-40 border-b md:border-b-0 md:border-r border-gray-100">
+                                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gulf-blue shadow-sm mb-3">
+                                        <i data-lucide="plane" class="w-6 h-6"></i>
+                                    </div>
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-bold whitespace-nowrap">Ticketed</span>
+                                </div>
+                                
+                                <!-- Details Column -->
+                                <div class="p-6 flex-1">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gulf-navy group-hover:text-gulf-blue transition-colors">Flight: Riyadh (RUH) to Dubai (DXB)</h3>
+                                            <p class="text-sm text-gulf-text flex items-center mt-1">
+                                                Operated by <span class="font-bold text-gulf-navy ml-1">Emirates Airlines</span>
+                                            </p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-xs text-gulf-muted font-mono bg-gray-50 px-2 py-1 rounded">PNR: X7G9ML</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                                        <div>
+                                            <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Departure</p>
+                                            <p class="text-sm font-bold text-gulf-navy">Nov 02, 2026 • 14:30</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Flight No.</p>
+                                            <p class="text-sm font-bold text-gulf-navy">EK 818</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Payment</p>
+                                            <p class="text-sm font-bold text-green-600 flex items-center"><i data-lucide="check-circle" class="w-3 h-3 mr-1"></i> Fully Paid</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-gulf-muted font-bold uppercase tracking-wider">Class</p>
+                                            <p class="text-sm font-bold text-gulf-text">Economy (Y)</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Actions Column -->
+                                <div class="p-6 bg-gray-50/50 flex flex-col justify-center space-y-2 md:w-56 border-t md:border-t-0 md:border-l border-gray-100">
+                                    <button class="w-full py-2 bg-gulf-blue text-white rounded-xl text-sm font-bold shadow-sm hover:bg-blue-700 transition-colors flex items-center justify-center">
+                                        <i data-lucide="ticket" class="w-4 h-4 mr-2"></i> E-Ticket
+                                    </button>
+                                    <button class="w-full py-2 bg-white border border-gray-200 text-gulf-navy rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors flex items-center justify-center">
+                                        Manage Booking
+                                    </button>
+                                    <div class="flex justify-between mt-2 pt-2 border-t border-gray-200">
+                                        <button class="text-xs text-gulf-text hover:text-red-500 font-bold transition-colors">Cancel</button>
+                                        <button class="text-xs text-gulf-blue hover:underline font-bold transition-colors flex items-center"><i data-lucide="headphones" class="w-3 h-3 mr-1"></i> Support</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Booking Card 3: Course (Past/Completed) -->
+                        <div class="bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden opacity-75 hover:opacity-100 transition-opacity">
+                            <div class="flex flex-col md:flex-row">
+                                <!-- Status/Icon Column -->
+                                <div class="bg-gray-100/50 p-6 flex flex-col items-center justify-center md:w-40 border-b md:border-b-0 md:border-r border-gray-100">
+                                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-500 shadow-sm mb-3">
+                                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                                    </div>
+                                    <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold whitespace-nowrap">Completed</span>
+                                </div>
+                                
+                                <!-- Details Column -->
+                                <div class="p-6 flex-1">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-600">Digital Marketing Certification Bootcamp</h3>
+                                            <p class="text-sm text-gulf-text flex items-center mt-1">
+                                                Provider: <span class="font-bold text-gray-600 ml-1">Knowledge Hub Academy</span>
+                                            </p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-xs text-gray-400 font-mono bg-gray-50 px-2 py-1 rounded">ID: BKG-ED-1102</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                                        <div>
+                                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Date</p>
+                                            <p class="text-sm font-bold text-gray-600">Aug 01 - Aug 28, 2026</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Format</p>
+                                            <p class="text-sm font-bold text-gray-600">Online Live</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Payment</p>
+                                            <p class="text-sm font-bold text-gray-500 flex items-center">Split (Tabby)</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Actions Column -->
+                                <div class="p-6 bg-gray-50/50 flex flex-col justify-center space-y-2 md:w-56 border-t md:border-t-0 md:border-l border-gray-100">
+                                    <button class="w-full py-2 bg-gulf-navy text-white rounded-xl text-sm font-bold shadow-sm hover:bg-black transition-colors flex items-center justify-center">
+                                        <i data-lucide="award" class="w-4 h-4 mr-2"></i> View Certificate
+                                    </button>
+                                    <button class="w-full py-2 bg-white border border-gray-200 text-gulf-navy rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors flex items-center justify-center">
+                                        Leave a Review
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ================= END MY BOOKINGS ================= -->
+
+            </div>
+            
+        </main>
+        function showUmrahDetail() { switchView('view-umrah-detail'); }
+        function showMarketplace() { switchView('view-marketplace'); }
+        function showPayments() { switchView('view-payments'); }
+        function showBookings() { switchView('view-bookings'); }
+
+        function switchView(viewId) {
+            // Hide all views
+            const views = ['view-home', 'view-discover', 'view-job-detail', 'view-employer-profile', 'view-recruiter-profile', 'view-umrah-detail', 'view-marketplace', 'view-payments', 'view-bookings'];
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+<!-- ... existing code ... -->

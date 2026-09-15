@@ -1,0 +1,615 @@
+<!-- ... existing code ... -->
+    <meta name="description" content="GoGulf - The Ultimate Gulf Ecosystem">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="https://placehold.co/180x180/032b43/ffffff?text=GG">
+
+    <title>GoGulf Ecosystem Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<!-- ... existing code ... -->
+            }
+            .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            
+            /* Accessibility Focus Rings */
+            .focus-ring:focus-visible {
+                outline: 2px solid #d4af37;
+                outline-offset: 2px;
+            }
+
+            /* Microinteractions */
+            .hover-lift {
+                transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .hover-lift:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Skeleton Loading Animation */
+            .skeleton-bg {
+                background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                background-size: 200% 100%;
+                animation: skeleton-loading 1.5s infinite;
+            }
+            @keyframes skeleton-loading {
+                0% { background-position: 200% 0; }
+                100% { background-position: -200% 0; }
+            }
+
+            /* Reduced Motion Fallback */
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                    scroll-behavior: auto !important;
+                }
+            }
+        </style>
+        
+        <!-- Lucide Icons -->
+<!-- ... existing code ... -->
+                    <!-- Top Navigation Icons -->
+                    <div class="flex items-center gap-1 sm:gap-2">
+                        <!-- Search Toggle (Mobile mostly, but keeping clean) -->
+                        <button onclick="toggleSearch()" class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors active-scale focus-ring" aria-label="Search">
+                            <i data-lucide="search" class="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true"></i>
+                        </button>
+                        
+                        <!-- Create (Desktop) -->
+                        <button onclick="toggleCreateModal()" class="hidden md:flex bg-gulf-blue hover:bg-blue-900 text-white px-4 py-2 rounded-full font-bold text-sm items-center gap-2 transition-colors active-scale focus-ring">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Create
+                        </button>
+
+                        <!-- Messages -->
+                        <button onclick="switchView('view-messages')" class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors relative active-scale focus-ring" aria-label="Messages">
+                            <i data-lucide="message-square" class="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true"></i>
+                            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                        </button>
+                        
+                        <!-- Notifications -->
+                        <button onclick="switchView('view-notifications')" class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors relative active-scale focus-ring" aria-label="Notifications">
+                            <i data-lucide="bell" class="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true"></i>
+                            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                        </button>
+                        
+                        <!-- Cart -->
+                        <button onclick="toggleCart()" class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors relative active-scale focus-ring" aria-label="Shopping Cart">
+                            <i data-lucide="shopping-cart" class="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true"></i>
+                            <span class="absolute top-0 right-0 bg-gulf-gold text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
+                        </button>
+
+                        <!-- Profile Dropdown -->
+                        <div class="relative ml-1 sm:ml-2">
+                            <button onclick="toggleProfileDropdown()" class="flex items-center gap-2 focus:outline-none active-scale focus-ring rounded-full" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Profile" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-slate-200 object-cover">
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 hidden sm:block"></i>
+                            </button>
+<!-- ... existing code ... -->
+                            <button onclick="switchView('view-corporate-os')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-slate-100 transition-colors group focus-ring">
+                                <div class="flex items-center gap-3 text-slate-800 font-medium"><i data-lucide="building" class="w-5 h-5 text-slate-600"></i> Corporate OS</div>
+                            </button>
+                        </div>
+                        
+                        <!-- App System -->
+                        <div class="pt-4 mt-4 border-t border-gray-200 space-y-1">
+                            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">App & System</p>
+                            <button onclick="switchView('view-tools')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-slate-100 transition-colors group focus-ring">
+                                <div class="flex items-center gap-3 text-slate-700 font-medium"><i data-lucide="wrench" class="w-5 h-5 text-slate-400 group-hover:text-gulf-blue"></i> Tools</div>
+                            </button>
+                            <button onclick="switchView('view-settings')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-slate-100 transition-colors group focus-ring">
+                                <div class="flex items-center gap-3 text-slate-700 font-medium"><i data-lucide="settings" class="w-5 h-5 text-slate-400 group-hover:text-gulf-blue"></i> Settings</div>
+                            </button>
+                        </div>
+
+                        <!-- Auth / Security Section -->
+                        <div class="pt-4 mt-4 border-t border-gray-200 space-y-1">
+                            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Account & Security</p>
+                            <button onclick="switchView('view-auth')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-gray-100 transition-colors group focus-ring">
+                                <div class="flex items-center gap-3 text-gray-700 font-medium"><i data-lucide="shield-check" class="w-5 h-5 text-gray-400 group-hover:text-gulf-blue"></i> Authentication</div>
+                            </button>
+                        </div>
+                    </nav>
+
+                    <!-- User Profile Snippet (Bottom) -->
+<!-- ... existing code ... -->
+                            <button onclick="switchView('view-premium')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition-colors text-left group">
+                                <i data-lucide="star" class="w-5 h-5 text-gulf-gold"></i>
+                                <span class="text-slate-800 font-medium text-sm">Premium</span>
+                            </button>
+                            <button onclick="switchView('view-tools')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition-colors text-left group">
+                                <i data-lucide="wrench" class="w-5 h-5 text-slate-600"></i>
+                                <span class="text-slate-800 font-medium text-sm">Tools</span>
+                            </button>
+                        </div>
+                        
+                        <div class="h-px bg-gray-200 my-2"></div>
+                        
+                        <!-- Internal OS -->
+<!-- ... existing code ... -->
+                        <div class="h-px bg-gray-200 my-2"></div>
+                        
+                        <p class="px-3 text-xs font-bold text-gray-400 uppercase tracking-wider mt-2 mb-1">Account</p>
+                        <button onclick="switchView('view-settings')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+                            <i data-lucide="settings" class="w-5 h-5 text-gray-400"></i>
+                            <span class="text-gray-700 font-medium text-sm">Settings</span>
+                        </button>
+                        <button onclick="switchView('view-auth')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-gray-400"></i>
+                            <span class="text-gray-700 font-medium text-sm">Authentication</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+<!-- ... existing code ... -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: LANDING PAGE (LOGGED OUT) ================= -->
+                <!-- ARCHITECTURE NOTE: This is the public face of GoGulf before authentication. -->
+                <div id="view-landing" class="hidden min-h-screen bg-white">
+                    
+                    <!-- Hero Section -->
+                    <div class="relative bg-gulf-blue pt-20 pb-32 overflow-hidden">
+                        <div class="absolute inset-0 opacity-10">
+                            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"/>
+                                </pattern>
+                                <rect width="100" height="100" fill="url(#grid)" />
+                            </svg>
+                        </div>
+                        
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-sm font-medium mb-8 backdrop-blur-sm">
+                                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                                The Ultimate Gulf Ecosystem
+                            </div>
+                            
+                            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+                                Your Gateway to the <br/>
+                                <span class="text-gulf-gold">Middle East</span>
+                            </h1>
+                            
+                            <p class="mt-4 max-w-2xl text-lg md:text-xl text-blue-100 mx-auto mb-10">
+                                Connect, build your career, plan your travel, and thrive in the Gulf—all from one unified platform.
+                            </p>
+                            
+                            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <button onclick="switchView('view-auth')" class="w-full sm:w-auto px-8 py-4 bg-gulf-gold hover:bg-yellow-500 text-gulf-blue font-bold rounded-2xl shadow-lg hover-lift transition-all text-lg">
+                                    Get Started
+                                </button>
+                                <button onclick="switchView('view-home')" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold rounded-2xl transition-all hover-lift text-lg backdrop-blur-sm">
+                                    Explore Ecosystem
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Curved separator -->
+                        <div class="absolute bottom-0 inset-x-0">
+                            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto text-gray-50">
+                                <path d="M0 120L1440 120L1440 60C1440 60 1120 0 720 0C320 0 0 60 0 60L0 120Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Features Grid -->
+                    <div class="bg-gray-50 py-20">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="text-center mb-16">
+                                <h2 class="text-3xl font-bold text-gray-900">Everything you need in one place</h2>
+                                <p class="mt-4 text-gray-500 max-w-2xl mx-auto">A seamless experience combining professional networking, essential services, and spiritual journeys.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <!-- Feature 1 -->
+                                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover-lift">
+                                    <div class="w-14 h-14 bg-blue-50 text-gulf-blue rounded-2xl flex items-center justify-center mb-6">
+                                        <i data-lucide="briefcase" class="w-7 h-7"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3">Career & Business</h3>
+                                    <p class="text-gray-500 leading-relaxed">Find jobs, hire talent, and network with professionals across the UAE, Saudi Arabia, and the wider GCC.</p>
+                                </div>
+                                <!-- Feature 2 -->
+                                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover-lift">
+                                    <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
+                                        <i data-lucide="plane" class="w-7 h-7"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3">Travel & Relocation</h3>
+                                    <p class="text-gray-500 leading-relaxed">Book flights, find accommodation, manage visas, and navigate your entire settlement process seamlessly.</p>
+                                </div>
+                                <!-- Feature 3 -->
+                                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover-lift">
+                                    <div class="w-14 h-14 bg-yellow-50 text-gulf-gold rounded-2xl flex items-center justify-center mb-6">
+                                        <i data-lucide="moon" class="w-7 h-7"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3">Hajj & Umrah</h3>
+                                    <p class="text-gray-500 leading-relaxed">Discover verified packages, spiritual guides, and manage all your holy journey requirements securely.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: PRODUCT DETAIL (MARKETPLACE PDP) ================= -->
+                <!-- ARCHITECTURE NOTE: E-commerce standard Product Detail Page (PDP) -->
+                <div id="view-product-detail" class="hidden min-h-screen bg-gray-50 p-4 md:p-6 pb-24">
+                    <div class="max-w-6xl mx-auto">
+                        <!-- Breadcrumbs -->
+                        <div class="flex items-center gap-2 text-sm text-gray-500 mb-6 font-medium">
+                            <button onclick="switchView('view-marketplace')" class="hover:text-gulf-blue">Marketplace</button>
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            <span class="text-gray-900">Career Tools</span>
+                        </div>
+
+                        <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+                            <div class="flex flex-col md:flex-row">
+                                <!-- Image Gallery -->
+                                <div class="w-full md:w-1/2 p-6 bg-gray-50 flex items-center justify-center min-h-[400px]">
+                                    <img src="https://placehold.co/600x600/032b43/ffffff?text=Premium+CV+Template" alt="Product" class="w-full max-w-md h-auto rounded-2xl shadow-lg object-cover">
+                                </div>
+
+                                <!-- Product Info -->
+                                <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="px-2.5 py-1 bg-blue-50 text-gulf-blue text-xs font-bold rounded-lg border border-blue-100">Digital Product</span>
+                                        <div class="flex items-center text-yellow-400">
+                                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                            <i data-lucide="star-half" class="w-4 h-4 fill-current"></i>
+                                            <span class="text-gray-500 text-xs ml-1 font-medium">(128)</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Premium Dubai CV Template Pack</h1>
+                                    <p class="text-gray-500 text-sm mb-6">Sold by <span class="font-bold text-gulf-blue">Gulf Career Experts</span> <i data-lucide="badge-check" class="w-4 h-4 inline text-blue-500"></i></p>
+                                    
+                                    <div class="text-3xl font-bold text-gray-900 mb-6">
+                                        $29.00 <span class="text-lg text-gray-400 line-through font-normal ml-2">$49.00</span>
+                                    </div>
+                                    
+                                    <p class="text-gray-600 mb-8 leading-relaxed">
+                                        ATS-friendly CV templates designed specifically for the UAE and Saudi Arabian job markets. Includes 5 distinct styles, cover letter templates, and a free 10-page guide on Gulf interview etiquette.
+                                    </p>
+
+                                    <!-- Actions -->
+                                    <div class="mt-auto space-y-3">
+                                        <button onclick="toggleCart()" class="w-full bg-gulf-blue hover:bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-900/20 transition-all hover-lift flex items-center justify-center gap-2 text-lg">
+                                            <i data-lucide="shopping-cart" class="w-5 h-5"></i> Add to Cart
+                                        </button>
+                                        <button class="w-full bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 font-bold py-4 rounded-xl transition-all hover-lift flex items-center justify-center gap-2">
+                                            <i data-lucide="bookmark" class="w-5 h-5"></i> Save for Later
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Trust markers -->
+                                    <div class="flex items-center justify-center gap-6 mt-8 pt-8 border-t border-gray-100">
+                                        <div class="flex items-center gap-2 text-sm text-gray-500"><i data-lucide="shield-check" class="w-5 h-5 text-green-500"></i> Secure Checkout</div>
+                                        <div class="flex items-center gap-2 text-sm text-gray-500"><i data-lucide="download" class="w-5 h-5 text-blue-500"></i> Instant Download</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: COMMUNITY & GROUPS ================= -->
+                <div id="view-community" class="hidden min-h-screen bg-gray-50 p-4 md:p-6 pb-24">
+                    <div class="max-w-4xl mx-auto space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900">Community & Groups</h1>
+                                <p class="text-gray-500 text-sm">Connect with professionals and expats in your area.</p>
+                            </div>
+                            <button class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl font-bold text-sm hover:bg-gray-50 transition-colors">
+                                Create Group
+                            </button>
+                        </div>
+
+                        <!-- Suggested Groups -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Group Card -->
+                            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-200 flex gap-4 hover-lift">
+                                <img src="https://placehold.co/100x100/10b981/ffffff?text=DXB" alt="Dubai Tech" class="w-16 h-16 rounded-xl object-cover shrink-0">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-gray-900">Dubai Tech Professionals</h3>
+                                    <p class="text-xs text-gray-500 mt-1 line-clamp-2">Networking and discussions for software engineers, PMs, and designers in the UAE.</p>
+                                    <div class="flex items-center gap-2 mt-3">
+                                        <span class="text-xs font-bold text-gray-500"><i data-lucide="users" class="w-3 h-3 inline mr-1"></i> 12.4k Members</span>
+                                        <button class="ml-auto bg-gulf-blue/10 text-gulf-blue hover:bg-gulf-blue/20 px-3 py-1 rounded-lg text-xs font-bold transition-colors">Join</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Group Card -->
+                            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-200 flex gap-4 hover-lift">
+                                <img src="https://placehold.co/100x100/0ea5e9/ffffff?text=KSA" alt="KSA Expats" class="w-16 h-16 rounded-xl object-cover shrink-0">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-gray-900">Riyadh Expats Network</h3>
+                                    <p class="text-xs text-gray-500 mt-1 line-clamp-2">Housing, schools, and lifestyle advice for expats moving to Saudi Arabia.</p>
+                                    <div class="flex items-center gap-2 mt-3">
+                                        <span class="text-xs font-bold text-gray-500"><i data-lucide="users" class="w-3 h-3 inline mr-1"></i> 8.1k Members</span>
+                                        <button class="ml-auto bg-gulf-blue/10 text-gulf-blue hover:bg-gulf-blue/20 px-3 py-1 rounded-lg text-xs font-bold transition-colors">Join</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Discussions -->
+                        <h2 class="text-lg font-bold text-gray-900 mt-8 mb-4">Trending Discussions</h2>
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 divide-y divide-gray-100">
+                            <!-- Thread -->
+                            <div class="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Visa & Immigration</span>
+                                    <span class="text-xs text-gray-400">Posted 2h ago</span>
+                                </div>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1">Golden Visa requirements update for software engineers</h3>
+                                <p class="text-sm text-gray-500 line-clamp-2">Has anyone applied for the UAE Golden Visa recently under the specialized talent category? I have my degree attested but...</p>
+                                <div class="flex items-center gap-4 mt-3 text-sm font-medium text-gray-500">
+                                    <span class="flex items-center gap-1"><i data-lucide="message-square" class="w-4 h-4"></i> 42 Replies</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="thumbs-up" class="w-4 h-4"></i> 156 Likes</span>
+                                </div>
+                            </div>
+                            <!-- Thread -->
+                            <div class="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded">Housing</span>
+                                    <span class="text-xs text-gray-400">Posted 5h ago</span>
+                                </div>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1">Best areas to live in Riyadh for young families?</h3>
+                                <p class="text-sm text-gray-500 line-clamp-2">Moving to Riyadh next month. Working near KAFD. Looking for a 3BHK villa in a compound. Any recommendations?</p>
+                                <div class="flex items-center gap-4 mt-3 text-sm font-medium text-gray-500">
+                                    <span class="flex items-center gap-1"><i data-lucide="message-square" class="w-4 h-4"></i> 89 Replies</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="thumbs-up" class="w-4 h-4"></i> 45 Likes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: MY JOURNEY ================= -->
+                <!-- ARCHITECTURE NOTE: Vertical timeline of a user's progress. -->
+                <div id="view-journey" class="hidden min-h-screen bg-gray-50 p-4 md:p-6 pb-24">
+                    <div class="max-w-3xl mx-auto">
+                        <div class="bg-white rounded-3xl shadow-sm border border-gray-200 p-6 md:p-8">
+                            
+                            <div class="flex items-center justify-between mb-8">
+                                <div>
+                                    <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Your Gulf Journey</h1>
+                                    <p class="text-sm text-gray-500 mt-1">Track your progress from application to settlement.</p>
+                                </div>
+                                <div class="w-16 h-16 rounded-full bg-blue-50 border-4 border-blue-100 flex items-center justify-center shrink-0">
+                                    <span class="text-xl font-bold text-gulf-blue">45%</span>
+                                </div>
+                            </div>
+
+                            <!-- Timeline -->
+                            <div class="relative pl-8 space-y-10 before:absolute before:inset-0 before:ml-10 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-gulf-blue before:via-blue-200 before:to-gray-200">
+                                
+                                <!-- Step 1: Completed -->
+                                <div class="relative">
+                                    <div class="absolute left-[-40px] w-8 h-8 bg-green-500 rounded-full border-4 border-white shadow-sm flex items-center justify-center z-10">
+                                        <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div class="bg-gray-50 border border-gray-100 p-5 rounded-2xl">
+                                        <h3 class="font-bold text-gray-900 text-lg">Profile & Documents</h3>
+                                        <p class="text-sm text-gray-500 mt-1">Digital identity established and core documents verified.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2: Active -->
+                                <div class="relative">
+                                    <div class="absolute left-[-40px] w-8 h-8 bg-gulf-blue rounded-full border-4 border-white shadow-sm flex items-center justify-center z-10">
+                                        <div class="w-2.5 h-2.5 bg-white rounded-full animate-pulse"></div>
+                                    </div>
+                                    <div class="bg-blue-50 border border-blue-100 p-5 rounded-2xl shadow-sm">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <h3 class="font-bold text-gulf-blue text-lg">Job Search & Interviews</h3>
+                                            <span class="px-2 py-1 bg-white text-blue-600 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-blue-100 shadow-sm">In Progress</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mb-4">You have 3 active applications and 1 upcoming interview.</p>
+                                        <button class="bg-gulf-blue text-white px-4 py-2 rounded-xl text-sm font-bold shadow-sm hover:bg-blue-900 transition-colors">View Applications</button>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: Locked -->
+                                <div class="relative">
+                                    <div class="absolute left-[-40px] w-8 h-8 bg-gray-200 rounded-full border-4 border-white flex items-center justify-center z-10">
+                                        <i data-lucide="lock" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                    <div class="bg-white border border-gray-100 p-5 rounded-2xl opacity-60">
+                                        <h3 class="font-bold text-gray-400 text-lg">Visa & Work Permit</h3>
+                                        <p class="text-sm text-gray-400 mt-1">Unlock this stage by accepting a job offer.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4: Locked -->
+                                <div class="relative">
+                                    <div class="absolute left-[-40px] w-8 h-8 bg-gray-200 rounded-full border-4 border-white flex items-center justify-center z-10">
+                                        <i data-lucide="lock" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                    <div class="bg-white border border-gray-100 p-5 rounded-2xl opacity-60">
+                                        <h3 class="font-bold text-gray-400 text-lg">Travel & Relocation</h3>
+                                        <p class="text-sm text-gray-400 mt-1">Book flights and initial accommodation.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: TOOLS ================= -->
+                <!-- ARCHITECTURE NOTE: Utilities like salary calculators, visa checkers. -->
+                <div id="view-tools" class="hidden min-h-screen bg-gray-50 p-4 md:p-6 pb-24">
+                    <div class="max-w-5xl mx-auto">
+                        <div class="mb-8">
+                            <h1 class="text-2xl font-bold text-gray-900">Ecosystem Tools</h1>
+                            <p class="text-gray-500 text-sm">Calculators, checkers, and utilities for your journey.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Tool 1 -->
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-200 hover-lift cursor-pointer flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="calculator" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-900 mb-2">Cost of Living Calculator</h3>
+                                <p class="text-sm text-gray-500 mb-4">Compare expenses between cities like Dubai, Riyadh, and Doha.</p>
+                                <button class="mt-auto w-full py-2 bg-gray-50 hover:bg-gray-100 text-gray-900 font-bold rounded-xl transition-colors">Launch Tool</button>
+                            </div>
+
+                            <!-- Tool 2 -->
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-200 hover-lift cursor-pointer flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="file-check" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-900 mb-2">Visa Eligibility Checker</h3>
+                                <p class="text-sm text-gray-500 mb-4">Quickly check your eligibility for Golden, Green, or Work visas.</p>
+                                <button class="mt-auto w-full py-2 bg-gray-50 hover:bg-gray-100 text-gray-900 font-bold rounded-xl transition-colors">Launch Tool</button>
+                            </div>
+
+                            <!-- Tool 3 -->
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-200 hover-lift cursor-pointer flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-4">
+                                    <i data-lucide="scan-line" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-900 mb-2">Document Scanner AI</h3>
+                                <p class="text-sm text-gray-500 mb-4">Extract data from passports and IDs securely for quick form filling.</p>
+                                <button class="mt-auto w-full py-2 bg-gray-50 hover:bg-gray-100 text-gray-900 font-bold rounded-xl transition-colors">Launch Tool</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: SETTINGS ================= -->
+                <!-- ARCHITECTURE NOTE: Account configuration -->
+                <div id="view-settings" class="hidden min-h-screen bg-gray-50 p-4 md:p-6 pb-24">
+                    <div class="max-w-4xl mx-auto">
+                        <h1 class="text-2xl font-bold text-gray-900 mb-6">Account Settings</h1>
+                        
+                        <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+                            <!-- List of settings options -->
+                            <div class="divide-y divide-gray-100">
+                                <button class="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition-colors group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-50 group-hover:text-gulf-blue transition-colors">
+                                            <i data-lucide="user" class="w-5 h-5 text-gray-600 group-hover:text-gulf-blue"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="font-bold text-gray-900">Personal Information</p>
+                                            <p class="text-xs text-gray-500">Update your name, email, and phone number.</p>
+                                        </div>
+                                    </div>
+                                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                                </button>
+                                
+                                <button class="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition-colors group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-50 group-hover:text-gulf-blue transition-colors">
+                                            <i data-lucide="bell" class="w-5 h-5 text-gray-600 group-hover:text-gulf-blue"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="font-bold text-gray-900">Notifications</p>
+                                            <p class="text-xs text-gray-500">Manage push, email, and SMS alerts.</p>
+                                        </div>
+                                    </div>
+                                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                                </button>
+
+                                <button class="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition-colors group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-50 group-hover:text-gulf-blue transition-colors">
+                                            <i data-lucide="lock" class="w-5 h-5 text-gray-600 group-hover:text-gulf-blue"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="font-bold text-gray-900">Privacy & Security</p>
+                                            <p class="text-xs text-gray-500">Password, 2FA, and session management.</p>
+                                        </div>
+                                    </div>
+                                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                                </button>
+
+                                <button class="w-full flex items-center justify-between p-5 hover:bg-gray-50 transition-colors group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-50 group-hover:text-gulf-blue transition-colors">
+                                            <i data-lucide="globe" class="w-5 h-5 text-gray-600 group-hover:text-gulf-blue"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="font-bold text-gray-900">Language & Region</p>
+                                            <p class="text-xs text-gray-500">English (UK) • United Arab Emirates</p>
+                                        </div>
+                                    </div>
+                                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="p-6 bg-gray-50 border-t border-gray-200">
+                                <button class="w-full py-3 text-red-600 font-bold bg-white border border-red-200 rounded-xl hover:bg-red-50 transition-colors">
+                                    Sign Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: LOADING STATE (SKELETONS) ================= -->
+                <!-- ARCHITECTURE NOTE: Rule 57 requires loading states instead of blank screens. 
+                     This view can be shown while fetching data. -->
+                <div id="view-loading" class="hidden min-h-screen bg-gray-50 p-4 md:p-6">
+                    <div class="max-w-4xl mx-auto space-y-6">
+                        <!-- Header Skeleton -->
+                        <div class="flex gap-4 items-center mb-8">
+                            <div class="w-16 h-16 rounded-full skeleton-bg"></div>
+                            <div class="space-y-2 flex-1">
+                                <div class="h-6 bg-gray-200 rounded w-1/3 skeleton-bg"></div>
+                                <div class="h-4 bg-gray-200 rounded w-1/4 skeleton-bg"></div>
+                            </div>
+                        </div>
+
+                        <!-- Card Skeletons -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-48 space-y-4">
+                                <div class="h-4 bg-gray-200 rounded w-3/4 skeleton-bg"></div>
+                                <div class="h-4 bg-gray-200 rounded w-full skeleton-bg"></div>
+                                <div class="h-4 bg-gray-200 rounded w-5/6 skeleton-bg"></div>
+                                <div class="h-10 bg-gray-200 rounded w-1/2 mt-4 skeleton-bg"></div>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-48 space-y-4">
+                                <div class="h-4 bg-gray-200 rounded w-3/4 skeleton-bg"></div>
+                                <div class="h-4 bg-gray-200 rounded w-full skeleton-bg"></div>
+                                <div class="h-4 bg-gray-200 rounded w-5/6 skeleton-bg"></div>
+                                <div class="h-10 bg-gray-200 rounded w-1/2 mt-4 skeleton-bg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: EMPTY STATE EXAMPLE ================= -->
+                <!-- ARCHITECTURE NOTE: Generic empty state template. -->
+                <div id="view-empty" class="hidden min-h-screen bg-gray-50 flex items-center justify-center p-4">
+                    <div class="text-center max-w-sm">
+                        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="inbox" class="w-10 h-10 text-gray-400"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">No items found</h2>
+                        <p class="text-gray-500 mb-8">It looks like there is nothing here yet. Try adjusting your filters or checking back later.</p>
+                        <button onclick="switchView('view-home')" class="bg-gulf-blue text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-900 transition-colors shadow-sm focus-ring">
+                            Return Home
+                        </button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- ================= PWA INSTALL BANNER (MOCK) ================= -->
+<!-- ... existing code ... -->

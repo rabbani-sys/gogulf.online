@@ -1,0 +1,204 @@
+<!-- ... existing code ... -->
+                                        <a href="#" onclick="showDashboard()" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="layout-dashboard" class="w-4 h-4 mr-3"></i> My Dashboard
+                                        </a>
+                                        <a href="#" onclick="showRoleDashboard()" class="flex items-center px-3 py-2 text-sm text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-xl transition-colors font-medium border border-purple-100 mt-1">
+                                            <i data-lucide="briefcase" class="w-4 h-4 mr-3"></i> Switch Role Portal
+                                        </a>
+                                        <a href="#" class="flex items-center px-3 py-2 text-sm text-gulf-text hover:text-gulf-emerald hover:bg-gulf-green-bg/50 rounded-xl transition-colors">
+                                            <i data-lucide="compass" class="w-4 h-4 mr-3"></i> My Journey
+                                        </a>
+<!-- ... existing code ... -->
+                        <!-- Recommended Section -->
+                        <div class="mt-8">
+                            <h3 class="text-lg font-extrabold text-gulf-navy mb-4 flex items-center">
+                                <i data-lucide="sparkles" class="w-5 h-5 mr-2 text-gulf-blue"></i> Recommended for You
+                            </h3>
+                            <div class="flex space-x-4 overflow-x-auto pb-4 custom-scrollbar">
+                                
+                                <!-- Recommended Job -->
+<!-- ... existing code ... -->
+                                <!-- Recommended Guide -->
+                                <div class="w-64 flex-shrink-0 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <span class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded">Essential Guide</span>
+                                        <i data-lucide="bookmark" class="w-4 h-4 text-gray-400"></i>
+                                    </div>
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <div class="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center flex-shrink-0"><i data-lucide="book-open" class="w-4 h-4 text-white"></i></div>
+                                        <h4 class="text-sm font-bold text-gulf-navy leading-tight">Relocating to Riyadh 2026</h4>
+                                    </div>
+                                    <p class="text-xs text-gulf-text mb-2">Housing, Transport, Culture</p>
+                                    <p class="text-xs font-bold text-gulf-blue">Read Now</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- ================= END USER DASHBOARD ================= -->
+
+                    <!-- ================= START ROLE DASHBOARD ================= -->
+                    <div id="view-role-dashboard" class="hidden animate-fade-in space-y-6 pb-20">
+                        
+                        <!-- Top Switcher Bar -->
+                        <div class="bg-gradient-to-r from-gray-900 to-gulf-navy rounded-2xl p-4 md:p-6 text-white shadow-lg flex flex-col md:flex-row justify-between items-center mb-8">
+                            <div class="mb-4 md:mb-0">
+                                <h2 class="text-xl md:text-2xl font-extrabold flex items-center">
+                                    <i data-lucide="users" class="w-6 h-6 mr-3 text-gulf-emerald"></i> Role-Based Dashboards
+                                </h2>
+                                <p class="text-sm text-gray-300 mt-1">Select a role template to view its operational modules.</p>
+                            </div>
+                            <div class="w-full md:w-auto flex items-center space-x-3">
+                                <span class="text-sm font-medium text-gray-300 whitespace-nowrap hidden sm:inline-block">Viewing as:</span>
+                                <select id="role-selector" onchange="renderRoleDashboard(this.value)" class="w-full md:w-64 bg-white/10 border border-white/20 text-white text-sm rounded-xl focus:ring-gulf-emerald focus:border-gulf-emerald block p-2.5 outline-none font-bold">
+                                    <option value="candidate" class="text-gray-900">Candidate</option>
+                                    <option value="student" class="text-gray-900">Student</option>
+                                    <option value="worker" class="text-gray-900">Worker</option>
+                                    <option value="traveller" class="text-gray-900">Traveller</option>
+                                    <option value="pilgrim" class="text-gray-900">Pilgrim</option>
+                                    <option value="employer" class="text-gray-900">Employer</option>
+                                    <option value="recruiter" class="text-gray-900">Recruiter / RA</option>
+                                    <option value="agent" class="text-gray-900">Agent</option>
+                                    <option value="consultant" class="text-gray-900">Consultant</option>
+                                    <option value="tour_operator" class="text-gray-900">Tour Operator</option>
+                                    <option value="accommodation" class="text-gray-900">Accommodation Provider</option>
+                                    <option value="education" class="text-gray-900">Education Provider</option>
+                                    <option value="office" class="text-gray-900">Office</option>
+                                    <option value="corporate" class="text-gray-900">Corporate</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Content Container -->
+                        <div id="role-dashboard-content">
+                            <!-- Injected via JS -->
+                        </div>
+
+                    </div>
+                    <!-- ================= END ROLE DASHBOARD ================= -->
+
+                </div>
+                
+            </main>
+<!-- ... existing code ... -->
+        function showPayments() { switchView('view-payments'); }
+        function showBookings() { switchView('view-bookings'); }
+        function showOrders() { switchView('view-orders'); }
+        function showDashboard() { switchView('view-dashboard'); }
+        function showRoleDashboard() { 
+            switchView('view-role-dashboard'); 
+            // Initialize with currently selected dropdown value
+            renderRoleDashboard(document.getElementById('role-selector').value);
+        }
+
+        function switchView(viewId) {
+            // Hide all views
+            const views = ['view-home', 'view-discover', 'view-job-detail', 'view-employer-profile', 'view-recruiter-profile', 'view-umrah-detail', 'view-marketplace', 'view-payments', 'view-bookings', 'view-orders', 'view-dashboard', 'view-role-dashboard'];
+            views.forEach(id => {
+<!-- ... existing code ... -->
+            document.getElementById(viewId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const roleData = {
+            candidate: { name: 'Candidate', icon: 'user', desc: 'Manage your job search, applications, and relocation journey.', items: ['Jobs', 'Applications', 'Interviews', 'Offers', 'Documents', 'Visa', 'Journey'] },
+            student: { name: 'Student', icon: 'graduation-cap', desc: 'Track university applications, courses, and scholarships.', items: ['Courses', 'Universities', 'Scholarships', 'Applications', 'Documents', 'Finance', 'Stay'] },
+            worker: { name: 'Worker', icon: 'hard-hat', desc: 'Access your work permits, employment records, and support.', items: ['Employment', 'Employer', 'Work Permit', 'Visa', 'Documents', 'Accommodation', 'Support'] },
+            traveller: { name: 'Traveller', icon: 'plane', desc: 'Manage flights, hotels, and leisure bookings.', items: ['Trips', 'Flights', 'Hotels', 'Tours', 'Transport', 'Bookings'] },
+            pilgrim: { name: 'Pilgrim', icon: 'moon', desc: 'Prepare for your spiritual journey with Hajj & Umrah services.', items: ['Hajj', 'Umrah', 'Package', 'Travel', 'Accommodation', 'Documents', 'Guidance'] },
+            employer: { name: 'Employer', icon: 'building', desc: 'Manage job postings, candidates, and company employees.', items: ['Jobs', 'Candidates', 'Applications', 'Interviews', 'Offers', 'Employees'] },
+            recruiter: { name: 'Recruiter / RA', icon: 'briefcase', desc: 'Manage mass hiring, deployments, and client campaigns.', items: ['Employers', 'Jobs', 'Candidates', 'Applications', 'Interviews', 'Deployment', 'Commission'] },
+            agent: { name: 'Agent', icon: 'headset', desc: 'Track leads, client services, and appointment bookings.', items: ['Leads', 'Customers', 'Services', 'Appointments', 'Orders', 'Payments'] },
+            consultant: { name: 'Consultant', icon: 'message-square', desc: 'Manage advisory cases, client appointments, and documents.', items: ['Clients', 'Cases', 'Appointments', 'Services', 'Documents', 'Payments'] },
+            tour_operator: { name: 'Tour Operator', icon: 'map', desc: 'Manage travel packages, inventory, and group bookings.', items: ['Packages', 'Availability', 'Bookings', 'Customers', 'Payments'] },
+            accommodation: { name: 'Accommodation Provider', icon: 'hotel', desc: 'Control property listings, room availability, and reservations.', items: ['Properties', 'Rooms', 'Availability', 'Reservations'] },
+            education: { name: 'Education Provider', icon: 'library', desc: 'Manage course listings, student admissions, and curricula.', items: ['Courses', 'Students', 'Applications', 'Admissions'] },
+            office: { name: 'Office', icon: 'building-2', desc: 'Oversee back-office operations, customers, and staff.', items: ['Customers', 'Candidates', 'Employers', 'Applications', 'Bookings', 'Payments', 'Staff'] },
+            corporate: { name: 'Corporate', icon: 'globe', desc: 'Full enterprise dashboard for global operations and compliance.', items: ['Full company operations', 'Global Workforce', 'Compliance', 'Analytics', 'Finance'] }
+        };
+
+        function getModuleIcon(name) {
+            const n = name.toLowerCase();
+            if (n.includes('job') || n.includes('employment') || n.includes('career')) return 'briefcase';
+            if (n.includes('application') || n.includes('document') || n.includes('case')) return 'file-text';
+            if (n.includes('interview') || n.includes('appointment')) return 'calendar';
+            if (n.includes('offer')) return 'award';
+            if (n.includes('visa') || n.includes('permit') || n.includes('compliance')) return 'stamp';
+            if (n.includes('journey') || n.includes('trip') || n.includes('travel')) return 'plane';
+            if (n.includes('course') || n.includes('education') || n.includes('university')) return 'graduation-cap';
+            if (n.includes('scholarship') || n.includes('finance') || n.includes('payment') || n.includes('commission')) return 'credit-card';
+            if (n.includes('stay') || n.includes('accommodation') || n.includes('hotel') || n.includes('room') || n.includes('property')) return 'home';
+            if (n.includes('employer') || n.includes('corporate') || n.includes('office')) return 'building';
+            if (n.includes('candidate') || n.includes('student') || n.includes('employee') || n.includes('customer') || n.includes('client') || n.includes('staff') || n.includes('lead')) return 'users';
+            if (n.includes('hajj') || n.includes('umrah') || n.includes('pilgrim')) return 'moon';
+            if (n.includes('package') || n.includes('service') || n.includes('order')) return 'package';
+            if (n.includes('guidance') || n.includes('support')) return 'life-buoy';
+            if (n.includes('tour') || n.includes('transport') || n.includes('map')) return 'map';
+            if (n.includes('booking') || n.includes('reservation') || n.includes('availability')) return 'calendar-check';
+            if (n.includes('operation') || n.includes('analytics')) return 'bar-chart';
+            return 'layout-grid'; // fallback
+        }
+
+        function renderRoleDashboard(roleKey) {
+            const data = roleData[roleKey];
+            if (!data) return;
+
+            const container = document.getElementById('role-dashboard-content');
+            
+            // Generate HTML for the modules
+            let modulesHTML = data.items.map(item => `
+                <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:border-gulf-emerald transition-all cursor-pointer group flex flex-col justify-between h-40">
+                    <div class="flex justify-between items-start">
+                        <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gulf-navy group-hover:bg-gulf-green-bg group-hover:text-gulf-emerald transition-colors">
+                            <i data-lucide="${getModuleIcon(item)}" class="w-6 h-6"></i>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="w-5 h-5 text-gray-300 group-hover:text-gulf-emerald transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gulf-navy group-hover:text-gulf-emerald transition-colors">${item}</h3>
+                        <p class="text-xs text-gulf-text mt-1">Manage ${item.toLowerCase()}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Inject the complete dashboard structure
+            container.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-2xl font-extrabold text-gulf-navy flex items-center">
+                        <i data-lucide="${data.icon}" class="w-6 h-6 mr-3 text-gulf-blue"></i> ${data.name} Portal
+                    </h3>
+                    <p class="text-gulf-text mt-1">${data.desc}</p>
+                </div>
+                
+                <!-- Quick Stats Row (Placeholder demo stats based on role) -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4">
+                        <p class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Active</p>
+                        <p class="text-2xl font-extrabold text-gulf-navy">12</p>
+                    </div>
+                    <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4">
+                        <p class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-1">Completed</p>
+                        <p class="text-2xl font-extrabold text-gulf-navy">48</p>
+                    </div>
+                    <div class="bg-amber-50/50 border border-amber-100 rounded-xl p-4">
+                        <p class="text-xs font-bold text-amber-600 uppercase tracking-wider mb-1">Pending Action</p>
+                        <p class="text-2xl font-extrabold text-gulf-navy">3</p>
+                    </div>
+                    <div class="bg-purple-50/50 border border-purple-100 rounded-xl p-4">
+                        <p class="text-xs font-bold text-purple-600 uppercase tracking-wider mb-1">Total Views</p>
+                        <p class="text-2xl font-extrabold text-gulf-navy">1.2K</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    ${modulesHTML}
+                </div>
+            `;
+
+            // Re-initialize icons for the newly injected HTML
+            lucide.createIcons();
+        }
+
+        // Initialize features on load
+<!-- ... existing code ... -->

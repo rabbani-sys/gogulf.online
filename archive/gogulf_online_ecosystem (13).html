@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GoGulf.online | Work • Study • Travel • Belong</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Changed to Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Changed to Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    // Strict New Radius System
+                    borderRadius: {
+                        'gg-sm': '10px',   // small controls
+                        'gg-md': '14px',   // standard cards
+                        'gg-lg': '18px',   // major cards
+                        'gg-xl': '24px',   // hero cards
+                    },
+                    colors: {
+                        'gg-midnight': '#0B132B',
+                        'gg-midnight-light': '#1C2541',
+                        'gg-electric': '#2563EB',
+                        'gg-cyan': '#06B6D4',
+                        'gg-violet': '#7C3AED',
+                        'gg-magenta': '#D946EF',
+                        'gg-emerald': '#10B981',
+                        'gg-sunset-start': '#F43F5E',
+                        'gg-sunset-end': '#F59E0B',
+                        'gg-neutral': '#E6F0EA', // Soft Saudi green base
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(11, 19, 43, 0.05)',
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.04)',
+                        'floating': '0 10px 40px rgba(37, 99, 235, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #E6F0EA;
+            color: #0B132B;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #2563EB 0%, #D946EF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Updated Soft Green/Gold Brand Gradient */
+        .brand-gradient-text {
+            background: linear-gradient(135deg, #10B981 0%, #FBBF24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-gradient-bg {
+            background: linear-gradient(135deg, #34D399 0%, #FBBF24 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+        }
+
+        .ai-gradient-bg {
+            background: linear-gradient(135deg, #7C3AED 0%, #2563EB 50%, #06B6D4 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+        }
+        
+        .sunset-gradient-bg {
+            background: linear-gradient(135deg, #F43F5E 0%, #F59E0B 100%);
+        }
+        
+        .premium-bg {
+            background: linear-gradient(135deg, #0B132B 0%, #1C2541 100%);
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Enhanced Card Hover */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.3), 0 15px 25px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+        .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+
+        /* Lucide default sizing */
+        .lucide { width: 1.25em; height: 1.25em; stroke-width: 2; }
+    </style>
+</head>
+<body class="antialiased overflow-hidden h-screen flex flex-col md:flex-row font-sans">
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex flex-col w-[280px] h-full glass-nav border-r border-slate-200 z-30 flex-shrink-0 pt-6 pb-6 px-4">
+        
+        <!-- Brand Area -->
+        <div class="flex flex-col mb-10 cursor-pointer group">
+            <div class="flex items-center space-x-3 px-4">
+                <div class="relative w-12 h-12 rounded-gg-md brand-gradient-bg flex items-center justify-center text-white shadow-floating overflow-hidden border border-white/30 transform group-hover:scale-105 transition-all duration-300">
+                    <div class="absolute inset-0 bg-white/20 blur-md rounded-full scale-150 group-hover:scale-100 transition-transform"></div>
+                    <!-- Custom SVG Logo -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" class="w-8 h-8 relative z-10 drop-shadow-md transition-transform group-hover:scale-110">
+                        <!-- Animated Stars -->
+                        <path d="M 8 6 L 9 9 L 12 10 L 9 11 L 8 14 L 7 11 L 4 10 L 7 9 Z" fill="#FEF08A" class="animate-pulse" />
+                        <path d="M 28 4 L 28.5 6 L 31 6.5 L 28.5 7 L 28 9 L 27.5 7 L 25 6.5 L 27.5 6 Z" fill="#FEF08A" class="animate-pulse" style="animation-delay: 0.5s;" />
+                        <path d="M 20 2 L 20.5 4 L 22 4.5 L 20.5 5 L 20 7 L 19.5 5 L 18 4.5 L 19.5 4 Z" fill="#FEF08A" class="animate-pulse" style="animation-delay: 1s;" />
+
+                        <!-- Burj Khalifa (Left) -->
+                        <path d="M 12 32 L 12 18 L 14 18 L 14 14 L 13 14 L 13 10 L 14 10 L 14 6 L 15 2 L 16 6 L 16 10 L 17 10 L 17 14 L 16 14 L 16 18 L 18 18 L 18 32 Z" fill="rgba(255,255,255,0.9)" stroke="#10B981" stroke-width="0.5" />
+                        
+                        <!-- Palm Tree (Right) -->
+                        <path d="M 32 32 Q 29 22 32 12" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M 32 12 Q 25 12 21 17 Q 27 15 32 12" fill="#FFFFFF"/>
+                        <path d="M 32 12 Q 28 5 23 5 Q 28 8 32 12" fill="#FFFFFF"/>
+                        <path d="M 32 12 Q 36 5 40 5 Q 36 8 32 12" fill="#FFFFFF"/>
+                        <path d="M 32 12 Q 39 12 43 17 Q 37 15 32 12" fill="#FFFFFF"/>
+                        <path d="M 32 12 Q 36 17 37 21 Q 34 17 32 12" fill="#FFFFFF"/>
+                        <path d="M 32 12 Q 28 17 27 21 Q 30 17 32 12" fill="#FFFFFF"/>
+
+                        <!-- Kaaba (Center Front) -->
+                        <rect x="20" y="20" width="12" height="12" rx="1" fill="#0B132B" stroke="#10B981" stroke-width="1.2" />
+                        <rect x="20" y="23" width="12" height="2" fill="#FCD34D" />
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[26px] font-extrabold tracking-tighter brand-gradient-text">GoGulf</span>
+                    <span class="text-[11px] font-medium text-slate-500 -mt-1 tracking-wide flex items-center">
+                        by Rabbani <i data-lucide="check-circle" class="w-3 h-3 text-gg-emerald ml-1 fill-current"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="px-4 mt-3">
+                <div class="bg-gg-electric/10 border border-gg-electric/20 px-3 py-2 rounded-gg-sm flex items-center justify-center space-x-1.5 shadow-sm">
+                    <i data-lucide="zap" class="w-4 h-4 text-gg-electric animate-pulse fill-current"></i>
+                    <span class="text-[10px] font-bold text-gg-electric tracking-wider uppercase">Naukri Nau Minute Me</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Super App Navigation Hub -->
+        <div class="flex flex-col space-y-1 flex-grow">
+            <p class="px-4 text-xs font-semibold text-slate-400 tracking-wider mb-2 mt-2 uppercase">Ecosystem</p>
+            
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 bg-gg-electric/10 text-gg-electric rounded-gg-md font-semibold transition-all">
+                <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                <span>Pulse Stream</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gg-midnight hover:bg-slate-100 rounded-gg-md font-medium transition-all group">
+                <i data-lucide="briefcase" class="w-5 h-5 group-hover:text-gg-electric"></i>
+                <span>Career & Jobs</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gg-midnight hover:bg-slate-100 rounded-gg-md font-medium transition-all group">
+                <i data-lucide="moon-star" class="w-5 h-5 group-hover:text-gg-violet"></i>
+                <span>Hajj & Umrah</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gg-midnight hover:bg-slate-100 rounded-gg-md font-medium transition-all group">
+                <i data-lucide="store" class="w-5 h-5 group-hover:text-gg-magenta"></i>
+                <span>The Souq</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gg-midnight hover:bg-slate-100 rounded-gg-md font-medium transition-all group">
+                <i data-lucide="plane" class="w-5 h-5 group-hover:text-gg-cyan"></i>
+                <span>Travel & Mobility</span>
+            </a>
+            
+            <p class="px-4 text-xs font-semibold text-slate-400 tracking-wider mb-2 mt-8 uppercase">Network</p>
+            
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gg-midnight hover:bg-slate-100 rounded-gg-md font-medium transition-all group">
+                <i data-lucide="users" class="w-5 h-5 group-hover:text-gg-electric"></i>
+                <span>Connections</span>
+            </a>
+            <a href="#" class="flex items-center justify-between px-4 py-3 text-gg-midnight hover:bg-slate-100 rounded-gg-md font-medium transition-all group">
+                <div class="flex items-center space-x-4">
+                    <i data-lucide="message-circle" class="w-5 h-5 group-hover:text-gg-electric"></i>
+                    <span>Comms Hub</span>
+                </div>
+                <span class="bg-gg-magenta text-white text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+            </a>
+        </div>
+
+        <!-- User Mini Profile -->
+        <div class="mt-auto pt-4 border-t border-slate-200">
+            <div class="flex items-center space-x-3 p-2 hover:bg-slate-100 rounded-gg-md cursor-pointer transition-all">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq" alt="Profile" class="w-10 h-10 rounded-full border-2 border-gg-cyan bg-white">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-gg-midnight">Tariq Al-Fayed</span>
+                    <span class="text-xs text-slate-500">Senior Architect • Dubai</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex flex-col h-full relative w-full overflow-hidden">
+        
+        <!-- Mobile Header (Appears only on sm/md screens) -->
+        <header class="md:hidden glass-nav w-full z-40 px-4 pt-safe flex items-center justify-between h-[75px] flex-shrink-0 border-b border-slate-200 shadow-sm">
+            <div class="flex flex-col group cursor-pointer">
+                <div class="flex items-center space-x-2">
+                    <div class="relative w-10 h-10 rounded-gg-sm brand-gradient-bg flex items-center justify-center text-white shadow-md overflow-hidden border border-white/30">
+                        <div class="absolute inset-0 bg-white/20 blur-sm rounded-full scale-150"></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" class="w-6 h-6 relative z-10 drop-shadow-md">
+                            <path d="M 8 6 L 9 9 L 12 10 L 9 11 L 8 14 L 7 11 L 4 10 L 7 9 Z" fill="#FEF08A" class="animate-pulse" />
+                            <path d="M 28 4 L 28.5 6 L 31 6.5 L 28.5 7 L 28 9 L 27.5 7 L 25 6.5 L 27.5 6 Z" fill="#FEF08A" class="animate-pulse" style="animation-delay: 0.5s;" />
+                            <path d="M 12 32 L 12 18 L 14 18 L 14 14 L 13 14 L 13 10 L 14 10 L 14 6 L 15 2 L 16 6 L 16 10 L 17 10 L 17 14 L 16 14 L 16 18 L 18 18 L 18 32 Z" fill="rgba(255,255,255,0.9)" stroke="#10B981" stroke-width="0.5" />
+                            <path d="M 32 32 Q 29 22 32 12" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 32 12 Q 25 12 21 17 Q 27 15 32 12" fill="#FFFFFF"/>
+                            <path d="M 32 12 Q 28 5 23 5 Q 28 8 32 12" fill="#FFFFFF"/>
+                            <path d="M 32 12 Q 36 5 40 5 Q 36 8 32 12" fill="#FFFFFF"/>
+                            <path d="M 32 12 Q 39 12 43 17 Q 37 15 32 12" fill="#FFFFFF"/>
+                            <path d="M 32 12 Q 36 17 37 21 Q 34 17 32 12" fill="#FFFFFF"/>
+                            <path d="M 32 12 Q 28 17 27 21 Q 30 17 32 12" fill="#FFFFFF"/>
+                            <rect x="20" y="20" width="12" height="12" rx="1" fill="#0B132B" stroke="#10B981" stroke-width="1.2" />
+                            <rect x="20" y="23" width="12" height="2" fill="#FCD34D" />
+                        </svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-extrabold tracking-tighter brand-gradient-text">GoGulf</span>
+                        <span class="text-[9px] font-medium text-slate-500 leading-none mt-0.5 flex items-center">
+                            by Rabbani <i data-lucide="check-circle" class="w-2.5 h-2.5 text-gg-emerald ml-1 fill-current"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-2 flex items-center">
+                    <span class="text-[8px] font-bold text-gg-electric tracking-wider bg-gg-electric/10 border border-gg-electric/20 px-2 py-1 rounded-gg-sm flex items-center shadow-sm uppercase">
+                        <i data-lucide="zap" class="w-3 h-3 text-gg-electric mr-1 animate-pulse fill-current"></i>
+                        Naukri Nau Minute Me
+                    </span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button class="w-10 h-10 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center text-gg-midnight">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+                <button class="w-10 h-10 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center text-gg-midnight relative">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                    <span class="absolute top-2 right-2 w-2.5 h-2.5 bg-gg-sunset-start border-2 border-white rounded-full"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <div class="flex-grow overflow-y-auto hide-scrollbar flex w-full relative bg-gg-neutral" id="main-scroll">
+            
+            <!-- Central Feed / Pulse Stream -->
+            <div class="w-full max-w-[700px] mx-auto flex flex-col pt-4 md:pt-8 pb-[100px] md:pb-12 px-4 md:px-8">
+                
+                <!-- Universal Search & AI Input -->
+                <div class="w-full bg-white rounded-gg-lg p-2 shadow-card flex items-center mb-8 border border-slate-100">
+                    <div class="w-12 h-12 rounded-gg-md bg-gg-electric/10 flex items-center justify-center text-gg-electric flex-shrink-0">
+                        <i data-lucide="sparkles" class="w-6 h-6"></i>
+                    </div>
+                    <input type="text" id="ai-search-input" placeholder="Ask GoGulf AI..." class="flex-grow bg-transparent border-none focus:outline-none px-4 text-sm md:text-base text-gg-midnight placeholder-slate-400">
+                    <button class="px-6 py-3 ai-gradient-bg text-white font-semibold rounded-gg-md text-sm transition-transform active:scale-95 flex-shrink-0 shadow-floating">
+                        Explore
+                    </button>
+                </div>
+
+                <!-- Social Stories / Shorts -->
+                <div class="w-full mb-6">
+                    <div class="flex space-x-4 overflow-x-auto hide-scrollbar pb-2" id="stories-container">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Super App Mini-Services Horizontal Scroll (Mobile/Tablet focus) -->
+                <div class="w-full mb-8 md:hidden">
+                    <div class="flex space-x-4 overflow-x-auto hide-scrollbar pb-4 -mx-4 px-4">
+                        <!-- Injected via JS -->
+                        <div id="mobile-services-hub" class="flex space-x-3"></div>
+                    </div>
+                </div>
+
+                <!-- Feed Filters -->
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-gg-midnight tracking-tight">Pulse Stream</h2>
+                    <div class="flex space-x-2">
+                        <button class="px-4 py-1.5 bg-gg-midnight text-white rounded-full text-xs font-semibold shadow-sm">For You</button>
+                        <button class="px-4 py-1.5 bg-white text-slate-500 border border-slate-200 rounded-full text-xs font-semibold hover:bg-slate-50 transition-colors">Following</button>
+                    </div>
+                </div>
+
+                <!-- Stream Cards Container -->
+                <div id="stream-container" class="flex flex-col space-y-6">
+                    <!-- Cards injected by JS -->
+                </div>
+
+            </div>
+
+            <!-- Right Sidebar -->
+            <aside class="hidden xl:flex flex-col w-[350px] p-8 space-y-6 h-fit sticky top-0">
+                
+                <!-- Core Positioning Statement -->
+                <div class="premium-bg rounded-gg-lg p-6 shadow-floating text-white relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 opacity-10">
+                        <i data-lucide="globe" class="w-32 h-32"></i>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full h-1 sunset-gradient-bg"></div>
+                    <h3 class="font-bold text-lg mb-2 relative z-10 text-gg-cyan">Your Gulf Journey Starts Here</h3>
+                    <p class="text-sm text-white/80 leading-relaxed relative z-10 font-light mb-4">
+                        GoGulf.online connects people with Gulf opportunities, employers, recruiters, education, travel, tours, Hajj, Umrah, accommodation, mobility, services, marketplace products, communities and AI guidance in one connected digital ecosystem.
+                    </p>
+                    <div class="flex flex-wrap gap-2 relative z-10">
+                        <span class="text-[9px] uppercase font-bold tracking-wider bg-white/10 px-2 py-1 rounded-gg-sm text-gg-cyan border border-white/20">Work</span>
+                        <span class="text-[9px] uppercase font-bold tracking-wider bg-white/10 px-2 py-1 rounded-gg-sm text-gg-magenta border border-white/20">Study</span>
+                        <span class="text-[9px] uppercase font-bold tracking-wider bg-white/10 px-2 py-1 rounded-gg-sm text-gg-sunset-end border border-white/20">Travel</span>
+                        <span class="text-[9px] uppercase font-bold tracking-wider bg-white/10 px-2 py-1 rounded-gg-sm text-gg-electric border border-white/20">Belong</span>
+                    </div>
+                </div>
+
+                <!-- Mobility Journey Tracker -->
+                <div class="bg-white rounded-gg-lg p-5 shadow-card border border-slate-100 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-gg-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-bold text-gg-midnight flex items-center text-sm">
+                            <i data-lucide="route" class="w-4 h-4 text-gg-electric mr-2"></i> My Gulf Journey
+                        </h3>
+                        <span class="text-[10px] font-bold bg-gg-violet/10 text-gg-violet px-2 py-1 rounded-gg-sm uppercase tracking-wide">Phase 2</span>
+                    </div>
+                    
+                    <div class="relative pl-3 border-l-2 border-gg-electric/20 space-y-6 ml-2">
+                        <!-- Step 1: Done -->
+                        <div class="relative">
+                            <div class="absolute -left-[19px] top-0.5 w-4 h-4 rounded-full bg-gg-emerald border-[3px] border-white shadow-sm flex items-center justify-center">
+                                <i data-lucide="check" class="w-2.5 h-2.5 text-white stroke-[4]"></i>
+                            </div>
+                            <p class="text-xs font-bold text-gg-midnight">Discovery & Profile</p>
+                            <p class="text-[10px] text-slate-500 mt-0.5">Profile 100% Complete</p>
+                        </div>
+                        <!-- Step 2: Active -->
+                        <div class="relative">
+                            <div class="absolute -left-[20px] top-0 w-4 h-4 rounded-full bg-gg-electric border-[3px] border-white shadow-md animate-pulse"></div>
+                            <p class="text-xs font-bold text-gg-electric">Career / Education</p>
+                            <p class="text-[10px] text-slate-500 mt-0.5">Interviewing with 2 companies</p>
+                        </div>
+                        <!-- Step 3: Pending -->
+                        <div class="relative">
+                            <div class="absolute -left-[19px] top-0.5 w-4 h-4 rounded-full bg-slate-200 border-[3px] border-white"></div>
+                            <p class="text-xs font-bold text-slate-400">Visa, Booking & Travel</p>
+                        </div>
+                         <!-- Step 4: Pending -->
+                        <div class="relative">
+                            <div class="absolute -left-[19px] top-0.5 w-4 h-4 rounded-full bg-slate-200 border-[3px] border-white"></div>
+                            <p class="text-xs font-bold text-slate-400">Arrival & Settlement</p>
+                        </div>
+                    </div>
+                    <button class="w-full mt-6 py-2 bg-gg-midnight text-white font-semibold text-xs rounded-gg-md hover:bg-black transition-colors shadow-sm">
+                        Manage Applications
+                    </button>
+                </div>
+
+                <!-- Gulf Market Insights Widget -->
+                <div class="bg-white rounded-gg-lg p-5 shadow-card border border-slate-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-gg-midnight flex items-center text-sm">
+                            <i data-lucide="trending-up" class="w-4 h-4 text-gg-magenta mr-2"></i> Gulf Insights
+                        </h3>
+                        <i data-lucide="more-horizontal" class="w-5 h-5 text-slate-400 cursor-pointer"></i>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between cursor-pointer group">
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">Trending • Tech Sector</p>
+                                <p class="text-sm font-semibold text-gg-midnight group-hover:text-gg-electric transition-colors">AI Engineers in High Demand (UAE)</p>
+                                <p class="text-[11px] text-slate-500 mt-0.5">4.2k active opportunities</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start justify-between cursor-pointer group">
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">Travel • Seasons</p>
+                                <p class="text-sm font-semibold text-gg-midnight group-hover:text-gg-sunset-end transition-colors">Ramadan Umrah Early Bookings</p>
+                                <p class="text-[11px] text-slate-500 mt-0.5">Packages starting from 1,200 SAR</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start justify-between cursor-pointer group">
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">Real Estate • Investment</p>
+                                <p class="text-sm font-semibold text-gg-midnight group-hover:text-gg-cyan transition-colors">New NEOM Residential Launch</p>
+                                <p class="text-[11px] text-slate-500 mt-0.5">Discover off-plan properties</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer links -->
+                <div class="text-[11px] text-slate-500 flex flex-wrap gap-2 px-2">
+                    <a href="#" class="hover:text-gg-electric transition-colors">About GoGulf</a> • 
+                    <a href="#" class="hover:text-gg-electric transition-colors">Privacy</a> • 
+                    <a href="#" class="hover:text-gg-electric transition-colors">Terms</a> • 
+                    <a href="#" class="hover:text-gg-electric transition-colors">Business OS</a> • 
+                    <a href="#" class="hover:text-gg-electric transition-colors">Help Center</a>
+                    <p class="w-full mt-2">© 2026 GoGulf.online Ecosystem</p>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-nav z-40 border-t border-slate-200 pb-safe">
+        <div class="flex items-center justify-around h-[65px] px-2">
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gg-electric active:scale-95 transition-transform">
+                <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                <span class="text-[10px] font-semibold mt-1">Pulse</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-gg-midnight active:scale-95 transition-transform">
+                <i data-lucide="briefcase" class="w-6 h-6"></i>
+                <span class="text-[10px] font-semibold mt-1">Jobs</span>
+            </a>
+            
+            <div class="relative w-full h-full flex justify-center -mt-6">
+                <button class="w-14 h-14 rounded-full ai-gradient-bg text-white shadow-floating flex items-center justify-center transform active:scale-90 transition-transform border-4 border-gg-neutral">
+                    <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-gg-midnight active:scale-95 transition-transform">
+                <i data-lucide="users" class="w-6 h-6"></i>
+                <span class="text-[10px] font-semibold mt-1">Network</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-gg-midnight active:scale-95 transition-transform">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq" alt="Profile" class="w-6 h-6 rounded-full border border-slate-300">
+                <span class="text-[10px] font-semibold mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <script>
+        // --- Mock Data ---
+
+        // Updated with Lucide icon names
+        const services = [
+            { icon: 'briefcase', label: 'Jobs', color: 'bg-blue-500' },
+            { icon: 'moon-star', label: 'Umrah', color: 'bg-emerald-600' },
+            { icon: 'plane', label: 'Flights', color: 'bg-cyan-500' },
+            { icon: 'building', label: 'Hotels', color: 'bg-indigo-500' },
+            { icon: 'graduation-cap', label: 'Study', color: 'bg-rose-500' },
+            { icon: 'store', label: 'Souq', color: 'bg-orange-500' },
+            { icon: 'car', label: 'Mobility', color: 'bg-purple-500' },
+            { icon: 'users', label: 'Community', color: 'bg-pink-500' }
+        ];
+
+        const storiesData = [
+            { name: 'Your Story', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq', isAdd: true },
+            { name: 'Aramco', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=AR&backgroundColor=046a38', hasUnseen: true },
+            { name: 'NEOM Live', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=NM&backgroundColor=1a1d20', hasUnseen: true },
+            { name: 'Sarah K.', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah', hasUnseen: true },
+            { name: 'Dubai Tech', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=DT&backgroundColor=d4af37', hasUnseen: false },
+            { name: 'Emirates', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=EM&backgroundColor=red', hasUnseen: false }
+        ];
+
+        const streamData = [
+            {
+                type: 'job_opportunity',
+                id: 'job_1',
+                author: { name: 'Emirates Group', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=EG&backgroundColor=d4af37', type: 'Company' },
+                time: '2 hours ago',
+                content: {
+                    title: 'Senior Software Engineer (Backend)',
+                    location: 'Dubai, UAE (Hybrid)',
+                    salary: 'AED 35k - 45k / month',
+                    description: 'We are looking for a highly skilled backend engineer to scale our global travel platforms. Expertise in Go, Microservices, and cloud architecture required.',
+                    tags: ['#Hiring', '#DubaiJobs', '#Tech', '#GoLang', '#UGET'],
+                    urgency: 'High Demand'
+                },
+                metrics: { endorsements: 124, applications: 45, shares: 12 },
+                isSaved: false
+            },
+            {
+                type: 'service_booking',
+                id: 'srv_1',
+                author: { name: 'Al-Haram Travels (Verified)', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=AH&backgroundColor=046a38', type: 'Partner' },
+                time: '5 hours ago',
+                content: {
+                    title: 'Premium VIP Umrah Package - November',
+                    image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                    price: 'SAR 4,500',
+                    features: ['5-Star Hotel facing Haram', 'VIP Transport', 'Guided Ziyarat', 'Visas Included'],
+                    rating: 4.9
+                },
+                metrics: { endorsements: 890, inquiries: 120, shares: 340 },
+                isSaved: false
+            },
+            {
+                type: 'professional_post',
+                id: 'post_1',
+                author: { name: 'Noura Al-Dosari', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Noura', type: 'Product Design Lead' },
+                time: 'Yesterday',
+                content: {
+                    text: 'Just finished giving a keynote on the future of UI/UX in FinTech at the Riyadh Tech Summit. The energy here in Saudi Arabia is incredible! Thanks to everyone who attended. 🚀✨',
+                    image: 'https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                    tags: ['#RiyadhTech', '#UXDesign', '#FinTech', '#WomenInTech']
+                },
+                metrics: { endorsements: 3402, comments: 145, shares: 88 },
+                isSaved: false
+            },
+            {
+                type: 'marketplace_item',
+                id: 'market_1',
+                author: { name: 'Dubai Luxury Motors', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=DM&backgroundColor=1a1d20', type: 'Verified Dealer' },
+                time: '2 days ago',
+                content: {
+                    title: '2025 Mercedes-Benz G63 AMG',
+                    price: 'AED 850,000',
+                    location: 'Sheikh Zayed Road, Dubai',
+                    image: 'https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                    tags: ['#Cars', '#Dubai', '#AMG']
+                },
+                metrics: { endorsements: 540, inquiries: 22, shares: 15 },
+                isSaved: false
+            }
+        ];
+
+        // --- Render Functions ---
+
+        function renderStories() {
+            const container = document.getElementById('stories-container');
+            let html = '';
+            storiesData.forEach(story => {
+                const ringStyle = story.isAdd ? 'border-dashed border-slate-300 text-slate-400' : 
+                                  (story.hasUnseen ? 'border-gg-magenta text-gg-magenta' : 'border-slate-200 text-slate-400');
+                
+                html += `
+                    <div class="flex flex-col items-center space-y-1.5 cursor-pointer flex-shrink-0 group w-[72px]">
+                        <div class="relative w-16 h-16 rounded-full border-[2.5px] ${ringStyle} p-[2px] transition-transform group-hover:scale-105">
+                            <img src="${story.avatar}" class="w-full h-full rounded-full object-cover bg-white">
+                            ${story.isAdd ? `<div class="absolute bottom-0 right-0 w-5 h-5 bg-gg-electric text-white rounded-full flex items-center justify-center border-2 border-white"><i data-lucide="plus" class="w-3 h-3 stroke-[3]"></i></div>` : ''}
+                        </div>
+                        <span class="text-[10px] font-medium text-gg-midnight truncate w-full text-center">${story.name}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderMobileServices() {
+            const container = document.getElementById('mobile-services-hub');
+            let html = '';
+            services.forEach(service => {
+                html += `
+                    <div class="flex flex-col items-center space-y-2 cursor-pointer flex-shrink-0 group">
+                        <div class="w-[60px] h-[60px] rounded-gg-md bg-white shadow-sm border border-slate-100 flex items-center justify-center group-hover:shadow-md transition-shadow">
+                            <div class="w-10 h-10 rounded-full ${service.color} bg-opacity-10 flex items-center justify-center">
+                                <i data-lucide="${service.icon}" class="w-5 h-5 ${service.color.replace('bg-', 'text-')}"></i>
+                            </div>
+                        </div>
+                        <span class="text-[11px] font-semibold text-gg-midnight">${service.label}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Updated with Lucide icons and new radius classes
+        function getCardHeader(item) {
+            return `
+                <div class="flex items-center justify-between p-5 border-b border-slate-50">
+                    <div class="flex items-center space-x-3 cursor-pointer">
+                        <img src="${item.author.avatar}" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-sm text-gg-midnight flex items-center">
+                                ${item.author.name}
+                                ${item.author.type.includes('Verified') || item.author.type === 'Company' ? '<i data-lucide="badge-check" class="w-4 h-4 text-gg-cyan ml-1 fill-current text-white"></i>' : ''}
+                            </span>
+                            <span class="text-[11px] text-slate-500 font-medium">${item.author.type} • ${item.time}</span>
+                        </div>
+                    </div>
+                    <button class="text-slate-400 hover:text-gg-midnight transition-colors">
+                        <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function getCardActionBar(item, primaryActionText, primaryActionIcon) {
+            return `
+                <div class="p-4 bg-slate-50/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t border-slate-50">
+                    <div class="flex items-center space-x-6">
+                        <button class="flex items-center space-x-1.5 text-slate-500 hover:text-gg-electric transition-colors group">
+                            <i data-lucide="thumbs-up" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-semibold">${item.metrics.endorsements}</span>
+                        </button>
+                        <button class="flex items-center space-x-1.5 text-slate-500 hover:text-gg-electric transition-colors group">
+                            <i data-lucide="message-square" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-semibold">${item.metrics.comments || item.metrics.inquiries || item.metrics.applications || 0}</span>
+                        </button>
+                        <button class="flex items-center space-x-1.5 text-slate-500 hover:text-gg-electric transition-colors group">
+                            <i data-lucide="share-2" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-3 w-full md:w-auto">
+                        <button id="save-btn-${item.id}" onclick="toggleSave('${item.id}')" class="p-2 rounded-full hover:bg-slate-200 transition-all duration-200 text-slate-400">
+                            <i data-lucide="bookmark" class="w-5 h-5 transition-colors"></i>
+                        </button>
+                        <button onclick="triggerAction('${primaryActionText}')" class="flex-grow md:flex-grow-0 flex items-center justify-center space-x-2 premium-bg hover:shadow-lg text-white px-5 py-2.5 rounded-gg-md text-sm font-semibold transition-all shadow-sm group">
+                            <i data-lucide="${primaryActionIcon}" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform"></i>
+                            <span>${primaryActionText}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateJobCard(item) {
+            const tagsHtml = item.content.tags.map(tag => `<span class="px-2.5 py-1 bg-gg-electric/10 text-gg-electric text-[10px] font-bold rounded-gg-sm">${tag}</span>`).join('');
+            
+            return `
+                <article class="bg-white rounded-gg-xl shadow-card border border-slate-100 overflow-hidden card-hover">
+                    ${getCardHeader(item)}
+                    <div class="p-5 border-l-4 border-gg-electric">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold text-gg-midnight leading-tight tracking-tight">${item.content.title}</h3>
+                            <span class="bg-red-50 text-red-600 text-[10px] font-bold px-2 py-1 rounded-gg-sm border border-red-100 flex-shrink-0 ml-2">
+                                ${item.content.urgency}
+                            </span>
+                        </div>
+                        <div class="flex flex-col space-y-2 mb-4">
+                            <div class="flex items-center text-sm text-slate-500 font-medium">
+                                <i data-lucide="map-pin" class="w-4 h-4 mr-2 text-gg-cyan"></i>
+                                ${item.content.location}
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-gg-midnight">
+                                <i data-lucide="wallet" class="w-4 h-4 mr-2 text-gg-emerald"></i>
+                                ${item.content.salary}
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 line-clamp-2">${item.content.description}</p>
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                    ${getCardActionBar(item, 'Apply via GoGulf', 'send')}
+                </article>
+            `;
+        }
+
+        function generateServiceCard(item) {
+            const featuresHtml = item.content.features.map(f => `<div class="flex items-center text-xs text-slate-500 font-medium"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-gg-cyan mr-1.5 fill-current"></i>${f}</div>`).join('');
+
+            return `
+                <article class="bg-white rounded-gg-xl shadow-card border border-slate-100 overflow-hidden card-hover">
+                    ${getCardHeader(item)}
+                    <div class="relative w-full h-48 md:h-64 bg-slate-200">
+                        <img src="${item.content.image}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gg-midnight/60 to-transparent"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-gg-sm shadow-sm flex items-center space-x-1">
+                            <i data-lucide="star" class="w-4 h-4 text-gg-sunset-end fill-current"></i>
+                            <span class="text-sm font-bold text-gg-midnight">${item.content.rating}</span>
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                             <h3 class="text-lg font-bold text-white leading-tight drop-shadow-md">${item.content.title}</h3>
+                        </div>
+                    </div>
+                    <div class="p-5 border-l-4 border-gg-sunset-end">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Featured Package</span>
+                            <span class="text-lg font-extrabold text-gg-electric ml-2 tracking-tight">${item.content.price}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mb-2">
+                            ${featuresHtml}
+                        </div>
+                    </div>
+                    ${getCardActionBar(item, 'Book Package', 'calendar-check')}
+                </article>
+            `;
+        }
+
+        function generateSocialCard(item) {
+             const tagsHtml = item.content.tags ? item.content.tags.map(tag => `<span class="text-gg-electric hover:underline cursor-pointer mr-1">${tag}</span>`).join('') : '';
+             
+             return `
+                <article class="bg-white rounded-gg-xl shadow-card border border-slate-100 overflow-hidden card-hover">
+                    ${getCardHeader(item)}
+                    <div class="p-5 border-l-4 border-gg-magenta">
+                        <p class="text-sm text-gg-midnight mb-4 leading-relaxed">${item.content.text} ${tagsHtml}</p>
+                    </div>
+                    ${item.content.image ? `
+                    <div class="w-full bg-slate-100">
+                        <img src="${item.content.image}" class="w-full h-auto object-cover max-h-[500px]">
+                    </div>
+                    ` : ''}
+                    ${getCardActionBar(item, 'Connect', 'user-plus')}
+                </article>
+             `;
+        }
+
+        function generateMarketplaceCard(item) {
+             const tagsHtml = item.content.tags ? item.content.tags.map(tag => `<span class="bg-slate-100 text-slate-500 text-[10px] font-semibold px-2 py-1 rounded-gg-sm mr-2 mb-2">${tag}</span>`).join('') : '';
+
+             return `
+                <article class="bg-white rounded-gg-xl shadow-card border border-slate-100 overflow-hidden card-hover">
+                    ${getCardHeader(item)}
+                    <div class="flex flex-col md:flex-row p-4 gap-4 border-l-4 border-gg-violet">
+                        <img src="${item.content.image}" class="w-full md:w-[200px] h-[150px] object-cover rounded-gg-md shadow-sm">
+                        <div class="flex flex-col justify-center">
+                            <span class="text-[10px] font-bold text-gg-violet uppercase tracking-wider mb-1">Premium Souq</span>
+                            <h3 class="text-lg font-bold text-gg-midnight leading-tight tracking-tight mb-2">${item.content.title}</h3>
+                            <span class="text-xl font-extrabold text-gg-electric mb-3">${item.content.price}</span>
+                            <div class="flex items-center text-xs text-slate-500 font-medium mb-3">
+                                <i data-lucide="map-pin" class="w-3.5 h-3.5 mr-1 text-gg-cyan"></i> ${item.content.location}
+                            </div>
+                            <div class="flex flex-wrap">${tagsHtml}</div>
+                        </div>
+                    </div>
+                    ${getCardActionBar(item, 'Make Offer', 'handshake')}
+                </article>
+             `;
+        }
+
+        function renderStream() {
+            const container = document.getElementById('stream-container');
+            let html = '';
+
+            streamData.forEach(item => {
+                switch(item.type) {
+                    case 'job_opportunity': html += generateJobCard(item); break;
+                    case 'service_booking': html += generateServiceCard(item); break;
+                    case 'professional_post': html += generateSocialCard(item); break;
+                    case 'marketplace_item': html += generateMarketplaceCard(item); break;
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        // --- Interaction Logic ---
+
+        function toggleSave(id) {
+            const item = streamData.find(i => i.id === id);
+            if(item) {
+                item.isSaved = !item.isSaved;
+                const btn = document.getElementById(`save-btn-${id}`);
+                const icon = btn.querySelector('.lucide-bookmark'); // Find the SVG injected by Lucide
+                
+                if(item.isSaved) {
+                    btn.classList.remove('text-slate-400');
+                    btn.classList.add('text-gg-violet', 'scale-110');
+                    if(icon) icon.classList.add('fill-current');
+                    showToast('Saved to your GoGulf Vault');
+                } else {
+                    btn.classList.add('text-slate-400');
+                    btn.classList.remove('text-gg-violet', 'scale-110');
+                    if(icon) icon.classList.remove('fill-current');
+                }
+                setTimeout(() => btn.classList.remove('scale-110'), 200);
+            }
+        }
+
+        function triggerAction(actionName) {
+            showToast(`${actionName} initiated successfully.`);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-gg-midnight text-white px-6 py-3 rounded-gg-md shadow-floating text-sm font-semibold flex items-center space-x-2 transition-all duration-300 opacity-0 transform translate-y-4 border border-slate-800';
+            // We use static SVG string here to avoid needing to re-initialize Lucide for dynamic toasts
+            toast.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gg-cyan"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('opacity-0', 'translate-y-4');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-4');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- AI Search Placeholder Animation ---
+        const aiPrompts = [
+            "Ask GoGulf AI: Find tech jobs in Riyadh...",
+            "Ask GoGulf AI: Book VIP Umrah packages...",
+            "Ask GoGulf AI: Connect with founders in Dubai...",
+            "Ask GoGulf AI: Discover properties in NEOM...",
+            "Ask GoGulf AI: Hire top talent instantly..."
+        ];
+        
+        let promptIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function animatePlaceholder() {
+            const searchInput = document.getElementById('ai-search-input');
+            if (!searchInput) return;
+
+            const currentPrompt = aiPrompts[promptIndex];
+            
+            if (isDeleting) {
+                searchInput.setAttribute('placeholder', currentPrompt.substring(0, charIndex - 1));
+                charIndex--;
+            } else {
+                searchInput.setAttribute('placeholder', currentPrompt.substring(0, charIndex + 1));
+                charIndex++;
+            }
+
+            let timeout = isDeleting ? 30 : 60;
+
+            if (!isDeleting && charIndex === currentPrompt.length) {
+                timeout = 2500;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                promptIndex = (promptIndex + 1) % aiPrompts.length;
+                timeout = 500;
+            }
+
+            setTimeout(animatePlaceholder, timeout);
+        }
+
+        window.onload = () => {
+            renderStories();
+            renderMobileServices();
+            renderStream();
+            
+            // Initialize Lucide Icons after DOM is fully constructed
+            lucide.createIcons();
+            
+            setTimeout(animatePlaceholder, 1000);
+        };
+
+    </script>
+</body>
+</html>

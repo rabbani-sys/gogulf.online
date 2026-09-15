@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>goGULF.online | Gulf First Global Mobility Platform</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* === CUSTOM CSS CATEGORY === */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        input[type="text"], input[type="number"], input[type="date"], input[type="time"], select, textarea {
+            font-size: 16px; /* Prevent iOS zoom */
+        }
+        @media (min-width: 640px) {
+            input[type="text"], input[type="number"], input[type="date"], input[type="time"], select, textarea {
+                font-size: 14px;
+            }
+        }
+        
+        /* Interactive Animations */
+        @keyframes heart-burst {
+            0% { transform: scale(0); opacity: 0; }
+            15% { transform: scale(1.2); opacity: 0.9; }
+            30% { transform: scale(1); opacity: 1; }
+            70% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        .animate-heart-burst {
+            animation: heart-burst 1s ease-in-out forwards;
+        }
+
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .view-section.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    
+    <script>
+        // PWA Manifest Injection
+        const manifest = {
+            "name": "goGULF.online Ecosystem",
+            "short_name": "goGULF",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#ecefe1",
+            "theme_color": "#059669",
+            "icons": [{"src": "https://img.icons8.com/3d-fluency/96/home.png", "sizes": "96x96", "type": "image/png"}]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/manifest+json'});
+        document.write('<link rel="manifest" href="' + URL.createObjectURL(manifestBlob) + '">');
+
+        // Safe Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            try {
+                const swCode = "self.addEventListener('install', function(e) { self.skipWaiting(); }); self.addEventListener('fetch', function(e) { e.respondWith(fetch(e.request).catch(function() { return new Response('Offline'); })); });";
+                const swBlob = new Blob([swCode], { type: 'application/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(swBlob))
+                    .then(function() { console.log('PWA Ready'); })
+                    .catch(function(err) { console.log('SW Registration skipped in local blob context.'); });
+            } catch (e) { console.log('SW bypass'); }
+        }
+    </script>
+</head>
+<body class="bg-[#ecefe1] min-h-screen text-black font-sans antialiased flex selection:bg-black selection:text-white">
+
+    <nav class="sm:hidden fixed top-0 w-full bg-[#fafaf9] border-b border-[#d7ccc8] h-14 z-50 flex items-center justify-between px-4 shadow-sm">
+        <div class="flex items-center space-x-2 select-none cursor-pointer" onclick="window.switchView('home')">
+            <div class="relative flex-shrink-0 w-9 h-9">
+                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md transform transition-transform hover:rotate-12">
+                    <defs>
+                        <linearGradient id="gulfGradMobile" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#10b981" /> 
+                            <stop offset="100%" stop-color="#064e3b" /> 
+                        </linearGradient>
+                        <linearGradient id="goldGradMobile" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fde047" /> 
+                            <stop offset="100%" stop-color="#d97706" /> 
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="url(#gulfGradMobile)" stroke="url(#goldGradMobile)" stroke-width="4" stroke-linejoin="round" />
+                    <path d="M 50 5 L 50 95 M 5 27.5 L 95 72.5 M 5 72.5 L 95 27.5" stroke="white" stroke-width="0.5" opacity="0.3"/>
+                    <text x="50" y="65" font-family="Arial, sans-serif" font-size="44" font-weight="900" fill="white" text-anchor="middle" letter-spacing="-2">gG</text>
+                </svg>
+            </div>
+            <div class="flex flex-col pt-0.5">
+                <span class="font-extrabold text-lg tracking-tight leading-none flex items-baseline">
+                    <span class="text-gray-800">go</span><span class="text-emerald-700">GULF</span>
+                    <span class="text-[8px] ml-1 text-emerald-900 bg-emerald-100 border border-emerald-200 px-1 py-[1px] rounded-sm font-bold uppercase shadow-sm">.online</span>
+                </span>
+                <span class="text-[8px] text-gray-500 font-bold leading-tight mt-1 tracking-wide uppercase">
+                    Gulf First Global Mobility OS
+                </span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <div class="relative cursor-pointer hover:opacity-70 transition-opacity" onclick="window.switchView('notifications')">
+                <img src="https://img.icons8.com/3d-fluency/96/bell.png" loading="lazy" class="w-6 h-6 drop-shadow-sm" alt="Notifications">
+                <div class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></div>
+            </div>
+            <div class="cursor-pointer hover:opacity-70 transition-opacity ml-1" onclick="window.toggleMegaMenu()">
+                <img src="https://img.icons8.com/3d-fluency/96/menu.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Menu">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Nav -->
+    <div class="fixed bottom-0 w-full bg-[#fafaf9] border-t border-[#d7ccc8] flex justify-around items-center h-12 z-50 px-2 sm:hidden pb-safe shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+        <button onclick="window.switchView('home')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#ecefe1] transition-colors" data-target="home"><img src="https://img.icons8.com/3d-fluency/96/home.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Home"></button>
+        <button onclick="window.switchView('ecosystem')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#ecefe1] transition-colors" data-target="ecosystem"><img src="https://img.icons8.com/3d-fluency/96/globe.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Ecosystem"></button>
+        <button onclick="window.openCreateModal()" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#ecefe1] transition-colors"><img src="https://img.icons8.com/3d-fluency/96/plus-math.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Create"></button>
+        <button onclick="window.switchView('messages')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#ecefe1] transition-colors" data-target="messages"><img src="https://img.icons8.com/3d-fluency/96/chat.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Messages"></button>
+        <button onclick="window.switchView('profile')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#ecefe1] transition-colors" data-target="profile">
+            <img src="https://api.dicebear.com/9.x/bottts/svg?seed=Felix&backgroundColor=ecefe1" loading="lazy" alt="Profile" class="w-7 h-7 rounded-full border border-[#d7ccc8] shadow-sm bg-white" />
+        </button>
+    </div>
+
+    <aside class="hidden sm:flex flex-col w-[72px] xl:w-64 border-r border-[#d7ccc8] h-screen fixed left-0 top-0 bg-[#fafaf9] z-50 py-4 xl:px-4 shrink-0 transition-all duration-300 shadow-md">
+        <div class="mb-8 mt-4 flex items-center justify-center xl:justify-start xl:px-2 cursor-pointer h-14 group" onclick="window.switchView('home')">
+            <div class="relative flex-shrink-0 w-10 h-10 xl:w-11 xl:h-11 transition-transform group-hover:scale-105">
+                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-lg relative z-10">
+                    <defs>
+                        <linearGradient id="gulfGradDesktop" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#10b981" /> 
+                            <stop offset="100%" stop-color="#022c22" /> 
+                        </linearGradient>
+                        <linearGradient id="goldGradDesktop" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fef08a" /> 
+                            <stop offset="100%" stop-color="#d97706" /> 
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="url(#gulfGradDesktop)" stroke="url(#goldGradDesktop)" stroke-width="4" stroke-linejoin="round" />
+                    <path d="M 50 5 L 50 95 M 5 27.5 L 95 72.5 M 5 72.5 L 95 27.5" stroke="white" stroke-width="0.75" opacity="0.25"/>
+                    <text x="50" y="66" font-family="Arial, sans-serif" font-size="46" font-weight="900" fill="white" text-anchor="middle" letter-spacing="-2">gG</text>
+                </svg>
+                <div class="absolute -inset-1 bg-emerald-500 blur-sm opacity-30 rounded-full z-0 group-hover:opacity-60 transition-opacity"></div>
+            </div>
+
+            <div class="hidden xl:flex flex-col select-none ml-3">
+                <span class="font-extrabold text-xl tracking-tight leading-none flex items-baseline">
+                    <span class="text-gray-800">go</span><span class="text-emerald-700">GULF</span>
+                    <span class="text-[10px] ml-1 text-emerald-900 bg-emerald-100 border border-emerald-200 px-1 py-[2px] rounded font-bold uppercase shadow-sm">.online</span>
+                </span>
+                <span class="text-[9px] text-gray-500 font-extrabold leading-tight mt-1.5 tracking-widest uppercase">
+                    Gulf First Mobility OS
+                </span>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col space-y-1 xl:space-y-2 w-full px-2 xl:px-0 mt-2">
+            <button onclick="window.switchView('home')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group font-bold relative" data-target="home">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/home.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Home"></div>
+                <span class="hidden xl:block text-base">Home Feed</span>
+                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Home Feed</div>
+            </button>
+            <button onclick="window.switchView('ecosystem')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group font-normal relative" data-target="ecosystem">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/globe.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Ecosystem"></div>
+                <span class="hidden xl:block text-base">Ecosystem</span>
+                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Ecosystem</div>
+            </button>
+            <button onclick="window.switchView('reels')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group font-normal relative" data-target="reels">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/clapperboard.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Shorts"></div>
+                <span class="hidden xl:block text-base">Shorts</span>
+                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Shorts / Reels</div>
+            </button>
+            <button onclick="window.switchView('messages')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group font-normal relative" data-target="messages">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/chat.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Messages"></div>
+                <span class="hidden xl:block text-base">Messages</span>
+                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Messages</div>
+            </button>
+            <button onclick="window.openCreateModal()" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group font-normal relative">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/plus-math.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Create"></div>
+                <span class="hidden xl:block text-base text-emerald-700 font-extrabold">Create</span>
+                <div class="absolute left-[70px] bg-emerald-700 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Create Opportunity</div>
+            </button>
+            <button onclick="window.switchView('profile')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group font-normal relative" data-target="profile">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm">
+                    <img src="https://api.dicebear.com/9.x/bottts/svg?seed=Felix&backgroundColor=ecefe1" loading="lazy" alt="Profile" class="w-7 h-7 xl:mr-4 rounded-full border border-[#d7ccc8] shadow-sm bg-white" />
+                </div>
+                <span class="hidden xl:block text-base">Profile</span>
+                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">My Profile</div>
+            </button>
+        </div>
+
+        <div class="mt-auto px-2 xl:px-0 mb-4 w-full">
+            <button onclick="window.toggleMegaMenu()" class="flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group relative">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/menu.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Menu"></div>
+                <span class="hidden xl:block text-base font-extrabold text-emerald-900">Platform Menu</span>
+                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Open Platform Menu</div>
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 w-full pt-14 sm:pt-0 sm:ml-[72px] xl:ml-64 flex justify-center pb-12 sm:pb-0 min-h-screen">
+        
+        <!-- 1. HOME VIEW (Active by default) -->
+        <div id="view-home" class="view-section active w-full max-w-4xl flex-col xl:flex-row xl:justify-start">
+            
+            <!-- Feed Column -->
+            <div class="w-full max-w-[470px] mx-auto xl:mx-0 flex flex-col items-center">
+                <!-- Stories Container -->
+                <div class="w-full bg-[#fafaf9] sm:bg-transparent border-b sm:border-0 border-[#d7ccc8] py-3 sm:py-4 px-0 sm:mb-6 sm:mt-6 max-w-full overflow-hidden relative group">
+                    <div id="stories-container" class="flex space-x-4 overflow-x-auto px-4 pb-2 scrollbar-hide scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Feed Container -->
+                <div id="posts-container" class="w-full flex flex-col items-center space-y-4 pb-20 sm:pb-8">
+                    <!-- Posts injected by JS -->
+                </div>
+            </div>
+
+            <!-- Right Sidebar (Suggestions - Hidden on smaller screens) -->
+            <div class="hidden lg:block w-[320px] pt-8 pl-8 pr-4 sticky top-0 h-screen overflow-y-auto scrollbar-hide">
+                <div class="flex items-center justify-between mb-6 group cursor-pointer">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://api.dicebear.com/9.x/bottts/svg?seed=Felix&backgroundColor=ecefe1" loading="lazy" class="w-12 h-12 rounded-full border border-[#d7ccc8] shadow-sm bg-white" />
+                        <div>
+                            <p class="text-sm font-bold group-hover:text-emerald-700 transition-colors">your_username</p>
+                            <p class="text-sm text-gray-500 font-medium">Your Name</p>
+                        </div>
+                    </div>
+                    <button class="text-xs font-bold text-emerald-600 hover:text-emerald-800 transition-colors">Switch</button>
+                </div>
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-bold text-gray-500">Suggested for you</p>
+                    <button class="text-xs font-bold hover:text-emerald-700 transition-colors">See All</button>
+                </div>
+                <div class="space-y-4" id="suggestions-container">
+                    <!-- Injected by JS -->
+                </div>
+                <div class="mt-8">
+                    <p class="text-[11px] text-gray-400 mt-4 uppercase font-bold tracking-wider">
+                        © 2026 goGULF.online Ecosystem
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="view-ecosystem" class="view-section w-full max-w-4xl p-4 sm:p-8 flex-col items-center bg-[#fafaf9] min-h-screen border-x border-[#d7ccc8]">
+            <div class="w-full max-w-3xl">
+                <!-- Ecosystem Hero Landing -->
+                <div class="flex items-start sm:items-center justify-between mb-8 flex-col sm:flex-row gap-4 bg-gradient-to-br from-emerald-700 to-emerald-500 p-6 rounded-2xl text-white shadow-lg relative overflow-hidden">
+                    <img src="https://img.icons8.com/3d-fluency/96/globe.png" class="absolute -right-6 -top-6 w-48 h-48 opacity-20">
+                    <div class="relative z-10">
+                        <h2 class="text-3xl font-extrabold tracking-tight">Your Journey Starts Here.</h2>
+                        <h3 class="text-sm sm:text-base font-bold text-emerald-100 uppercase tracking-widest mt-1">Gulf First Global Mobility Platform</h3>
+                        <p class="font-medium mt-2 leading-relaxed text-sm max-w-xl text-emerald-50">
+                            Find the right opportunity, prepare your application, manage your visa and build your life abroad — all in one unified ecosystem.
+                        </p>
+                        
+                        <!-- 14 Step Pipeline -->
+                        <div class="mt-5 w-full overflow-x-auto scrollbar-hide pb-2">
+                            <div class="flex items-center gap-1.5 text-[9px] font-extrabold text-emerald-800 uppercase tracking-wider bg-white/90 backdrop-blur-sm py-2 px-3 rounded-lg shadow-sm whitespace-nowrap w-max border border-emerald-100">
+                                <span>Discover</span> <span class="text-emerald-400">→</span>
+                                <span>Profile</span> <span class="text-emerald-400">→</span>
+                                <span>Assess</span> <span class="text-emerald-400">→</span>
+                                <span>Match</span> <span class="text-emerald-400">→</span>
+                                <span>Prepare</span> <span class="text-emerald-400">→</span>
+                                <span>Apply</span> <span class="text-emerald-400">→</span>
+                                <span>Interview</span> <span class="text-emerald-400">→</span>
+                                <span>Offer</span> <span class="text-emerald-400">→</span>
+                                <span>Visa</span> <span class="text-emerald-400">→</span>
+                                <span>Travel</span> <span class="text-emerald-400">→</span>
+                                <span>Accom.</span> <span class="text-emerald-400">→</span>
+                                <span>Arrival</span> <span class="text-emerald-400">→</span>
+                                <span>Settle</span> <span class="text-emerald-400">→</span>
+                                <span class="text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">Career</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ecosystem Domain Modules Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                    
+                    <!-- Jobs & Manpower -->
+                    <div onclick="window.navigateToModule('Jobs')" class="bg-white border border-[#d7ccc8] rounded-2xl p-5 hover:shadow-lg hover:border-emerald-300 hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors z-10">
+                            <img src="https://img.icons8.com/3d-fluency/96/briefcase.png" class="w-10 h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="Jobs">
+                        </div>
+                        <h3 class="font-extrabold text-gray-800 text-sm sm:text-base z-10">Jobs & Manpower</h3>
+                        <p class="text-[11px] text-gray-500 mt-1 z-10">Browse employer demands & AI matches.</p>
+                        <div class="flex gap-2.5 mt-3 opacity-60 group-hover:opacity-100 transition-opacity z-10 bg-blue-50/50 px-3 py-1.5 rounded-full border border-blue-100">
+                            <img src="https://img.icons8.com/3d-fluency/96/group.png" class="w-4 h-4 drop-shadow-sm" title="Manpower">
+                            <img src="https://img.icons8.com/3d-fluency/96/handshake.png" class="w-4 h-4 drop-shadow-sm" title="Hiring">
+                        </div>
+                    </div>
+
+                    <!-- Visa & Mobility -->
+                    <div onclick="window.navigateToModule('Visa & Immig.')" class="bg-white border border-[#d7ccc8] rounded-2xl p-5 hover:shadow-lg hover:border-emerald-300 hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-emerald-100 transition-colors z-10">
+                            <img src="https://img.icons8.com/3d-fluency/96/passport.png" class="w-10 h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="Visa">
+                        </div>
+                        <h3 class="font-extrabold text-gray-800 text-sm sm:text-base z-10">Visa & Mobility</h3>
+                        <p class="text-[11px] text-gray-500 mt-1 z-10">Immigration pathways and processing.</p>
+                        <div class="flex gap-2.5 mt-3 opacity-60 group-hover:opacity-100 transition-opacity z-10 bg-emerald-50/50 px-3 py-1.5 rounded-full border border-emerald-100">
+                            <img src="https://img.icons8.com/3d-fluency/96/airplane-take-off.png" class="w-4 h-4 drop-shadow-sm" title="Travel">
+                            <img src="https://img.icons8.com/3d-fluency/96/document.png" class="w-4 h-4 drop-shadow-sm" title="Docs">
+                        </div>
+                    </div>
+
+                    <!-- Education & Training -->
+                    <div onclick="window.navigateToModule('Education')" class="bg-white border border-[#d7ccc8] rounded-2xl p-5 hover:shadow-lg hover:border-emerald-300 hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-purple-100 transition-colors z-10">
+                            <img src="https://img.icons8.com/3d-fluency/96/graduation-cap.png" class="w-10 h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="Education">
+                        </div>
+                        <h3 class="font-extrabold text-gray-800 text-sm sm:text-base z-10">Education</h3>
+                        <p class="text-[11px] text-gray-500 mt-1 z-10">Universities, courses, and training.</p>
+                        <div class="flex gap-2.5 mt-3 opacity-60 group-hover:opacity-100 transition-opacity z-10 bg-purple-50/50 px-3 py-1.5 rounded-full border border-purple-100">
+                            <img src="https://img.icons8.com/3d-fluency/96/books.png" class="w-4 h-4 drop-shadow-sm" title="Courses">
+                            <img src="https://img.icons8.com/3d-fluency/96/medal.png" class="w-4 h-4 drop-shadow-sm" title="Certifications">
+                        </div>
+                    </div>
+
+                    <!-- Relocation & Arrival -->
+                    <div onclick="window.navigateToModule('Relocation')" class="bg-white border border-[#d7ccc8] rounded-2xl p-5 hover:shadow-lg hover:border-emerald-300 hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-orange-100 transition-colors z-10">
+                            <img src="https://img.icons8.com/3d-fluency/96/truck.png" class="w-10 h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="Relocation">
+                        </div>
+                        <h3 class="font-extrabold text-gray-800 text-sm sm:text-base z-10">Settlement</h3>
+                        <p class="text-[11px] text-gray-500 mt-1 z-10">Housing, finance, and living abroad.</p>
+                        <div class="flex gap-2.5 mt-3 opacity-60 group-hover:opacity-100 transition-opacity z-10 bg-orange-50/50 px-3 py-1.5 rounded-full border border-orange-100">
+                            <img src="https://img.icons8.com/3d-fluency/96/city.png" class="w-4 h-4 drop-shadow-sm" title="Housing">
+                            <img src="https://img.icons8.com/3d-fluency/96/money-bag.png" class="w-4 h-4 drop-shadow-sm" title="Finance">
+                        </div>
+                    </div>
+
+                    <!-- Professional Services -->
+                    <div onclick="window.navigateToModule('Services')" class="bg-white border border-[#d7ccc8] rounded-2xl p-5 hover:shadow-lg hover:border-emerald-300 hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-indigo-100 transition-colors z-10">
+                            <img src="https://img.icons8.com/3d-fluency/96/customer-support.png" class="w-10 h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="Services">
+                        </div>
+                        <h3 class="font-extrabold text-gray-800 text-sm sm:text-base z-10">Services</h3>
+                        <p class="text-[11px] text-gray-500 mt-1 z-10">Legal, consultants, and agencies.</p>
+                        <div class="flex gap-2.5 mt-3 opacity-60 group-hover:opacity-100 transition-opacity z-10 bg-indigo-50/50 px-3 py-1.5 rounded-full border border-indigo-100">
+                            <img src="https://img.icons8.com/3d-fluency/96/chat.png" class="w-4 h-4 drop-shadow-sm" title="Consulting">
+                            <img src="https://img.icons8.com/3d-fluency/96/combo-chart.png" class="w-4 h-4 drop-shadow-sm" title="Agencies">
+                        </div>
+                    </div>
+
+                    <!-- Journey & Community -->
+                    <div onclick="window.navigateToModule('My Journey')" class="bg-white border border-[#d7ccc8] rounded-2xl p-5 hover:shadow-lg hover:border-emerald-300 hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-16 h-16 bg-pink-50 rounded-full flex items-center justify-center mb-3 group-hover:bg-pink-100 transition-colors z-10">
+                            <img src="https://img.icons8.com/3d-fluency/96/treasure-map.png" class="w-10 h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="Journey">
+                        </div>
+                        <h3 class="font-extrabold text-gray-800 text-sm sm:text-base z-10">My Journey</h3>
+                        <p class="text-[11px] text-gray-500 mt-1 z-10">Track progress & connect with peers.</p>
+                        <div class="flex gap-2.5 mt-3 opacity-60 group-hover:opacity-100 transition-opacity z-10 bg-pink-50/50 px-3 py-1.5 rounded-full border border-pink-100">
+                            <img src="https://img.icons8.com/3d-fluency/96/user-male-circle.png" class="w-4 h-4 drop-shadow-sm" title="Peers">
+                            <img src="https://img.icons8.com/3d-fluency/96/share.png" class="w-4 h-4 drop-shadow-sm" title="Share">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Destination Priority Section -->
+                <div class="mt-8">
+                    <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <img src="https://img.icons8.com/3d-fluency/96/map-marker.png" class="w-5 h-5"> Destination Engine
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-gradient-to-br from-[#f0fdf4] to-white border border-emerald-200 rounded-xl p-4 shadow-sm relative overflow-hidden group cursor-pointer hover:shadow-md transition-all">
+                            <div class="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/star.png" class="w-24 h-24"></div>
+                            <h4 class="font-extrabold text-emerald-900 flex items-center gap-1.5"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] uppercase shadow-sm">Tier 1</span> Gulf First</h4>
+                            <p class="text-[11px] font-bold text-gray-500 mt-2 leading-relaxed">UAE • Saudi Arabia • Qatar • Oman • Kuwait • Bahrain</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-[#eff6ff] to-white border border-blue-200 rounded-xl p-4 shadow-sm relative overflow-hidden group cursor-pointer hover:shadow-md transition-all">
+                            <div class="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/marker.png" class="w-24 h-24"></div>
+                            <h4 class="font-extrabold text-blue-900 flex items-center gap-1.5"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] uppercase shadow-sm">Tier 2</span> Europe Next</h4>
+                            <p class="text-[11px] font-bold text-gray-500 mt-2 leading-relaxed">Germany • UK • Ireland • France • Netherlands • Sweden...</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-[#faf5ff] to-white border border-purple-200 rounded-xl p-4 shadow-sm relative overflow-hidden group cursor-pointer hover:shadow-md transition-all">
+                            <div class="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/globe.png" class="w-24 h-24"></div>
+                            <h4 class="font-extrabold text-purple-900 flex items-center gap-1.5"><span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-[10px] uppercase shadow-sm">Tier 3</span> Global</h4>
+                            <p class="text-[11px] font-bold text-gray-500 mt-2 leading-relaxed">Canada • Australia • New Zealand • Japan • Singapore...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-module-viewer" class="view-section w-full max-w-4xl p-4 sm:p-8 flex-col items-center min-h-screen">
+            <div id="module-viewer-content" class="w-full max-w-3xl flex flex-col space-y-6">
+                <!-- Injected dynamically by JS based on selected Mega Menu item -->
+            </div>
+        </div>
+
+        <div id="view-profile" class="view-section w-full max-w-4xl p-4 sm:p-8 flex-col items-center bg-[#fafaf9] border-x border-[#d7ccc8] min-h-screen">
+            <!-- Profile Role Selector -->
+            <div class="w-full max-w-3xl flex justify-between items-center mb-6 bg-white p-3 rounded-xl border border-[#d7ccc8] shadow-sm">
+                <span class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                    <img src="https://img.icons8.com/3d-fluency/96/user-male-circle.png" loading="lazy" class="w-6 h-6"> Profile Mode
+                </span>
+                <select id="profile-role-selector" onchange="window.renderProfile(this.value)" class="p-2 border border-emerald-300 rounded-lg text-sm font-bold bg-[#ecefe1] text-emerald-800 outline-none cursor-pointer hover:bg-emerald-50 transition-colors shadow-sm">
+                    <option value="candidate">👤 Candidate Profile</option>
+                    <option value="employer">🏢 Employer Profile</option>
+                    <option value="agency">🤝 Recruitment Agency</option>
+                    <option value="consultancy">🧑‍💼 Consultancy</option>
+                    <option value="agent">👤 Agent</option>
+                    <option value="freelance">🧑‍💻 Freelance Recruiter</option>
+                    <option value="student">🎓 Student Profile</option>
+                    <option value="university">🏫 University / Training</option>
+                    <option value="partner">🤝 Business Partner</option>
+                    <option value="service">🧑‍🔧 Service Provider</option>
+                </select>
+            </div>
+            
+            <div id="dynamic-profile-content" class="w-full max-w-3xl flex flex-col items-center">
+                <!-- Injected dynamically by JS -->
+            </div>
+        </div>
+
+        <!-- Other Views (Reels, Messages, Notifications) would be here in a real app, keeping short for artifact -->
+        
+        <div id="chatbot-container" class="fixed bottom-16 sm:bottom-6 right-4 sm:right-6 z-[100] flex-col items-end hidden shadow-2xl">
+            <div class="bg-white border border-[#d7ccc8] rounded-2xl w-[90vw] sm:w-80 h-[60vh] sm:h-96 flex flex-col overflow-hidden mb-4 relative shadow-2xl">
+                <div class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white p-3 font-bold flex justify-between items-center shadow-md z-10">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://img.icons8.com/3d-fluency/96/bot.png" loading="lazy" class="w-6 h-6 drop-shadow-md">
+                        <span>GoGulf AI Assistant</span>
+                    </div>
+                    <button onclick="window.toggleChat()" class="hover:text-emerald-200 text-lg leading-none transition-colors">&times;</button>
+                </div>
+                <div id="chat-messages" class="flex-1 p-3 overflow-y-auto flex flex-col space-y-3 text-sm bg-gray-50 scroll-smooth relative">
+                    <div class="bg-emerald-100 border border-emerald-200 text-emerald-900 p-2.5 rounded-xl rounded-tl-sm self-start max-w-[85%] shadow-sm">
+                        Hello! 👋 I'm GoGulf AI. I can help with <b>Visas</b>, <b>Job Matching</b>, or <b>Document Checklists</b>. How can I assist?
+                    </div>
+                </div>
+                <div class="p-3 border-t border-[#d7ccc8] bg-white flex space-x-2 items-center z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                    <input id="chat-input" type="text" placeholder="Type here..." class="flex-1 bg-gray-100 border border-gray-200 rounded-full outline-none text-sm px-4 py-2 focus:border-emerald-500 transition-colors" onkeypress="if(event.key === 'Enter') window.sendMessage()">
+                    <button onclick="window.sendMessage()" class="bg-emerald-600 text-white p-2.5 rounded-full hover:bg-emerald-700 transition-colors shadow-md hover:shadow-lg flex items-center justify-center">
+                        <img src="https://img.icons8.com/3d-fluency/96/paper-plane.png" class="w-4 h-4 ml-[2px]" alt="Send">
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button onclick="window.toggleChat()" class="fixed bottom-16 sm:bottom-6 right-4 sm:right-6 z-[90] bg-gradient-to-tr from-emerald-500 to-emerald-700 shadow-xl rounded-full p-3.5 hover:scale-110 transition-transform border-2 border-white">
+            <img src="https://img.icons8.com/3d-fluency/96/bot.png" loading="lazy" class="w-8 h-8 drop-shadow-md" alt="Chat">
+        </button>
+
+        <div id="win11-modal-overlay" class="fixed inset-0 z-[200] bg-[#1c1917]/40 backdrop-blur-md hidden opacity-0 transition-opacity duration-200 flex items-center justify-center p-4">
+            <div id="win11-modal-content" class="bg-[#ecefe1]/95 backdrop-blur-xl border border-[#d7ccc8]/80 shadow-2xl rounded-2xl w-full max-w-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+                <div class="flex justify-between items-center p-3 border-b border-[#d7ccc8]/50 bg-gradient-to-r from-emerald-100/50 to-white/50 select-none">
+                    <div id="win11-modal-title" class="text-sm font-extrabold text-emerald-900 ml-2 flex items-center gap-2 tracking-tight">
+                        ✦ Create Opportunity
+                    </div>
+                    <button onclick="window.closeCreateModal()" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-red-500 hover:text-white text-gray-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+                <div id="win11-modal-body" class="overflow-y-auto">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <div id="action-modal-overlay" class="fixed inset-0 z-[210] bg-[#1c1917]/40 backdrop-blur-md hidden opacity-0 transition-opacity duration-200 flex items-center justify-center p-4">
+            <div id="action-modal-content" class="bg-[#ecefe1]/95 backdrop-blur-xl border border-[#d7ccc8]/80 shadow-2xl rounded-2xl w-full max-w-md overflow-hidden transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[90vh]">
+                <div class="flex justify-between items-center p-3 border-b border-[#d7ccc8]/50 bg-gradient-to-r from-emerald-100/50 to-white/50 select-none">
+                    <div class="text-sm font-extrabold text-emerald-900 ml-2 flex items-center gap-2 tracking-tight">
+                        <img src="https://img.icons8.com/3d-fluency/96/handshake.png" loading="lazy" class="w-5 h-5"> Interact & Apply
+                    </div>
+                    <button onclick="window.closeActionModal()" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-red-500 hover:text-white text-gray-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+                <div id="action-modal-body" class="overflow-y-auto p-4 sm:p-6">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <div id="mega-menu-overlay" class="fixed inset-0 z-[220] bg-white/80 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300 flex-col items-center pt-16 sm:pt-20 px-4 sm:px-8 pb-10 overflow-y-auto">
+            <div class="w-full max-w-6xl relative">
+                <button onclick="window.closeMegaMenu()" class="absolute -top-10 right-0 sm:right-4 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 shadow-sm z-10 border border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left: Platform Ecosystem -->
+                    <div class="lg:col-span-2">
+                        <h2 class="text-xl font-extrabold text-emerald-900 tracking-tight mb-4 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/globe.png" class="w-6 h-6"> Platform Ecosystem</h2>
+                        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-y-6 gap-x-2 sm:gap-x-4" id="platform-menu-grid">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Right: My GoGulf -->
+                    <div class="bg-[#fafaf9] rounded-2xl p-6 border border-[#d7ccc8] shadow-sm">
+                        <h2 class="text-xl font-extrabold text-emerald-900 tracking-tight mb-4 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/user-male-circle.png" class="w-6 h-6"> My GoGulf</h2>
+                        <div class="grid grid-cols-2 gap-y-6 gap-x-2" id="my-gogulf-menu-grid">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script type="module">
+        // Using standard ES6, strictly avoiding optional chaining (?.) and nullish coalescing (??)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, updateDoc, onSnapshot, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global State & Mocks
+        window.AppState = { posts: [], currentUser: { username: 'your_username', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Felix&backgroundColor=ecefe1' }, userId: null };
+
+        const MOCK_DATA = {
+            stories: [
+                { id: 1, username: 'your_story', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Story1&backgroundColor=ecefe1', isUser: true, hasUnseen: false },
+                { id: 2, username: 'agency_gulf', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Story2&backgroundColor=ecefe1', hasUnseen: true }
+            ],
+            suggestions: [
+                { id: 1, username: 'dubai_recruiter', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Rec1&backgroundColor=ecefe1', reason: 'Verified Agency', isFollowing: false },
+                { id: 2, username: 'visa_expert', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Visa1&backgroundColor=ecefe1', reason: 'Top Consultant', isFollowing: false }
+            ],
+            initialPosts: [
+                {
+                    id: 105, type: 'service', username: 'legal_translate_pro', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Legal', location: 'Dubai & Riyadh',
+                    imageUrl: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=1000',
+                    title: 'Certified Legal Translation', details: 'Fast Turnaround | Visas | Employment Contracts',
+                    status: '🟢 Available Online', actions: ['Book Service', 'Message'],
+                    likes: 312, caption: 'Ensure your immigration documents are legally certified. 24-hour turnaround. #legalservices #visa #gulfjobs',
+                    comments: [{ id: 1, username: 'ahmed_khan', text: 'Do you translate medical certificates?' }], timeAgo: '30 MINS AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 104, type: 'job', username: 'abc_company', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=ABC', location: 'Dubai, UAE',
+                    imageUrl: 'https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?auto=format&fit=crop&q=80&w=1000',
+                    jobTitle: '500 Hospitality Workers Required — UAE', jobDetails: 'Dubai | Accommodation Provided',
+                    status: '🟣 Hiring', actions: ['View Demand', 'Apply Now'],
+                    likes: 4521, caption: 'Urgent requirement! Mega walk-in interviews this weekend. #dubaijobs #hospitality #hiring',
+                    comments: [{ id: 1, username: 'ahmed_khan', text: 'Interested, DM sent.' }], timeAgo: '1 HOUR AGO', likedBy: [], savedBy: []
+                },
+                {
+                    id: 103, type: 'cv', username: 'ahmed_khan', avatar: 'https://api.dicebear.com/9.x/bottts/svg?seed=Ahmed', location: 'India',
+                    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1000',
+                    cvTitle: 'Electrician | 5 Years Experience', cvDetails: 'Preferred Locations: UAE / Qatar',
+                    status: '🟢 Open to Work', actions: ['View Full CV', 'Contact Candidate'],
+                    likes: 890, caption: 'Looking for opportunities in GCC. Specialized in industrial wiring. #opentowork #electrician',
+                    comments: [], timeAgo: '3 HOURS AGO', likedBy: [], savedBy: []
+                }
+            ]
+        };
+
+        const PROFILE_ROLES = {
+            candidate: {
+                title: 'Candidate / Job Seeker', name: 'Your Name', username: 'your_username', verified: true,
+                headline: 'Digital Creator • Developer • Job Seeker\n📍 India → UAE',
+                bio: 'Building the future, one pixel at a time.',
+                stats: [ { label: 'Posts', value: '12' }, { label: 'Job Apps', value: '18' }, { label: 'Interviews', value: '6' }, { label: 'Offers', value: '3' } ],
+                actions: ['Post CV', 'Find Jobs', 'Open to Work'],
+                tabs: ['Posts', 'CV', 'Jobs', 'Interviews', 'Skills', 'Documents'],
+                status: { dot: '🟢', text: 'Open to Work', bg: 'bg-green-50', border: 'border-green-200', textCol: 'text-green-700' }
+            },
+            employer: {
+                title: 'Employer', name: 'ABC Company', username: 'abc_company', verified: true,
+                headline: 'Enterprise Hospitality\n📍 Dubai, UAE',
+                bio: 'Innovating the future of hospitality. We are hiring!',
+                stats: [ { label: 'Active Jobs', value: '45' }, { label: 'Applications', value: '3.2K' }, { label: 'Interviews', value: '150' }, { label: 'Hires', value: '128' } ],
+                actions: ['Post Job', 'View Jobs', 'Contact'],
+                tabs: ['Posts', 'Jobs', 'Demands', 'Interviews', 'About'],
+                status: { dot: '🟣', text: 'Hiring', bg: 'bg-purple-50', border: 'border-purple-200', textCol: 'text-purple-700' }
+            },
+            agency: {
+                title: 'Recruitment Agency', name: 'Gulf Talent Staffing', username: 'gulftalent_agency', verified: true,
+                headline: 'Global Manpower Solutions\n📍 UAE • KSA • Qatar',
+                bio: 'Connecting premier employers with global talent.',
+                stats: [ { label: 'Jobs', value: '240' }, { label: 'Candidates', value: '15K' }, { label: 'Placements', value: '4.2K' } ],
+                actions: ['View Demands', 'View Jobs', 'Contact'],
+                tabs: ['Posts', 'Jobs', 'Demands', 'Candidates', 'Placements', 'Services'],
+                status: { dot: '🟠', text: 'Recruiting', bg: 'bg-orange-50', border: 'border-orange-200', textCol: 'text-orange-700' }
+            },
+            consultancy: {
+                title: 'Consultancy', name: 'MigrateRight', username: 'migrateright', verified: true,
+                headline: 'Immigration & Career Consultancy\n📍 India • UAE • UK',
+                bio: 'Your trusted partner for seamless global mobility.',
+                stats: [ { label: 'Clients', value: '8.5K' }, { label: 'Visas', value: '4.1K' }, { label: 'Success Rate', value: '98%' } ],
+                actions: ['Book Consultation', 'View Services'],
+                tabs: ['Posts', 'Services', 'Opportunities', 'Events'],
+                status: { dot: '🟢', text: 'Available', bg: 'bg-green-50', border: 'border-green-200', textCol: 'text-green-700' }
+            }
+        };
+
+        async function initializeAppWrapper() {
+            window.AppState.userId = 'local-user-id';
+            window.AppState.posts = MOCK_DATA.initialPosts;
+            window.renderPosts();
+            renderStaticViews();
+            renderMegaMenu();
+            window.renderProfile('candidate');
+        }
+
+        window.renderPosts = function() {
+            const container = document.getElementById('posts-container');
+            const uid = window.AppState.userId;
+            
+            if (!window.AppState.posts || window.AppState.posts.length === 0) {
+                container.innerHTML = '<div class="text-gray-500 py-10 text-center font-semibold">No posts available.</div>';
+                return;
+            }
+
+            let html = '';
+            for(let i = 0; i < window.AppState.posts.length; i++) {
+                const post = window.AppState.posts[i];
+                const isLiked = post.likedBy && post.likedBy.indexOf(uid) !== -1;
+                const isSaved = post.savedBy && post.savedBy.indexOf(uid) !== -1;
+                
+                let extraHtml = '';
+                if (post.type === 'job' || post.type === 'cv' || post.type === 'service' || post.type === 'demand') {
+                    let btns = '';
+                    if(post.actions) {
+                        for(let j=0; j < post.actions.length; j++) {
+                            const btnCls = j === 0 ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-md' : 'bg-white text-emerald-800 border border-emerald-200';
+                            btns += '<button class="flex-1 ' + btnCls + ' font-extrabold text-xs py-2 rounded-lg">' + post.actions[j] + '</button>';
+                        }
+                    }
+                    const badge = post.status ? '<div class="shrink-0 text-[10px] bg-white border border-emerald-200 text-black px-2 py-1 rounded-md font-extrabold shadow-sm uppercase">' + post.status + '</div>' : '';
+                    extraHtml = `
+                    <div class="w-full bg-gradient-to-r from-emerald-50 to-white border-b border-emerald-100 p-3 flex flex-col space-y-2.5">
+                        <div class="flex justify-between items-start gap-2">
+                            <div>
+                                <h4 class="font-extrabold text-emerald-900 text-[15px] leading-tight">${post.jobTitle || post.cvTitle || post.title}</h4>
+                                <p class="text-[12px] text-emerald-700 font-bold mt-0.5 flex items-center gap-1">
+                                    <img src="https://img.icons8.com/3d-fluency/96/map-marker.png" class="w-3.5 h-3.5"/> ${post.jobDetails || post.cvDetails || post.details}
+                                </p>
+                            </div>
+                            ${badge}
+                        </div>
+                        <div class="flex gap-2 w-full mt-1">${btns}</div>
+                    </div>`;
+                }
+
+                let commentsHtml = '';
+                if(post.comments) {
+                    for(let k=0; k < post.comments.length; k++) {
+                        commentsHtml += '<p class="mt-1"><span class="font-bold mr-2 hover:text-emerald-700 cursor-pointer">' + post.comments[k].username + '</span>' + post.comments[k].text + '</p>';
+                    }
+                }
+
+                html += `
+                <div class="bg-white border-b sm:border border-[#d7ccc8] sm:rounded-2xl shadow-sm sm:mb-6 max-w-lg w-full mx-auto sm:max-w-xl pb-3 overflow-hidden">
+                    <div class="flex items-center justify-between p-3">
+                        <div class="flex items-center space-x-3 cursor-pointer">
+                            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#86efac] to-[#22c55e] p-[2px] shadow-sm">
+                                <img src="${post.avatar}" loading="lazy" class="w-full h-full rounded-full border-2 border-white object-cover" />
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold hover:text-emerald-700">${post.username}</p>
+                                ${post.location ? '<p class="text-[11px] text-gray-500 font-medium">' + post.location + '</p>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-50 flex items-center justify-center relative overflow-hidden group border-y border-gray-100 min-h-[300px]">
+                        <img src="${post.imageUrl}" loading="lazy" class="w-full h-auto object-cover max-h-[600px] cursor-pointer" ondblclick="window.handleDoubleClick(${post.id})" />
+                        <div id="big-heart-${post.id}" class="absolute hidden flex items-center justify-center z-10 pointer-events-none drop-shadow-2xl">
+                            <img src="https://img.icons8.com/3d-fluency/96/like--v2.png" loading="lazy" class="w-28 h-28 drop-shadow-2xl">
+                        </div>
+                    </div>
+                    ${extraHtml}
+                    <div class="px-3 pt-3 flex justify-between items-center">
+                        <div class="flex space-x-4">
+                            <button onclick="window.toggleLike(${post.id})" class="hover:scale-110 transition-transform">
+                                <img src="https://img.icons8.com/3d-fluency/96/like--v2.png" loading="lazy" class="w-7 h-7 drop-shadow-sm ${isLiked ? 'opacity-100 scale-110' : 'grayscale opacity-60'}">
+                            </button>
+                            <button onclick="window.openActionModal(${post.id})" class="hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/speech-bubble-with-dots.png" loading="lazy" class="w-7 h-7 drop-shadow-sm opacity-90"></button>
+                        </div>
+                        <button class="hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/bookmark-ribbon.png" loading="lazy" class="w-7 h-7 drop-shadow-sm opacity-60 grayscale"></button>
+                    </div>
+                    <div class="px-3 mt-1 text-sm">
+                        <p><span class="font-bold mr-2 hover:text-emerald-700">${post.username}</span>${post.caption}</p>
+                    </div>
+                    <div class="px-3 mt-1 text-sm">${commentsHtml}</div>
+                    <div class="px-3 mt-2 mb-2"><p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">${post.timeAgo}</p></div>
+                    <div class="hidden sm:flex px-3 pt-3 border-t border-cyan-100 items-center bg-gray-50 -mx-3 -mb-3 rounded-b-2xl">
+                        <input type="text" placeholder="Interact / Apply / Comment..." class="flex-1 text-sm bg-transparent outline-none px-2 py-2 cursor-pointer" onclick="window.openActionModal(${post.id}); this.blur();" readonly />
+                        <button onclick="window.openActionModal(${post.id})" class="text-emerald-600 font-bold text-sm px-3 hover:text-emerald-800">Action</button>
+                    </div>
+                </div>`;
+            }
+            container.innerHTML = html;
+        };
+
+        window.renderProfile = function(roleKey) {
+            const roleData = PROFILE_ROLES[roleKey] || PROFILE_ROLES['candidate'];
+            let statsHtml = '';
+            for(let i=0; i<roleData.stats.length; i++) {
+                const s = roleData.stats[i];
+                statsHtml += '<div class="flex flex-col items-center p-2 sm:px-3 bg-white hover:bg-gray-50 transition-colors rounded-xl border border-[#d7ccc8] min-w-[70px] sm:min-w-[85px] shadow-sm"><span class="font-extrabold text-lg sm:text-xl text-emerald-800">' + s.value + '</span><span class="text-[9px] sm:text-[10px] uppercase tracking-wider font-bold text-gray-500 mt-1">' + s.label + '</span></div>';
+            }
+
+            let actionsHtml = '';
+            for(let i=0; i<roleData.actions.length; i++) {
+                const act = roleData.actions[i];
+                const onClick = act.indexOf('Post') !== -1 ? 'onclick="window.openCreateModal()"' : '';
+                const cls = i === 0 ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white' : 'bg-white border border-[#d7ccc8] text-black hover:bg-emerald-50';
+                actionsHtml += '<button ' + onClick + ' class="' + cls + ' font-bold px-4 py-2 rounded-xl text-sm transition-all shadow-sm flex-1 sm:flex-none">' + act + '</button>';
+            }
+
+            let tabsHtml = '';
+            for(let i=0; i<roleData.tabs.length; i++) {
+                const tab = roleData.tabs[i];
+                const cls = i === 0 ? 'border-t-[3px] border-emerald-600 text-emerald-800' : 'text-gray-500';
+                tabsHtml += '<button class="flex-shrink-0 flex items-center space-x-2 py-4 px-1 ' + cls + ' font-extrabold text-xs tracking-widest uppercase transition-colors"><span>' + tab + '</span></button>';
+            }
+
+            let passportHtml = '';
+            if (roleKey === 'candidate' || roleKey === 'student') {
+                passportHtml = `
+                <div class="w-full flex flex-col md:flex-row gap-4 mb-6">
+                    <div class="w-full md:w-1/3 bg-white p-5 rounded-3xl border border-[#d7ccc8] shadow-sm relative overflow-hidden">
+                        <h3 class="font-extrabold text-emerald-900 mb-4 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/combo-chart.png" class="w-5 h-5"> Mobility Readiness</h3>
+                        <div class="space-y-3.5">
+                            <div><div class="flex justify-between text-[10px] font-bold text-gray-600 uppercase mb-1.5"><span>Overall Readiness</span> <span class="text-emerald-600 font-black">74%</span></div><div class="w-full bg-gray-100 rounded-full h-2"><div class="bg-gradient-to-r from-emerald-400 to-emerald-600 h-2 rounded-full" style="width: 74%"></div></div></div>
+                            <div><div class="flex justify-between text-[10px] font-bold text-gray-500 uppercase mb-1"><span>Career</span> <span class="text-blue-500 font-bold">86%</span></div><div class="w-full bg-gray-100 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 86%"></div></div></div>
+                            <div><div class="flex justify-between text-[10px] font-bold text-gray-500 uppercase mb-1"><span>Visa</span> <span class="text-amber-500 font-bold">64%</span></div><div class="w-full bg-gray-100 rounded-full h-1.5"><div class="bg-amber-500 h-1.5 rounded-full" style="width: 64%"></div></div></div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-2/3 bg-white p-5 rounded-3xl border border-[#d7ccc8] shadow-sm relative overflow-hidden">
+                        <img src="https://img.icons8.com/3d-fluency/96/passport.png" class="absolute right-[-20px] bottom-[-20px] w-40 h-40 opacity-5">
+                        <h3 class="font-extrabold text-emerald-900 mb-4 flex items-center gap-2 relative z-10"><img src="https://img.icons8.com/3d-fluency/96/passport.png" class="w-5 h-5"> Global Mobility Passport</h3>
+                        <div class="grid grid-cols-2 gap-4 relative z-10">
+                            <div>
+                                <h4 class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1.5">Target Destinations</h4>
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-1 rounded">UAE</span>
+                                    <span class="bg-blue-50 border border-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded">Germany</span>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1.5">Verified</h4>
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="text-[10px] font-bold text-gray-600 flex items-center gap-1"><img src="https://img.icons8.com/3d-fluency/96/checked.png" class="w-3 h-3"> Degree</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+
+            const profileHtml = `
+                <div class="w-full flex flex-col sm:flex-row items-center sm:items-start mb-6 bg-white p-6 sm:p-8 rounded-3xl border border-[#d7ccc8] shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-24 sm:h-32 bg-gradient-to-r from-emerald-50 to-white z-0 border-b border-gray-100"></div>
+                    <div class="relative z-10 w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-tr from-emerald-300 to-emerald-600 p-[3px] mb-4 sm:mb-0 shrink-0 shadow-lg mt-2 sm:mt-8">
+                        <img src="https://api.dicebear.com/9.x/bottts/svg?seed=${roleData.username}&backgroundColor=ecefe1" loading="lazy" class="w-full h-full rounded-full border-4 border-white object-cover bg-white" />
+                    </div>
+                    <div class="relative z-10 flex flex-col w-full text-center sm:text-left sm:ml-8 sm:mt-12">
+                        <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between w-full">
+                            <div>
+                                <h2 class="text-2xl font-extrabold flex items-center justify-center sm:justify-start gap-1 text-black">${roleData.name}</h2>
+                                <p class="text-emerald-700 font-bold text-sm mb-2">@${roleData.username}</p>
+                                ${roleData.status ? '<div class="mt-1 mb-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full ' + roleData.status.bg + ' ' + roleData.status.border + ' border shadow-sm"><span class="text-sm">' + roleData.status.dot + '</span><span class="text-[11px] font-extrabold ' + roleData.status.textCol + ' uppercase tracking-wider">' + roleData.status.text + '</span></div>' : ''}
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 mb-4 mt-2">${statsHtml}</div>
+                        <div class="mt-2 text-left w-full sm:w-auto px-4 sm:px-0">
+                            <p class="font-extrabold text-sm text-black whitespace-pre-line leading-snug">${roleData.headline}</p>
+                            <p class="text-sm text-gray-600 whitespace-pre-line mt-2 leading-relaxed">${roleData.bio}</p>
+                        </div>
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2 mt-6 w-full px-4 sm:px-0">${actionsHtml}</div>
+                    </div>
+                </div>
+                ${passportHtml}
+                <div class="w-full border-t border-[#d7ccc8]">
+                    <div class="flex sm:justify-center overflow-x-auto scrollbar-hide space-x-6 sm:space-x-10 px-4">${tabsHtml}</div>
+                </div>
+            `;
+            document.getElementById('dynamic-profile-content').innerHTML = profileHtml;
+        };
+
+        function renderMegaMenu() {
+            const platformNavs = [
+                { name: 'Home', icon: 'home' }, { name: 'Jobs', icon: 'briefcase' }, { name: 'Recruitment', icon: 'handshake' },
+                { name: 'Visa & Immig.', icon: 'passport' }, { name: 'Education', icon: 'graduation-cap' }, { name: 'Training', icon: 'medal' },
+                { name: 'Skills', icon: 'parse-from-clipboard' }, { name: 'Documents', icon: 'document' }, { name: 'Travel', icon: 'airplane-take-off' },
+                { name: 'Accommodation', icon: 'city' }, { name: 'Finance', icon: 'money-bag' }, { name: 'Relocation', icon: 'truck' },
+                { name: 'Services', icon: 'customer-support' }, { name: 'Community', icon: 'group' }, { name: 'ShortsReels', icon: 'clapperboard' },
+                { name: 'News & Media', icon: 'news' }, { name: 'Events', icon: 'calendar' }, { name: 'Marketplace', icon: 'shopping-cart' },
+                { name: 'Learn', icon: 'books' }, { name: 'AI Assistant', icon: 'bot' }
+            ];
+            
+            const myGoGulfNavs = [
+                { name: 'Profile', icon: 'user-male-circle' }, { name: 'My Journey', icon: 'treasure-map' }, { name: 'My Jobs', icon: 'briefcase' },
+                { name: 'My Apps', icon: 'parse-from-clipboard' }, { name: 'My Interviews', icon: 'microphone' }, { name: 'My Offers', icon: 'medal' },
+                { name: 'My Docs', icon: 'document' }, { name: 'My Visa', icon: 'passport' }
+            ];
+
+            const builder = (navs) => {
+                let html = '';
+                for(let i=0; i<navs.length; i++) {
+                    const nav = navs[i];
+                    html += `
+                    <div onclick="window.navigateToModule('${nav.name}')" class="flex flex-col items-center cursor-pointer group">
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-white border border-[#d7ccc8] rounded-2xl shadow-sm group-hover:shadow-md group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center group-hover:border-emerald-300">
+                            <img src="https://img.icons8.com/3d-fluency/96/${nav.icon}.png" loading="lazy" class="w-8 h-8 sm:w-10 sm:h-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="${nav.name}">
+                        </div>
+                        <span class="mt-2 text-[10px] sm:text-[11px] font-bold text-gray-700 text-center leading-tight group-hover:text-emerald-700">${nav.name}</span>
+                    </div>`;
+                }
+                return html;
+            };
+
+            document.getElementById('platform-menu-grid').innerHTML = builder(platformNavs);
+            document.getElementById('my-gogulf-menu-grid').innerHTML = builder(myGoGulfNavs);
+        }
+
+        window.navigateToModule = function(moduleName) {
+            window.closeMegaMenu();
+            if (['Jobs', 'Recruitment', 'Visa & Immig.', 'Education', 'Training', 'Skills', 'Documents', 'Travel', 'Accommodation', 'Finance', 'Relocation', 'Services', 'Community', 'Learn', 'My Journey'].indexOf(moduleName) !== -1) {
+                setTimeout(function() {
+                    window.renderModuleViewer(moduleName);
+                    window.switchView('module-viewer');
+                }, 300);
+            } else if (moduleName === 'Home') {
+                setTimeout(function() { window.switchView('home'); }, 300);
+            } else if (moduleName === 'Profile') {
+                setTimeout(function() { window.switchView('profile'); }, 300);
+            } else {
+                setTimeout(function() { window.switchView('ecosystem'); }, 300);
+            }
+        };
+
+        window.renderModuleViewer = function(moduleName) {
+            const contentDiv = document.getElementById('module-viewer-content');
+            let html = '';
+
+            if (moduleName === 'My Journey') {
+                const steps = ['Profile', 'Assess', 'Match', 'Apply', 'Interview', 'Offer', 'Visa', 'Travel', 'Arrival', 'Settle', 'Career'];
+                let stepsHtml = '';
+                for(let i=0; i<steps.length; i++) {
+                    const active = i === 3;
+                    const done = i < 3;
+                    let cls = 'bg-gray-50 text-gray-400 border-gray-200';
+                    if (done) cls = 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-sm border-transparent';
+                    if (active) cls = 'bg-amber-100 text-amber-800 border-amber-300 shadow-sm';
+                    stepsHtml += '<div class="flex items-center gap-2"><span class="' + cls + ' border px-3 py-1.5 rounded-lg whitespace-nowrap">' + (done?'✓ ':'') + steps[i] + '</span>' + (i<steps.length-1 ? '<span class="text-gray-300 font-bold">→</span>' : '') + '</div>';
+                }
+
+                html = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-emerald-900 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/treasure-map.png" class="w-10 h-10"> My Global Mobility Journey</h2>
+                            <p class="text-sm font-bold text-gray-500 mt-1">The central operating layer for your global progression.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-[#d7ccc8] p-6 rounded-2xl shadow-sm mb-6 relative overflow-hidden">
+                        <h3 class="font-extrabold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="bg-gradient-to-r from-emerald-500 to-cyan-500 text-white text-[10px] px-2 py-1 rounded-md uppercase tracking-widest shadow-sm">Live</span> Your Active Pipeline
+                        </h3>
+                        <div class="flex flex-wrap gap-x-2 gap-y-3 text-[9px] sm:text-[10px] font-extrabold text-gray-600 uppercase tracking-widest">${stepsHtml}</div>
+                        <div class="mt-5 p-3 bg-amber-50 rounded-xl border border-amber-200 flex justify-between items-center">
+                            <div>
+                                <h4 class="text-xs font-bold text-amber-900">Next Step: Application</h4>
+                                <p class="text-[10px] font-semibold text-amber-700 mt-0.5">Submit your tailored CV to shortlisted roles.</p>
+                            </div>
+                            <button class="bg-amber-500 text-white font-bold text-xs px-4 py-2 rounded-lg shadow-sm hover:bg-amber-600">Continue</button>
+                        </div>
+                    </div>
+                `;
+            } else if (moduleName === 'Jobs') {
+                html = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div><h2 class="text-3xl font-extrabold text-emerald-900 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/briefcase.png" class="w-10 h-10"> Global Jobs Marketplace</h2></div>
+                    </div>
+                    <div class="bg-gradient-to-br from-white to-emerald-50 border border-emerald-200 rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-lg font-extrabold text-emerald-900 flex items-center gap-2"><span class="bg-emerald-500 text-white text-xs px-2 py-1 rounded-md uppercase tracking-widest">AI Engine</span> Career Match Analysis</h3>
+                        <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div class="flex items-center gap-2 text-sm font-bold"><span class="text-emerald-500">✓</span> Qualification</div>
+                            <div class="flex items-center gap-2 text-sm font-bold"><span class="text-emerald-500">✓</span> Experience</div>
+                            <div class="flex items-center gap-2 text-sm font-bold text-amber-500"><span>⚠</span> Visa eligibility</div>
+                            <div class="flex items-center gap-2 text-sm font-bold text-red-500"><span>✕</span> Missing cert.</div>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-4 rounded-xl border border-emerald-100 mt-4 max-w-[150px]">
+                            <div class="text-4xl font-black text-emerald-600">92%</div><div class="text-[10px] uppercase font-extrabold text-gray-500 mt-1">Match Score</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div><h2 class="text-3xl font-extrabold text-emerald-900">${moduleName} Module</h2><p class="text-sm font-bold text-gray-500 mt-1">Dashboard rendering framework ready.</p></div>
+                    </div>
+                    <div class="bg-white border border-[#d7ccc8] p-10 rounded-2xl shadow-sm text-center">
+                        <img src="https://img.icons8.com/3d-fluency/96/puzzle.png" class="w-16 h-16 mx-auto mb-4 opacity-70">
+                        <h3 class="text-lg font-extrabold text-gray-800">Module Integrated</h3>
+                        <p class="text-sm font-semibold text-gray-500 mt-2">The architecture for ${moduleName} is mapped to the Destination Engine.</p>
+                    </div>
+                `;
+            }
+            contentDiv.innerHTML = html;
+        };
+
+        window.openCreateModal = function() {
+            const html = `
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4 sm:p-6">
+                    ${[{i:'💼', t:'Post Job', d:'Hire talent'}, {i:'📥', t:'Post Demand', d:'Need manpower'}, {i:'📝', t:'Post CV', d:'Share resume'}, {i:'📢', t:'Post Service', d:'Offer expertise'}, {i:'🛂', t:'Visa Opp', d:'Immigration route'}].map(function(item) {
+                        return '<div onclick="window.openPostForm()" class="p-4 border border-[#d7ccc8] rounded-xl bg-white hover:shadow-md transition-all cursor-pointer flex flex-col items-center text-center group"><span class="text-3xl mb-2 group-hover:scale-110 transition-transform">' + item.i + '</span><span class="font-bold text-gray-800 text-sm leading-tight">' + item.t + '</span><span class="text-[10px] text-gray-500 mt-1">' + item.d + '</span></div>';
+                    }).join('')}
+                </div>
+            `;
+            document.getElementById('win11-modal-body').innerHTML = html;
+            const overlay = document.getElementById('win11-modal-overlay');
+            overlay.classList.remove('hidden');
+            setTimeout(function() { overlay.classList.remove('opacity-0'); document.getElementById('win11-modal-content').classList.remove('scale-95', 'opacity-0'); }, 10);
+        };
+
+        window.openPostForm = function() {
+            document.getElementById('win11-modal-title').innerHTML = `✦ Create Content`;
+            const html = `
+                <div class="p-4 sm:p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+                    <div><label class="text-xs font-bold text-gray-600 uppercase">Title</label><input type="text" class="w-full bg-white border border-[#d7ccc8] rounded-lg p-2.5 outline-none focus:border-emerald-500 mt-1"></div>
+                    <div><label class="text-xs font-bold text-gray-600 uppercase">Destination</label><select class="w-full bg-white border border-[#d7ccc8] rounded-lg p-2.5 outline-none mt-1"><optgroup label="Tier 1 (Gulf)"><option>UAE</option><option>Saudi Arabia</option></optgroup></select></div>
+                    <div class="flex justify-end pt-4 border-t border-[#d7ccc8]"><button onclick="window.closeCreateModal()" class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold px-6 py-2 rounded-lg">Publish</button></div>
+                </div>
+            `;
+            document.getElementById('win11-modal-body').innerHTML = html;
+        };
+
+        window.closeCreateModal = function() {
+            const overlay = document.getElementById('win11-modal-overlay');
+            overlay.classList.add('opacity-0');
+            document.getElementById('win11-modal-content').classList.add('scale-95', 'opacity-0');
+            setTimeout(function() { overlay.classList.add('hidden'); }, 200);
+        };
+
+        window.openActionModal = function(postId) {
+            const html = `
+                <div class="flex flex-col items-center text-center mb-5">
+                    <h3 class="text-lg font-extrabold text-emerald-900 leading-tight">Interact</h3>
+                    <p class="text-[12px] text-gray-500 font-medium mt-1">Identify your profile role to proceed.</p>
+                </div>
+                <select id="action-role-select" class="w-full bg-white border border-[#d7ccc8] rounded-xl p-3 outline-none font-bold shadow-sm" onchange="window.renderActionOptions(this.value)">
+                    <option value="" disabled selected>-- Select Your Role --</option>
+                    <option value="candidate">👤 Candidate (Apply / Book)</option>
+                    <option value="employer">🏢 Employer (Invite / Request)</option>
+                    <option value="other">💬 General Comment</option>
+                </select>
+                <div id="action-dynamic-area" class="mt-4"></div>
+            `;
+            document.getElementById('action-modal-body').innerHTML = html;
+            const overlay = document.getElementById('action-modal-overlay');
+            overlay.classList.remove('hidden');
+            setTimeout(function() { overlay.classList.remove('opacity-0'); document.getElementById('action-modal-content').classList.remove('scale-95', 'opacity-0'); }, 10);
+        };
+
+        window.renderActionOptions = function(role) {
+            let html = '';
+            if(role === 'candidate') {
+                html = '<div class="space-y-2"><button class="w-full p-3.5 border border-emerald-200 bg-white rounded-xl font-extrabold text-emerald-800 shadow-sm text-left">Apply for Job</button><button class="w-full p-3.5 border border-emerald-200 bg-white rounded-xl font-extrabold text-emerald-800 shadow-sm text-left">Book Consultation</button></div>';
+            } else if (role === 'employer') {
+                html = '<div class="space-y-2"><button class="w-full p-3.5 border border-emerald-200 bg-white rounded-xl font-extrabold text-emerald-800 shadow-sm text-left">Invite to Apply</button></div>';
+            } else {
+                html = '<textarea class="w-full bg-white border border-[#d7ccc8] rounded-lg p-3 text-sm resize-none" rows="3" placeholder="Write comment..."></textarea><button onclick="window.closeActionModal()" class="mt-2 bg-emerald-600 text-white px-5 py-2 rounded-lg font-bold">Post</button>';
+            }
+            document.getElementById('action-dynamic-area').innerHTML = html;
+        };
+
+        window.closeActionModal = function() {
+            const overlay = document.getElementById('action-modal-overlay');
+            overlay.classList.add('opacity-0');
+            document.getElementById('action-modal-content').classList.add('scale-95', 'opacity-0');
+            setTimeout(function() { overlay.classList.add('hidden'); }, 200);
+        };
+
+        window.switchView = function(viewId) {
+            const views = document.querySelectorAll('.view-section');
+            for(let i=0; i<views.length; i++) { views[i].classList.remove('active'); }
+            const target = document.getElementById('view-' + viewId);
+            if(target) target.classList.add('active');
+            window.scrollTo(0, 0);
+        };
+
+        window.toggleMegaMenu = function() {
+            const overlay = document.getElementById('mega-menu-overlay');
+            if (overlay.classList.contains('hidden')) {
+                overlay.classList.remove('hidden'); overlay.classList.add('flex');
+                setTimeout(function() { overlay.classList.remove('opacity-0'); }, 10);
+            } else { window.closeMegaMenu(); }
+        };
+
+        window.closeMegaMenu = function() {
+            const overlay = document.getElementById('mega-menu-overlay');
+            overlay.classList.add('opacity-0');
+            setTimeout(function() { overlay.classList.add('hidden'); overlay.classList.remove('flex'); }, 300);
+        };
+
+        window.toggleChat = function() {
+            const container = document.getElementById('chatbot-container');
+            container.classList.toggle('hidden'); container.classList.toggle('flex');
+        };
+
+        function renderStaticViews() {
+            let html = '';
+            for(let i=0; i<MOCK_DATA.stories.length; i++) {
+                const s = MOCK_DATA.stories[i];
+                html += '<div class="flex flex-col items-center flex-shrink-0 cursor-pointer w-[70px] hover:scale-105 transition-transform"><div class="relative w-16 h-16 rounded-full p-[2px] ' + (s.hasUnseen ? 'bg-gradient-to-tr from-emerald-400 to-emerald-600 shadow-md' : 'bg-gray-200') + '"><div class="bg-white p-[2px] rounded-full w-full h-full"><img src="' + s.avatar + '" loading="lazy" class="w-full h-full rounded-full object-cover"></div></div><span class="text-xs mt-1.5 truncate w-full text-center font-bold text-black">' + s.username + '</span></div>';
+            }
+            document.getElementById('stories-container').innerHTML = html;
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            initializeAppWrapper();
+        });
+
+    </script>
+</body>
+</html>

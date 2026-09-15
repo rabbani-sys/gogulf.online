@@ -1,0 +1,526 @@
+<!-- ... existing code ... -->
+                    <!-- Desktop Notification Bell -->
+                    <button onclick="switchView('view-notifications')" class="p-2 sm:p-2.5 rounded-full hover:bg-gray-100 text-gray-600 transition-colors relative active-scale">
+                        <i data-lucide="bell" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                        <span class="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+                    </button>
+                    
+                    <!-- Desktop Profile Dropdown Toggle -->
+<!-- ... existing code ... -->
+            <button onclick="switchView('view-create')" class="flex flex-col items-center justify-center w-full relative -top-3 active-scale">
+                <div class="w-12 h-12 rounded-full bg-gulf-blue text-white shadow-lg flex items-center justify-center border-4 border-white">
+                    <i data-lucide="plus" class="w-6 h-6"></i>
+                </div>
+            </button>
+            <button onclick="switchView('view-messages')" class="flex flex-col items-center justify-center w-full text-gray-400 hover:text-gulf-navy transition-colors active-scale">
+                <div class="relative">
+                    <i data-lucide="message-square" class="w-6 h-6 mb-1"></i>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-gulf-emerald rounded-full border-2 border-white"></span>
+                </div>
+                <span class="text-[10px] font-medium">Messages</span>
+            </button>
+            <button onclick="switchView('view-profile')" class="flex flex-col items-center justify-center w-full text-gray-400 hover:text-gulf-navy transition-colors active-scale">
+<!-- ... existing code ... -->
+                        <!-- Menu Items -->
+                        <div class="p-3 space-y-1">
+                            <button onclick="switchView('view-home')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-gray-100 transition-colors group text-left">
+                                <div class="flex items-center gap-3 text-gray-700 font-medium"><i data-lucide="home" class="w-5 h-5 text-gray-400 group-hover:text-gulf-blue"></i> Home</div>
+                            </button>
+                            <button onclick="document.getElementById('mobile-more-menu').classList.remove('translate-x-full')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-gray-100 transition-colors group text-left">
+                                <div class="flex items-center gap-3 text-gray-700 font-medium"><i data-lucide="compass" class="w-5 h-5 text-gray-400 group-hover:text-gulf-blue"></i> Explore</div>
+                            </button>
+                            <button onclick="switchView('view-country')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-gray-100 transition-colors group text-left">
+                                <div class="flex items-center gap-3 text-gray-700 font-medium"><i data-lucide="map" class="w-5 h-5 text-gray-400 group-hover:text-gulf-blue"></i> Country Hubs</div>
+                                <div class="flex -space-x-2">
+                                    <span class="w-5 h-5 rounded-full bg-cover border border-white" style="background-image: url('https://flagcdn.com/w40/ae.png')"></span>
+                                    <span class="w-5 h-5 rounded-full bg-cover border border-white" style="background-image: url('https://flagcdn.com/w40/sa.png')"></span>
+                                </div>
+                            </button>
+                            
+                            <div class="h-px bg-gray-200 my-2"></div>
+                            
+                            <!-- Categories Accordion -->
+<!-- ... existing code ... -->
+                            <button onclick="switchView('view-employer')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+                                <i data-lucide="building-2" class="w-5 h-5 text-gray-400 group-hover:text-gulf-blue"></i>
+                                <span class="text-gray-700 font-medium text-sm">Employers</span>
+                            </button>
+                            <button onclick="switchView('view-country')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-gray-400 group-hover:text-gulf-blue"></i>
+                                <span class="text-gray-700 font-medium text-sm">UAE Hub</span>
+                                <span class="ml-auto text-[10px] bg-blue-100 text-gulf-blue px-2 py-0.5 rounded-full font-bold">NEW</span>
+                            </button>
+                            <button onclick="switchView('view-recruiter')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+<!-- ... existing code ... -->
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: NOTIFICATIONS ================= -->
+                <div id="view-notifications" class="hidden max-w-4xl mx-auto pb-24 h-screen flex flex-col">
+                    <div class="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 shrink-0">
+                        <div class="flex items-center justify-between mb-4">
+                            <h1 class="text-2xl font-bold text-gulf-navy">Notifications</h1>
+                            <button class="text-sm font-medium text-gulf-blue hover:underline">Mark all as read</button>
+                        </div>
+                        <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+                            <button class="px-4 py-1.5 bg-gulf-navy text-white text-sm font-medium rounded-full shrink-0">All</button>
+                            <button class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-sm font-medium rounded-full shrink-0">Jobs</button>
+                            <button class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-sm font-medium rounded-full shrink-0">Bookings</button>
+                            <button class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-sm font-medium rounded-full shrink-0">Mentions</button>
+                            <button class="px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors text-sm font-medium rounded-full shrink-0">System</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 overflow-y-auto bg-gray-50">
+                        <!-- Unread Notification: Job Match -->
+                        <div class="bg-blue-50/50 p-4 border-b border-gray-100 flex gap-4 hover:bg-blue-50 transition-colors cursor-pointer relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gulf-blue"></div>
+                            <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 border border-gray-200 text-gulf-blue">
+                                <i data-lucide="briefcase" class="w-6 h-6"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-800"><span class="font-bold text-gulf-navy">New job matching your profile:</span> Senior Cloud Architect at TechCorp Dubai.</p>
+                                <p class="text-xs text-gray-500 mt-1">10m ago</p>
+                                <div class="mt-2 flex gap-2">
+                                    <button onclick="switchView('view-job')" class="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gulf-navy hover:border-gulf-blue transition-colors">View Job</button>
+                                </div>
+                            </div>
+                            <div class="w-2.5 h-2.5 bg-gulf-blue rounded-full shrink-0 mt-2"></div>
+                        </div>
+
+                        <!-- Unread Notification: Interview -->
+                        <div class="bg-blue-50/50 p-4 border-b border-gray-100 flex gap-4 hover:bg-blue-50 transition-colors cursor-pointer relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-gulf-blue"></div>
+                            <img src="https://ui-avatars.com/api/?name=Sara+M&background=0A2342&color=fff" alt="Avatar" class="w-12 h-12 rounded-full border border-gray-200 shrink-0">
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-800"><span class="font-bold text-gulf-navy">Sara M.</span> (HR at GulfCareers) scheduled an interview with you.</p>
+                                <p class="text-xs text-gray-500 mt-1">1h ago</p>
+                                <div class="mt-2 p-2 bg-white rounded-lg border border-gray-200 flex items-center gap-3">
+                                    <div class="bg-gray-100 p-2 rounded text-gray-600"><i data-lucide="calendar" class="w-4 h-4"></i></div>
+                                    <div>
+                                        <p class="text-xs font-bold text-gulf-navy">Tech Screen - Video Call</p>
+                                        <p class="text-[10px] text-gray-500">Tomorrow, 10:00 AM GST</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-2.5 h-2.5 bg-gulf-blue rounded-full shrink-0 mt-2"></div>
+                        </div>
+
+                        <!-- Read Notification: Document Expiry -->
+                        <div class="bg-white p-4 border-b border-gray-100 flex gap-4 hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center shrink-0 border border-red-100 text-red-500">
+                                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-800"><span class="font-bold text-gulf-navy">Document expires soon:</span> Your UAE Tourist Visa will expire in 14 days.</p>
+                                <p class="text-xs text-gray-500 mt-1">Yesterday</p>
+                                <div class="mt-2 flex gap-2">
+                                    <button class="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors">Renew Visa</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Read Notification: Tour Booking -->
+                        <div class="bg-white p-4 border-b border-gray-100 flex gap-4 hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center shrink-0 border border-emerald-100 text-gulf-emerald">
+                                <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-800"><span class="font-bold text-gulf-navy">Tour booking confirmed:</span> "VIP Desert Safari & Dinner" has been paid and confirmed.</p>
+                                <p class="text-xs text-gray-500 mt-1">2 days ago</p>
+                                <p class="text-xs text-gray-500 font-mono mt-1">Booking Ref: GG-8472-DS</p>
+                            </div>
+                        </div>
+
+                         <!-- Read Notification: Payment -->
+                         <div class="bg-white p-4 border-b border-gray-100 flex gap-4 hover:bg-gray-50 transition-colors cursor-pointer">
+                            <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center shrink-0 border border-gray-200 text-gray-600">
+                                <i data-lucide="credit-card" class="w-6 h-6"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-800"><span class="font-bold text-gulf-navy">Payment successful:</span> AED 1,450 charged to Apple Pay for Umrah Services.</p>
+                                <p class="text-xs text-gray-500 mt-1">3 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: MESSAGES (COMMUNICATION HUB) ================= -->
+                <div id="view-messages" class="hidden mx-auto h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] flex bg-white overflow-hidden relative">
+                    <!-- Left: Chat List -->
+                    <div class="w-full md:w-80 lg:w-96 border-r border-gray-200 flex flex-col h-full bg-white absolute md:relative z-20 md:z-auto transition-transform duration-300" id="chat-list-panel">
+                        <!-- Header -->
+                        <div class="p-4 border-b border-gray-100 shrink-0">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-xl font-bold text-gulf-navy">Messages</h2>
+                                <button class="p-2 hover:bg-gray-100 rounded-full transition-colors"><i data-lucide="edit" class="w-5 h-5 text-gray-600"></i></button>
+                            </div>
+                            <div class="relative">
+                                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                                <input type="text" placeholder="Search messages..." class="w-full bg-gray-100 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-gulf-blue">
+                            </div>
+                        </div>
+                        <!-- List -->
+                        <div class="flex-1 overflow-y-auto custom-scrollbar">
+                            <!-- Employer Chat -->
+                            <button onclick="openChat('chat-hr')" class="w-full flex items-start gap-3 p-3 sm:p-4 hover:bg-gray-50 border-b border-gray-50 transition-colors text-left bg-blue-50/30">
+                                <div class="relative shrink-0">
+                                    <img src="https://ui-avatars.com/api/?name=Tech+Corp&background=0A2342&color=fff" class="w-12 h-12 rounded-full border border-gray-200">
+                                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-baseline mb-1">
+                                        <h4 class="text-sm font-bold text-gulf-navy truncate">TechCorp HR</h4>
+                                        <span class="text-[10px] text-gulf-blue font-semibold shrink-0">10:42 AM</span>
+                                    </div>
+                                    <p class="text-sm text-gray-800 font-medium truncate">Are you available for a technical screening this week?</p>
+                                </div>
+                                <div class="w-2.5 h-2.5 bg-gulf-blue rounded-full shrink-0 mt-2"></div>
+                            </button>
+                            <!-- Group / Agent Chat -->
+                            <button class="w-full flex items-start gap-3 p-3 sm:p-4 hover:bg-gray-50 border-b border-gray-50 transition-colors text-left">
+                                <div class="relative shrink-0 flex -space-x-4">
+                                    <img src="https://ui-avatars.com/api/?name=Hajj+Agent&background=C29B0C&color=fff" class="w-10 h-10 rounded-full border-2 border-white relative z-10">
+                                    <div class="w-10 h-10 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center text-xs font-bold text-gray-500">UM</div>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-baseline mb-1">
+                                        <h4 class="text-sm font-bold text-gulf-navy truncate">Makkah Tours Support</h4>
+                                        <span class="text-[10px] text-gray-400 shrink-0">Yesterday</span>
+                                    </div>
+                                    <p class="text-sm text-gray-500 truncate">Agent: Here are your final booking vouchers.</p>
+                                </div>
+                            </button>
+                            <!-- AI Chat -->
+                            <button class="w-full flex items-start gap-3 p-3 sm:p-4 hover:bg-gray-50 border-b border-gray-50 transition-colors text-left">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gulf-emerald to-gulf-blue flex items-center justify-center text-white shrink-0">
+                                    <i data-lucide="bot" class="w-6 h-6"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex justify-between items-baseline mb-1">
+                                        <h4 class="text-sm font-bold text-gulf-navy truncate flex items-center gap-1">AK GLORA <i data-lucide="sparkles" class="w-3 h-3 text-gulf-gold"></i></h4>
+                                        <span class="text-[10px] text-gray-400 shrink-0">Mon</span>
+                                    </div>
+                                    <p class="text-sm text-gray-500 truncate">I've generated a new cover letter for you based on the TechCorp job.</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Active Chat Area -->
+                    <div class="flex-1 flex flex-col h-full bg-[#E5DDD5]/20 relative z-10" id="active-chat-panel">
+                        <!-- Chat Header -->
+                        <div class="bg-white px-4 py-3 border-b border-gray-200 flex items-center justify-between shrink-0 shadow-sm z-10">
+                            <div class="flex items-center gap-3">
+                                <button onclick="closeChat()" class="md:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+                                <div class="relative">
+                                    <img src="https://ui-avatars.com/api/?name=Tech+Corp&background=0A2342&color=fff" class="w-10 h-10 rounded-full">
+                                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gulf-navy text-sm flex items-center gap-1">TechCorp HR <i data-lucide="badge-check" class="w-4 h-4 text-gulf-blue fill-current"></i></h3>
+                                    <p class="text-xs text-gulf-emerald font-medium">Online • typing...</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1 sm:gap-2">
+                                <button class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"><i data-lucide="phone" class="w-5 h-5"></i></button>
+                                <button class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"><i data-lucide="video" class="w-5 h-5"></i></button>
+                                <button class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"><i data-lucide="more-vertical" class="w-5 h-5"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Chat Messages -->
+                        <div class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-slate-50/50">
+                            <!-- System/Time Date -->
+                            <div class="flex justify-center"><span class="text-[10px] bg-white border border-gray-200 px-3 py-1 rounded-full text-gray-500 font-medium shadow-sm">Today</span></div>
+                            
+                            <!-- Message (Sent) -->
+                            <div class="flex justify-end">
+                                <div class="max-w-[75%] md:max-w-[60%]">
+                                    <!-- Rich Attachment (Job Application) -->
+                                    <div class="bg-white border border-gray-200 rounded-2xl rounded-tr-sm p-1 mb-1 shadow-sm">
+                                        <div class="bg-gray-50 rounded-xl p-3 flex gap-3">
+                                            <div class="w-10 h-10 bg-gulf-navy rounded-lg text-white flex items-center justify-center shrink-0"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+                                            <div>
+                                                <p class="text-xs font-bold text-gulf-navy">Application Submitted</p>
+                                                <p class="text-[10px] text-gray-500">Senior Cloud Architect</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gulf-navy text-white p-3 rounded-2xl rounded-tr-sm shadow-sm">
+                                        <p class="text-sm">Hi team, I have submitted my application for the Senior Cloud Architect role. Please let me know if you need any further information.</p>
+                                        <div class="flex justify-end items-center gap-1 mt-1 text-[10px] text-white/70">
+                                            10:30 AM <i data-lucide="check-check" class="w-3 h-3 text-blue-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Message (Received) -->
+                            <div class="flex justify-start">
+                                <div class="max-w-[75%] md:max-w-[60%] flex gap-2">
+                                    <img src="https://ui-avatars.com/api/?name=Tech+Corp&background=0A2342&color=fff" class="w-8 h-8 rounded-full shrink-0 self-end mb-1">
+                                    <div class="bg-white border border-gray-100 p-3 rounded-2xl rounded-tl-sm shadow-sm">
+                                        <p class="text-sm text-gray-800">Hello Ahmed! Thank you for applying. Your profile looks great.</p>
+                                        <p class="text-sm text-gray-800 mt-2">Are you available for a technical screening this week?</p>
+                                        <div class="flex justify-start items-center gap-1 mt-1 text-[10px] text-gray-400">
+                                            10:42 AM
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Typing Indicator -->
+                            <div class="flex justify-start">
+                                <div class="max-w-[75%] md:max-w-[60%] flex gap-2">
+                                    <img src="https://ui-avatars.com/api/?name=Tech+Corp&background=0A2342&color=fff" class="w-8 h-8 rounded-full shrink-0 self-end mb-1">
+                                    <div class="bg-white border border-gray-100 p-4 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
+                                        <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+                                        <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="bg-white p-3 sm:p-4 border-t border-gray-200 shrink-0 safe-pb">
+                            <div class="flex items-end gap-2 bg-gray-100 rounded-3xl p-1.5 pr-2">
+                                <button class="p-2.5 text-gray-500 hover:text-gulf-blue transition-colors shrink-0">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                </button>
+                                <textarea rows="1" placeholder="Type a message..." class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-3 resize-none max-h-32 custom-scrollbar"></textarea>
+                                <button class="bg-gulf-blue hover:bg-gulf-navy text-white p-2.5 rounded-full transition-colors shadow-sm shrink-0 mb-0.5 mr-0.5">
+                                    <i data-lucide="send" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                    // Chat responsive panel logic
+                    function openChat(id) {
+                        if (window.innerWidth < 768) {
+                            document.getElementById('chat-list-panel').classList.add('-translate-x-full');
+                        }
+                    }
+                    function closeChat() {
+                        if (window.innerWidth < 768) {
+                            document.getElementById('chat-list-panel').classList.remove('-translate-x-full');
+                        }
+                    }
+                </script>
+
+                <!-- ================= VIEW: COUNTRY HUB (e.g., UAE) ================= -->
+                <div id="view-country" class="hidden pb-24 bg-gray-50 min-h-screen">
+                    <!-- Dynamic Hero Banner -->
+                    <div class="relative h-64 md:h-80 w-full bg-gulf-navy overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512453979438-5154b41315ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="UAE Skyline" class="w-full h-full object-cover mix-blend-overlay opacity-50">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gulf-navy via-transparent to-transparent"></div>
+                        
+                        <!-- Country Info Overlay -->
+                        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10 max-w-7xl mx-auto">
+                            <div class="flex items-end justify-between gap-4">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <span class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-cover shadow-lg border-2 border-white" style="background-image: url('https://flagcdn.com/w80/ae.png')"></span>
+                                        <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight">United Arab Emirates</h1>
+                                    </div>
+                                    <p class="text-white/80 font-medium text-sm md:text-base max-w-2xl">The premier hub for innovation, business, and tourism in the Middle East. Explore jobs, visas, and opportunities.</p>
+                                </div>
+                                <div class="hidden md:flex gap-2">
+                                    <button class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white px-4 py-2 rounded-full font-medium transition-colors text-sm border border-white/30">
+                                        Change Country
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10 space-y-6">
+                        
+                        <!-- Country Navigation Hub -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-2 overflow-x-auto hide-scrollbar flex gap-2">
+                            <button class="px-5 py-2.5 bg-gulf-navy text-white text-sm font-bold rounded-xl whitespace-nowrap">Overview</button>
+                            <button class="px-5 py-2.5 text-gray-600 hover:bg-gray-50 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors flex items-center gap-2"><i data-lucide="briefcase" class="w-4 h-4"></i> Jobs & Employers</button>
+                            <button class="px-5 py-2.5 text-gray-600 hover:bg-gray-50 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors flex items-center gap-2"><i data-lucide="file-check-2" class="w-4 h-4"></i> Visas & Permits</button>
+                            <button class="px-5 py-2.5 text-gray-600 hover:bg-gray-50 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors flex items-center gap-2"><i data-lucide="home" class="w-4 h-4"></i> Real Estate & Stay</button>
+                            <button class="px-5 py-2.5 text-gray-600 hover:bg-gray-50 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors flex items-center gap-2"><i data-lucide="plane" class="w-4 h-4"></i> Travel & Tours</button>
+                            <button class="px-5 py-2.5 text-gray-600 hover:bg-gray-50 text-sm font-semibold rounded-xl whitespace-nowrap transition-colors flex items-center gap-2"><i data-lucide="newspaper" class="w-4 h-4"></i> Local News</button>
+                        </div>
+
+                        <!-- Layout Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            
+                            <!-- Left/Main Column -->
+                            <div class="lg:col-span-2 space-y-6">
+                                <!-- Official Info Panel -->
+                                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                    <div class="flex items-center gap-2 mb-4">
+                                        <i data-lucide="info" class="w-5 h-5 text-gulf-blue"></i>
+                                        <h3 class="font-bold text-gulf-navy text-lg">Essential Information</h3>
+                                    </div>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                                            <p class="text-xs text-gray-500 font-medium mb-1">Currency</p>
+                                            <p class="font-bold text-gulf-navy">AED (Dirham)</p>
+                                            <p class="text-[10px] text-gulf-emerald mt-1">1 USD = 3.67 AED</p>
+                                        </div>
+                                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                                            <p class="text-xs text-gray-500 font-medium mb-1">Timezone</p>
+                                            <p class="font-bold text-gulf-navy">GST (UTC+4)</p>
+                                            <p class="text-[10px] text-gray-400 mt-1">Gulf Standard</p>
+                                        </div>
+                                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                                            <p class="text-xs text-gray-500 font-medium mb-1">Work Week</p>
+                                            <p class="font-bold text-gulf-navy">Mon - Fri</p>
+                                            <p class="text-[10px] text-gray-400 mt-1">Half-day Friday</p>
+                                        </div>
+                                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                                            <p class="text-xs text-gray-500 font-medium mb-1">Capital</p>
+                                            <p class="font-bold text-gulf-navy">Abu Dhabi</p>
+                                            <p class="text-[10px] text-gray-400 mt-1">Largest: Dubai</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Trending UAE Jobs -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h3 class="font-bold text-gulf-navy text-lg flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-gulf-blue"></i> Trending Jobs in UAE</h3>
+                                        <button class="text-sm font-semibold text-gulf-blue hover:underline">View All</button>
+                                    </div>
+                                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 divide-y divide-gray-100">
+                                        <!-- Job Card 1 -->
+                                        <div class="p-4 flex gap-4 hover:bg-gray-50 transition-colors cursor-pointer" onclick="switchView('view-job')">
+                                            <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center shrink-0 border border-gray-200">
+                                                <i data-lucide="building-2" class="w-6 h-6 text-gray-500"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold text-gulf-navy">Senior Cloud Architect</h4>
+                                                <p class="text-sm text-gray-500">TechCorp Dubai <i data-lucide="badge-check" class="w-3 h-3 text-gulf-blue fill-current inline-block"></i></p>
+                                                <div class="flex flex-wrap gap-2 mt-2">
+                                                    <span class="bg-blue-50 text-gulf-blue px-2 py-1 rounded text-xs font-semibold">Dubai</span>
+                                                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-semibold">AED 30K - 45K</span>
+                                                    <span class="bg-emerald-50 text-gulf-emerald px-2 py-1 rounded text-xs font-semibold border border-emerald-100">Visa Sponsored</span>
+                                                </div>
+                                            </div>
+                                            <button class="text-gray-400 hover:text-gulf-blue"><i data-lucide="bookmark" class="w-5 h-5"></i></button>
+                                        </div>
+                                        <!-- Job Card 2 -->
+                                        <div class="p-4 flex gap-4 hover:bg-gray-50 transition-colors cursor-pointer">
+                                            <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center shrink-0 border border-gray-200">
+                                                <i data-lucide="heart-pulse" class="w-6 h-6 text-gray-500"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold text-gulf-navy">Registered Nurse</h4>
+                                                <p class="text-sm text-gray-500">Abu Dhabi Medical Group</p>
+                                                <div class="flex flex-wrap gap-2 mt-2">
+                                                    <span class="bg-blue-50 text-gulf-blue px-2 py-1 rounded text-xs font-semibold">Abu Dhabi</span>
+                                                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-semibold">Healthcare</span>
+                                                </div>
+                                            </div>
+                                            <button class="text-gray-400 hover:text-gulf-blue"><i data-lucide="bookmark" class="w-5 h-5"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column (Tools & Quick Links) -->
+                            <div class="space-y-6">
+                                <!-- Visa Wizard Tool -->
+                                <div class="bg-gradient-to-br from-gulf-blue to-gulf-navy rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                                    <div class="absolute -right-4 -top-4 opacity-10">
+                                        <i data-lucide="file-check-2" class="w-32 h-32"></i>
+                                    </div>
+                                    <h3 class="font-bold text-lg mb-2 relative z-10">UAE Visa Wizard</h3>
+                                    <p class="text-white/80 text-sm mb-4 relative z-10">Find out which visa you are eligible for in under 2 minutes.</p>
+                                    <button class="w-full bg-white text-gulf-navy py-2.5 rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors active-scale relative z-10">
+                                        Start Assessment
+                                    </button>
+                                </div>
+
+                                <!-- Popular Destinations (Tours) -->
+                                <div>
+                                    <h3 class="font-bold text-gulf-navy text-lg mb-4">Top UAE Destinations</h3>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="relative h-24 rounded-xl overflow-hidden group cursor-pointer">
+                                            <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                                                <span class="text-white font-bold text-sm">Dubai</span>
+                                            </div>
+                                        </div>
+                                        <div class="relative h-24 rounded-xl overflow-hidden group cursor-pointer">
+                                            <img src="https://images.unsplash.com/photo-1628187850892-2df080e7a8de?w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                                                <span class="text-white font-bold text-sm">Abu Dhabi</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: EMPLOYER PROFILE ================= -->
+<!-- ... existing code ... -->
+                    <!-- Profile Info Section -->
+                    <div class="px-4 sm:px-6 relative bg-white">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end -mt-12 sm:-mt-16 mb-4 gap-4">
+                            <!-- Logo -->
+                            <div class="relative inline-block shrink-0">
+                                <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl bg-white border-4 border-white shadow-md relative z-10 flex items-center justify-center overflow-hidden p-2">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Emirates_logo.svg/1200px-Emirates_logo.svg.png" alt="Company Logo" class="w-full h-full object-contain">
+                                </div>
+                                <div class="absolute -bottom-2 -right-2 bg-white rounded-full p-0.5 z-20 shadow-sm border border-gray-100">
+                                    <i data-lucide="badge-check" class="w-6 h-6 sm:w-8 sm:h-8 text-gulf-blue fill-current"></i>
+                                </div>
+                            </div>
+<!-- ... existing code ... -->
+                            <p class="text-gray-600 font-medium text-sm sm:text-base mt-1">Connecting the world to and through our global hub in Dubai.</p>
+                            
+                            <!-- Social Trust System Badges -->
+                            <div class="flex flex-wrap gap-2 mt-3 mb-1">
+                                <div class="bg-blue-50 border border-blue-100 text-gulf-blue px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-help" title="Identity verified by GoGulf. Independent Business Entity.">
+                                    <i data-lucide="shield-check" class="w-4 h-4"></i> Verified Business
+                                </div>
+                                <div class="bg-gray-50 border border-gray-200 text-gray-600 px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i> License #AE-98273
+                                </div>
+                                <div class="bg-emerald-50 border border-emerald-100 text-gulf-emerald px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                                    <i data-lucide="star" class="w-4 h-4 fill-current"></i> 4.8 Partner Rating
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-gray-400 mb-3 ml-1">*This is a verified commercial entity. Not directly affiliated with government bodies.</p>
+
+                            <div class="flex flex-wrap items-center gap-y-2 gap-x-4 mt-1 text-sm text-gray-500">
+                                <div class="flex items-center gap-1">
+                                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+                                    Dubai, UAE
+                                </div>
+                                <div class="flex items-center gap-1">
+<!-- ... existing code ... -->
+                            <p class="text-gray-600 font-medium text-sm sm:text-base mt-1">Premium talent acquisition for the Gulf's leading enterprises.</p>
+                            
+                            <!-- Social Trust System Badges -->
+                            <div class="flex flex-wrap gap-2 mt-3 mb-1">
+                                <div class="bg-blue-50 border border-blue-100 text-gulf-blue px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-help" title="Identity verified by GoGulf. Independent Recruitment Agency.">
+                                    <i data-lucide="shield-check" class="w-4 h-4"></i> Verified Agency
+                                </div>
+                                <div class="bg-gray-50 border border-gray-200 text-gray-600 px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-help" title="Registered Ministry of Human Resources License">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i> MOHRE Lic: #RA-4592
+                                </div>
+                                <div class="bg-emerald-50 border border-emerald-100 text-gulf-emerald px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                                    <i data-lucide="star" class="w-4 h-4 fill-current"></i> 4.9 Candidate Rating
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-gray-400 mb-3 ml-1">*Independent agency authorized for recruitment. Verify terms before signing contracts.</p>
+
+                            <div class="flex flex-wrap items-center gap-y-2 gap-x-4 mt-1 text-sm text-gray-500">
+                                <div class="flex items-center gap-1">
+                                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+<!-- ... existing code ... -->

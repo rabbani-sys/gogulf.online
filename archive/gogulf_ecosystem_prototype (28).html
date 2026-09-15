@@ -1,0 +1,208 @@
+<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>GoGulf Ecosystem Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+<!-- ... existing code ... -->
+            .animate-slide-in-right { animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+            .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+            
+            /* Native App Feel Adjustments */
+            body {
+                -webkit-tap-highlight-color: transparent;
+                -webkit-touch-callout: none;
+                overscroll-behavior-y: contain; /* Prevents whole-page bounce, keeps it inside scrollable areas */
+            }
+            .safe-pb { padding-bottom: env(safe-area-inset-bottom); }
+            .safe-pt { padding-top: env(safe-area-inset-top); }
+            
+            /* Hide scrollbar for horizontal scrolling areas to look native */
+            .hide-scrollbar::-webkit-scrollbar { display: none; }
+            .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            
+            /* Add active state for touch feedback (simulating haptics/native press) */
+            .active-scale:active { transform: scale(0.96); transition: transform 0.1s ease-out; }
+
+            /* Pull to refresh spinner */
+            @keyframes ptr-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+            .ptr-spinner { animation: ptr-spin 1s linear infinite; }
+        </style>
+    </head>
+    <body class="bg-[#f8fafc] text-gulf-navy font-sans antialiased overflow-x-hidden">
+<!-- ... existing code ... -->
+        </header>
+
+        <!-- Mobile Bottom Navigation (Native App Style) -->
+        <nav class="md:hidden fixed bottom-0 w-full bg-white/90 backdrop-blur-md border-t border-gray-200 z-40 safe-pb supports-[backdrop-filter]:bg-white/70">
+            <div class="flex justify-around items-center h-16 px-2 relative">
+                <!-- Home -->
+                <a href="#" onclick="switchView('view-home')" class="flex flex-col items-center justify-center w-full h-full text-gulf-navy active-scale">
+                    <i data-lucide="home" class="w-6 h-6 mb-1"></i>
+                    <span class="text-[10px] font-medium">Home</span>
+                </a>
+                
+                <!-- Explore -->
+                <a href="#" onclick="switchView('view-discover')" class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gulf-navy transition-colors active-scale">
+                    <i data-lucide="search" class="w-6 h-6 mb-1"></i>
+                    <span class="text-[10px] font-medium">Explore</span>
+                </a>
+                
+                <!-- Create (Prominent Center Button) -->
+                <a href="#" onclick="document.getElementById('create-sheet').classList.remove('hidden')" class="flex flex-col items-center justify-center w-full h-full active-scale -mt-6 relative z-10">
+                    <div class="bg-gradient-to-r from-gulf-blue to-gulf-emerald p-4 rounded-full shadow-xl shadow-gulf-emerald/40 text-white transform hover:scale-105 transition-transform border-4 border-white/90">
+                        <i data-lucide="plus" class="w-6 h-6"></i>
+                    </div>
+                </a>
+                
+                <!-- Messages -->
+                <a href="#" onclick="console.log('Messages view')" class="relative flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gulf-navy transition-colors active-scale">
+                    <div class="relative">
+                        <i data-lucide="message-square" class="w-6 h-6 mb-1"></i>
+                        <!-- Notification Badge -->
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white shadow-sm">2</span>
+                    </div>
+                    <span class="text-[10px] font-medium">Messages</span>
+                </a>
+                
+                <!-- Profile -->
+                <a href="#" onclick="switchView('view-dashboard')" class="relative flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gulf-navy transition-colors active-scale">
+                    <i data-lucide="user" class="w-6 h-6 mb-1"></i>
+                    <span class="text-[10px] font-medium">Profile</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Sidebar / Main Content Layout -->
+<!-- ... existing code ... -->
+                    <!-- ================= START HOME FEED ================= -->
+                    <div id="view-home" class="animate-fade-in pb-20">
+                        
+                        <!-- Simulated Pull to Refresh (Mobile) -->
+                        <div class="md:hidden flex justify-center items-center py-2 -mt-2 mb-4 text-gray-400">
+                            <i data-lucide="loader-2" class="w-5 h-5 ptr-spinner"></i>
+                        </div>
+
+                        <!-- Stories / Shorts Ring -->
+                        <div class="bg-white rounded-2xl p-4 shadow-sm mb-6 border border-gray-100 overflow-x-auto hide-scrollbar">
+                            <div class="flex space-x-4 min-w-max">
+<!-- ... existing code ... -->
+                        <!-- Feed Posts -->
+                        <div class="space-y-6">
+                            
+                            <!-- Post 1 (Job) -->
+                            <div class="bg-white border-y sm:border sm:border-gray-100 sm:rounded-2xl p-4 sm:p-5 shadow-sm sm:shadow-sm -mx-4 sm:mx-0">
+                                <!-- Post Header -->
+                                <div class="flex justify-between items-start mb-3">
+<!-- ... existing code ... -->
+                            <!-- Post 2 (Short/Media) -->
+                            <div class="bg-white border-y sm:border sm:border-gray-100 sm:rounded-2xl p-4 sm:p-5 shadow-sm sm:shadow-sm -mx-4 sm:mx-0">
+                                <!-- Post Header -->
+                                <div class="flex justify-between items-start mb-3">
+<!-- ... existing code ... -->
+                            </div>
+                            
+                            <!-- Mobile Sticky Action Bar -->
+                            <div class="md:hidden fixed bottom-[64px] left-0 w-full bg-white border-t border-gray-100 p-4 flex space-x-3 z-30 safe-pb shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)]">
+                                <button class="w-12 h-12 flex items-center justify-center border border-gray-200 rounded-xl text-gray-600 active-scale"><i data-lucide="bookmark" class="w-5 h-5"></i></button>
+                                <button class="flex-1 bg-gulf-blue text-white rounded-xl font-bold flex items-center justify-center active-scale shadow-lg shadow-gulf-blue/30 text-lg"><i data-lucide="briefcase" class="w-5 h-5 mr-2"></i> Apply Now</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- ================= END JOB DETAIL ================= -->
+<!-- ... existing code ... -->
+                            </div>
+
+                            <!-- Mobile Sticky Action Bar -->
+                            <div class="md:hidden fixed bottom-[64px] left-0 w-full bg-white border-t border-gray-100 p-4 flex space-x-3 z-30 safe-pb shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)]">
+                                <button class="w-12 h-12 flex items-center justify-center border border-gray-200 rounded-xl text-gray-600 active-scale"><i data-lucide="heart" class="w-5 h-5"></i></button>
+                                <button onclick="document.getElementById('booking-modal').classList.remove('hidden')" class="flex-1 bg-gulf-gold text-white rounded-xl font-bold flex items-center justify-center active-scale shadow-lg shadow-gulf-gold/30 text-lg">Request Booking</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- ================= END UMRAH/HAJJ DETAIL ================= -->
+<!-- ... existing code ... -->
+        <!-- ================= MODALS & OVERLAYS ================= -->
+
+        <!-- Create Sheet Modal -->
+        <div id="create-sheet" class="hidden fixed inset-0 z-50 flex items-end justify-center sm:items-center">
+            <div class="absolute inset-0 bg-gulf-navy/60 backdrop-blur-sm transition-opacity" onclick="document.getElementById('create-sheet').classList.add('hidden')"></div>
+            <div class="relative bg-white w-full md:w-[500px] md:rounded-3xl rounded-t-3xl shadow-2xl animate-slide-up flex flex-col max-h-[90vh]">
+                
+                <!-- Drag handle for mobile -->
+                <div class="md:hidden w-full flex justify-center pt-3 pb-1" onclick="document.getElementById('create-sheet').classList.add('hidden')">
+                    <div class="w-12 h-1.5 bg-gray-300 rounded-full"></div>
+                </div>
+
+                <!-- Header -->
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10 md:rounded-t-3xl rounded-t-none">
+                    <h2 class="text-xl font-extrabold text-gulf-navy">Create</h2>
+                    <button onclick="document.getElementById('create-sheet').classList.add('hidden')" class="p-2 hover:bg-gray-100 rounded-full transition-colors active-scale hidden md:block">
+                        <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+                    </button>
+                </div>
+
+                <!-- Scrollable Content -->
+                <div class="p-6 overflow-y-auto custom-scrollbar safe-pb">
+                    
+                    <!-- Standard User Options -->
+<!-- ... existing code ... -->
+        <!-- Shorts Immersive UI Modal -->
+        <div id="shorts-ui" class="hidden fixed inset-0 z-50 bg-black flex justify-center items-center">
+            <!-- Close Button -->
+            <button onclick="document.getElementById('shorts-ui').classList.add('hidden')" class="absolute top-4 left-4 z-50 w-10 h-10 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/10 active-scale safe-pt mt-2 sm:mt-0">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <!-- Mobile 9:16 Container -->
+            <div class="relative w-full h-full md:w-[400px] md:h-[80vh] md:rounded-3xl bg-gray-900 overflow-hidden shadow-2xl border-0 md:border border-white/10">
+                
+                <!-- Video Background Placeholder -->
+<!-- ... existing code ... -->
+                <!-- Bottom Info & Actions -->
+                <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/95 via-black/50 to-transparent pt-32 safe-pb">
+                    <div class="flex items-end justify-between">
+                        <!-- Content Info -->
+<!-- ... existing code ... -->
+        <!-- Universal Cart Panel -->
+        <div id="cart-panel" class="hidden fixed inset-0 z-50 flex justify-end">
+            <div class="absolute inset-0 bg-gulf-navy/60 backdrop-blur-sm" onclick="document.getElementById('cart-panel').classList.add('hidden')"></div>
+            <div class="relative w-full md:w-[450px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
+                
+                <!-- Header -->
+<!-- ... existing code ... -->
+                <!-- Footer / Checkout -->
+                <div class="p-4 sm:p-6 border-t border-gray-100 bg-gray-50 safe-pb">
+                    <div class="space-y-2 mb-4">
+                        <div class="flex justify-between text-sm text-gulf-text"><span class="font-medium">Subtotal</span><span class="font-bold text-gulf-navy">SAR 6,450.00</span></div>
+                        <div class="flex justify-between text-sm text-gulf-text"><span class="font-medium">Taxes & Fees</span><span class="font-bold text-gulf-navy">SAR 322.50</span></div>
+                        <div class="flex justify-between text-sm text-emerald-600"><span class="font-medium">Discount</span><span class="font-bold">-SAR 50.00</span></div>
+                        <div class="flex justify-between text-xl font-extrabold text-gulf-navy pt-2 border-t border-gray-200 mt-2"><span class="text-lg">Total</span><span>SAR 6,722.50</span></div>
+                    </div>
+                    <button onclick="document.getElementById('cart-panel').classList.add('hidden'); document.getElementById('checkout-modal').classList.remove('hidden')" class="w-full bg-gulf-blue text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition-colors shadow-lg shadow-gulf-blue/30 active-scale">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Flow Modal -->
+        <div id="checkout-modal" class="hidden fixed inset-0 z-50 flex items-end justify-center sm:items-center">
+            <div class="absolute inset-0 bg-gulf-navy/80 backdrop-blur-md transition-opacity" onclick="document.getElementById('checkout-modal').classList.add('hidden')"></div>
+            <div class="relative bg-white w-full md:w-[800px] md:h-[80vh] md:rounded-3xl rounded-t-3xl shadow-2xl animate-slide-up flex flex-col max-h-[90vh]">
+                
+                <!-- Drag handle for mobile -->
+                <div class="md:hidden w-full flex justify-center pt-3 pb-1" onclick="document.getElementById('checkout-modal').classList.add('hidden')">
+                    <div class="w-12 h-1.5 bg-gray-300 rounded-full"></div>
+                </div>
+
+                <!-- Header -->
+<!-- ... existing code ... -->

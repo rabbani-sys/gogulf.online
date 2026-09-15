@@ -1,0 +1,277 @@
+<!-- ... existing code ... -->
+        <!-- 6. NOTIFICATIONS VIEW -->
+        <div id="view-notifications" class="view-section w-full max-w-lg p-4 sm:p-8 flex-col border-x border-cyan-200 bg-white min-h-[80vh] shadow-sm">
+            <h2 class="text-2xl font-bold mb-6">Notifications</h2>
+            <div class="space-y-4" id="notifications-list">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+
+        <!-- 7. CHATBOT WIDGET -->
+        <div id="chatbot-container" class="fixed bottom-16 sm:bottom-6 right-4 sm:right-6 z-[100] flex-col items-end hidden shadow-2xl">
+            <div class="bg-white border border-cyan-200 rounded-2xl w-[90vw] sm:w-80 h-[60vh] sm:h-96 flex flex-col overflow-hidden mb-4 relative shadow-2xl">
+                <div class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white p-3 font-bold flex justify-between items-center shadow-md z-10">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://img.icons8.com/3d-fluency/96/bot.png" loading="lazy" class="w-6 h-6 drop-shadow-md">
+                        <span>GoGulf AI</span>
+                    </div>
+                    <button onclick="window.toggleChat()" class="hover:text-emerald-200 text-lg leading-none transition-colors">&times;</button>
+                </div>
+                <div id="chat-messages" class="flex-1 p-3 overflow-y-auto flex flex-col space-y-3 text-sm bg-gray-50 scroll-smooth relative">
+                    <div class="bg-emerald-100 border border-emerald-200 text-emerald-900 p-2.5 rounded-xl rounded-tl-sm self-start max-w-[85%] shadow-sm">
+                        Hello! 👋 I'm <b>GoGulf AI</b>, your mobility assistant. Ask me anything like: <br><br><i>"Can I get a nursing job in Dubai?"</i><br><i>"Help me build my CV"</i><br><i>"Compare UAE vs Saudi"</i>
+                    </div>
+                </div>
+                <div class="p-3 border-t border-cyan-200 bg-white flex space-x-2 items-center z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                    <input id="chat-input" type="text" placeholder="Type here..." class="flex-1 bg-gray-100 border border-gray-200 rounded-full outline-none text-sm px-4 py-2 focus:border-emerald-500 transition-colors" onkeypress="if(event.key === 'Enter') window.sendMessage()">
+                    <button onclick="window.sendMessage()" class="bg-emerald-600 text-white p-2.5 rounded-full hover:bg-emerald-700 transition-colors shadow-md hover:shadow-lg flex items-center justify-center">
+                        <img src="https://img.icons8.com/3d-fluency/96/paper-plane.png" class="w-4 h-4 ml-[2px]" alt="Send">
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button onclick="window.toggleChat()" class="fixed bottom-16 sm:bottom-6 right-4 sm:right-6 z-[90] bg-gradient-to-tr from-emerald-500 to-emerald-700 shadow-xl rounded-full p-3.5 hover:scale-110 transition-transform border-2 border-white">
+            <img src="https://img.icons8.com/3d-fluency/96/bot.png" loading="lazy" class="w-8 h-8 drop-shadow-md" alt="Chat">
+        </button>
+
+        <!-- 8. WINDOWS 11 SMART POST MODAL -->
+<!-- ... existing code ... -->
+        <div id="view-search" class="view-section w-full max-w-4xl p-4 sm:p-8 flex-col items-center">
+            <div class="w-full max-w-3xl mb-6 relative">
+                <input type="text" placeholder="Search accounts, tags, places..." class="w-full bg-white border border-cyan-200 rounded-lg py-2 px-10 outline-none focus:ring-1 focus:ring-emerald-500">
+                <img src="https://img.icons8.com/3d-fluency/96/search.png" class="absolute left-3 top-1.5 w-7 h-7 opacity-70 drop-shadow-sm" alt="Search">
+            </div>
+            <div class="w-full max-w-3xl grid grid-cols-3 gap-1 sm:gap-4" id="explore-grid">
+                <!-- Grid injected by JS -->
+            </div>
+        </div>
+        
+        <div id="view-ecosystem" class="view-section w-full max-w-4xl flex-col items-center bg-gray-50 min-h-screen border-x border-cyan-100">
+            <!-- Hero Section -->
+            <div class="w-full bg-gradient-to-br from-emerald-800 to-emerald-950 text-white px-6 py-12 sm:py-16 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1512453979436-5a50f3408f1b?auto=format&fit=crop&q=80&w=2000')] opacity-10 bg-cover bg-center"></div>
+                <div class="relative z-10 max-w-2xl mx-auto">
+                    <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-4 leading-tight">Your Journey to the Gulf Starts Here.</h1>
+                    <p class="text-emerald-100 font-bold text-sm sm:text-base uppercase tracking-widest mb-6">Jobs • Careers • Visa • Education • Travel • Housing • Settlement</p>
+                    <p class="text-sm sm:text-lg text-emerald-50/90 font-medium mb-8 leading-relaxed">
+                        Find the right opportunity, prepare your application, manage your visa and build your life abroad — all in one place.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <button onclick="window.navigateToModule('Jobs')" class="bg-white text-emerald-900 font-extrabold text-sm px-8 py-3.5 rounded-xl shadow-lg hover:scale-105 transition-transform">Find Jobs</button>
+                        <button onclick="window.navigateToModule('My Journey')" class="bg-emerald-600/50 backdrop-blur-md border border-emerald-400 text-white font-extrabold text-sm px-8 py-3.5 rounded-xl shadow-lg hover:bg-emerald-500/50 hover:scale-105 transition-all">Explore Destinations</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full max-w-3xl px-4 sm:px-8 py-10 space-y-12">
+                <!-- Destination Priority Section -->
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-900 mb-6 text-center">Choose Your Destination</h2>
+                    
+                    <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2 border-b border-gray-200 pb-2">
+                        <img src="https://img.icons8.com/3d-fluency/96/star.png" class="w-5 h-5"> Tier 1 — Gulf
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-6">
+                        ${[
+                            {n: 'UAE', flag: '🇦🇪'}, {n: 'Saudi Arabia', flag: '🇸🇦'}, 
+                            {n: 'Qatar', flag: '🇶🇦'}, {n: 'Oman', flag: '🇴🇲'}, 
+                            {n: 'Kuwait', flag: '🇰🇼'}, {n: 'Bahrain', flag: '🇧🇭'}
+                        ].map(c => `
+                            <div class="bg-white border border-cyan-200 rounded-xl p-3 flex flex-col items-center text-center cursor-pointer hover:shadow-md hover:border-emerald-400 transition-all group">
+                                <span class="text-2xl mb-1 group-hover:scale-125 transition-transform">${c.flag}</span>
+                                <span class="text-[10px] font-extrabold text-gray-800 uppercase tracking-wider">${c.n}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex justify-between items-center bg-blue-50 border border-blue-200 rounded-xl p-4 cursor-pointer hover:bg-blue-100 transition-colors">
+                        <h3 class="text-sm font-bold text-blue-900 uppercase tracking-widest flex items-center gap-2">
+                            <img src="https://img.icons8.com/3d-fluency/96/marker.png" class="w-5 h-5"> Tier 2 — Europe Next
+                        </h3>
+                        <span class="text-blue-600 font-extrabold text-sm">Explore Europe →</span>
+                    </div>
+                </div>
+
+                <!-- Action Intent Matrix -->
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-emerald-900 mb-6 text-center">What Are You Looking For?</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                        ${[
+                            {t: 'Find a Job', i: 'briefcase', a: 'Jobs'},
+                            {t: 'Find a Course', i: 'graduation-cap', a: 'Education'},
+                            {t: 'Get a Visa', i: 'passport', a: 'Visa & Immig.'},
+                            {t: 'Move Abroad', i: 'airplane-take-off', a: 'Relocation'},
+                            {t: 'Accommodation', i: 'home', a: 'Accommodation'},
+                            {t: 'Build My Career', i: 'parse-from-clipboard', a: 'Skills'}
+                        ].map(act => `
+                            <div onclick="window.navigateToModule('${act.a}')" class="bg-white border border-cyan-200 rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-lg hover:-translate-y-1 hover:border-emerald-400 transition-all group relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-b from-emerald-50/0 to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <img src="https://img.icons8.com/3d-fluency/96/${act.i}.png" class="w-10 h-10 sm:w-12 sm:h-12 mb-3 relative z-10 group-hover:scale-110 transition-transform">
+                                <span class="text-xs sm:text-sm font-extrabold text-gray-800 relative z-10">${act.t}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Mobility Pipeline -->
+                <div class="bg-gradient-to-r from-emerald-50 to-cyan-50 border border-emerald-200 rounded-3xl p-6 sm:p-8 text-center shadow-sm">
+                    <h2 class="text-lg sm:text-xl font-extrabold text-emerald-900 mb-6">Your Journey, Visualized.</h2>
+                    <div class="flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black text-emerald-800 uppercase tracking-wider">
+                        <span class="bg-white px-3 py-1.5 rounded-lg border border-emerald-100 shadow-sm">Profile</span> <span class="text-emerald-400">→</span>
+                        <span class="bg-white px-3 py-1.5 rounded-lg border border-emerald-100 shadow-sm">Match</span> <span class="text-emerald-400">→</span>
+                        <span class="bg-white px-3 py-1.5 rounded-lg border border-emerald-100 shadow-sm">Apply</span> <span class="text-emerald-400">→</span>
+                        <span class="bg-white px-3 py-1.5 rounded-lg border border-emerald-100 shadow-sm">Interview</span> <span class="text-emerald-400">→</span>
+                        <span class="bg-white px-3 py-1.5 rounded-lg border border-emerald-100 shadow-sm">Offer</span> <span class="text-emerald-400">→</span>
+                        <span class="bg-white px-3 py-1.5 rounded-lg border border-emerald-100 shadow-sm">Visa</span> <span class="text-emerald-400">→</span>
+                        <span class="bg-white px-3 py-1.5 rounded-lg border border-emerald-100 shadow-sm">Travel</span> <span class="text-emerald-400">→</span>
+                        <span class="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-4 py-1.5 rounded-lg shadow-md">Settle</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: DYNAMIC MODULE VIEWER (For Jobs, Visa, Recruitment detailed pages) -->
+<!-- ... existing code ... -->
+        window.sendMessage = function() {
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const chatWindow = document.getElementById('chat-messages');
+            chatWindow.innerHTML += `<div class="bg-cyan-50 border border-cyan-100 text-cyan-900 p-2.5 rounded-xl rounded-tr-sm self-end max-w-[85%] ml-auto shadow-sm">${msg}</div>`;
+            input.value = '';
+            
+            setTimeout(() => {
+                let reply = "I'm here to help! Try asking about <b>FAQ</b>, <b>Services</b>, or <b>Kiosk</b>.";
+                const lowerMsg = msg.toLowerCase();
+                
+                if (lowerMsg.includes('nursing') || lowerMsg.includes('job in dubai')) {
+                    reply = "<strong class='text-emerald-700'>AI Match:</strong><br>Yes! There is a high demand for nurses in Dubai. We have 145 active listings matching DHA/MOH requirements. <button onclick='window.navigateToModule(\"Jobs\")' class='mt-2 text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-md border border-emerald-200 shadow-sm'>View Nursing Jobs</button>";
+                } else if (lowerMsg.includes('compare') || lowerMsg.includes('vs')) {
+                    reply = "<strong class='text-emerald-700'>Location Comparison:</strong><br><b>UAE:</b> Zero income tax, fast-paced lifestyle, tech hub.<br><b>Saudi Arabia:</b> Massive giga-projects (NEOM), high salary packages, rapid transformation.<br>Which aligns better with your goals?";
+                } else if (lowerMsg.includes('document') || lowerMsg.includes('visa')) {
+                    reply = "For most Gulf work visas, you will need: 1. Passport (6mo validity), 2. Attested Degree, 3. Police Clearance, 4. Medical Fitness Certificate. Check the <b>Documents</b> module for exact requirements.";
+                } else if (lowerMsg.includes('cv') || lowerMsg.includes('application')) {
+                    reply = "I can help with that! Head over to the <b>Skills</b> module to use our AI CV Builder and Application Toolkit to tailor your profile for Gulf employers.";
+                } else if (lowerMsg.includes('faq')) {
+                    reply = "<strong class='text-emerald-700'>Frequently Asked Questions:</strong><br><br><b>Q: Jobs in 9 mins?</b><br>A: Yes! Our smart algorithm connects you instantly.<br><br><b>Q: Is it free?</b><br>A: Standard profiles are 100% free.";
+                } else if (lowerMsg.includes('service')) {
+                    reply = "<strong class='text-emerald-700'>Our Core Services:</strong><ul class='list-disc pl-4 mt-1'><li>Rapid Job Matching</li><li>Gulf Visa Assistance</li><li>Resume Building</li><li>Professional Networking</li></ul>";
+                } else if (lowerMsg.includes('kiosk')) {
+                    reply = "<strong class='text-emerald-700'>🏢 KIOSK MODE ACTIVATED</strong><br><br>Please select an option below:<br><button class='w-full text-left mt-2 p-1.5 bg-white border border-emerald-200 rounded hover:bg-emerald-50 font-medium'>[1] Print Resume</button><button class='w-full text-left mt-1 p-1.5 bg-white border border-emerald-200 rounded hover:bg-emerald-50 font-medium'>[2] Video Interview Booth</button><button class='w-full text-left mt-1 p-1.5 bg-white border border-emerald-200 rounded hover:bg-emerald-50 font-medium'>[3] Connect to Live Agent</button>";
+                } else if (lowerMsg.includes('hi') || lowerMsg.includes('hello')) {
+                    reply = "Hello there! How can I assist you with your mobility journey today?";
+                }
+
+                chatWindow.innerHTML += `<div class="bg-emerald-100 border border-emerald-200 text-emerald-900 p-2.5 rounded-xl rounded-tl-sm self-start max-w-[85%] shadow-sm mt-2">${reply}</div>`;
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 600);
+            
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        };
+
+        window.switchView = function(viewId) {
+<!-- ... existing code ... -->
+            } else if (moduleName === 'Recruitment') {
+                html = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-emerald-900 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/handshake.png" class="w-10 h-10"> Recruitment OS</h2>
+                            <p class="text-sm font-bold text-gray-500 mt-1">Dedicated Operating Systems for Candidates, Employers, and Agencies.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Candidate Card -->
+                        <div class="bg-white border border-cyan-200 p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
+                                <img src="https://img.icons8.com/3d-fluency/96/resume.png" class="w-8 h-8">
+                            </div>
+                            <h3 class="font-extrabold text-gray-900 mb-1">Candidate OS</h3>
+                            <p class="text-xs text-gray-500 font-medium mb-4">Manage your global career pipeline.</p>
+                            <ul class="text-[11px] font-bold text-gray-600 space-y-1.5 list-disc pl-4 marker:text-blue-400">
+                                <li>AI CV & Portfolio Builder</li>
+                                <li>Live Availability Status</li>
+                                <li>Visa & Document Readiness</li>
+                                <li>Interview & Offer Tracker</li>
+                            </ul>
+                            <button class="w-full mt-5 bg-blue-50 text-blue-700 font-extrabold text-xs py-2 rounded-lg hover:bg-blue-100 transition-colors">Access Profile</button>
+                        </div>
+
+                        <!-- Employer Card -->
+                        <div class="bg-white border border-cyan-200 p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-emerald-500">
+                            <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center mb-4">
+                                <img src="https://img.icons8.com/3d-fluency/96/building.png" class="w-8 h-8">
+                            </div>
+                            <h3 class="font-extrabold text-gray-900 mb-1">Employer OS</h3>
+                            <p class="text-xs text-gray-500 font-medium mb-4">Enterprise hiring & mobility platform.</p>
+                            <ul class="text-[11px] font-bold text-gray-600 space-y-1.5 list-disc pl-4 marker:text-emerald-400">
+                                <li>Job & Manpower Requests</li>
+                                <li>AI Candidate Matching & ATS</li>
+                                <li>Interview & Offer Management</li>
+                                <li>Visa Support & Onboarding</li>
+                            </ul>
+                            <button class="w-full mt-5 bg-emerald-50 text-emerald-700 font-extrabold text-xs py-2 rounded-lg hover:bg-emerald-100 transition-colors">Employer Dashboard</button>
+                        </div>
+
+                        <!-- Agency Card -->
+                        <div class="bg-white border border-cyan-200 p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow border-t-4 border-t-purple-500">
+                            <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-4">
+                                <img src="https://img.icons8.com/3d-fluency/96/organization.png" class="w-8 h-8">
+                            </div>
+                            <h3 class="font-extrabold text-gray-900 mb-1">Agency OS</h3>
+                            <p class="text-xs text-gray-500 font-medium mb-4">Scale bulk recruitment & placements.</p>
+                            <ul class="text-[11px] font-bold text-gray-600 space-y-1.5 list-disc pl-4 marker:text-purple-400">
+                                <li>Candidate & Employer CRM</li>
+                                <li>Job Orders & Pipeline</li>
+                                <li>Document & Visa Verification</li>
+                                <li>Placement Tracking & Reports</li>
+                            </ul>
+                            <button class="w-full mt-5 bg-purple-50 text-purple-700 font-extrabold text-xs py-2 rounded-lg hover:bg-purple-100 transition-colors">Agency CRM</button>
+                        </div>
+                    </div>
+                `;
+            } else if (moduleName === 'Visa & Immig.') {
+<!-- ... existing code ... -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            ${[
+                                'Indians in Dubai 🇦🇪', 'Nurses in Saudi Arabia 🇸🇦', 'Students in Germany 🇩🇪', 
+                                'IT Professionals in UAE 💻', 'Ausbildung Candidates 🎓', 'Healthcare in Europe 🏥'
+                            ].map(g => `
+                                <div class="border border-gray-200 p-3 rounded-xl flex items-center justify-between hover:bg-emerald-50 hover:border-emerald-200 cursor-pointer transition-colors group">
+                                    <span class="text-sm font-bold text-gray-800 group-hover:text-emerald-800">${g}</span>
+                                    <button class="text-[10px] font-extrabold bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg group-hover:bg-emerald-200 group-hover:text-emerald-900">Join</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (moduleName === 'Services' || moduleName === 'Marketplace') {
+                html = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-emerald-900 flex items-center gap-2"><img src="https://img.icons8.com/3d-fluency/96/customer-support.png" class="w-10 h-10"> Service Marketplace</h2>
+                            <p class="text-sm font-bold text-gray-500 mt-1">Connect with verified B2B and B2C mobility service providers.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        ${[
+                            {c: 'Recruitment Agencies', i: 'handshake'}, {c: 'Visa Consultants', i: 'passport'},
+                            {c: 'Immigration Services', i: 'globe'}, {c: 'Education Consultants', i: 'graduation-cap'},
+                            {c: 'Language Institutes', i: 'books'}, {c: 'Training Providers', i: 'medal'},
+                            {c: 'Travel Agencies', i: 'airplane-take-off'}, {c: 'Insurance Providers', i: 'hospital'},
+                            {c: 'Translation Services', i: 'chat'}, {c: 'Legal & Attestation', i: 'document'},
+                            {c: 'Accommodation Providers', i: 'home'}, {c: 'Relocation & Movers', i: 'truck'},
+                            {c: 'Banking & Finance', i: 'money-bag'}, {c: 'Career Coaches', i: 'parse-from-clipboard'}
+                        ].map(s => `
+                            <div class="bg-white border border-cyan-200 p-4 rounded-xl flex flex-col items-center text-center hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer group">
+                                <img src="https://img.icons8.com/3d-fluency/96/${s.i}.png" class="w-10 h-10 mb-2 group-hover:scale-110 transition-transform">
+                                <span class="text-xs font-bold text-gray-800 leading-tight">${s.c}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (moduleName === 'Guides') {
+                html = `
+<!-- ... existing code ... -->

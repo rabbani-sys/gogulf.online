@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GoGulf.online - Universal Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        gulf: { base: '#0f172a', sidebar: '#0b1120', border: '#1e293b' }
+                    },
+                    boxShadow: { glow: '0 0 15px rgba(59, 130, 246, 0.5)' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; }
+        
+        /* Custom Scrollbars */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Backgrounds */
+        .hero-bg-desktop {
+            background-image: linear-gradient(to right, rgba(15, 23, 42, 0.95) 20%, rgba(15, 23, 42, 0.4) 60%, rgba(15, 23, 42, 0.1)), url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+        }
+
+        /* Transitions */
+        .submenu { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        #main-sidebar { transition: width 0.3s ease-in-out; }
+        .sidebar-text, .sidebar-arrow, .menu-group .submenu { transition: opacity 0.2s ease-in-out; }
+        
+        /* Safe area for mobile nav */
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+    </style>
+</head>
+<body class="h-screen w-full overflow-hidden flex selection:bg-blue-500/30">
+
+    <!-- DESKTOP SIDEBAR -->
+    <aside id="main-sidebar" class="w-64 bg-gulf-sidebar border-r border-gulf-border flex flex-col h-full hidden md:flex shrink-0 relative transition-all duration-300 z-50">
+        
+        <button onclick="toggleSidebar()" class="absolute -right-3 top-8 bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-md border-2 border-gulf-base hover:scale-110 transition-transform">
+            <i id="sidebar-toggle-icon" class="fa-solid fa-chevron-left text-[10px]"></i>
+        </button>
+
+        <div class="p-5 flex items-center gap-3 overflow-hidden whitespace-nowrap">
+            <div class="bg-blue-600 rounded-lg p-1.5 shadow-glow shrink-0">
+                <i class="fa-solid fa-link text-white text-lg w-5 text-center"></i>
+            </div>
+            <div class="sidebar-text">
+                <h1 class="text-xl font-bold tracking-tight text-white">GoGulf<span class="text-blue-400">.online</span></h1>
+                <p class="text-[9px] text-gray-400 tracking-wider">Work • Study • Travel • Belong</p>
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto px-3 py-2 space-y-1 custom-scrollbar overflow-x-hidden">
+            <a href="#" class="flex items-center gap-3 px-3 py-2 bg-blue-600/10 text-blue-500 rounded-lg relative font-medium group whitespace-nowrap">
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-blue-500 rounded-r-full"></div>
+                <i class="fa-solid fa-house w-5 text-center text-lg shrink-0"></i>
+                <span class="text-sm sidebar-text">Home</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group whitespace-nowrap">
+                <i class="fa-solid fa-magnifying-glass w-5 text-center text-lg group-hover:text-gray-300 shrink-0"></i>
+                <span class="text-sm sidebar-text">Explore</span>
+            </a>
+            
+            <!-- Jobs Menu -->
+            <div class="menu-group">
+                <button onclick="toggleMenu(this)" class="w-full flex items-center justify-between px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-briefcase w-5 text-center text-lg group-hover:text-gray-300 shrink-0"></i>
+                        <span class="text-sm sidebar-text">Jobs & Careers</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 sidebar-arrow shrink-0"></i>
+                </button>
+                <div class="submenu hidden flex-col pl-11 pr-3 py-1 space-y-2 mt-1 border-l border-gray-800 ml-5 whitespace-nowrap">
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Find Jobs</a>
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">My Applications</a>
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Career Coach AI</a>
+                </div>
+            </div>
+
+            <!-- Employers Menu -->
+            <div class="menu-group">
+                <button onclick="toggleMenu(this)" class="w-full flex items-center justify-between px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-building w-5 text-center text-lg group-hover:text-gray-300 shrink-0"></i>
+                        <span class="text-sm sidebar-text">Employers & RAs</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 sidebar-arrow shrink-0"></i>
+                </button>
+                <div class="submenu hidden flex-col pl-11 pr-3 py-1 space-y-2 mt-1 border-l border-gray-800 ml-5 whitespace-nowrap">
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Discover Employers</a>
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Recruitment Agencies</a>
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Agents & Consultants</a>
+                </div>
+            </div>
+
+            <!-- Education Menu -->
+            <div class="menu-group">
+                <button onclick="toggleMenu(this)" class="w-full flex items-center justify-between px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-graduation-cap w-5 text-center text-lg group-hover:text-gray-300 shrink-0"></i>
+                        <span class="text-sm sidebar-text">Education</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 sidebar-arrow shrink-0"></i>
+                </button>
+                <div class="submenu hidden flex-col pl-11 pr-3 py-1 space-y-2 mt-1 border-l border-gray-800 ml-5 whitespace-nowrap">
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Find Courses</a>
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Scholarships</a>
+                </div>
+            </div>
+            
+            <!-- Travel Menu -->
+            <div class="menu-group">
+                <button onclick="toggleMenu(this)" class="w-full flex items-center justify-between px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-plane w-5 text-center text-lg group-hover:text-gray-300 shrink-0"></i>
+                        <span class="text-sm sidebar-text">Travel & Tours</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 sidebar-arrow shrink-0"></i>
+                </button>
+                <div class="submenu hidden flex-col pl-11 pr-3 py-1 space-y-2 mt-1 border-l border-gray-800 ml-5 whitespace-nowrap">
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Flights & Hotels</a>
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Visa & Documents</a>
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">My Bookings</a>
+                </div>
+            </div>
+
+            <!-- Umrah Menu -->
+            <div class="menu-group">
+                <button onclick="toggleMenu(this)" class="w-full flex items-center justify-between px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-kaaba w-5 text-center text-lg group-hover:text-gray-300 shrink-0"></i>
+                        <span class="text-sm sidebar-text">Umrah & Hajj</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300 sidebar-arrow shrink-0"></i>
+                </button>
+                <div class="submenu hidden flex-col pl-11 pr-3 py-1 space-y-2 mt-1 border-l border-gray-800 ml-5 whitespace-nowrap">
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Packages</a>
+                    <a href="#" class="text-xs text-gray-400 hover:text-white transition">Preparation Guides</a>
+                </div>
+            </div>
+
+            <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group whitespace-nowrap">
+                <i class="fa-solid fa-toolbox w-5 text-center text-lg group-hover:text-gray-300 shrink-0"></i>
+                <span class="text-sm sidebar-text">Tools & Guides</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group whitespace-nowrap">
+                <i class="fa-solid fa-users w-5 text-center text-lg group-hover:text-gray-300 shrink-0"></i>
+                <span class="text-sm sidebar-text">Community</span>
+            </a>
+        </nav>
+
+        <div class="px-3 pb-4 pt-2 mt-auto border-t border-gray-800/50 bg-gulf-sidebar overflow-hidden sidebar-text">
+            <div class="bg-gradient-to-br from-indigo-900/50 to-purple-900/50 border border-indigo-500/30 rounded-xl p-3 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-blue-500/20 blur-xl rounded-full group-hover:bg-pink-500/20 transition-colors"></div>
+                <h4 class="text-white text-xs font-bold mb-1 flex items-center gap-1.5"><i class="fa-solid fa-crown text-yellow-400"></i> GoGulf Premium</h4>
+                <p class="text-[9px] text-gray-300 mb-2 leading-relaxed">Exclusive jobs, tools, and premium expert guidance.</p>
+                <button class="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white py-1.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition relative z-10">
+                    Upgrade Now <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- UNIFIED MAIN CONTENT -->
+    <main class="flex-1 flex flex-col h-full bg-gulf-base relative min-w-0">
+        
+        <header class="px-4 md:px-6 py-3 md:py-0 md:h-[72px] border-b border-gulf-border flex flex-col md:flex-row items-center justify-between bg-gulf-sidebar/95 backdrop-blur-md sticky top-0 z-40 shrink-0 gap-3 md:gap-0 shadow-md md:shadow-none">
+            
+            <!-- Mobile Header Top Row -->
+            <div class="flex items-center justify-between w-full md:hidden">
+                <div class="flex items-center gap-2.5">
+                    <div class="bg-blue-600 rounded-lg p-1.5 shadow-glow">
+                        <i class="fa-solid fa-link text-white text-base w-4 text-center"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold leading-none tracking-tight text-white">GoGulf<span class="text-blue-400">.online</span></h1>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="relative cursor-pointer">
+                        <i class="fa-regular fa-bell text-xl text-gray-300"></i>
+                        <span class="absolute -top-1 -right-1.5 bg-red-500 text-white text-[9px] font-bold min-w-[16px] h-[16px] px-1 flex items-center justify-center rounded-full border-2 border-gulf-sidebar">12</span>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Ahmed+Khan&background=3b82f6&color=fff" alt="Profile" class="w-8 h-8 rounded-full border-2 border-transparent">
+                </div>
+            </div>
+
+            <!-- Global Search -->
+            <div class="flex-1 w-full md:max-w-2xl relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-search text-gray-400"></i>
+                </div>
+                <input type="text" class="w-full bg-gray-800 md:bg-gray-800/60 border border-gray-700 md:border-gray-700/50 text-white text-sm rounded-full pl-11 pr-24 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder-gray-400" placeholder="Search jobs, tours, courses, services, people, destinations...">
+                
+                <div class="absolute inset-y-0 right-1.5 flex items-center gap-1.5">
+                    <div class="hidden md:flex items-center bg-blue-600/20 border border-blue-500/30 rounded-full px-2 py-0.5 cursor-pointer">
+                        <span class="text-[10px] font-bold text-blue-400 mr-1">AI</span>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-sparkles text-white text-[8px]"></i>
+                        </div>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white w-8 h-8 rounded-full flex items-center justify-center transition shadow-sm">
+                         <i class="fa-solid fa-expand text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Actions (Desktop Only) -->
+            <div class="hidden md:flex items-center gap-5 ml-6">
+                <div class="flex items-center gap-4">
+                    <div class="flex flex-col items-center cursor-pointer text-gray-400 hover:text-white transition group relative">
+                        <i class="fa-regular fa-envelope text-lg group-hover:-translate-y-0.5 transition-transform"></i>
+                        <span class="text-[9px] mt-0.5">Messages</span>
+                    </div>
+                    <div class="flex flex-col items-center cursor-pointer text-gray-400 hover:text-white transition group relative">
+                        <div class="relative">
+                            <i class="fa-regular fa-bell text-lg group-hover:-translate-y-0.5 transition-transform"></i>
+                            <span class="absolute -top-1.5 -right-2 bg-red-500 text-white text-[9px] font-bold min-w-[16px] h-[16px] px-1 flex items-center justify-center rounded-full border-2 border-gulf-sidebar">12</span>
+                        </div>
+                        <span class="text-[9px] mt-0.5">Notifications</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 pl-5 border-l border-gray-700 cursor-pointer group">
+                    <img src="https://ui-avatars.com/api/?name=Ahmed+Khan&background=3b82f6&color=fff" alt="Profile" class="w-10 h-10 rounded-full border-2 border-transparent group-hover:border-blue-500 transition-colors">
+                    <div class="text-left hidden lg:block">
+                        <div class="font-bold text-sm text-white leading-tight">Ahmed Khan</div>
+                        <div class="text-[10px] text-gray-400">Explore Your World</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-500 text-xs hidden lg:block"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Scrollable Content Area -->
+        <div class="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-6 pb-24 md:pb-20 custom-scrollbar">
+            <div class="max-w-[1400px] mx-auto space-y-6">
+                
+                <!-- Hero Section -->
+                <div class="rounded-3xl hero-bg-desktop p-6 md:p-8 relative overflow-hidden shadow-2xl border border-gray-800/60 min-h-[280px] md:min-h-[380px] flex flex-col justify-between">
+                    <div class="relative z-10 flex justify-between items-start">
+                        <div class="max-w-xl">
+                            <div class="flex items-center gap-2 md:gap-3 text-[9px] md:text-[10px] font-bold tracking-widest text-blue-300 uppercase mb-3 md:mb-4">
+                                <span>OPPORTUNITIES</span>
+                                <span class="w-1 h-1 bg-gray-500 rounded-full"></span>
+                                <span class="hidden md:inline">EXPERIENCES</span>
+                                <span class="hidden md:inline w-1 h-1 bg-gray-500 rounded-full"></span>
+                                <span>A BRIGHTER TOMORROW</span>
+                            </div>
+                            
+                            <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-4 md:mb-6 tracking-tight drop-shadow-lg">
+                                Your<br>
+                                <span class="text-blue-400">Global Journey</span><br>
+                                Starts Here
+                            </h2>
+                            
+                            <div class="flex items-center flex-wrap gap-3 md:gap-4 text-xs md:text-sm font-medium text-gray-200">
+                                <span>Work</span><span class="text-gray-500">•</span>
+                                <span>Study</span><span class="text-gray-500">•</span>
+                                <span>Travel</span><span class="text-gray-500">•</span>
+                                <span>Umrah</span><span class="text-gray-500">•</span>
+                                <span>Live</span>
+                            </div>
+                        </div>
+
+                        <div class="hidden md:flex flex-col gap-3">
+                            <div class="text-right">
+                                <h3 class="text-white font-bold text-lg leading-tight">Same People</h3>
+                                <p class="text-blue-300 font-medium text-sm">Bigger Possibilities</p>
+                            </div>
+                            <button class="bg-blue-600/90 hover:bg-blue-600 backdrop-blur-md border border-blue-500/50 text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center justify-between w-56 transition shadow-lg">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-globe text-blue-200"></i> Global Careers</span>
+                                <i class="fa-solid fa-arrow-right opacity-70"></i>
+                            </button>
+                            <button class="bg-emerald-600/90 hover:bg-emerald-600 backdrop-blur-md border border-emerald-500/50 text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center justify-between w-56 transition shadow-lg">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-plane-departure text-emerald-200"></i> Meaningful Travel</span>
+                                <i class="fa-solid fa-arrow-right opacity-70"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="md:hidden mt-6 relative z-10 bg-white text-gray-900 px-5 py-2.5 rounded-full text-xs font-bold flex items-center justify-center gap-2 w-max shadow-lg">
+                        Explore Now <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Categories Grid -->
+                <div class="bg-gray-800/40 backdrop-blur-sm rounded-3xl p-5 md:p-6 shadow-sm border border-gray-700/50">
+                    <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-y-5 gap-x-2 md:gap-4">
+                        <!-- Items -->
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#1e40af] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-briefcase text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Jobs</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#ef4444] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-graduation-cap text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Education</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#06b6d4] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-globe text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Visa</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#8b5cf6] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-plane text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Travel</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#f97316] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-map-location-dot text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Tours</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#10b981] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-kaaba text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Umrah</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#eab308] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-mosque text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Hajj</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#3b82f6] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-bed text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Stay</span></div>
+                        <div class="col-start-2 md:col-start-auto flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#a855f7] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-car text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Mobility</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#f43f5e] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-cart-shopping text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Market</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#6366f1] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-user-tie text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">Experts</span></div>
+                        <div class="flex flex-col items-center gap-1.5 md:gap-2 cursor-pointer group"><div class="w-[52px] h-[52px] md:w-[60px] md:h-[60px] bg-[#475569] rounded-2xl flex items-center justify-center text-white shadow-sm group-hover:-translate-y-1 transition-transform"><i class="fa-solid fa-border-all text-xl md:text-2xl"></i></div><span class="text-[10px] md:text-xs font-bold text-gray-300">More</span></div>
+                    </div>
+                </div>
+
+                <!-- 3 Column Middle Section (Responsive to 1 column on mobile) -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                    
+                    <!-- Advanced Tabbed Global Destinations Widget -->
+                    <div class="xl:col-span-1 bg-gray-800/40 backdrop-blur-sm rounded-3xl p-5 border border-gray-700/50 flex flex-col h-[400px]">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-white text-lg">Popular Destinations</h3>
+                            <a href="#" class="text-xs font-bold text-blue-400 hover:underline">View All</a>
+                        </div>
+                        
+                        <!-- Scrollable Tabs -->
+                        <div class="flex gap-2 overflow-x-auto hide-scroll pb-2 mb-3 border-b border-gray-700">
+                            <button onclick="switchTab('gulf')" id="btn-gulf" class="tab-btn px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-blue-600 text-white transition">Gulf</button>
+                            <button onclick="switchTab('europe')" id="btn-europe" class="tab-btn px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-gray-700 text-gray-300 hover:bg-gray-600 transition">Europe</button>
+                            <button onclick="switchTab('maldives')" id="btn-maldives" class="tab-btn px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-gray-700 text-gray-300 hover:bg-gray-600 transition">Maldives</button>
+                            <button onclick="switchTab('americas')" id="btn-americas" class="tab-btn px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-gray-700 text-gray-300 hover:bg-gray-600 transition">USA & Canada</button>
+                            <button onclick="switchTab('asia')" id="btn-asia" class="tab-btn px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-gray-700 text-gray-300 hover:bg-gray-600 transition">Asia & Aus</button>
+                            <button onclick="switchTab('agents')" id="btn-agents" class="tab-btn px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap bg-gray-700 text-gray-300 hover:bg-gray-600 transition"><i class="fa-solid fa-user-tie mr-1"></i> MARA & Agents</button>
+                        </div>
+
+                        <!-- Tab Contents Container (Scrollable Y) -->
+                        <div class="flex-1 overflow-y-auto custom-scrollbar pr-1 relative">
+                            
+                            <!-- Gulf Content -->
+                            <div id="tab-gulf" class="dest-content grid grid-cols-2 gap-3 pb-2">
+                                <div class="relative rounded-2xl overflow-hidden h-32 group cursor-pointer">
+                                    <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                    <div class="absolute bottom-3 left-3 text-white"><div class="font-bold text-sm leading-tight">Dubai</div><div class="text-[9px] text-gray-300">UAE</div></div>
+                                </div>
+                                <div class="relative rounded-2xl overflow-hidden h-32 group cursor-pointer">
+                                    <img src="https://images.unsplash.com/photo-1586724236151-a20120197b09?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                    <div class="absolute bottom-3 left-3 text-white"><div class="font-bold text-sm leading-tight">Riyadh</div><div class="text-[9px] text-gray-300">Saudi Arabia</div></div>
+                                </div>
+                                <div class="relative rounded-2xl overflow-hidden h-32 group cursor-pointer">
+                                    <img src="https://images.unsplash.com/photo-1616428318854-3fb6222b3eb5?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                    <div class="absolute bottom-3 left-3 text-white"><div class="font-bold text-sm leading-tight">Doha</div><div class="text-[9px] text-gray-300">Qatar</div></div>
+                                </div>
+                                <div class="relative rounded-2xl overflow-hidden h-32 group cursor-pointer bg-gray-700 flex flex-col items-center justify-center text-center p-3 hover:bg-gray-600 transition">
+                                    <i class="fa-solid fa-arrow-right text-gray-400 text-xl mb-2"></i>
+                                    <span class="text-xs font-bold text-white">Explore Gulf</span>
+                                </div>
+                            </div>
+
+                            <!-- Europe Content (10 Countries) -->
+                            <div id="tab-europe" class="dest-content hidden grid grid-cols-2 gap-2 pb-2">
+                                <script>
+                                    const euCountries = ['UK', 'Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Switzerland', 'Sweden', 'Norway', 'Ireland'];
+                                    euCountries.forEach(c => {
+                                        document.write(`
+                                            <div class="bg-gray-700/50 hover:bg-gray-600 rounded-xl p-3 flex justify-between items-center cursor-pointer transition border border-gray-600">
+                                                <span class="text-xs font-bold text-white">${c}</span>
+                                                <i class="fa-solid fa-chevron-right text-[10px] text-blue-400"></i>
+                                            </div>
+                                        `);
+                                    });
+                                </script>
+                                <button class="col-span-2 mt-2 bg-blue-600 text-white py-2 rounded-xl text-xs font-bold">Explore EU Opportunities</button>
+                            </div>
+
+                            <!-- Maldives Content (Positions & Avatars) -->
+                            <div id="tab-maldives" class="dest-content hidden flex flex-col gap-3 pb-2">
+                                <div class="relative rounded-2xl overflow-hidden h-24 mb-2">
+                                    <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h4 class="text-white font-black text-xl tracking-widest uppercase">Maldives</h4></div>
+                                </div>
+                                <h4 class="text-xs font-bold text-gray-300 mb-1">Hiring Now:</h4>
+                                <div class="bg-gray-700/50 rounded-xl p-3 flex items-center gap-3 border border-gray-600">
+                                    <div class="flex -space-x-2">
+                                        <img class="w-8 h-8 rounded-full border-2 border-gray-800" src="https://i.pravatar.cc/100?img=33">
+                                        <img class="w-8 h-8 rounded-full border-2 border-gray-800" src="https://i.pravatar.cc/100?img=47">
+                                    </div>
+                                    <div><div class="text-sm font-bold text-white">Resort Managers</div><div class="text-[10px] text-blue-400">Luxury Islands</div></div>
+                                </div>
+                                <div class="bg-gray-700/50 rounded-xl p-3 flex items-center gap-3 border border-gray-600">
+                                    <div class="flex -space-x-2">
+                                        <img class="w-8 h-8 rounded-full border-2 border-gray-800" src="https://i.pravatar.cc/100?img=12">
+                                        <img class="w-8 h-8 rounded-full border-2 border-gray-800" src="https://i.pravatar.cc/100?img=59">
+                                    </div>
+                                    <div><div class="text-sm font-bold text-white">Marine Biologists</div><div class="text-[10px] text-blue-400">Conservation</div></div>
+                                </div>
+                            </div>
+
+                            <!-- Americas Content -->
+                            <div id="tab-americas" class="dest-content hidden grid grid-cols-1 gap-2 pb-2">
+                                <div class="bg-gradient-to-r from-blue-900/40 to-red-900/40 rounded-xl p-4 border border-gray-600 flex justify-between items-center cursor-pointer hover:border-gray-400 transition">
+                                    <div><h4 class="font-bold text-white">United States</h4><p class="text-[10px] text-gray-400">Tech, Healthcare, H1B Info</p></div>
+                                    <i class="fa-solid fa-arrow-right text-white"></i>
+                                </div>
+                                <div class="bg-gradient-to-r from-red-900/40 to-red-800/20 rounded-xl p-4 border border-gray-600 flex justify-between items-center cursor-pointer hover:border-gray-400 transition">
+                                    <div><h4 class="font-bold text-white">Canada</h4><p class="text-[10px] text-gray-400">Express Entry, PNP, Study</p></div>
+                                    <i class="fa-solid fa-arrow-right text-white"></i>
+                                </div>
+                            </div>
+
+                            <!-- Asia & Aus Content -->
+                            <div id="tab-asia" class="dest-content hidden grid grid-cols-2 gap-3 pb-2">
+                                 <script>
+                                    const asiaCountries = ['Australia', 'Singapore', 'Malaysia', 'Russia', 'Turkey', 'Japan'];
+                                    asiaCountries.forEach(c => {
+                                        document.write(`
+                                            <div class="bg-gray-700/50 hover:bg-gray-600 rounded-xl p-3 flex flex-col justify-center items-center cursor-pointer transition border border-gray-600 text-center">
+                                                <span class="text-xs font-bold text-white">${c}</span>
+                                                <span class="text-[9px] text-gray-400 mt-1">Explore</span>
+                                            </div>
+                                        `);
+                                    });
+                                </script>
+                            </div>
+
+                            <!-- Agents & Consultancies Content -->
+                            <div id="tab-agents" class="dest-content hidden flex flex-col gap-3 pb-2">
+                                <div class="bg-blue-900/20 border border-blue-500/30 rounded-xl p-3">
+                                    <h4 class="font-bold text-blue-400 text-sm mb-1"><i class="fa-solid fa-shield-check"></i> Verified Partners</h4>
+                                    <p class="text-[10px] text-gray-300">Connect with authorized agents for secure migration & travel.</p>
+                                </div>
+                                <div class="bg-gray-700/50 rounded-xl p-3 flex items-center justify-between border border-gray-600 cursor-pointer hover:bg-gray-600 transition">
+                                    <div><div class="text-sm font-bold text-white">MARA Agents</div><div class="text-[10px] text-gray-400">Australia Migration</div></div>
+                                    <i class="fa-solid fa-chevron-right text-gray-400"></i>
+                                </div>
+                                <div class="bg-gray-700/50 rounded-xl p-3 flex items-center justify-between border border-gray-600 cursor-pointer hover:bg-gray-600 transition">
+                                    <div><div class="text-sm font-bold text-white">RA-MEA Consultants</div><div class="text-[10px] text-gray-400">Middle East Experts</div></div>
+                                    <i class="fa-solid fa-chevron-right text-gray-400"></i>
+                                </div>
+                                <div class="bg-gray-700/50 rounded-xl p-3 flex items-center justify-between border border-gray-600 cursor-pointer hover:bg-gray-600 transition">
+                                    <div><div class="text-sm font-bold text-white">Education Agents</div><div class="text-[10px] text-gray-400">Global Study</div></div>
+                                    <i class="fa-solid fa-chevron-right text-gray-400"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Beautiful Umrah Card (Redesigned & Glassmorphic) -->
+                    <div class="xl:col-span-1 rounded-3xl relative overflow-hidden flex flex-col shadow-xl group border border-emerald-500/20 min-h-[400px]">
+                        <!-- Image background with zoom effect -->
+                        <div class="absolute inset-0 bg-black">
+                            <img src="https://images.unsplash.com/photo-1565552643952-b43cee515479?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-1000 ease-in-out">
+                        </div>
+                        <!-- Gradient overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-emerald-950/95 via-emerald-900/70 to-transparent"></div>
+                        <!-- Animated geometric shapes (creative element) -->
+                        <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-emerald-500 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"></div>
+                        <div class="absolute top-10 left-10 w-24 h-24 bg-yellow-500 rounded-full blur-2xl opacity-10 group-hover:translate-x-4 transition-transform duration-700"></div>
+
+                        <!-- Card Content -->
+                        <div class="relative z-10 p-6 flex flex-col h-full justify-between">
+                            <div class="flex justify-between items-start">
+                                <div class="inline-flex items-center gap-1.5 bg-emerald-500/20 border border-emerald-400/30 backdrop-blur-md px-3 py-1 rounded-full">
+                                    <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                                    <span class="text-[9px] font-bold text-emerald-100 uppercase tracking-widest">Spiritual Journey</span>
+                                </div>
+                                <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 shadow-lg transform rotate-3 group-hover:rotate-0 transition-transform">
+                                    <i class="fa-solid fa-kaaba text-white text-xl"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h3 class="text-4xl font-black text-white leading-none mb-2 drop-shadow-md tracking-tight">Umrah<br><span class="text-emerald-400 font-light italic">Seamlessly</span></h3>
+                                <p class="text-xs text-emerald-50/80 mb-6 max-w-[220px] leading-relaxed">Trusted packages, global flights, and guided ziyarat by certified experts.</p>
+                                
+                                <div class="flex gap-2 mb-5">
+                                    <div class="flex-1 bg-black/30 hover:bg-emerald-900/50 border border-white/10 backdrop-blur-md rounded-xl p-3 flex flex-col items-center justify-center transition cursor-pointer">
+                                        <i class="fa-solid fa-box-archive text-emerald-300 text-base mb-1.5"></i>
+                                        <span class="text-[10px] text-white font-medium">Packages</span>
+                                    </div>
+                                    <div class="flex-1 bg-black/30 hover:bg-emerald-900/50 border border-white/10 backdrop-blur-md rounded-xl p-3 flex flex-col items-center justify-center transition cursor-pointer">
+                                        <i class="fa-solid fa-plane text-emerald-300 text-base mb-1.5"></i>
+                                        <span class="text-[10px] text-white font-medium">Flights</span>
+                                    </div>
+                                    <div class="flex-1 bg-black/30 hover:bg-emerald-900/50 border border-white/10 backdrop-blur-md rounded-xl p-3 flex flex-col items-center justify-center transition cursor-pointer">
+                                        <i class="fa-solid fa-hotel text-emerald-300 text-base mb-1.5"></i>
+                                        <span class="text-[10px] text-white font-medium">Hotels</span>
+                                    </div>
+                                </div>
+                                
+                                <button class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                                    Plan Your Umrah <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tours Card -->
+                    <div class="xl:col-span-1 rounded-3xl relative overflow-hidden flex flex-col shadow-xl group border border-purple-500/20 min-h-[400px]">
+                        <div class="absolute inset-0 bg-black">
+                            <img src="https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-950/90 via-purple-900/40 to-transparent"></div>
+                        
+                        <div class="relative z-10 p-6 flex flex-col h-full">
+                            <div class="inline-flex self-start items-center gap-1.5 bg-purple-500/30 border border-purple-400/30 backdrop-blur-md px-3 py-1 rounded-full mb-auto">
+                                <i class="fa-solid fa-map-location-dot text-purple-200 text-[10px]"></i>
+                                <span class="text-[9px] font-bold text-purple-100 uppercase tracking-widest">Global Escapes</span>
+                            </div>
+                            
+                            <div class="mt-auto pt-10">
+                                <h3 class="text-3xl font-black text-white leading-tight mb-2">Explore<br>Amazing Tours</h3>
+                                <div class="flex flex-wrap gap-2 mb-5">
+                                    <span class="text-[10px] bg-white/10 backdrop-blur-md border border-white/20 px-2 py-1 rounded text-white">Desert</span>
+                                    <span class="text-[10px] bg-white/10 backdrop-blur-md border border-white/20 px-2 py-1 rounded text-white">City</span>
+                                    <span class="text-[10px] bg-white/10 backdrop-blur-md border border-white/20 px-2 py-1 rounded text-white">Culture</span>
+                                    <span class="text-[10px] bg-white/10 backdrop-blur-md border border-white/20 px-2 py-1 rounded text-white">Adventure</span>
+                                </div>
+                                <button class="bg-white hover:bg-gray-100 text-purple-900 font-bold py-2.5 px-6 rounded-full text-sm flex items-center justify-center gap-2 transition shadow-xl w-max">
+                                    Explore Tours <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-4 mt-8">
+                    <div class="flex justify-between items-center px-1">
+                        <h3 class="font-bold text-white text-xl">Global Stories & Opportunities</h3>
+                        <a href="#" class="text-xs font-bold text-blue-400 hover:underline">View Feed</a>
+                    </div>
+                    
+                    <!-- Advanced Filters Slider -->
+                    <div class="flex gap-2 overflow-x-auto hide-scroll pb-2">
+                        <button class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-md">All Posts</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Cruise Jobs</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Aviation</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Cargo & Logistics</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Gulf Updates</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Saudi Projects</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Dubai Life</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">Germany Tech</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">USA & Canada</button>
+                        <button class="bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition">India Opportunities</button>
+                    </div>
+                    
+                    <!-- Scrollable Instagram Style Posts (Endless sliding row) -->
+                    <div class="flex gap-5 overflow-x-auto custom-scrollbar pb-6 snap-x snap-mandatory mt-2">
+                        
+                        <!-- Post 1: Cargo/Logistics -->
+                        <div class="min-w-[280px] md:min-w-[320px] bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden flex flex-col snap-start shadow-lg">
+                            <div class="p-3 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <img src="https://i.pravatar.cc/100?img=11" class="w-8 h-8 rounded-full border border-gray-600">
+                                    <div><div class="text-xs font-bold text-white">GlobalLogistics Co.</div><div class="text-[9px] text-gray-400">Singapore • Hiring</div></div>
+                                </div>
+                                <i class="fa-solid fa-ellipsis text-gray-400"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=400&auto=format&fit=crop" class="w-full h-[200px] object-cover">
+                            <div class="p-3">
+                                <div class="flex gap-3 mb-2">
+                                    <i class="fa-regular fa-heart text-white text-lg"></i>
+                                    <i class="fa-regular fa-comment text-white text-lg"></i>
+                                    <i class="fa-regular fa-paper-plane text-white text-lg"></i>
+                                </div>
+                                <div class="text-xs text-gray-300 line-clamp-2"><span class="font-bold text-white mr-1">GlobalLogistics Co.</span>Massive recruitment drive for port workers and forklift operators. Great benefits! 🚢📦 #CargoJobs #Singapore</div>
+                            </div>
+                        </div>
+
+                        <!-- Post 2: Cruise Jobs -->
+                        <div class="min-w-[280px] md:min-w-[320px] bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden flex flex-col snap-start shadow-lg">
+                            <div class="p-3 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <img src="https://i.pravatar.cc/100?img=44" class="w-8 h-8 rounded-full border border-gray-600">
+                                    <div><div class="text-xs font-bold text-white">Oceania Careers</div><div class="text-[9px] text-gray-400">Miami, USA • Cruise</div></div>
+                                </div>
+                                <i class="fa-solid fa-ellipsis text-gray-400"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1599640842225-85d111c60e6b?q=80&w=400&auto=format&fit=crop" class="w-full h-[200px] object-cover">
+                            <div class="p-3">
+                                <div class="flex gap-3 mb-2">
+                                    <i class="fa-regular fa-heart text-white text-lg"></i>
+                                    <i class="fa-regular fa-comment text-white text-lg"></i>
+                                    <i class="fa-regular fa-paper-plane text-white text-lg"></i>
+                                </div>
+                                <div class="text-xs text-gray-300 line-clamp-2"><span class="font-bold text-white mr-1">Oceania Careers</span>Travel the world while you work! Hiring hospitality staff from India & Philippines for our luxury liners. 🛳️🌊 #CruiseJobs</div>
+                            </div>
+                        </div>
+
+                        <!-- Post 3: Science/Germany -->
+                        <div class="min-w-[280px] md:min-w-[320px] bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden flex flex-col snap-start shadow-lg">
+                            <div class="p-3 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <img src="https://i.pravatar.cc/100?img=32" class="w-8 h-8 rounded-full border border-gray-600">
+                                    <div><div class="text-xs font-bold text-white">Max Planck Inst.</div><div class="text-[9px] text-gray-400">Munich, Germany</div></div>
+                                </div>
+                                <i class="fa-solid fa-ellipsis text-gray-400"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=400&auto=format&fit=crop" class="w-full h-[200px] object-cover">
+                            <div class="p-3">
+                                <div class="flex gap-3 mb-2">
+                                    <i class="fa-regular fa-heart text-white text-lg"></i>
+                                    <i class="fa-regular fa-comment text-white text-lg"></i>
+                                    <i class="fa-regular fa-paper-plane text-white text-lg"></i>
+                                </div>
+                                <div class="text-xs text-gray-300 line-clamp-2"><span class="font-bold text-white mr-1">Max Planck Inst.</span>Open positions for Data Scientists and Research Biologists. Join our international team. EU Blue Card support provided! 🔬🇩🇪 #ScienceJobs</div>
+                            </div>
+                        </div>
+
+                         <!-- Post 4: Aviation/Dubai -->
+                         <div class="min-w-[280px] md:min-w-[320px] bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden flex flex-col snap-start shadow-lg">
+                            <div class="p-3 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <img src="https://i.pravatar.cc/100?img=9" class="w-8 h-8 rounded-full border border-gray-600">
+                                    <div><div class="text-xs font-bold text-white">Gulf Aviation</div><div class="text-[9px] text-gray-400">Dubai, UAE</div></div>
+                                </div>
+                                <i class="fa-solid fa-ellipsis text-gray-400"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=400&auto=format&fit=crop" class="w-full h-[200px] object-cover">
+                            <div class="p-3">
+                                <div class="flex gap-3 mb-2">
+                                    <i class="fa-regular fa-heart text-white text-lg"></i>
+                                    <i class="fa-regular fa-comment text-white text-lg"></i>
+                                    <i class="fa-regular fa-paper-plane text-white text-lg"></i>
+                                </div>
+                                <div class="text-xs text-gray-300 line-clamp-2"><span class="font-bold text-white mr-1">Gulf Aviation</span>Cabin Crew assessments happening next week in Mumbai and Delhi. Prepare to fly high! ✈️🇦🇪 #Aviation #CabinCrew #Dubai</div>
+                            </div>
+                        </div>
+                        
+                         <!-- Post 5: Construction/Saudi -->
+                         <div class="min-w-[280px] md:min-w-[320px] bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden flex flex-col snap-start shadow-lg">
+                            <div class="p-3 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <img src="https://i.pravatar.cc/100?img=51" class="w-8 h-8 rounded-full border border-gray-600">
+                                    <div><div class="text-xs font-bold text-white">NEOM Builders</div><div class="text-[9px] text-gray-400">Tabuk, Saudi Arabia</div></div>
+                                </div>
+                                <i class="fa-solid fa-ellipsis text-gray-400"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=400&auto=format&fit=crop" class="w-full h-[200px] object-cover">
+                            <div class="p-3">
+                                <div class="flex gap-3 mb-2">
+                                    <i class="fa-regular fa-heart text-white text-lg"></i>
+                                    <i class="fa-regular fa-comment text-white text-lg"></i>
+                                    <i class="fa-regular fa-paper-plane text-white text-lg"></i>
+                                </div>
+                                <div class="text-xs text-gray-300 line-clamp-2"><span class="font-bold text-white mr-1">NEOM Builders</span>Building the future. Urgent requirements for civil engineers and skilled labourers. Visas ready. 🏗️🇸🇦 #SaudiVision2030 #Construction</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Quick Services Cards (Scrollable) -->
+                <div class="flex gap-4 overflow-x-auto custom-scrollbar pb-4 mt-4">
+                    <div class="min-w-[180px] md:min-w-[220px] flex-1 bg-gray-800 rounded-2xl p-4 flex flex-col cursor-pointer border border-gray-700 hover:border-blue-500 hover:shadow-glow transition-all group">
+                        <div class="w-10 h-10 bg-blue-900/50 rounded-xl flex items-center justify-center text-blue-400 mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-plane-up text-lg"></i>
+                        </div>
+                        <div class="flex justify-between items-center mt-auto">
+                            <div>
+                                <div class="font-bold text-white text-sm">Flight Booking</div>
+                                <div class="text-[10px] text-gray-400">Best fares worldwide</div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-gray-500 group-hover:text-blue-400 transition-colors"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="min-w-[180px] md:min-w-[220px] flex-1 bg-gray-800 rounded-2xl p-4 flex flex-col cursor-pointer border border-gray-700 hover:border-blue-500 hover:shadow-glow transition-all group">
+                        <div class="w-10 h-10 bg-blue-900/50 rounded-xl flex items-center justify-center text-blue-400 mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-bed text-lg"></i>
+                        </div>
+                        <div class="flex justify-between items-center mt-auto">
+                            <div>
+                                <div class="font-bold text-white text-sm">Hotels & Stays</div>
+                                <div class="text-[10px] text-gray-400">Comfort anywhere</div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-gray-500 group-hover:text-blue-400 transition-colors"></i>
+                        </div>
+                    </div>
+
+                    <div class="min-w-[180px] md:min-w-[220px] flex-1 bg-gray-800 rounded-2xl p-4 flex flex-col cursor-pointer border border-gray-700 hover:border-blue-500 hover:shadow-glow transition-all group">
+                        <div class="w-10 h-10 bg-blue-900/50 rounded-xl flex items-center justify-center text-blue-400 mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-shield-halved text-lg"></i>
+                        </div>
+                        <div class="flex justify-between items-center mt-auto">
+                            <div>
+                                <div class="font-bold text-white text-sm">Travel Insurance</div>
+                                <div class="text-[10px] text-gray-400">Travel with confidence</div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-gray-500 group-hover:text-blue-400 transition-colors"></i>
+                        </div>
+                    </div>
+                     <div class="min-w-[180px] md:min-w-[220px] flex-1 bg-gray-800 rounded-2xl p-4 flex flex-col cursor-pointer border border-gray-700 hover:border-blue-500 hover:shadow-glow transition-all group">
+                        <div class="w-10 h-10 bg-blue-900/50 rounded-xl flex items-center justify-center text-blue-400 mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-house-user text-lg"></i>
+                        </div>
+                        <div class="flex justify-between items-center mt-auto">
+                            <div>
+                                <div class="font-bold text-white text-sm">Relocation Services</div>
+                                <div class="text-[10px] text-gray-400">Settle with ease</div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-gray-500 group-hover:text-blue-400 transition-colors"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Fixed Bottom Navigation (Mobile Only) -->
+    <div class="md:hidden bg-gray-900 border-t border-gray-800 px-6 pt-3 pb-safe flex justify-between items-center fixed bottom-0 left-0 w-full z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.5)]">
+        <div class="flex flex-col items-center gap-1 cursor-pointer text-blue-500 w-12 transition group">
+            <i class="fa-solid fa-house text-xl group-hover:scale-110 transition-transform"></i>
+            <span class="text-[10px] font-bold">Home</span>
+        </div>
+        
+        <div class="flex flex-col items-center gap-1 cursor-pointer text-gray-400 hover:text-blue-500 w-12 transition group">
+            <i class="fa-solid fa-magnifying-glass text-xl group-hover:scale-110 transition-transform"></i>
+            <span class="text-[10px] font-medium">Explore</span>
+        </div>
+        
+        <!-- Floating Action Button (Create) -->
+        <div class="flex flex-col items-center justify-center relative -top-6 w-16 group">
+            <button class="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-glow border-4 border-gray-900 absolute top-0 group-hover:scale-105 transition-transform">
+                <i class="fa-solid fa-plus text-2xl"></i>
+            </button>
+            <span class="text-[10px] font-medium text-gray-400 absolute top-14 mt-1">Post</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-1 cursor-pointer text-gray-400 hover:text-blue-500 w-12 transition group relative">
+            <div class="relative group-hover:scale-110 transition-transform">
+                <i class="fa-regular fa-envelope text-xl"></i>
+                <span class="absolute -top-1 -right-2 bg-red-500 text-white text-[9px] font-bold min-w-[16px] h-[16px] px-1 flex items-center justify-center rounded-full border-2 border-gray-900">5</span>
+            </div>
+            <span class="text-[10px] font-medium">Messages</span>
+        </div>
+        
+        <div class="flex flex-col items-center gap-1 cursor-pointer text-gray-400 hover:text-blue-500 w-12 transition group">
+            <i class="fa-regular fa-user text-xl group-hover:scale-110 transition-transform"></i>
+            <span class="text-[10px] font-medium">Profile</span>
+        </div>
+    </div>
+
+    <!-- AK GLORA Floating Bot (Global for Mobile & Desktop) -->
+    <div class="fixed bottom-24 right-4 md:bottom-8 md:right-8 z-[60] flex flex-col items-end">
+        
+        <!-- Chat Popup Window -->
+        <div id="glora-chat" class="hidden w-72 md:w-80 bg-gray-900 rounded-2xl shadow-2xl mb-4 overflow-hidden border border-gray-700 flex flex-col opacity-0 transform translate-y-4 transition-all duration-300">
+            <div class="bg-gradient-to-r from-blue-700 to-indigo-700 p-4 flex justify-between items-center text-white">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/30">
+                        <i class="fa-solid fa-robot text-sm"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-sm">AK GLORA</div>
+                        <div class="text-[9px] text-blue-200">Your AI Global Guide</div>
+                    </div>
+                </div>
+                <button onclick="toggleGlora()" class="text-white hover:text-gray-200"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="p-4 bg-gray-800 h-64 overflow-y-auto flex flex-col gap-3 custom-scrollbar text-sm">
+                <!-- Message -->
+                <div class="flex gap-2 w-5/6">
+                    <div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center shrink-0 mt-1">
+                        <i class="fa-solid fa-robot text-white text-[10px]"></i>
+                    </div>
+                    <div class="bg-gray-700 p-2.5 rounded-2xl rounded-tl-none text-gray-200 text-xs shadow-sm border border-gray-600">
+                        Hello! I am AK GLORA. How can I help you today? You can ask me about visas, jobs, travel, or Umrah.
+                    </div>
+                </div>
+                <!-- FAQ Chips -->
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <button class="bg-gray-700 hover:bg-gray-600 text-blue-300 border border-gray-600 px-3 py-1 rounded-full text-[10px] transition">Find Jobs in Dubai</button>
+                    <button class="bg-gray-700 hover:bg-gray-600 text-blue-300 border border-gray-600 px-3 py-1 rounded-full text-[10px] transition">Umrah Visa Rules</button>
+                    <button class="bg-gray-700 hover:bg-gray-600 text-blue-300 border border-gray-600 px-3 py-1 rounded-full text-[10px] transition">EU Blue Card</button>
+                </div>
+            </div>
+            
+            <div class="p-3 bg-gray-900 border-t border-gray-700 flex items-center gap-2">
+                <input type="text" class="flex-1 bg-gray-800 border border-gray-700 text-white rounded-full px-4 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder-gray-500" placeholder="Ask me anything...">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </div>
+        </div>
+
+        <button onclick="toggleGlora()" class="w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white shadow-glow hover:scale-105 transition-transform relative z-50 border-2 border-gray-900">
+            <i class="fa-solid fa-sparkles absolute top-2 right-3 text-[10px] text-yellow-300 animate-pulse"></i>
+            <i class="fa-solid fa-robot text-2xl"></i>
+        </button>
+    </div>
+
+    <script>
+        // Sidebar Toggle Logic
+        let isSidebarCollapsed = false;
+
+        function toggleMenu(btn) {
+            if (isSidebarCollapsed) {
+                toggleSidebar();
+                return;
+            }
+            const submenu = btn.nextElementSibling;
+            const icon = btn.querySelector('.fa-chevron-down');
+            submenu.classList.toggle('hidden');
+            submenu.classList.toggle('flex');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('main-sidebar');
+            const texts = document.querySelectorAll('.sidebar-text');
+            const arrows = document.querySelectorAll('.sidebar-arrow');
+            const submenus = document.querySelectorAll('.submenu');
+            const toggleIcon = document.getElementById('sidebar-toggle-icon');
+            
+            isSidebarCollapsed = !isSidebarCollapsed;
+            
+            if (isSidebarCollapsed) {
+                sidebar.classList.remove('w-64');
+                sidebar.classList.add('w-20');
+                
+                texts.forEach(t => t.classList.add('hidden'));
+                arrows.forEach(a => a.classList.add('hidden'));
+                
+                submenus.forEach(s => {
+                    s.classList.add('hidden');
+                    s.classList.remove('flex');
+                });
+                document.querySelectorAll('.fa-chevron-down').forEach(icon => {
+                    icon.classList.remove('rotate-180');
+                });
+                
+                toggleIcon.classList.remove('fa-chevron-left');
+                toggleIcon.classList.add('fa-chevron-right');
+            } else {
+                sidebar.classList.remove('w-20');
+                sidebar.classList.add('w-64');
+                
+                setTimeout(() => {
+                    texts.forEach(t => t.classList.remove('hidden'));
+                    arrows.forEach(a => a.classList.remove('hidden'));
+                }, 150);
+                
+                toggleIcon.classList.remove('fa-chevron-right');
+                toggleIcon.classList.add('fa-chevron-left');
+            }
+        }
+
+        // Destinations Tab Logic
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.dest-content').forEach(el => {
+                el.classList.add('hidden');
+                if(tabId === 'gulf' || tabId === 'europe' || tabId === 'asia' || tabId === 'americas') {
+                    el.classList.remove('grid');
+                } else {
+                     el.classList.remove('flex');
+                }
+            });
+            // Reset all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-700', 'text-gray-300');
+            });
+            
+            // Show selected tab content
+            const targetContent = document.getElementById('tab-' + tabId);
+            targetContent.classList.remove('hidden');
+            if(tabId === 'gulf' || tabId === 'europe' || tabId === 'asia' || tabId === 'americas') {
+                targetContent.classList.add('grid');
+            } else {
+                 targetContent.classList.add('flex');
+            }
+            
+            // Highlight selected button
+            const targetBtn = document.getElementById('btn-' + tabId);
+            targetBtn.classList.remove('bg-gray-700', 'text-gray-300');
+            targetBtn.classList.add('bg-blue-600', 'text-white');
+        }
+
+        // AK GLORA Chatbot Logic
+        function toggleGlora() {
+            const chat = document.getElementById('glora-chat');
+            if (chat.classList.contains('hidden')) {
+                chat.classList.remove('hidden');
+                // slight delay for animation
+                setTimeout(() => {
+                    chat.classList.remove('opacity-0', 'translate-y-4');
+                    chat.classList.add('opacity-100', 'translate-y-0');
+                }, 10);
+            } else {
+                chat.classList.remove('opacity-100', 'translate-y-0');
+                chat.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => {
+                    chat.classList.add('hidden');
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>

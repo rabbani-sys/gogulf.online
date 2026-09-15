@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alien Adventure Cartoon</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #87CEEB; /* Sky blue */
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #cartoonContainer {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 8px solid #333;
+            border-radius: 15px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #startScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 10;
+        }
+
+        #startScreen h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        #startBtn {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background-color: #FFD700;
+            color: #333;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #startBtn:hover {
+            transform: scale(1.1);
+            background-color: #ffea00;
+        }
+
+        #subtitles {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 80%;
+            display: none;
+            z-index: 5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cartoonContainer">
+        <canvas id="cartoonCanvas"></canvas>
+        
+        <div id="startScreen">
+            <h1>Zog's Earth Adventure!</h1>
+            <button id="startBtn">Play Movie (2 Mins)</button>
+        </div>
+
+        <div id="subtitles"></div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('cartoonCanvas');
+        const ctx = canvas.getContext('2d');
+        const startScreen = document.getElementById('startScreen');
+        const startBtn = document.getElementById('startBtn');
+        const subtitleEl = document.getElementById('subtitles');
+
+        // Internal resolution for drawing, scaled up via CSS
+        const width = 800;
+        const height = 450;
+        canvas.width = width;
+        canvas.height = height;
+
+        let animationId;
+        let startTime = 0;
+        let isPlaying = false;
+        const totalDuration = 120000; // 2 minutes in milliseconds
+
+        // Scene timing definitions (in milliseconds)
+        const scenes = {
+            intro: { start: 0, end: 15000 },          // Spaceship flies in
+            landing: { start: 15000, end: 35000 },    // Spaceship lands, Zog comes out
+            meeting: { start: 35000, end: 70000 },    // Dog appears, they interact
+            playing: { start: 70000, end: 105000 },   // Playing fetch
+            departure: { start: 105000, end: 120000 } // Zog leaves
+        };
+
+        // Entities
+        const ship = { x: -100, y: 50, scale: 1, angle: 0, doorOpen: 0 };
+        const zog = { x: 400, y: 350, scale: 0, visible: false, armAngle: 0, legOffset: 0 };
+        const dog = { x: 900, y: 370, scale: 1, tailAngle: 0, legOffset: 0, visible: false };
+        const ball = { x: -50, y: 380, vx: 0, vy: 0, visible: false };
+        const stars = Array.from({ length: 50 }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height * 0.6,
+            size: Math.random() * 2 + 1,
+            twinkle: Math.random() * Math.PI * 2
+        }));
+
+        function setSubtitle(text) {
+            if (text) {
+                subtitleEl.textContent = text;
+                subtitleEl.style.display = 'block';
+            } else {
+                subtitleEl.style.display = 'none';
+            }
+        }
+
+        function drawBackground(time) {
+            // Sky gradient (Day/Night transition later if needed, mostly day here)
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, '#4facfe');
+            gradient.addColorStop(1, '#00f2fe');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            // Sun
+            ctx.save();
+            ctx.translate(100, 100);
+            ctx.rotate(time * 0.001);
+            ctx.fillStyle = '#FFD700';
+            ctx.beginPath();
+            ctx.arc(0, 0, 40, 0, Math.PI * 2);
+            ctx.fill();
+            // Sun rays
+            ctx.strokeStyle = '#FFD700';
+            ctx.lineWidth = 4;
+            for(let i=0; i<8; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, 50);
+                ctx.lineTo(0, 70);
+                ctx.stroke();
+                ctx.rotate(Math.PI / 4);
+            }
+            ctx.restore();
+
+            // Clouds (slowly moving)
+            ctx.fillStyle = '#FFFFFF';
+            const drawCloud = (cx, cy, scale) => {
+                ctx.beginPath();
+                ctx.arc(cx, cy, 30*scale, Math.PI * 0.5, Math.PI * 1.5);
+                ctx.arc(cx + 25*scale, cy - 20*scale, 35*scale, Math.PI * 1, Math.PI * 1.8);
+                ctx.arc(cx + 60*scale, cy - 10*scale, 30*scale, Math.PI * 1.2, Math.PI * 2);
+                ctx.arc(cx + 80*scale, cy, 25*scale, Math.PI * 1.5, Math.PI * 0.5);
+                ctx.fill();
+            };
+            drawCloud(((time * 0.02) % (width + 200)) - 100, 80, 1);
+            drawCloud((((time * 0.015) + 400) % (width + 300)) - 150, 150, 0.8);
+
+            // Ground
+            ctx.fillStyle = '#7CFC00'; // Lawn green
+            ctx.beginPath();
+            ctx.ellipse(width/2, height, width, 150, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Distant hills
+            ctx.fillStyle = '#228B22'; // Forest green
+            ctx.beginPath();
+            ctx.arc(200, height - 50, 100, Math.PI, 0);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(600, height - 50, 120, Math.PI, 0);
+            ctx.fill();
+        }
+
+        function drawShip(x, y, scale, angle, doorOpen) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
+            ctx.rotate(angle);
+
+            // Exhaust flame (animated)
+            if (y < 300) {
+                ctx.fillStyle = Date.now() % 200 < 100 ? '#FF4500' : '#FF8C00';
+                ctx.beginPath();
+                ctx.moveTo(-20, 30);
+                ctx.lineTo(20, 30);
+                ctx.lineTo(0, 80 + Math.random() * 20);
+                ctx.fill();
+            }
+
+            // Ship Body
+            ctx.fillStyle = '#C0C0C0';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 60, 30, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#696969';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Dome
+            ctx.fillStyle = 'rgba(173, 216, 230, 0.7)';
+            ctx.beginPath();
+            ctx.arc(0, -10, 30, Math.PI, 0);
+            ctx.fill();
+            ctx.stroke();
+
+            // Alien inside dome (if door not fully open)
+            if (doorOpen < 1) {
+                ctx.fillStyle = '#32CD32';
+                ctx.beginPath();
+                ctx.arc(0, -15, 12, 0, Math.PI * 2);
+                ctx.fill();
+                // eyes
+                ctx.fillStyle = 'black';
+                ctx.fillRect(-6, -18, 4, 4);
+                ctx.fillRect(2, -18, 4, 4);
+            }
+
+            // Door / Ramp
+            if (doorOpen > 0) {
+                ctx.fillStyle = '#A9A9A9';
+                ctx.beginPath();
+                ctx.moveTo(-20, 10);
+                ctx.lineTo(20, 10);
+                ctx.lineTo(20 + 20 * doorOpen, 10 + 60 * doorOpen);
+                ctx.lineTo(-20 - 20 * doorOpen, 10 + 60 * doorOpen);
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Lights
+            const lightColor = Date.now() % 1000 < 500 ? '#FF0000' : '#00FF00';
+            ctx.fillStyle = lightColor;
+            ctx.beginPath(); ctx.arc(-40, 5, 4, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(0, 15, 4, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(40, 5, 4, 0, Math.PI*2); ctx.fill();
+
+            ctx.restore();
+        }
+
+        function drawZog(x, y, scale, armAngle, legOffset) {
+            if (scale <= 0) return;
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
+
+            // Legs
+            ctx.strokeStyle = '#32CD32';
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            // Left leg
+            ctx.beginPath(); ctx.moveTo(-10, 20); ctx.lineTo(-15 + legOffset, 45); ctx.stroke();
+            // Right leg
+            ctx.beginPath(); ctx.moveTo(10, 20); ctx.lineTo(15 - legOffset, 45); ctx.stroke();
+
+            // Arms
+            // Left arm (waving)
+            ctx.save();
+            ctx.translate(-15, 0);
+            ctx.rotate(-armAngle);
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-25, -10); ctx.stroke();
+            ctx.restore();
+            // Right arm
+            ctx.beginPath(); ctx.moveTo(15, 0); ctx.lineTo(35, 10); ctx.stroke();
+
+            // Body
+            ctx.fillStyle = '#32CD32';
+            ctx.beginPath();
+            ctx.ellipse(0, 5, 20, 25, 0, 0, Math.PI*2);
+            ctx.fill();
+
+            // Head
+            ctx.beginPath();
+            ctx.arc(0, -25, 22, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Antennae
+            ctx.strokeStyle = '#32CD32';
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(-10, -45); ctx.lineTo(-15, -60); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(10, -45); ctx.lineTo(15, -60); ctx.stroke();
+            ctx.fillStyle = 'red';
+            ctx.beginPath(); ctx.arc(-15, -60, 4, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(15, -60, 4, 0, Math.PI*2); ctx.fill();
+
+            // Eyes (Big and cute)
+            ctx.fillStyle = 'white';
+            ctx.beginPath(); ctx.arc(-8, -28, 8, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(8, -28, 8, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = 'black';
+            ctx.beginPath(); ctx.arc(-8, -28, 4, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(8, -28, 4, 0, Math.PI*2); ctx.fill();
+            // catchlight
+            ctx.fillStyle = 'white';
+            ctx.beginPath(); ctx.arc(-10, -30, 2, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(6, -30, 2, 0, Math.PI*2); ctx.fill();
+
+            // Mouth
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(0, -15, 8, 0, Math.PI);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function drawDog(x, y, scale, tailAngle, legOffset) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(scale, scale);
+
+            // Tail (wagging)
+            ctx.save();
+            ctx.translate(35, -10);
+            ctx.rotate(tailAngle);
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 8;
+            ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(25, -20); ctx.stroke();
+            ctx.restore();
+
+            // Legs
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 8;
+            // Back legs
+            ctx.beginPath(); ctx.moveTo(25, 10); ctx.lineTo(25 + legOffset, 30); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(15, 10); ctx.lineTo(15 - legOffset, 30); ctx.stroke();
+            // Front legs
+            ctx.beginPath(); ctx.moveTo(-15, 10); ctx.lineTo(-15 + legOffset, 30); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(-25, 10); ctx.lineTo(-25 - legOffset, 30); ctx.stroke();
+
+            // Body
+            ctx.fillStyle = '#A0522D';
+            ctx.beginPath();
+            ctx.ellipse(5, 0, 35, 20, 0, 0, Math.PI*2);
+            ctx.fill();
+
+            // Head
+            ctx.beginPath();
+            ctx.arc(-35, -15, 20, 0, Math.PI*2);
+            ctx.fill();
+            // Snout
+            ctx.beginPath();
+            ctx.ellipse(-50, -10, 15, 10, 0, 0, Math.PI*2);
+            ctx.fill();
+            // Nose
+            ctx.fillStyle = 'black';
+            ctx.beginPath(); ctx.arc(-60, -12, 5, 0, Math.PI*2); ctx.fill();
+
+            // Ear
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.ellipse(-25, -25, 8, 15, -Math.PI/4, 0, Math.PI*2);
+            ctx.fill();
+
+            // Eye
+            ctx.fillStyle = 'white';
+            ctx.beginPath(); ctx.arc(-38, -20, 6, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = 'black';
+            ctx.beginPath(); ctx.arc(-40, -20, 3, 0, Math.PI*2); ctx.fill();
+
+            // Tongue (happy)
+            ctx.fillStyle = 'pink';
+            ctx.beginPath();
+            ctx.arc(-45, -2, 6, 0, Math.PI);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function drawBall(x, y) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.fillStyle = 'red';
+            ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI*2); ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI, true); ctx.stroke();
+            ctx.restore();
+        }
+
+        function update(elapsed) {
+            // --- Scene 1: Intro (0-15s) ---
+            if (elapsed < scenes.intro.end) {
+                const progress = elapsed / scenes.intro.end;
+                ship.x = -100 + progress * 500; // Fly in from left
+                ship.y = 50 + Math.sin(progress * Math.PI * 4) * 20; // Hover effect
+                ship.angle = Math.sin(progress * Math.PI * 2) * 0.1;
+                setSubtitle("Look! A spaceship is approaching Earth!");
+            }
+            
+            // --- Scene 2: Landing (15s-35s) ---
+            else if (elapsed < scenes.landing.end) {
+                const pTime = elapsed - scenes.landing.start;
+                const duration = scenes.landing.end - scenes.landing.start;
+                const progress = pTime / duration;
+
+                ship.x = 400; // Centered
+                // Land smoothly
+                if (progress < 0.3) {
+                    const lProg = progress / 0.3;
+                    ship.y = 50 + lProg * 230; 
+                    ship.angle = 0;
+                    setSubtitle("It's landing in the park!");
+                } else {
+                    ship.y = 280; // Landed
+                    // Open door
+                    if (progress > 0.4 && progress < 0.6) {
+                        ship.doorOpen = (progress - 0.4) / 0.2;
+                    } else if (progress >= 0.6) {
+                        ship.doorOpen = 1;
+                    }
+
+                    // Zog comes out
+                    if (progress > 0.6) {
+                        zog.visible = true;
+                        zog.scale = Math.min(1, (progress - 0.6) / 0.1);
+                        zog.y = 280 + ship.doorOpen * 60; // stand on ramp
+                        setSubtitle("Hello! I am Zog from planet Blurp.");
+                    }
+                }
+            }
+
+            // --- Scene 3: Meeting (35s-70s) ---
+            else if (elapsed < scenes.meeting.end) {
+                const pTime = elapsed - scenes.meeting.start;
+                const duration = scenes.meeting.end - scenes.meeting.start;
+                const progress = pTime / duration;
+
+                ship.x = 400; ship.y = 280; ship.doorOpen = 1;
+                zog.visible = true;
+                zog.scale = 1;
+                zog.x = 350; // Move slightly left
+                zog.y = 350; // On grass
+                zog.armAngle = Math.sin(pTime * 0.01) * 0.5 + 0.5; // Waving
+
+                dog.visible = true;
+                // Dog runs in from right
+                if (progress < 0.2) {
+                    const runProg = progress / 0.2;
+                    dog.x = 900 - runProg * 350;
+                    dog.legOffset = Math.sin(pTime * 0.02) * 10;
+                    setSubtitle("Oh! What is this furry creature?");
+                } else {
+                    dog.x = 550;
+                    dog.legOffset = 0;
+                    dog.tailAngle = Math.sin(pTime * 0.02) * 0.5; // Happy tail wag
+                    setSubtitle("Woof! Woof! (Welcome to Earth!)");
+                }
+            }
+
+            // --- Scene 4: Playing (70s-105s) ---
+            else if (elapsed < scenes.playing.end) {
+                const pTime = elapsed - scenes.playing.start;
+                const duration = scenes.playing.end - scenes.playing.start;
+                const progress = pTime / duration;
+
+                zog.visible = true; zog.x = 200; zog.y = 350;
+                dog.visible = true;
+                ball.visible = true;
+                ship.x = 400; ship.y = 280;
+
+                // Play cycle: Zog throws, dog fetches
+                const cycleTime = pTime % 8000; // 8 second cycles
+                
+                if (cycleTime < 1000) {
+                    // Zog holding ball
+                    ball.x = zog.x + 20; ball.y = zog.y - 10;
+                    zog.armAngle = Math.PI; // Arm up
+                    dog.x = 300; dog.legOffset = 0; dog.tailAngle = Math.sin(pTime*0.03)*0.8;
+                    setSubtitle("Fetch, Earth friend!");
+                } else if (cycleTime < 2500) {
+                    // Ball flying right
+                    const throwProg = (cycleTime - 1000) / 1500;
+                    zog.armAngle = 0;
+                    ball.x = zog.x + 20 + throwProg * 500;
+                    // Parabola arc for throw
+                    ball.y = (zog.y - 10) - Math.sin(throwProg * Math.PI) * 150; 
+                    
+                    // Dog running after it
+                    dog.x = 300 + throwProg * 450;
+                    dog.legOffset = Math.sin(pTime * 0.03) * 15;
+                    setSubtitle("");
+                } else if (cycleTime < 4000) {
+                    // Dog got ball
+                    ball.x = dog.x - 45; ball.y = dog.y - 5;
+                    dog.legOffset = 0;
+                    setSubtitle("Good boy!");
+                } else {
+                    // Dog running back
+                    const returnProg = (cycleTime - 4000) / 4000;
+                    dog.x = 750 - returnProg * 450;
+                    dog.legOffset = Math.sin(pTime * 0.02) * 10;
+                    ball.x = dog.x - 45; ball.y = dog.y - 5;
+                }
+            }
+
+            // --- Scene 5: Departure (105s-120s) ---
+            else if (elapsed < scenes.departure.end) {
+                const pTime = elapsed - scenes.departure.start;
+                const duration = scenes.departure.end - scenes.departure.start;
+                const progress = pTime / duration;
+
+                ball.visible = false;
+                dog.x = 550; dog.legOffset = 0; dog.tailAngle = 0;
+
+                if (progress < 0.2) {
+                    // Zog walks to ship
+                    zog.x = 200 + (progress/0.2) * 200;
+                    zog.legOffset = Math.sin(pTime*0.01) * 10;
+                    setSubtitle("I must go back now. Goodbye!");
+                } else if (progress < 0.4) {
+                    // Zog retracts
+                    zog.x = 400; zog.legOffset = 0;
+                    zog.scale = 1 - ((progress-0.2)/0.2);
+                    ship.doorOpen = 1 - ((progress-0.2)/0.2);
+                    setSubtitle("Goodbye, Earth friend!");
+                    dog.tailAngle = Math.sin(pTime * 0.01) * 0.3; // slow wag
+                } else {
+                    // Fly away
+                    zog.visible = false;
+                    ship.doorOpen = 0;
+                    const flyProg = (progress - 0.4) / 0.6;
+                    ship.y = 280 - Math.pow(flyProg, 2) * 500; // Accelerate upwards
+                    setSubtitle("The End.");
+                }
+            } else {
+                // Movie over
+                isPlaying = false;
+                setSubtitle("Animation Complete. Refresh to replay.");
+            }
+        }
+
+        function animate(timestamp) {
+            if (!isPlaying) return;
+
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. Update State
+            update(elapsed);
+
+            // 2. Draw Scene
+            drawBackground(elapsed);
+            
+            // Draw entities based on depth/z-index
+            if (ball.visible && elapsed < scenes.playing.end) drawBall(ball.x, ball.y);
+            if (dog.visible) drawDog(dog.x, dog.y, dog.scale, dog.tailAngle, dog.legOffset);
+            if (zog.visible) drawZog(zog.x, zog.y, zog.scale, zog.armAngle, zog.legOffset);
+            drawShip(ship.x, ship.y, ship.scale, ship.angle, ship.doorOpen);
+
+            // 3. Loop
+            if (elapsed < totalDuration && isPlaying) {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            startScreen.style.display = 'none';
+            isPlaying = true;
+            startTime = null; // Reset time
+            
+            // Reset entities
+            zog.visible = false;
+            dog.visible = false;
+            ball.visible = false;
+            
+            // Start audio if we had any (browser policy usually requires user interaction)
+            // Start loop
+            animationId = requestAnimationFrame(animate);
+        });
+
+        // Initial draw just to show something behind the start screen
+        drawBackground(0);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!-- ... existing code ... -->
+                        <div class="pt-4 mt-4 border-t border-gray-200 space-y-1">
+                            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">System & Settings</p>
+                            <button onclick="switchView('view-premium')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-gray-100 transition-colors group">
+                                <div class="flex items-center gap-3 text-gray-700 font-medium"><i data-lucide="sparkles" class="w-5 h-5 text-gulf-gold"></i> Premium</div>
+                            </button>
+                            <button onclick="switchView('view-dashboard')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-gray-100 transition-colors group">
+                                <div class="flex items-center gap-3 text-gray-700 font-medium"><i data-lucide="layout-dashboard" class="w-5 h-5 text-gray-400 group-hover:text-gulf-blue"></i> My Dashboard</div>
+                            </button>
+                            <button onclick="switchView('view-admin')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-gray-100 transition-colors group">
+                                <div class="flex items-center gap-3 text-gray-700 font-medium"><i data-lucide="shield" class="w-5 h-5 text-red-500"></i> Admin Area</div>
+                            </button>
+                            
+                            <!-- New OS Workspaces -->
+                            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mt-4 mb-2">Workspaces</p>
+                            <button onclick="switchView('view-office-os')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-teal-50 transition-colors group">
+                                <div class="flex items-center gap-3 text-teal-800 font-medium"><i data-lucide="store" class="w-5 h-5 text-teal-600"></i> Office OS</div>
+                            </button>
+                            <button onclick="switchView('view-partner-os')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-indigo-50 transition-colors group">
+                                <div class="flex items-center gap-3 text-indigo-800 font-medium"><i data-lucide="handshake" class="w-5 h-5 text-indigo-600"></i> Partner OS</div>
+                            </button>
+                            <button onclick="switchView('view-corporate-os')" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl hover:bg-slate-100 transition-colors group">
+                                <div class="flex items-center gap-3 text-slate-800 font-medium"><i data-lucide="building" class="w-5 h-5 text-slate-600"></i> Corporate OS</div>
+                            </button>
+                        </div>
+                    </nav>
+<!-- ... existing code ... -->
+                            <button onclick="switchView('view-premium')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group bg-gradient-to-r from-gulf-gold/10 to-transparent">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-gulf-gold"></i>
+                                <span class="text-gray-700 font-medium text-sm">Premium</span>
+                            </button>
+                            <button onclick="switchView('view-admin')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+                                <i data-lucide="shield-alert" class="w-5 h-5 text-red-500"></i>
+                                <span class="text-gray-700 font-medium text-sm">Admin Area</span>
+                            </button>
+                            
+                            <div class="h-px bg-gray-200 my-2"></div>
+                            
+                            <p class="px-3 text-xs font-bold text-gray-400 uppercase tracking-wider mt-2 mb-1">Workspaces</p>
+                            <button onclick="switchView('view-office-os')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-teal-50 transition-colors text-left group">
+                                <i data-lucide="store" class="w-5 h-5 text-teal-600"></i>
+                                <span class="text-teal-800 font-medium text-sm">Office OS</span>
+                            </button>
+                            <button onclick="switchView('view-partner-os')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 transition-colors text-left group">
+                                <i data-lucide="handshake" class="w-5 h-5 text-indigo-600"></i>
+                                <span class="text-indigo-800 font-medium text-sm">Partner OS</span>
+                            </button>
+                            <button onclick="switchView('view-corporate-os')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 transition-colors text-left group">
+                                <i data-lucide="building" class="w-5 h-5 text-slate-600"></i>
+                                <span class="text-slate-800 font-medium text-sm">Corporate OS</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+<!-- ... existing code ... -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: OFFICE OS ================= -->
+                <!-- ARCHITECTURE NOTE: Interacts with domains: users, appointments, cases, payments, documents, organization_members -->
+                <div id="view-office-os" class="hidden pb-24 bg-slate-50 min-h-screen font-sans">
+                    <!-- Office Header -->
+                    <div class="bg-teal-900 text-white sticky top-0 z-40 shadow-md">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-teal-800 p-2 rounded-lg border border-teal-700">
+                                    <i data-lucide="store" class="w-6 h-6 text-teal-300"></i>
+                                </div>
+                                <div>
+                                    <h1 class="text-xl font-bold">GoGulf Centre <span class="text-teal-400 text-sm font-normal">| Dubai Main Branch</span></h1>
+                                    <p class="text-[10px] text-teal-200 uppercase tracking-widest">Office Operations OS</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="bg-teal-700 hover:bg-teal-600 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors"><i data-lucide="plus" class="w-4 h-4"></i> New Walk-in</button>
+                                <button class="bg-teal-700 hover:bg-teal-600 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors"><i data-lucide="calendar" class="w-4 h-4"></i> Schedule</button>
+                            </div>
+                        </div>
+                        <div class="bg-teal-950 px-4 sm:px-6 py-2 overflow-x-auto hide-scrollbar flex gap-4">
+                            <button class="text-sm font-bold text-teal-300 border-b-2 border-teal-300 pb-1 whitespace-nowrap">Front Desk</button>
+                            <button class="text-sm font-medium text-teal-500 hover:text-teal-300 pb-1 whitespace-nowrap transition-colors">Customers & Leads</button>
+                            <button class="text-sm font-medium text-teal-500 hover:text-teal-300 pb-1 whitespace-nowrap transition-colors">Applications & Cases</button>
+                            <button class="text-sm font-medium text-teal-500 hover:text-teal-300 pb-1 whitespace-nowrap transition-colors">Bookings & Payments</button>
+                            <button class="text-sm font-medium text-teal-500 hover:text-teal-300 pb-1 whitespace-nowrap transition-colors">Staff Duty</button>
+                        </div>
+                    </div>
+
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+                        <!-- Queue & Stats -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-teal-500">
+                                <p class="text-xs text-slate-500 font-bold uppercase mb-1">Waiting Queue</p>
+                                <p class="text-3xl font-bold text-slate-800">12</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-teal-500">
+                                <p class="text-xs text-slate-500 font-bold uppercase mb-1">Active Cases</p>
+                                <p class="text-3xl font-bold text-slate-800">45</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-teal-500">
+                                <p class="text-xs text-slate-500 font-bold uppercase mb-1">Today's Revenue</p>
+                                <p class="text-3xl font-bold text-slate-800">14.2K</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 border-l-4 border-l-teal-500">
+                                <p class="text-xs text-slate-500 font-bold uppercase mb-1">Staff Online</p>
+                                <p class="text-3xl font-bold text-slate-800">8/10</p>
+                            </div>
+                        </div>
+
+                        <!-- Main Operational Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Left: Live Queue -->
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden lg:col-span-1">
+                                <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                                    <h3 class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-teal-600"></i> Live Queue</h3>
+                                    <span class="bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-1 rounded-full">Updated Just Now</span>
+                                </div>
+                                <div class="divide-y divide-slate-100">
+                                    <div class="p-4 hover:bg-slate-50 flex items-center justify-between">
+                                        <div>
+                                            <p class="font-bold text-sm text-slate-800">Ticket #A042</p>
+                                            <p class="text-xs text-slate-500">Visa Consultation (Mohammed R.)</p>
+                                        </div>
+                                        <button class="bg-teal-50 text-teal-700 px-3 py-1 rounded text-xs font-bold border border-teal-200">Call</button>
+                                    </div>
+                                    <div class="p-4 hover:bg-slate-50 flex items-center justify-between">
+                                        <div>
+                                            <p class="font-bold text-sm text-slate-800">Ticket #B015</p>
+                                            <p class="text-xs text-slate-500">Flight Booking (Sarah J.)</p>
+                                        </div>
+                                        <button class="bg-teal-50 text-teal-700 px-3 py-1 rounded text-xs font-bold border border-teal-200">Call</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Quick Modules -->
+                            <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center items-start hover:border-teal-400 transition-colors cursor-pointer group">
+                                    <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-teal-100 transition-colors">
+                                        <i data-lucide="file-check-2" class="w-6 h-6 text-teal-600"></i>
+                                    </div>
+                                    <h4 class="font-bold text-slate-800 text-lg">Document Scanning</h4>
+                                    <p class="text-sm text-slate-500">Process passports, IDs, and certificates to customer profiles.</p>
+                                </div>
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center items-start hover:border-teal-400 transition-colors cursor-pointer group">
+                                    <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-teal-100 transition-colors">
+                                        <i data-lucide="credit-card" class="w-6 h-6 text-teal-600"></i>
+                                    </div>
+                                    <h4 class="font-bold text-slate-800 text-lg">POS & Payments</h4>
+                                    <p class="text-sm text-slate-500">Process in-person payments, generate receipts and invoices.</p>
+                                </div>
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center items-start hover:border-teal-400 transition-colors cursor-pointer group">
+                                    <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-teal-100 transition-colors">
+                                        <i data-lucide="briefcase" class="w-6 h-6 text-teal-600"></i>
+                                    </div>
+                                    <h4 class="font-bold text-slate-800 text-lg">Employer Relations</h4>
+                                    <p class="text-sm text-slate-500">Manage walk-in HR reps and corporate recruitment queries.</p>
+                                </div>
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center items-start hover:border-teal-400 transition-colors cursor-pointer group">
+                                    <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-teal-100 transition-colors">
+                                        <i data-lucide="check-square" class="w-6 h-6 text-teal-600"></i>
+                                    </div>
+                                    <h4 class="font-bold text-slate-800 text-lg">Task Manager</h4>
+                                    <p class="text-sm text-slate-500">Follow-ups, embassy appointments, and daily office tasks.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: PARTNER OS ================= -->
+                <!-- ARCHITECTURE NOTE: Interacts with domains: organizations, jobs, products, services, tours, bookings, orders -->
+                <div id="view-partner-os" class="hidden pb-24 bg-slate-50 min-h-screen font-sans">
+                    <!-- Partner Header -->
+                    <div class="bg-indigo-950 text-white sticky top-0 z-40 shadow-md">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-white rounded-lg p-1 flex items-center justify-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Emirates_logo.svg/1200px-Emirates_logo.svg.png" class="w-full h-full object-contain">
+                                </div>
+                                <div>
+                                    <h1 class="text-xl font-bold">Emirates Group</h1>
+                                    <p class="text-[10px] text-indigo-300 uppercase tracking-widest">Business Partner OS</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="bg-indigo-700 hover:bg-indigo-600 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors"><i data-lucide="plus" class="w-4 h-4"></i> Create</button>
+                                <button class="bg-indigo-700 hover:bg-indigo-600 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors"><i data-lucide="settings" class="w-4 h-4"></i> Settings</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+                        <!-- Partner Modules -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Organization & Team -->
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                                <div class="bg-indigo-50 px-4 py-3 border-b border-indigo-100 flex items-center gap-2">
+                                    <i data-lucide="building-2" class="w-5 h-5 text-indigo-600"></i>
+                                    <h3 class="font-bold text-indigo-900">Organization</h3>
+                                </div>
+                                <div class="p-2">
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Company Profile</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Team Management</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Roles & Access</button>
+                                </div>
+                            </div>
+
+                            <!-- Inventory & Listings -->
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                                <div class="bg-indigo-50 px-4 py-3 border-b border-indigo-100 flex items-center gap-2">
+                                    <i data-lucide="package" class="w-5 h-5 text-indigo-600"></i>
+                                    <h3 class="font-bold text-indigo-900">Inventory</h3>
+                                </div>
+                                <div class="p-2">
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Jobs Directory</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Products & Services</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Travel Packages</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Availability Calendar</button>
+                                </div>
+                            </div>
+
+                            <!-- Sales & Customers -->
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                                <div class="bg-indigo-50 px-4 py-3 border-b border-indigo-100 flex items-center gap-2">
+                                    <i data-lucide="shopping-cart" class="w-5 h-5 text-indigo-600"></i>
+                                    <h3 class="font-bold text-indigo-900">Sales & CRM</h3>
+                                </div>
+                                <div class="p-2">
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Customers & Leads</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Orders & Bookings</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Invoices & Payments</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Messages</button>
+                                </div>
+                            </div>
+
+                            <!-- Performance -->
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                                <div class="bg-indigo-50 px-4 py-3 border-b border-indigo-100 flex items-center gap-2">
+                                    <i data-lucide="bar-chart-2" class="w-5 h-5 text-indigo-600"></i>
+                                    <h3 class="font-bold text-indigo-900">Performance</h3>
+                                </div>
+                                <div class="p-2">
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Analytics Dashboard</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Reviews & Ratings</button>
+                                    <button class="w-full text-left px-3 py-2 hover:bg-slate-50 rounded-lg text-sm text-slate-700 font-medium">Reports Export</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity List -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                            <h3 class="font-bold text-slate-800 text-lg mb-4">Recent Partner Activity</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4 pb-4 border-b border-slate-100">
+                                    <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center shrink-0"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
+                                    <div>
+                                        <p class="font-bold text-sm text-slate-800">New Booking Received</p>
+                                        <p class="text-xs text-slate-500">Order #8892 - Corporate Flight Bundle.</p>
+                                    </div>
+                                    <div class="ml-auto text-xs text-slate-400">10m ago</div>
+                                </div>
+                                <div class="flex items-start gap-4 pb-4 border-b border-slate-100">
+                                    <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center shrink-0"><i data-lucide="users" class="w-5 h-5"></i></div>
+                                    <div>
+                                        <p class="font-bold text-sm text-slate-800">Candidate Applied</p>
+                                        <p class="text-xs text-slate-500">Ahmed M. applied for Senior Pilot role.</p>
+                                    </div>
+                                    <div class="ml-auto text-xs text-slate-400">1h ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= VIEW: CORPORATE OS ================= -->
+                <!-- ARCHITECTURE NOTE: Interacts with ALL domains. Requires strict RLS and SuperAdmin permissions. -->
+                <div id="view-corporate-os" class="hidden pb-24 bg-black min-h-screen font-sans">
+                    <!-- Corporate Header -->
+                    <div class="bg-zinc-950 text-white sticky top-0 z-40 border-b border-zinc-800">
+                        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-zinc-700 to-zinc-900 rounded-lg flex items-center justify-center border border-zinc-700 shadow-lg">
+                                    <i data-lucide="globe" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div>
+                                    <h1 class="text-xl font-bold tracking-tight">GoGulf Corporate</h1>
+                                    <p class="text-[10px] text-zinc-400 uppercase tracking-widest font-semibold">Enterprise Management System</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="text-right hidden sm:block">
+                                    <p class="text-xs text-zinc-400">System Time (GST)</p>
+                                    <p class="text-sm font-mono text-white">14:30:22</p>
+                                </div>
+                                <button class="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors"><i data-lucide="search" class="w-4 h-4"></i> Global Search</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 py-8">
+                        <h2 class="text-2xl font-bold text-white mb-6 tracking-tight">Departments & Divisions</h2>
+                        
+                        <!-- Massive Corporate Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                            
+                            <!-- Core Ops Group -->
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="building" class="w-6 h-6 text-zinc-400 group-hover:text-white mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Management</h3>
+                                <p class="text-xs text-zinc-500">Board, Strategy & KPIs</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="git-merge" class="w-6 h-6 text-zinc-400 group-hover:text-white mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Operations</h3>
+                                <p class="text-xs text-zinc-500">Day-to-day execution</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="users-2" class="w-6 h-6 text-zinc-400 group-hover:text-white mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">HR & Admin</h3>
+                                <p class="text-xs text-zinc-500">Internal staff & facilities</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="pie-chart" class="w-6 h-6 text-zinc-400 group-hover:text-white mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Finance & Accounts</h3>
+                                <p class="text-xs text-zinc-500">Revenue, payroll, ledgers</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="scale" class="w-6 h-6 text-zinc-400 group-hover:text-white mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Legal & Compliance</h3>
+                                <p class="text-xs text-zinc-500">Contracts, regulations</p>
+                            </div>
+
+                            <!-- Business Domains Group -->
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="briefcase" class="w-6 h-6 text-emerald-400/70 group-hover:text-emerald-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Recruitment</h3>
+                                <p class="text-xs text-zinc-500">Jobs, candidates, employers</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="graduation-cap" class="w-6 h-6 text-emerald-400/70 group-hover:text-emerald-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Education</h3>
+                                <p class="text-xs text-zinc-500">Universities & courses</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="passport" class="w-6 h-6 text-emerald-400/70 group-hover:text-emerald-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Visa & Mobility</h3>
+                                <p class="text-xs text-zinc-500">Immigration services</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="plane" class="w-6 h-6 text-emerald-400/70 group-hover:text-emerald-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Travel & Accommodation</h3>
+                                <p class="text-xs text-zinc-500">Tours, flights, hotels</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="file-text" class="w-6 h-6 text-emerald-400/70 group-hover:text-emerald-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Documents Processing</h3>
+                                <p class="text-xs text-zinc-500">Attestations & verification</p>
+                            </div>
+
+                            <!-- Growth & External -->
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="trending-up" class="w-6 h-6 text-purple-400/70 group-hover:text-purple-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Sales</h3>
+                                <p class="text-xs text-zinc-500">B2B acquisition, targets</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="megaphone" class="w-6 h-6 text-purple-400/70 group-hover:text-purple-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Marketing</h3>
+                                <p class="text-xs text-zinc-500">Campaigns & brand</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="newspaper" class="w-6 h-6 text-purple-400/70 group-hover:text-purple-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">News & Media</h3>
+                                <p class="text-xs text-zinc-500">Editorial & content generation</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="handshake" class="w-6 h-6 text-purple-400/70 group-hover:text-purple-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Partnerships</h3>
+                                <p class="text-xs text-zinc-500">Gov & enterprise alliances</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="store" class="w-6 h-6 text-purple-400/70 group-hover:text-purple-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Branch Management</h3>
+                                <p class="text-xs text-zinc-500">Physical office network oversight</p>
+                            </div>
+
+                            <!-- Tech & Data -->
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="code" class="w-6 h-6 text-blue-400/70 group-hover:text-blue-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Technology</h3>
+                                <p class="text-xs text-zinc-500">Infrastructure & engineering</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="box" class="w-6 h-6 text-blue-400/70 group-hover:text-blue-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Product</h3>
+                                <p class="text-xs text-zinc-500">Roadmap, UI/UX & features</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="bot" class="w-6 h-6 text-blue-400/70 group-hover:text-blue-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">AI Division</h3>
+                                <p class="text-xs text-zinc-500">AK GLORA algorithms & tuning</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="database" class="w-6 h-6 text-blue-400/70 group-hover:text-blue-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Data</h3>
+                                <p class="text-xs text-zinc-500">Analytics, ML, insights</p>
+                            </div>
+                            <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-colors cursor-pointer group">
+                                <i data-lucide="shield-check" class="w-6 h-6 text-blue-400/70 group-hover:text-blue-400 mb-3"></i>
+                                <h3 class="text-white font-bold text-sm mb-1">Cybersecurity & QA</h3>
+                                <p class="text-xs text-zinc-500">Testing, infosec, data protection</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- ================= FLOATING AI BUTTON (AK GLORA) ================= -->
+<!-- ... existing code ... -->

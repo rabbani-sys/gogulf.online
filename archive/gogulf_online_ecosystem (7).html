@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GoGulf.online | The Gulf Super-Ecosystem</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        'gulf-emerald': '#046A38',
+                        'gulf-emerald-light': '#0A8A4C',
+                        'gulf-emerald-dark': '#024D28',
+                        'gulf-gold': '#D4AF37',
+                        'gulf-gold-light': '#F3E5AB',
+                        'gulf-sand': '#F5F2EA',
+                        'gulf-mint': '#E6F0EA',
+                        'gulf-pearl': '#FCFBF9',
+                        'gulf-charcoal': '#1A1D20',
+                        'gulf-slate': '#64748B',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(4, 106, 56, 0.05)',
+                        'card': '0 4px 20px rgba(0, 0, 0, 0.03)',
+                        'floating': '0 10px 40px rgba(4, 106, 56, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #E6F0EA; /* gulf-mint for a soft Saudi feel */
+            color: #1A1D20;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Modern hidden scrollbar */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glassmorphism utilities */
+        .glass-nav {
+            background: rgba(252, 251, 249, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Bespoke UI Elements */
+        .gradient-text {
+            background: linear-gradient(135deg, #046A38 0%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ai-gradient-bg {
+            background: linear-gradient(135deg, #024D28 0%, #046A38 50%, #D4AF37 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(4, 106, 56, 0.08);
+        }
+
+        /* Safe area padding for mobile PWA */
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+        .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+    </style>
+</head>
+<body class="antialiased overflow-hidden h-screen flex flex-col md:flex-row">
+
+    <nav class="hidden md:flex flex-col w-[280px] h-full glass-nav border-r border-white/40 z-30 flex-shrink-0 pt-6 pb-6 px-4">
+        <!-- Brand -->
+        <div class="flex flex-col mb-10 cursor-pointer group">
+            <div class="flex items-center space-x-3 px-4">
+                <div class="relative w-12 h-12 rounded-2xl ai-gradient-bg flex items-center justify-center text-white shadow-floating overflow-hidden border border-white/30 transform group-hover:scale-105 transition-all duration-300">
+                    <div class="absolute inset-0 bg-white/20 blur-md rounded-full scale-150 group-hover:scale-100 transition-transform"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" class="w-7 h-7 relative z-10 drop-shadow-md transition-transform group-hover:scale-110">
+                        <!-- Palm Tree Trunk -->
+                        <path d="M 28 32 Q 25 22 28 12" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Palm Leaves -->
+                        <path d="M 28 12 Q 20 12 16 18 Q 23 15 28 12" fill="#FFFFFF"/>
+                        <path d="M 28 12 Q 24 4 18 4 Q 24 8 28 12" fill="#FFFFFF"/>
+                        <path d="M 28 12 Q 32 4 38 4 Q 32 8 28 12" fill="#FFFFFF"/>
+                        <path d="M 28 12 Q 36 12 40 18 Q 33 15 28 12" fill="#FFFFFF"/>
+                        <path d="M 28 12 Q 33 18 34 23 Q 31 18 28 12" fill="#FFFFFF"/>
+                        <path d="M 28 12 Q 23 18 22 23 Q 25 18 28 12" fill="#FFFFFF"/>
+                        <!-- Kaaba -->
+                        <rect x="6" y="18" width="14" height="14" rx="1.5" fill="#1A1D20" stroke="#FFFFFF" stroke-width="1.5" />
+                        <!-- Kiswah Gold Band -->
+                        <rect x="6" y="22" width="14" height="2.5" fill="#D4AF37" />
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[26px] font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gulf-emerald-dark to-gulf-emerald-light">Go<span class="text-gulf-gold drop-shadow-sm">Gulf</span></span>
+                    <span class="text-[11px] font-medium italic text-gulf-slate -mt-1 tracking-wide">by Rabbani`s</span>
+                </div>
+            </div>
+            <div class="px-4 mt-3">
+                <div class="bg-gulf-emerald/10 border border-gulf-emerald/20 px-3 py-1.5 rounded-lg flex items-center justify-center space-x-1.5 shadow-sm">
+                    <i class="ph-fill ph-lightning text-gulf-emerald text-sm"></i>
+                    <span class="text-[10px] font-bold text-gulf-emerald-dark tracking-wider">NAUKRI NAU MINUTE ME</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Super App Navigation Hub -->
+        <div class="flex flex-col space-y-1 flex-grow">
+            <p class="px-4 text-xs font-semibold text-gulf-slate tracking-wider mb-2 mt-4 uppercase">Ecosystem</p>
+            
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 bg-gulf-emerald/5 text-gulf-emerald rounded-2xl font-semibold transition-all">
+                <i class="ph-fill ph-squares-four text-2xl"></i>
+                <span>Pulse Stream</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gulf-charcoal hover:bg-white/60 rounded-2xl font-medium transition-all group">
+                <i class="ph ph-briefcase text-2xl group-hover:text-gulf-emerald"></i>
+                <span>Career & Jobs</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gulf-charcoal hover:bg-white/60 rounded-2xl font-medium transition-all group">
+                <i class="ph ph-mosque text-2xl group-hover:text-gulf-gold"></i>
+                <span>Hajj & Umrah</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gulf-charcoal hover:bg-white/60 rounded-2xl font-medium transition-all group">
+                <i class="ph ph-storefront text-2xl group-hover:text-gulf-emerald"></i>
+                <span>The Souq</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gulf-charcoal hover:bg-white/60 rounded-2xl font-medium transition-all group">
+                <i class="ph ph-airplane-tilt text-2xl group-hover:text-gulf-emerald"></i>
+                <span>Travel & Mobility</span>
+            </a>
+            
+            <p class="px-4 text-xs font-semibold text-gulf-slate tracking-wider mb-2 mt-8 uppercase">Network</p>
+            
+            <a href="#" class="flex items-center space-x-4 px-4 py-3 text-gulf-charcoal hover:bg-white/60 rounded-2xl font-medium transition-all group">
+                <i class="ph ph-users-three text-2xl group-hover:text-gulf-emerald"></i>
+                <span>Connections</span>
+            </a>
+            <a href="#" class="flex items-center justify-between px-4 py-3 text-gulf-charcoal hover:bg-white/60 rounded-2xl font-medium transition-all group">
+                <div class="flex items-center space-x-4">
+                    <i class="ph ph-chats-circle text-2xl group-hover:text-gulf-emerald"></i>
+                    <span>Comms Hub</span>
+                </div>
+                <span class="bg-gulf-emerald text-white text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+            </a>
+        </div>
+
+        <!-- User Mini Profile -->
+        <div class="mt-auto pt-4 border-t border-gray-200/50">
+            <div class="flex items-center space-x-3 p-2 hover:bg-white/60 rounded-2xl cursor-pointer transition-all">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq" alt="Profile" class="w-10 h-10 rounded-full border-2 border-gulf-gold bg-white">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-gulf-charcoal">Tariq Al-Fayed</span>
+                    <span class="text-xs text-gulf-slate">Senior Architect • Dubai</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex flex-col h-full relative w-full overflow-hidden">
+        
+        <!-- Mobile Header (Appears only on sm/md screens) -->
+        <header class="md:hidden glass-nav w-full z-40 px-4 pt-safe flex items-center justify-between h-[75px] flex-shrink-0 border-b border-gray-100 shadow-sm">
+            <div class="flex flex-col group cursor-pointer">
+                <div class="flex items-center space-x-2">
+                    <div class="relative w-10 h-10 rounded-xl ai-gradient-bg flex items-center justify-center text-white shadow-md overflow-hidden border border-white/30">
+                        <div class="absolute inset-0 bg-white/20 blur-sm rounded-full scale-150"></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" class="w-6 h-6 relative z-10 drop-shadow-md">
+                            <path d="M 28 32 Q 25 22 28 12" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M 28 12 Q 20 12 16 18 Q 23 15 28 12" fill="#FFFFFF"/>
+                            <path d="M 28 12 Q 24 4 18 4 Q 24 8 28 12" fill="#FFFFFF"/>
+                            <path d="M 28 12 Q 32 4 38 4 Q 32 8 28 12" fill="#FFFFFF"/>
+                            <path d="M 28 12 Q 36 12 40 18 Q 33 15 28 12" fill="#FFFFFF"/>
+                            <path d="M 28 12 Q 33 18 34 23 Q 31 18 28 12" fill="#FFFFFF"/>
+                            <path d="M 28 12 Q 23 18 22 23 Q 25 18 28 12" fill="#FFFFFF"/>
+                            <rect x="6" y="18" width="14" height="14" rx="1.5" fill="#1A1D20" stroke="#FFFFFF" stroke-width="1.5" />
+                            <rect x="6" y="22" width="14" height="2.5" fill="#D4AF37" />
+                        </svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-gulf-emerald-dark to-gulf-emerald-light">Go<span class="text-gulf-gold drop-shadow-sm">Gulf</span></span>
+                        <span class="text-[10px] font-medium italic text-gulf-slate leading-none">by Rabbani`s</span>
+                    </div>
+                </div>
+                <div class="mt-1.5 flex items-center">
+                    <span class="text-[9px] font-bold text-gulf-emerald-dark tracking-wider bg-gulf-emerald/10 border border-gulf-emerald/20 px-2 py-0.5 rounded-md flex items-center shadow-sm">
+                        <i class="ph-fill ph-lightning text-gulf-emerald mr-1 text-[10px]"></i>
+                        NAUKRI NAU MINUTE ME
+                    </span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gulf-charcoal">
+                    <i class="ph ph-magnifying-glass text-xl"></i>
+                </button>
+                <button class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-gulf-charcoal relative">
+                    <i class="ph ph-bell text-xl"></i>
+                    <span class="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 border-2 border-white rounded-full"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <div class="flex-grow overflow-y-auto hide-scrollbar flex w-full relative bg-gulf-mint/20" id="main-scroll">
+            
+            <!-- Central Feed / Pulse Stream -->
+            <div class="w-full max-w-[700px] mx-auto flex flex-col pt-4 md:pt-8 pb-[100px] md:pb-12 px-4 md:px-8">
+                
+                <!-- Universal Search & AI Input -->
+                <div class="w-full bg-white rounded-3xl p-2 shadow-card flex items-center mb-8 border border-gray-100">
+                    <div class="w-12 h-12 rounded-2xl bg-gulf-emerald/10 flex items-center justify-center text-gulf-emerald flex-shrink-0">
+                        <i class="ph-fill ph-sparkle text-xl"></i>
+                    </div>
+                    <input type="text" id="ai-search-input" placeholder="Ask GoGulf AI..." class="flex-grow bg-transparent border-none focus:outline-none px-4 text-sm md:text-base text-gulf-charcoal placeholder-gulf-slate">
+                    <button class="px-6 py-3 ai-gradient-bg text-white font-semibold rounded-2xl text-sm transition-transform active:scale-95 flex-shrink-0">
+                        Explore
+                    </button>
+                </div>
+
+                <!-- Super App Mini-Services Horizontal Scroll (Mobile/Tablet focus) -->
+                <div class="w-full mb-8 md:hidden">
+                    <div class="flex space-x-4 overflow-x-auto hide-scrollbar pb-4 -mx-4 px-4">
+                        <!-- Injected via JS -->
+                        <div id="mobile-services-hub" class="flex space-x-3"></div>
+                    </div>
+                </div>
+
+                <!-- Feed Filters -->
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-gulf-charcoal">Pulse Stream</h2>
+                    <div class="flex space-x-2">
+                        <button class="px-4 py-1.5 bg-gulf-charcoal text-white rounded-full text-xs font-semibold">For You</button>
+                        <button class="px-4 py-1.5 bg-white text-gulf-slate border border-gray-200 rounded-full text-xs font-semibold hover:bg-gray-50 transition-colors">Following</button>
+                        <button class="px-4 py-1.5 bg-white text-gulf-slate border border-gray-200 rounded-full text-xs font-semibold hover:bg-gray-50 transition-colors">Local</button>
+                    </div>
+                </div>
+
+                <!-- Stream Cards Container -->
+                <div id="stream-container" class="flex flex-col space-y-6">
+                    <!-- Cards injected by JS -->
+                </div>
+
+            </div>
+
+            <aside class="hidden xl:flex flex-col w-[350px] p-8 space-y-6 h-fit sticky top-0">
+                
+                <!-- Gulf Market Insights Widget -->
+                <div class="bg-white rounded-[24px] p-5 shadow-card border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-gulf-charcoal flex items-center">
+                            <i class="ph-fill ph-trend-up text-gulf-emerald mr-2"></i> Gulf Insights
+                        </h3>
+                        <i class="ph ph-dots-three text-xl text-gulf-slate cursor-pointer"></i>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between cursor-pointer group">
+                            <div>
+                                <p class="text-xs text-gulf-slate font-medium">Trending • Tech Sector</p>
+                                <p class="text-sm font-semibold text-gulf-charcoal group-hover:text-gulf-emerald transition-colors">AI Engineers in High Demand (UAE)</p>
+                                <p class="text-xs text-gulf-slate mt-1">4.2k active opportunities</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start justify-between cursor-pointer group">
+                            <div>
+                                <p class="text-xs text-gulf-slate font-medium">Travel • Seasons</p>
+                                <p class="text-sm font-semibold text-gulf-charcoal group-hover:text-gulf-emerald transition-colors">Ramadan Umrah Early Bookings</p>
+                                <p class="text-xs text-gulf-slate mt-1">Packages starting from 1,200 SAR</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start justify-between cursor-pointer group">
+                            <div>
+                                <p class="text-xs text-gulf-slate font-medium">Real Estate • Investment</p>
+                                <p class="text-sm font-semibold text-gulf-charcoal group-hover:text-gulf-emerald transition-colors">New NEOM Residential Launch</p>
+                                <p class="text-xs text-gulf-slate mt-1">Discover off-plan properties</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Curated Network Suggestions -->
+                <div class="bg-white rounded-[24px] p-5 shadow-card border border-gray-100">
+                    <h3 class="font-bold text-gulf-charcoal mb-4">Expand Your Network</h3>
+                    <div id="network-suggestions" class="space-y-4">
+                        <!-- Injected via JS -->
+                    </div>
+                    <button class="w-full mt-4 py-2 bg-gulf-emerald/5 text-gulf-emerald font-semibold text-sm rounded-xl hover:bg-gulf-emerald/10 transition-colors">
+                        View Network Map
+                    </button>
+                </div>
+
+                <!-- Footer links for ecosystem -->
+                <div class="text-[11px] text-gulf-slate flex flex-wrap gap-2 px-2">
+                    <a href="#" class="hover:text-gulf-emerald">About GoGulf</a> • 
+                    <a href="#" class="hover:text-gulf-emerald">Privacy</a> • 
+                    <a href="#" class="hover:text-gulf-emerald">Terms</a> • 
+                    <a href="#" class="hover:text-gulf-emerald">Business OS</a> • 
+                    <a href="#" class="hover:text-gulf-emerald">Help Center</a>
+                    <p class="w-full mt-2">© 2026 GoGulf.online Ecosystem</p>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-nav z-40 border-t border-gray-200 pb-safe">
+        <div class="flex items-center justify-around h-[65px] px-2">
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gulf-emerald active:scale-95 transition-transform">
+                <i class="ph-fill ph-squares-four text-[26px]"></i>
+                <span class="text-[10px] font-semibold mt-1">Pulse</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gulf-slate hover:text-gulf-charcoal active:scale-95 transition-transform">
+                <i class="ph ph-briefcase text-[26px]"></i>
+                <span class="text-[10px] font-semibold mt-1">Jobs</span>
+            </a>
+            
+            <!-- Central AI Action Button -->
+            <div class="relative w-full h-full flex justify-center -mt-6">
+                <button class="w-14 h-14 rounded-full ai-gradient-bg text-white shadow-floating flex items-center justify-center transform active:scale-90 transition-transform border-4 border-[#E6F0EA]">
+                    <i class="ph-fill ph-sparkle text-2xl"></i>
+                </button>
+            </div>
+
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gulf-slate hover:text-gulf-charcoal active:scale-95 transition-transform">
+                <i class="ph ph-users-three text-[26px]"></i>
+                <span class="text-[10px] font-semibold mt-1">Network</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center w-full h-full text-gulf-slate hover:text-gulf-charcoal active:scale-95 transition-transform">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tariq" alt="Profile" class="w-6 h-6 rounded-full border border-gray-300">
+                <span class="text-[10px] font-semibold mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <script>
+        // --- Mock Data ---
+
+        const services = [
+            { icon: 'ph-briefcase', label: 'Careers', color: 'bg-blue-500' },
+            { icon: 'ph-mosque', label: 'Umrah', color: 'bg-emerald-600' },
+            { icon: 'ph-storefront', label: 'Souq', color: 'bg-orange-500' },
+            { icon: 'ph-airplane-tilt', label: 'Travel', color: 'bg-cyan-500' },
+            { icon: 'ph-buildings', label: 'Real Estate', color: 'bg-purple-500' },
+            { icon: 'ph-graduation-cap', label: 'Study', color: 'bg-rose-500' }
+        ];
+
+        // Complex polymorphic data structure to represent different Opportunity/Social types
+        const streamData = [
+            {
+                type: 'job_opportunity',
+                id: 'job_1',
+                author: { name: 'Emirates Group', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=EG&backgroundColor=d4af37', type: 'Company' },
+                time: '2 hours ago',
+                content: {
+                    title: 'Senior Software Engineer (Backend)',
+                    location: 'Dubai, UAE (Hybrid)',
+                    salary: 'AED 35k - 45k / month',
+                    description: 'We are looking for a highly skilled backend engineer to scale our global travel platforms. Expertise in Go, Microservices, and cloud architecture required.',
+                    tags: ['#Hiring', '#DubaiJobs', '#Tech', '#GoLang'],
+                    urgency: 'High Demand'
+                },
+                metrics: { endorsements: 124, applications: 45, shares: 12 },
+                isSaved: false
+            },
+            {
+                type: 'service_booking',
+                id: 'srv_1',
+                author: { name: 'Al-Haram Travels (Verified)', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=AH&backgroundColor=046a38', type: 'Partner' },
+                time: '5 hours ago',
+                content: {
+                    title: 'Premium VIP Umrah Package - November',
+                    image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                    price: 'SAR 4,500',
+                    features: ['5-Star Hotel facing Haram', 'VIP Transport', 'Guided Ziyarat', 'Visas Included'],
+                    rating: 4.9
+                },
+                metrics: { endorsements: 890, inquiries: 120, shares: 340 },
+                isSaved: false
+            },
+            {
+                type: 'professional_post',
+                id: 'post_1',
+                author: { name: 'Noura Al-Dosari', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Noura', type: 'Product Design Lead' },
+                time: 'Yesterday',
+                content: {
+                    text: 'Just finished giving a keynote on the future of UI/UX in FinTech at the Riyadh Tech Summit. The energy here in Saudi Arabia is incredible! Thanks to everyone who attended. 🚀✨',
+                    image: 'https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                    tags: ['#RiyadhTech', '#UXDesign', '#FinTech', '#WomenInTech']
+                },
+                metrics: { endorsements: 3402, comments: 145, shares: 88 },
+                isSaved: false
+            },
+            {
+                type: 'marketplace_item',
+                id: 'market_1',
+                author: { name: 'Dubai Luxury Motors', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=DM&backgroundColor=1a1d20', type: 'Verified Dealer' },
+                time: '2 days ago',
+                content: {
+                    title: '2025 Mercedes-Benz G63 AMG',
+                    price: 'AED 850,000',
+                    location: 'Sheikh Zayed Road, Dubai',
+                    image: 'https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                    tags: ['#Cars', '#Dubai', '#AMG']
+                },
+                metrics: { endorsements: 540, inquiries: 22, shares: 15 },
+                isSaved: false
+            }
+        ];
+
+        const networkSuggestions = [
+            { name: 'Dr. Faisal Amin', role: 'VP Engineering @ Aramco', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Faisal' },
+            { name: 'Sarah Khalid', role: 'Talent Acquisition, NEOM', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=SarahK' },
+            { name: 'Ahmad Tech', role: 'Startup Founder | FinTech', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmad' }
+        ];
+
+        // --- Render Functions ---
+
+        function renderMobileServices() {
+            const container = document.getElementById('mobile-services-hub');
+            let html = '';
+            services.forEach(service => {
+                html += `
+                    <div class="flex flex-col items-center space-y-2 cursor-pointer flex-shrink-0 group">
+                        <div class="w-[60px] h-[60px] rounded-2xl bg-white shadow-sm border border-gray-100 flex items-center justify-center group-hover:shadow-md transition-shadow">
+                            <div class="w-10 h-10 rounded-full ${service.color} bg-opacity-10 flex items-center justify-center">
+                                <i class="ph ${service.icon} text-2xl ${service.color.replace('bg-', 'text-')}"></i>
+                            </div>
+                        </div>
+                        <span class="text-[11px] font-semibold text-gulf-charcoal">${service.label}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Helper for standard header across card types
+        function getCardHeader(item) {
+            return `
+                <div class="flex items-center justify-between p-5 border-b border-gray-50">
+                    <div class="flex items-center space-x-3 cursor-pointer">
+                        <img src="${item.author.avatar}" class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-sm text-gulf-charcoal flex items-center">
+                                ${item.author.name}
+                                ${item.author.type.includes('Verified') || item.author.type === 'Company' ? '<i class="ph-fill ph-seal-check text-gulf-emerald ml-1 text-xs"></i>' : ''}
+                            </span>
+                            <span class="text-[11px] text-gulf-slate">${item.author.type} • ${item.time}</span>
+                        </div>
+                    </div>
+                    <button class="text-gulf-slate hover:text-gulf-charcoal transition-colors">
+                        <i class="ph-bold ph-dots-three text-xl"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        // Helper for action bar
+        function getCardActionBar(item, primaryActionText, primaryActionIcon) {
+            const saveIcon = item.isSaved ? 'ph-fill ph-bookmark-simple text-gulf-gold' : 'ph ph-bookmark-simple text-gulf-slate hover:text-gulf-charcoal';
+            
+            return `
+                <div class="p-4 bg-gray-50/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t border-gray-50">
+                    <div class="flex items-center space-x-6">
+                        <button class="flex items-center space-x-1.5 text-gulf-slate hover:text-gulf-emerald transition-colors group">
+                            <i class="ph ph-thumbs-up text-xl group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-semibold">${item.metrics.endorsements}</span>
+                        </button>
+                        <button class="flex items-center space-x-1.5 text-gulf-slate hover:text-gulf-emerald transition-colors group">
+                            <i class="ph ph-chat-teardrop text-xl group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-semibold">${item.metrics.comments || item.metrics.inquiries || item.metrics.applications || 0}</span>
+                        </button>
+                        <button class="flex items-center space-x-1.5 text-gulf-slate hover:text-gulf-emerald transition-colors group">
+                            <i class="ph ph-share-network text-xl group-hover:scale-110 transition-transform"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-3 w-full md:w-auto">
+                        <button onclick="toggleSave('${item.id}')" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                            <i id="save-${item.id}" class="${saveIcon} text-xl transition-colors"></i>
+                        </button>
+                        <button onclick="triggerAction('${primaryActionText}')" class="flex-grow md:flex-grow-0 flex items-center justify-center space-x-2 bg-gulf-charcoal hover:bg-black text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors shadow-sm">
+                            <i class="ph ${primaryActionIcon} text-lg"></i>
+                            <span>${primaryActionText}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generators for specific card types
+        function generateJobCard(item) {
+            const tagsHtml = item.content.tags.map(tag => `<span class="px-2.5 py-1 bg-gulf-emerald/10 text-gulf-emerald-dark text-[10px] font-bold rounded-md">${tag}</span>`).join('');
+            
+            return `
+                <article class="bg-white rounded-[24px] shadow-card border border-gray-100 overflow-hidden card-hover">
+                    ${getCardHeader(item)}
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold text-gulf-charcoal leading-tight">${item.content.title}</h3>
+                            <span class="bg-red-50 text-red-600 text-[10px] font-bold px-2 py-1 rounded border border-red-100 flex-shrink-0 ml-2">
+                                ${item.content.urgency}
+                            </span>
+                        </div>
+                        <div class="flex flex-col space-y-2 mb-4">
+                            <div class="flex items-center text-sm text-gulf-slate">
+                                <i class="ph ph-map-pin text-lg mr-2 text-gulf-emerald"></i>
+                                ${item.content.location}
+                            </div>
+                            <div class="flex items-center text-sm font-semibold text-gulf-charcoal">
+                                <i class="ph ph-wallet text-lg mr-2 text-gulf-gold"></i>
+                                ${item.content.salary}
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4 line-clamp-2">${item.content.description}</p>
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                    ${getCardActionBar(item, 'Apply via GoGulf', 'ph-paper-plane-right')}
+                </article>
+            `;
+        }
+
+        function generateServiceCard(item) {
+            const featuresHtml = item.content.features.map(f => `<div class="flex items-center text-xs text-gulf-slate"><i class="ph-fill ph-check-circle text-gulf-emerald mr-1.5"></i>${f}</div>`).join('');
+
+            return `
+                <article class="bg-white rounded-[24px] shadow-card border border-gray-100 overflow-hidden card-hover">
+                    ${getCardHeader(item)}
+                    <div class="relative w-full h-48 md:h-64 bg-gray-200">
+                        <img src="${item.content.image}" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg shadow-sm flex items-center space-x-1">
+                            <i class="ph-fill ph-star text-gulf-gold"></i>
+                            <span class="text-sm font-bold">${item.content.rating}</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-lg font-bold text-gulf-charcoal leading-tight">${item.content.title}</h3>
+                            <span class="text-lg font-extrabold text-gulf-emerald-dark ml-2">${item.content.price}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mb-2">
+                            ${featuresHtml}
+                        </div>
+                    </div>
+                    ${getCardActionBar(item, 'Book Package', 'ph-calendar-check')}
+                </article>
+            `;
+        }
+
+        function generateSocialCard(item) {
+             const tagsHtml = item.content.tags ? item.content.tags.map(tag => `<span class="text-gulf-emerald hover:underline cursor-pointer mr-1">${tag}</span>`).join('') : '';
+             
+             return `
+                <article class="bg-white rounded-[24px] shadow-card border border-gray-100 overflow-hidden card-hover">
+                    ${getCardHeader(item)}
+                    <div class="p-5">
+                        <p class="text-sm text-gulf-charcoal mb-4">${item.content.text} ${tagsHtml}</p>
+                    </div>
+                    ${item.content.image ? `
+                    <div class="w-full bg-gray-100">
+                        <img src="${item.content.image}" class="w-full h-auto object-cover max-h-[500px]">
+                    </div>
+                    ` : ''}
+                    ${getCardActionBar(item, 'Connect', 'ph-user-plus')}
+                </article>
+             `;
+        }
+
+        function generateMarketplaceCard(item) {
+             const tagsHtml = item.content.tags ? item.content.tags.map(tag => `<span class="text-gulf-slate text-xs mr-2">${tag}</span>`).join('') : '';
+
+             return `
+                <article class="bg-white rounded-[24px] shadow-card border border-gray-100 overflow-hidden card-hover">
+                    ${getCardHeader(item)}
+                    <div class="flex flex-col md:flex-row p-4 gap-4">
+                        <img src="${item.content.image}" class="w-full md:w-[200px] h-[150px] object-cover rounded-xl shadow-sm">
+                        <div class="flex flex-col justify-center">
+                            <span class="text-[10px] font-bold text-gulf-gold uppercase tracking-wider mb-1">Premium Souq</span>
+                            <h3 class="text-lg font-bold text-gulf-charcoal leading-tight mb-2">${item.content.title}</h3>
+                            <span class="text-xl font-extrabold text-gulf-emerald-dark mb-3">${item.content.price}</span>
+                            <div class="flex items-center text-xs text-gulf-slate mb-2">
+                                <i class="ph ph-map-pin text-sm mr-1"></i> ${item.content.location}
+                            </div>
+                            <div class="flex flex-wrap">${tagsHtml}</div>
+                        </div>
+                    </div>
+                    ${getCardActionBar(item, 'Make Offer', 'ph-handshake')}
+                </article>
+             `;
+        }
+
+        function renderStream() {
+            const container = document.getElementById('stream-container');
+            let html = '';
+
+            streamData.forEach(item => {
+                switch(item.type) {
+                    case 'job_opportunity': html += generateJobCard(item); break;
+                    case 'service_booking': html += generateServiceCard(item); break;
+                    case 'professional_post': html += generateSocialCard(item); break;
+                    case 'marketplace_item': html += generateMarketplaceCard(item); break;
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        function renderNetworkSuggestions() {
+            const container = document.getElementById('network-suggestions');
+            let html = '';
+            networkSuggestions.forEach(person => {
+                html += `
+                    <div class="flex items-center justify-between group">
+                        <div class="flex items-center space-x-3 cursor-pointer">
+                            <img src="${person.avatar}" class="w-10 h-10 rounded-full border border-gray-200">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-sm text-gulf-charcoal group-hover:text-gulf-emerald transition-colors">${person.name}</span>
+                                <span class="text-[11px] text-gulf-slate truncate max-w-[150px]">${person.role}</span>
+                            </div>
+                        </div>
+                        <button class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center hover:bg-gulf-emerald hover:text-white transition-colors text-gulf-slate">
+                            <i class="ph ph-user-plus text-lg"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- Interaction Logic ---
+
+        function toggleSave(id) {
+            const item = streamData.find(i => i.id === id);
+            if(item) {
+                item.isSaved = !item.isSaved;
+                const icon = document.getElementById(`save-${id}`);
+                if(item.isSaved) {
+                    icon.className = 'ph-fill ph-bookmark-simple text-gulf-gold text-xl transition-colors transform scale-110';
+                    showToast('Saved to your GoGulf Vault');
+                } else {
+                    icon.className = 'ph ph-bookmark-simple text-gulf-slate hover:text-gulf-charcoal text-xl transition-colors';
+                }
+                setTimeout(() => icon.classList.remove('scale-110'), 200);
+            }
+        }
+
+        function triggerAction(actionName) {
+            showToast(`${actionName} initiated successfully.`);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-gulf-charcoal text-white px-6 py-3 rounded-2xl shadow-floating text-sm font-semibold flex items-center space-x-2 transition-all duration-300 opacity-0 transform translate-y-4';
+            toast.innerHTML = `<i class="ph-fill ph-check-circle text-gulf-emerald-light text-lg"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.remove('opacity-0', 'translate-y-4');
+            });
+
+            // Remove after 3s
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-4');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- AI Search Placeholder Animation ---
+        const aiPrompts = [
+            "Ask GoGulf AI: Find tech jobs in Riyadh...",
+            "Ask GoGulf AI: Book VIP Umrah packages...",
+            "Ask GoGulf AI: Connect with founders in Dubai...",
+            "Ask GoGulf AI: Discover properties in NEOM...",
+            "Ask GoGulf AI: Hire top talent instantly..."
+        ];
+        
+        let promptIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function animatePlaceholder() {
+            const searchInput = document.getElementById('ai-search-input');
+            if (!searchInput) return;
+
+            const currentPrompt = aiPrompts[promptIndex];
+            
+            if (isDeleting) {
+                searchInput.setAttribute('placeholder', currentPrompt.substring(0, charIndex - 1));
+                charIndex--;
+            } else {
+                searchInput.setAttribute('placeholder', currentPrompt.substring(0, charIndex + 1));
+                charIndex++;
+            }
+
+            let timeout = isDeleting ? 30 : 60; // Typing speed
+
+            if (!isDeleting && charIndex === currentPrompt.length) {
+                timeout = 2500; // Pause at the end of the sentence
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                promptIndex = (promptIndex + 1) % aiPrompts.length;
+                timeout = 500; // Pause before typing the next sentence
+            }
+
+            setTimeout(animatePlaceholder, timeout);
+        }
+
+        window.onload = () => {
+            renderMobileServices();
+            renderStream();
+            renderNetworkSuggestions();
+            setTimeout(animatePlaceholder, 1000); // Start animation shortly after load
+        };
+
+    </script>
+</body>
+</html>

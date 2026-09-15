@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- SEO & Open Graph (Rule 73) -->
+    <meta name="description" content="GoGulf: Your seamless social app, marketplace, and mobility OS for the Gulf. Work, Study, Travel, and Live.">
+    <meta property="og:title" content="GoGulf Ecosystem">
+    <meta property="og:description" content="A beautiful social app on the surface, a powerful marketplace underneath, and a professional mobility operating system at its core.">
+    <meta property="og:image" content="https://placehold.co/1200x630/032b43/ffffff?text=GoGulf+Ecosystem">
+    <meta name="theme-color" content="#032b43">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>GoGulf Ecosystem | Work, Study, Travel, Belong</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (Design Tokens - Rule 63) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'gulf-midnight': 'var(--gogulf-midnight)',
+                        'gulf-blue': 'var(--gogulf-blue)',
+                        'gulf-electric': 'var(--gogulf-electric)',
+                        'gulf-cyan': 'var(--gogulf-cyan)',
+                        'gulf-violet': 'var(--gogulf-violet)',
+                        'gulf-magenta': 'var(--gogulf-magenta)',
+                        'gulf-teal': 'var(--gogulf-teal)',
+                        'gulf-gold': 'var(--gogulf-gold)',
+                        'gulf-surface': 'var(--gogulf-surface)',
+                        'gulf-background': 'var(--gogulf-background)',
+                        'gulf-text': 'var(--gogulf-text)',
+                        'gulf-muted': 'var(--gogulf-muted)',
+                        'gulf-border': 'var(--gogulf-border)',
+                        'gulf-success': 'var(--gogulf-success)',
+                        'gulf-warning': 'var(--gogulf-warning)',
+                        'gulf-danger': 'var(--gogulf-danger)',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
+                        'slide-up': 'slideUp 0.3s ease-out forwards',
+                        'fade-in': 'fadeIn 0.2s ease-out forwards',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { transform: 'translateY(100%)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* CSS Tokens & Core Styles */
+        :root {
+            --gogulf-midnight: #032b43;
+            --gogulf-blue: #0ea5e9;
+            --gogulf-electric: #3b82f6;
+            --gogulf-cyan: #06b6d4;
+            --gogulf-violet: #8b5cf6;
+            --gogulf-magenta: #d946ef;
+            --gogulf-teal: #14b8a6;
+            --gogulf-gold: #d4af37;
+            --gogulf-surface: #ffffff;
+            --gogulf-background: #f1f5f9;
+            --gogulf-text: #0f172a;
+            --gogulf-muted: #64748b;
+            --gogulf-border: #e2e8f0;
+            --gogulf-success: #10b981;
+            --gogulf-warning: #f59e0b;
+            --gogulf-danger: #ef4444;
+        }
+
+        /* Mobile First & PWA Utilities */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none; /* Prevent pull-to-refresh bounce on body */
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Hide scrollbar for clean UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Custom Scrollbar for desktop panels */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: var(--gogulf-border);
+            border-radius: 20px;
+        }
+
+        /* Microinteractions (Rule 58) */
+        .hover-lift {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+        .active-scale:active {
+            transform: scale(0.96);
+        }
+        
+        /* Accessibility Focus Rings (Rule 56) */
+        .focus-ring:focus-visible {
+            outline: 2px solid var(--gogulf-blue);
+            outline-offset: 2px;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .glass-dark {
+            background: rgba(3, 43, 67, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Route Management (Simulated) */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .view-section.active {
+            display: block;
+        }
+        
+        /* Viewport fixes for mobile heights */
+        .app-height {
+            height: 100vh; /* Fallback */
+            height: 100dvh;
+        }
+    </style>
+</head>
+<body class="bg-gulf-background text-gulf-text font-sans antialiased overflow-hidden selection:bg-gulf-blue selection:text-white">
+
+    <!-- 
+        ======================================================================
+        GOGULF PRODUCTION ARCHITECTURE & FOLDER STRUCTURE (RULES 76 & 79)
+        ======================================================================
+        This prototype represents the compiled output of a modular Next.js application.
+        
+        Recommended Tech Stack:
+        - Frontend: Next.js (App Router), React 18, Tailwind CSS, shadcn/ui
+        - Backend: Supabase (PostgreSQL, Auth, Storage, Edge Functions)
+        - State: Zustand (Client), React Query (Server/Data fetching)
+        
+        Project Folder Structure (Conceptual):
+        ├── src/
+        │   ├── app/                    # Next.js App Router (Pages & Layouts)
+        │   │   ├── (auth)/             # Authentication group
+        │   │   ├── (main)/             # Main application group
+        │   │   │   ├── feed/           # Social feed route
+        │   │   │   ├── jobs/           # Career module route
+        │   │   │   ├── travel/         # Travel module route
+        │   │   │   ├── umrah/          # Religious travel module route
+        │   │   │   ├── marketplace/    # Commerce route
+        │   │   │   └── dashboard/      # Personal/Role dashboard route
+        │   │   └── api/                # Next.js API Routes (Serverless)
+        │   ├── components/             # Reusable UI Components
+        │   │   ├── ui/                 # Base elements (Buttons, Inputs, Cards)
+        │   │   ├── shell/              # Layout elements (Sidebar, Header, BottomNav)
+        │   │   └── modules/            # Domain-specific components (JobCard, TourCard)
+        │   ├── lib/                    # Utilities, Types, and Constants
+        │   │   ├── supabase/           # DB Client & Queries
+        │   │   └── utils.ts            # Helper functions
+        │   ├── stores/                 # Zustand state stores (Cart, UI, Auth)
+        │   └── styles/                 # Global CSS and Design Tokens
+        ├── public/                     # Static assets, PWA manifest, Icons
+        └── supabase/                   # Database migrations, RLS policies, Types
+        
+        Database Domains (Rule 50) enforced via Supabase schemas:
+        - users, profiles, roles, organizations
+        - jobs, applications, documents
+        - umrah_packages, bookings, payments
+        - posts, messages, notifications
+        
+        Security & Compliance (Rules 66-70):
+        - All database access guarded by Row Level Security (RLS).
+        - "Confirmed" states only set via secure webhook callbacks from payment gateways.
+        - Strict separation between platform content and official government data.
+        ======================================================================
+    -->
+
+    <!-- Main App Container -->
+    <div class="flex flex-col app-height w-full max-w-[2000px] mx-auto bg-gulf-background relative">
+        
+        <!-- TOP HEADER (Glassmorphic) -->
+        <header class="h-16 glass border-b border-gulf-border flex items-center justify-between px-4 lg:px-8 z-40 shrink-0">
+            <!-- Left: Logo & Mobile Menu -->
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden p-2 -ml-2 text-gulf-text hover:bg-slate-100 rounded-full focus-ring active-scale" onclick="toggleMobileMenu()" aria-label="Open Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <div class="flex items-center gap-2 cursor-pointer" onclick="switchView('view-home')">
+                    <div class="w-8 h-8 bg-gulf-midnight rounded-xl flex items-center justify-center text-white shadow-md">
+                        <i data-lucide="compass" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xl font-extrabold tracking-tight text-gulf-midnight hidden sm:block">GoGulf<span class="text-gulf-blue">.online</span></span>
+                </div>
+            </div>
+
+            <!-- Center: Desktop Global Search -->
+            <div class="hidden md:flex flex-1 max-w-2xl mx-8 relative group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="w-5 h-5 text-gulf-muted group-focus-within:text-gulf-blue transition-colors"></i>
+                </div>
+                <input type="text" placeholder="Search jobs, flights, courses, people..." class="block w-full pl-10 pr-3 py-2.5 border border-gulf-border rounded-full leading-5 bg-gulf-background placeholder-gulf-muted focus:outline-none focus:ring-2 focus:ring-gulf-blue focus:bg-white focus:border-transparent transition-all sm:text-sm focus-ring" onclick="toggleSearchModal()">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                    <span class="text-xs text-gulf-muted font-medium bg-slate-200 px-2 py-0.5 rounded border border-slate-300">⌘K</span>
+                </div>
+            </div>
+
+            <!-- Right: Actions & Profile -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Cart -->
+                <button onclick="toggleCart()" class="p-2 text-gulf-muted hover:text-gulf-text hover:bg-slate-100 rounded-full relative focus-ring active-scale" aria-label="Cart">
+                    <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-gulf-danger rounded-full border-2 border-white"></span>
+                </button>
+                
+                <!-- Notifications -->
+                <button class="p-2 text-gulf-muted hover:text-gulf-text hover:bg-slate-100 rounded-full relative focus-ring active-scale hidden sm:block" aria-label="Notifications">
+                    <i data-lucide="bell" class="w-6 h-6"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-gulf-blue rounded-full border-2 border-white"></span>
+                </button>
+
+                <!-- Profile Dropdown Trigger -->
+                <div class="relative ml-2">
+                    <button class="flex items-center gap-2 focus-ring rounded-full p-1 border border-transparent hover:border-gulf-border transition-colors active-scale">
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Profile" class="w-8 h-8 rounded-full object-cover border border-gulf-border shadow-sm">
+                        <div class="hidden lg:flex flex-col items-start mr-2">
+                            <span class="text-xs font-bold text-gulf-text leading-none mb-1">Ahmed S.</span>
+                            <span class="text-[10px] text-gulf-muted leading-none">Candidate OS</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-gulf-muted hidden lg:block"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT WRAPPER -->
+        <div class="flex flex-1 overflow-hidden relative">
+            
+            <!-- LEFT SIDEBAR (Desktop) -->
+            <aside class="hidden lg:flex flex-col w-64 bg-gulf-surface border-r border-gulf-border h-full overflow-y-auto custom-scrollbar shrink-0 z-10">
+                <div class="p-4 space-y-6">
+                    <!-- Core Ecosystem Navigation -->
+                    <div>
+                        <h4 class="text-xs font-bold text-gulf-muted uppercase tracking-wider mb-3 px-3">Ecosystem</h4>
+                        <nav class="space-y-1">
+                            <a href="#" onclick="switchView('view-home')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-blue bg-blue-50 font-bold transition-colors focus-ring">
+                                <i data-lucide="home" class="w-5 h-5"></i> Home
+                            </a>
+                            <a href="#" onclick="switchView('view-dashboard')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="layout-dashboard" class="w-5 h-5"></i> My Dashboard
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="compass" class="w-5 h-5"></i> My Journey
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!-- Work & Study -->
+                    <div>
+                        <h4 class="text-xs font-bold text-gulf-muted uppercase tracking-wider mb-3 px-3">Work & Study</h4>
+                        <nav class="space-y-1">
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="briefcase" class="w-5 h-5"></i> Jobs & Careers
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="graduation-cap" class="w-5 h-5"></i> Education & Skills
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="file-check-2" class="w-5 h-5"></i> Visa & Documents
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!-- Travel & Stay -->
+                    <div>
+                        <h4 class="text-xs font-bold text-gulf-muted uppercase tracking-wider mb-3 px-3">Travel & Stay</h4>
+                        <nav class="space-y-1">
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="plane" class="w-5 h-5"></i> Flights & Travel
+                            </a>
+                            <a href="#" onclick="switchView('view-umrah')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="moon" class="w-5 h-5 text-gulf-gold"></i> Hajj & Umrah
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="building-2" class="w-5 h-5"></i> Accommodation
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!-- Marketplace & More -->
+                    <div>
+                        <h4 class="text-xs font-bold text-gulf-muted uppercase tracking-wider mb-3 px-3">Discover</h4>
+                        <nav class="space-y-1">
+                            <a href="#" onclick="switchView('view-marketplace')" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="shopping-bag" class="w-5 h-5"></i> Marketplace
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gulf-text hover:bg-gulf-background font-medium transition-colors focus-ring">
+                                <i data-lucide="newspaper" class="w-5 h-5"></i> News & Guides
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Premium Upsell -->
+                <div class="mt-auto p-4 border-t border-gulf-border">
+                    <div class="bg-gradient-to-br from-gulf-midnight to-blue-900 rounded-2xl p-4 text-white relative overflow-hidden group cursor-pointer hover-lift">
+                        <div class="absolute -right-4 -top-4 opacity-20"><i data-lucide="sparkles" class="w-20 h-20"></i></div>
+                        <h4 class="font-bold text-sm mb-1 text-gulf-gold">GoGulf Premium</h4>
+                        <p class="text-[10px] text-blue-200 mb-3 leading-tight pr-4">Unlock advanced AI, premium guides, and partner discounts.</p>
+                        <button class="w-full py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg text-xs font-bold transition-colors">Upgrade Now</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- CENTER CONTENT AREA -->
+            <main class="flex-1 overflow-y-auto custom-scrollbar relative pb-20 md:pb-0 scroll-smooth bg-gulf-background" id="main-scroll-area">
+                
+                <!-- MOBILE SEARCH BAR (Rule 29: Below header) -->
+                <div class="md:hidden px-4 py-3 bg-gulf-surface/90 backdrop-blur-md border-b border-gulf-border sticky top-0 z-20">
+                    <div class="relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gulf-muted"></i>
+                        <input type="text" placeholder="Search GoGulf..." class="w-full bg-gulf-background border border-gulf-border rounded-full py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-gulf-blue transition-shadow shadow-sm" onclick="toggleSearchModal()">
+                    </div>
+                </div>
+
+                <div class="max-w-7xl mx-auto flex gap-6 p-0 md:p-6 lg:p-8">
+                    
+                    <!-- DYNAMIC VIEWS CONTAINER -->
+                    <div class="flex-1 min-w-0">
+
+                        <!-- ================= VIEW: HOME FEED (Social App Surface) ================= -->
+                        <div id="view-home" class="view-section active space-y-4 md:space-y-6">
+                            
+                            <!-- PREMIUM VISUAL HERO (Rule 62) -->
+                            <div class="mx-0 md:mx-0 bg-gulf-midnight text-white md:rounded-3xl p-6 md:p-10 relative overflow-hidden shadow-lg border-b md:border-none border-gulf-midnight">
+                                <div class="absolute inset-0 opacity-30 bg-[url('https://placehold.co/1200x400/032b43/06b6d4?text=Modern+Gulf+Cityscape')] bg-cover bg-center mix-blend-screen"></div>
+                                <div class="absolute inset-0 bg-gradient-to-r from-gulf-midnight via-gulf-midnight/90 to-transparent"></div>
+                                
+                                <div class="relative z-10 max-w-xl">
+                                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-[10px] sm:text-xs font-bold mb-4 backdrop-blur-sm uppercase tracking-wider shadow-sm">
+                                        <span class="w-2 h-2 rounded-full bg-gulf-success animate-pulse"></span> Ecosystem Active
+                                    </div>
+                                    
+                                    <h1 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight text-white tracking-tight">Your Gulf Journey<br/><span class="text-gulf-cyan">Starts Here</span></h1>
+                                    
+                                    <p class="text-sm md:text-base text-blue-100 mb-8 font-medium tracking-wide flex flex-wrap gap-x-2 gap-y-2 items-center opacity-90">
+                                        <span>Work</span> &bull; <span>Study</span> &bull; <span>Travel</span> &bull; <span>Umrah</span> &bull; <span>Live</span>
+                                    </p>
+                                    
+                                    <div class="flex flex-col sm:flex-row gap-3">
+                                        <button class="bg-gulf-gold text-gulf-midnight px-6 py-3.5 rounded-xl font-bold hover:bg-yellow-400 transition-colors shadow-[0_0_15px_rgba(212,175,55,0.4)] flex items-center justify-center gap-2 hover-lift active-scale">
+                                            Start Your Journey <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                        </button>
+                                        <button onclick="toggleAKGlora()" class="bg-white/10 hover:bg-white/20 border border-white/20 px-6 py-3.5 rounded-xl font-bold transition-colors flex items-center justify-center gap-2 backdrop-blur-sm text-white hover-lift active-scale">
+                                            <i data-lucide="bot" class="w-5 h-5 text-gulf-cyan"></i> Ask AK GLORA
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MOBILE CATEGORY SHORTCUTS (Rule 61) -->
+                            <div class="md:hidden flex overflow-x-auto no-scrollbar gap-4 px-4 py-3 bg-gulf-surface border-b border-gulf-border">
+                                <button class="flex flex-col items-center gap-1.5 min-w-[70px] focus-ring rounded-lg group">
+                                    <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-gulf-blue border border-blue-100 shadow-sm group-active:scale-95 transition-transform"><i data-lucide="briefcase" class="w-6 h-6"></i></div>
+                                    <span class="text-[11px] font-semibold text-gulf-text">Jobs</span>
+                                </button>
+                                <button class="flex flex-col items-center gap-1.5 min-w-[70px] focus-ring rounded-lg group">
+                                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100 shadow-sm group-active:scale-95 transition-transform"><i data-lucide="plane" class="w-6 h-6"></i></div>
+                                    <span class="text-[11px] font-semibold text-gulf-text">Travel</span>
+                                </button>
+                                <button onclick="switchView('view-umrah')" class="flex flex-col items-center gap-1.5 min-w-[70px] focus-ring rounded-lg group">
+                                    <div class="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-gulf-gold border border-amber-100 shadow-sm group-active:scale-95 transition-transform"><i data-lucide="moon" class="w-6 h-6"></i></div>
+                                    <span class="text-[11px] font-semibold text-gulf-text">Umrah</span>
+                                </button>
+                                <button onclick="switchView('view-marketplace')" class="flex flex-col items-center gap-1.5 min-w-[70px] focus-ring rounded-lg group">
+                                    <div class="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600 border border-purple-100 shadow-sm group-active:scale-95 transition-transform"><i data-lucide="shopping-bag" class="w-6 h-6"></i></div>
+                                    <span class="text-[11px] font-semibold text-gulf-text">Shop</span>
+                                </button>
+                                <button class="flex flex-col items-center gap-1.5 min-w-[70px] focus-ring rounded-lg group">
+                                    <div class="w-14 h-14 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600 border border-rose-100 shadow-sm group-active:scale-95 transition-transform"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
+                                    <span class="text-[11px] font-semibold text-gulf-text">Study</span>
+                                </button>
+                            </div>
+
+                            <!-- CONFIRMED BOOKING ALERT (Strict State Demo - Rule 70) -->
+                            <div class="mx-4 md:mx-0 bg-gulf-surface border border-gulf-border p-4 rounded-2xl shadow-sm flex items-center justify-between gap-4 relative overflow-hidden group">
+                                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gulf-success"></div>
+                                <div class="flex items-center gap-4 pl-2">
+                                    <div class="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center text-gulf-success shrink-0">
+                                        <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gulf-muted font-medium mb-0.5">Upcoming Trip in 14 Days</p>
+                                        <h4 class="font-bold text-sm text-gulf-text">Flight DXB to RUH</h4>
+                                        <a href="#" class="text-[11px] text-gulf-blue font-semibold hover:underline mt-1 inline-block">Manage Booking</a>
+                                    </div>
+                                </div>
+                                <span class="px-3 py-1 bg-gulf-success/10 text-gulf-success border border-gulf-success/20 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 shrink-0 shadow-sm">
+                                    <i data-lucide="check-circle-2" class="w-3 h-3"></i> Confirmed
+                                </span>
+                            </div>
+
+                            <!-- STORIES RAIL -->
+                            <div class="bg-gulf-surface p-4 md:rounded-3xl shadow-sm border-y md:border border-gulf-border">
+                                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                                    <!-- Create Story -->
+                                    <div class="flex flex-col items-center gap-1.5 cursor-pointer group shrink-0">
+                                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-gulf-border p-1 relative hover-lift">
+                                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="You" class="w-full h-full rounded-full object-cover">
+                                            <div class="absolute bottom-0 right-0 bg-gulf-blue text-white rounded-full w-6 h-6 flex items-center justify-center border-2 border-white shadow-sm">
+                                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs font-semibold text-gulf-text">Create</span>
+                                    </div>
+                                    <!-- Official Story -->
+                                    <div class="flex flex-col items-center gap-1.5 cursor-pointer group shrink-0">
+                                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full border-[3px] border-gulf-blue p-0.5 hover-lift relative">
+                                            <img src="https://placehold.co/150x150/0ea5e9/ffffff?text=N" alt="NEOM" loading="lazy" class="w-full h-full rounded-full object-cover border border-white">
+                                            <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5"><i data-lucide="badge-check" class="w-4 h-4 text-gulf-blue fill-current"></i></div>
+                                        </div>
+                                        <span class="text-xs font-medium text-gulf-text truncate w-16 text-center">NEOM</span>
+                                    </div>
+                                    <!-- User Story -->
+                                    <div class="flex flex-col items-center gap-1.5 cursor-pointer group shrink-0">
+                                        <div class="w-16 h-16 md:w-20 md:h-20 rounded-full border-[3px] border-gulf-cyan p-0.5 hover-lift">
+                                            <img src="https://i.pravatar.cc/150?u=2" alt="Ahmed" loading="lazy" class="w-full h-full rounded-full object-cover border border-white">
+                                        </div>
+                                        <span class="text-xs font-medium text-gulf-text truncate w-16 text-center">Fatima M.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FEED POST: Job Opportunity -->
+                            <div class="bg-gulf-surface md:rounded-3xl shadow-sm border-b md:border border-gulf-border overflow-hidden">
+                                <div class="p-4 md:p-5 flex justify-between items-start">
+                                    <div class="flex gap-3 items-center cursor-pointer hover:opacity-80 transition-opacity">
+                                        <img src="https://placehold.co/100x100/10b981/ffffff?text=EG" alt="Company" class="w-12 h-12 rounded-xl object-cover border border-gulf-border shadow-sm">
+                                        <div>
+                                            <h3 class="font-bold text-gulf-text text-sm md:text-base flex items-center gap-1">Emirates Group <i data-lucide="badge-check" class="w-4 h-4 text-gulf-blue fill-current"></i></h3>
+                                            <p class="text-xs text-gulf-muted">2 hours ago • Sponsored</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Content Safety / Moderation Menu (Rule 68) -->
+                                    <div class="relative group">
+                                        <button class="text-gulf-muted hover:text-gulf-text p-1.5 focus-ring rounded-full hover:bg-gulf-background active-scale"><i data-lucide="more-horizontal" class="w-5 h-5"></i></button>
+                                        <div class="absolute right-0 top-full mt-1 w-56 bg-gulf-surface border border-gulf-border rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 overflow-hidden transform origin-top-right group-hover:scale-100 scale-95">
+                                            <button class="w-full text-left px-4 py-3 text-sm hover:bg-gulf-background flex items-center gap-3 font-medium"><i data-lucide="bookmark" class="w-4 h-4 text-gulf-muted"></i> Save Post</button>
+                                            <div class="border-t border-gulf-border"></div>
+                                            <button class="w-full text-left px-4 py-3 text-sm text-gulf-warning hover:bg-orange-50 flex items-center gap-3 font-medium"><i data-lucide="ban" class="w-4 h-4"></i> Block Account</button>
+                                            <button class="w-full text-left px-4 py-3 text-sm text-gulf-danger hover:bg-red-50 flex items-center gap-3 font-medium"><i data-lucide="flag" class="w-4 h-4"></i> Report Scam/Fraud</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="px-4 md:px-5 pb-3">
+                                    <p class="text-sm md:text-base text-gulf-text leading-relaxed">
+                                        We are expanding our digital infrastructure team in Dubai! Join us to build the future of aviation tech. Multiple roles available for Senior Cloud Architects and Security Engineers. ✈️🚀
+                                    </p>
+                                </div>
+
+                                <!-- Integrated Marketplace/Action Card -->
+                                <div class="mx-4 md:mx-5 mb-4 rounded-2xl border border-gulf-border bg-gulf-background overflow-hidden hover-lift group cursor-pointer">
+                                    <div class="h-40 md:h-48 bg-slate-200 relative overflow-hidden">
+                                        <img src="https://placehold.co/600x300/e2e8f0/64748b?text=Tech+Careers" alt="Job Promo" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1.5">
+                                            <i data-lucide="briefcase" class="w-3.5 h-3.5 text-gulf-blue"></i> Full-Time
+                                        </div>
+                                    </div>
+                                    <div class="p-4 bg-white flex justify-between items-center">
+                                        <div>
+                                            <h4 class="font-bold text-gulf-text text-sm">Senior Cloud Architect</h4>
+                                            <p class="text-xs text-gulf-muted mt-0.5 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> Dubai, UAE • On-site</p>
+                                        </div>
+                                        <button class="bg-gulf-blue text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-blue-600 transition-colors shadow-sm active-scale">Apply</button>
+                                    </div>
+                                </div>
+
+                                <!-- Social Actions -->
+                                <div class="px-4 md:px-5 py-3 border-t border-gulf-border flex justify-between items-center bg-white">
+                                    <div class="flex gap-1 sm:gap-2">
+                                        <button class="flex items-center gap-1.5 text-gulf-muted hover:text-gulf-blue hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors text-sm font-medium active-scale"><i data-lucide="thumbs-up" class="w-4 h-4"></i> <span class="hidden sm:inline">1.2k</span></button>
+                                        <button class="flex items-center gap-1.5 text-gulf-muted hover:text-gulf-blue hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors text-sm font-medium active-scale"><i data-lucide="message-square" class="w-4 h-4"></i> <span class="hidden sm:inline">245</span></button>
+                                        <button class="flex items-center gap-1.5 text-gulf-muted hover:text-gulf-blue hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors text-sm font-medium active-scale"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    </div>
+                                    <div class="flex -space-x-2">
+                                        <img class="w-6 h-6 rounded-full border-2 border-white" src="https://i.pravatar.cc/100?img=1" alt="">
+                                        <img class="w-6 h-6 rounded-full border-2 border-white" src="https://i.pravatar.cc/100?img=2" alt="">
+                                        <img class="w-6 h-6 rounded-full border-2 border-white" src="https://i.pravatar.cc/100?img=3" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================= VIEW: UMRAH / HAJJ (Rule 17) ================= -->
+                        <div id="view-umrah" class="view-section hidden space-y-6">
+                            <!-- Serene Hero -->
+                            <div class="bg-gradient-to-b from-slate-50 to-white md:rounded-3xl p-6 md:p-10 border border-gulf-border shadow-sm text-center relative overflow-hidden">
+                                <div class="absolute inset-0 opacity-10 bg-[url('https://placehold.co/1000x400/d4af37/ffffff?text=Islamic+Pattern')] bg-cover mix-blend-multiply"></div>
+                                <div class="relative z-10 max-w-2xl mx-auto">
+                                    <div class="w-16 h-16 mx-auto bg-amber-50 rounded-full flex items-center justify-center text-gulf-gold mb-4 border border-amber-100 shadow-sm">
+                                        <i data-lucide="moon" class="w-8 h-8"></i>
+                                    </div>
+                                    <h2 class="text-3xl md:text-4xl font-extrabold text-gulf-midnight mb-3">Your Spiritual Journey</h2>
+                                    <p class="text-gulf-muted text-sm md:text-base leading-relaxed mb-6">Discover verified packages, plan your accommodation near the Haram, and prepare for your pilgrimage with official guidance.</p>
+                                    
+                                    <!-- Official Disclaimer (Rule 67) -->
+                                    <div class="inline-flex items-start text-left bg-blue-50 border border-blue-100 rounded-xl p-3 max-w-lg">
+                                        <i data-lucide="shield-check" class="w-5 h-5 text-gulf-blue shrink-0 mt-0.5 mr-2"></i>
+                                        <p class="text-[11px] text-gulf-text leading-tight">
+                                            <strong>Verified Platform:</strong> Packages are provided by licensed operators. Always check official visa requirements via the <a href="#" class="text-gulf-blue hover:underline">Ministry of Hajj & Umrah</a>.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Package Grid -->
+                            <div class="px-4 md:px-0">
+                                <h3 class="font-bold text-lg mb-4 text-gulf-text">Featured Packages (Makkah & Madinah)</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                                    <!-- Package Card -->
+                                    <div class="bg-white rounded-2xl border border-gulf-border overflow-hidden shadow-sm hover-lift group">
+                                        <div class="h-48 bg-slate-200 relative">
+                                            <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Makkah+Hotel" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-gulf-midnight shadow-sm">
+                                                10 Nights
+                                            </div>
+                                            <div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-medium text-white flex items-center gap-2">
+                                                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gulf-gold"></i> 150m from Haram
+                                            </div>
+                                        </div>
+                                        <div class="p-5">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <h4 class="font-bold text-gulf-text text-base leading-tight">Premium Umrah Package - VIP Transport</h4>
+                                            </div>
+                                            <div class="flex items-center gap-2 mb-4">
+                                                <span class="text-xs font-medium text-gulf-muted">Provider:</span>
+                                                <span class="text-xs font-bold text-gulf-text flex items-center gap-1">Al Rajhi Travels <i data-lucide="badge-check" class="w-3 h-3 text-gulf-blue fill-current"></i></span>
+                                            </div>
+                                            <div class="flex flex-wrap gap-2 mb-5">
+                                                <span class="px-2 py-1 bg-slate-100 rounded text-[10px] text-gulf-muted font-medium flex items-center gap-1"><i data-lucide="plane" class="w-3 h-3"></i> Flights</span>
+                                                <span class="px-2 py-1 bg-slate-100 rounded text-[10px] text-gulf-muted font-medium flex items-center gap-1"><i data-lucide="building" class="w-3 h-3"></i> 5-Star</span>
+                                                <span class="px-2 py-1 bg-slate-100 rounded text-[10px] text-gulf-muted font-medium flex items-center gap-1"><i data-lucide="bus" class="w-3 h-3"></i> Transport</span>
+                                            </div>
+                                            <div class="flex justify-between items-end pt-4 border-t border-gulf-border">
+                                                <div>
+                                                    <p class="text-[10px] text-gulf-muted mb-0.5">Starting from</p>
+                                                    <p class="font-extrabold text-lg text-gulf-midnight">SAR 4,500 <span class="text-xs font-normal text-gulf-muted">/person</span></p>
+                                                </div>
+                                                <button onclick="toggleCart()" class="bg-gulf-midnight text-gulf-gold px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors shadow-sm active-scale">Book Now</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================= VIEW: MARKETPLACE (Rule 18) ================= -->
+                        <div id="view-marketplace" class="view-section hidden space-y-6 px-4 md:px-0">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h2 class="text-2xl font-extrabold text-gulf-midnight">Marketplace</h2>
+                                    <p class="text-sm text-gulf-muted mt-1">Discover services, courses, and resources.</p>
+                                </div>
+                                <button class="p-2 border border-gulf-border rounded-xl hover:bg-gulf-background focus-ring"><i data-lucide="sliders-horizontal" class="w-5 h-5 text-gulf-text"></i></button>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                                <!-- Product Card -->
+                                <div class="bg-white rounded-2xl border border-gulf-border overflow-hidden shadow-sm hover-lift flex flex-col group relative">
+                                    <button class="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full text-gulf-muted hover:text-gulf-danger transition-colors z-10 focus-ring"><i data-lucide="heart" class="w-4 h-4"></i></button>
+                                    <div class="h-32 sm:h-40 bg-slate-100 p-4 flex items-center justify-center relative">
+                                        <i data-lucide="file-text" class="w-12 h-12 text-gulf-blue/50 group-hover:scale-110 transition-transform"></i>
+                                    </div>
+                                    <div class="p-3 sm:p-4 flex-1 flex flex-col">
+                                        <div class="text-[10px] font-bold text-gulf-blue uppercase tracking-wider mb-1">Digital Template</div>
+                                        <h4 class="font-bold text-sm text-gulf-text leading-tight mb-1">Gulf Pro CV Template (ATS Ready)</h4>
+                                        <div class="flex items-center gap-1 text-xs text-gulf-muted mb-3">
+                                            <i data-lucide="star" class="w-3 h-3 text-gulf-gold fill-current"></i> 4.9 (120)
+                                        </div>
+                                        <div class="mt-auto flex justify-between items-center pt-3 border-t border-gulf-border">
+                                            <span class="font-bold text-gulf-midnight">$15.00</span>
+                                            <button onclick="toggleCart()" class="w-8 h-8 rounded-full bg-gulf-background flex items-center justify-center text-gulf-blue hover:bg-gulf-blue hover:text-white transition-colors focus-ring active-scale"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================= VIEW: PERSONAL DASHBOARD (Rule 25) ================= -->
+                        <div id="view-dashboard" class="view-section hidden space-y-6 px-4 md:px-0">
+                            <!-- Greeting -->
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold text-gulf-midnight">Good morning, Ahmed</h2>
+                                <p class="text-sm text-gulf-muted mt-1">Here is the status of your journey to the Gulf.</p>
+                            </div>
+
+                            <!-- Journey Progress Widget -->
+                            <div class="bg-white rounded-3xl border border-gulf-border p-5 sm:p-6 shadow-sm">
+                                <div class="flex items-center justify-between mb-5">
+                                    <h3 class="font-bold text-gulf-text flex items-center gap-2"><i data-lucide="bar-chart-2" class="w-5 h-5 text-gulf-blue"></i> Overall Progress</h3>
+                                    <span class="text-gulf-blue font-bold text-sm bg-blue-50 px-3 py-1 rounded-full">45% Complete</span>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div class="p-3 rounded-xl bg-gulf-background border border-gulf-border">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="text-xs font-bold text-gulf-text">Profile</span>
+                                            <i data-lucide="check-circle-2" class="w-4 h-4 text-gulf-success"></i>
+                                        </div>
+                                        <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-gulf-success h-1.5 rounded-full" style="width: 100%"></div></div>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-gulf-background border border-gulf-border">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="text-xs font-bold text-gulf-text">Career</span>
+                                            <span class="text-xs font-bold text-gulf-blue">75%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-gulf-blue h-1.5 rounded-full" style="width: 75%"></div></div>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-gulf-background border border-gulf-border opacity-60">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="text-xs font-bold text-gulf-text">Visa</span>
+                                            <span class="text-xs font-bold text-gulf-muted">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-slate-300 h-1.5 rounded-full" style="width: 0%"></div></div>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-gulf-background border border-gulf-border opacity-60">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="text-xs font-bold text-gulf-text">Travel</span>
+                                            <span class="text-xs font-bold text-gulf-muted">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-200 rounded-full h-1.5"><div class="bg-slate-300 h-1.5 rounded-full" style="width: 0%"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <button class="flex flex-col items-center justify-center gap-2 p-4 bg-white border border-gulf-border rounded-2xl hover:border-gulf-blue hover:bg-blue-50 transition-all focus-ring active-scale group">
+                                    <i data-lucide="search" class="w-6 h-6 text-gulf-muted group-hover:text-gulf-blue"></i>
+                                    <span class="text-xs font-bold text-gulf-text">Find Jobs</span>
+                                </button>
+                                <button class="flex flex-col items-center justify-center gap-2 p-4 bg-white border border-gulf-border rounded-2xl hover:border-gulf-blue hover:bg-blue-50 transition-all focus-ring active-scale group">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-gulf-muted group-hover:text-gulf-blue"></i>
+                                    <span class="text-xs font-bold text-gulf-text">Build CV</span>
+                                </button>
+                                <button class="flex flex-col items-center justify-center gap-2 p-4 bg-white border border-gulf-border rounded-2xl hover:border-emerald-500 hover:bg-emerald-50 transition-all focus-ring active-scale group">
+                                    <i data-lucide="plane" class="w-6 h-6 text-gulf-muted group-hover:text-emerald-600"></i>
+                                    <span class="text-xs font-bold text-gulf-text">Book Travel</span>
+                                </button>
+                                <button onclick="toggleAKGlora()" class="flex flex-col items-center justify-center gap-2 p-4 bg-gradient-to-b from-slate-800 to-gulf-midnight border border-transparent rounded-2xl shadow-md focus-ring active-scale group relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-[url('https://placehold.co/100x100/032b43/ffffff?text=+')] opacity-10"></div>
+                                    <i data-lucide="bot" class="w-6 h-6 text-gulf-cyan relative z-10"></i>
+                                    <span class="text-xs font-bold text-white relative z-10">Ask AI</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div> <!-- End Main Content Views -->
+
+                    <!-- RIGHT DESKTOP PANEL (Contextual Hub) -->
+                    <aside class="hidden xl:block w-80 shrink-0 space-y-6">
+                        
+                        <!-- My Journey Timeline (Rule 75) -->
+                        <div class="bg-white rounded-3xl shadow-sm border border-gulf-border p-6">
+                            <h3 class="font-bold text-gulf-text mb-5 flex items-center gap-2"><i data-lucide="compass" class="w-5 h-5 text-gulf-blue"></i> My Journey</h3>
+                            <ul class="space-y-4 text-sm relative before:absolute before:inset-y-2 before:left-[11px] before:w-0.5 before:bg-slate-200">
+                                <li class="flex items-start gap-3 relative z-10">
+                                    <div class="bg-white pt-0.5"><i data-lucide="check-circle-2" class="w-6 h-6 text-gulf-success bg-white"></i></div>
+                                    <div>
+                                        <p class="font-bold text-gulf-text leading-tight">Profile Completed</p>
+                                        <p class="text-[10px] text-gulf-muted mt-0.5">Social Surface</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3 relative z-10">
+                                    <div class="bg-white pt-0.5"><div class="w-6 h-6 rounded-full border-2 border-gulf-blue bg-white flex items-center justify-center"><div class="w-2 h-2 bg-gulf-blue rounded-full animate-pulse"></div></div></div>
+                                    <div>
+                                        <p class="font-bold text-gulf-text leading-tight">Apply for Jobs</p>
+                                        <p class="text-[10px] text-gulf-blue font-medium mt-0.5">Marketplace Integration</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3 relative z-10 opacity-50">
+                                    <div class="bg-white pt-0.5"><div class="w-6 h-6 rounded-full border-2 border-slate-300 bg-white"></div></div>
+                                    <div>
+                                        <p class="font-bold text-gulf-muted leading-tight">Visa Application</p>
+                                        <p class="text-[10px] text-gulf-muted mt-0.5">Mobility OS Core</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <button onclick="switchView('view-dashboard')" class="w-full mt-6 py-2.5 bg-gulf-background hover:bg-slate-200 text-gulf-midnight font-bold rounded-xl transition-colors text-sm focus-ring">View Full Path</button>
+                        </div>
+
+                        <!-- AK GLORA Widget -->
+                        <div class="bg-gradient-to-br from-gulf-midnight to-blue-900 rounded-3xl shadow-lg border border-gulf-midnight p-6 text-white relative overflow-hidden group cursor-pointer hover-lift" onclick="toggleAKGlora()">
+                            <div class="absolute -right-4 -bottom-4 opacity-10 transition-transform group-hover:scale-110"><i data-lucide="bot" class="w-32 h-32"></i></div>
+                            <h3 class="font-bold mb-1 flex items-center gap-2 relative z-10 text-lg">AK GLORA</h3>
+                            <p class="text-[11px] text-blue-200 mb-4 relative z-10 pr-4 leading-relaxed">Your AI guide to the Gulf. Ask about jobs, visas, or travel.</p>
+                            
+                            <!-- Compliance Warning (Rule 69) -->
+                            <div class="text-[9px] text-blue-300/70 mb-4 relative z-10 border-l-2 border-blue-400/30 pl-2 leading-tight">
+                                AI responses regarding visas or government laws must be independently verified.
+                            </div>
+
+                            <button class="w-full py-2 bg-white/10 group-hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-xl transition-colors text-sm border border-white/20 relative z-10 flex items-center justify-center gap-2">
+                                Chat Now <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gulf-cyan"></i>
+                            </button>
+                        </div>
+
+                        <!-- Legal Footer -->
+                        <div class="px-2 text-xs text-gulf-muted space-y-3">
+                            <div class="flex flex-wrap gap-x-3 gap-y-1">
+                                <a href="#" class="hover:text-gulf-text transition-colors">About</a>
+                                <a href="#" class="hover:text-gulf-text transition-colors">Privacy</a>
+                                <a href="#" class="hover:text-gulf-text transition-colors">Terms</a>
+                                <a href="#" class="hover:text-gulf-text transition-colors">Help</a>
+                            </div>
+                            <!-- Core Platform Compliance (Rule 67) -->
+                            <p class="text-[9px] leading-tight opacity-70">
+                                <i data-lucide="info" class="inline w-3 h-3 mr-0.5"></i> GoGulf is an independent platform. We are not a government entity. Always verify official regulations.
+                            </p>
+                            <p class="font-medium">GoGulf © 2026</p>
+                        </div>
+                    </aside>
+
+                </div>
+            </main>
+        </div>
+
+        <!-- ================= MOBILE BOTTOM NAVIGATION (Rule 27 & 28) ================= -->
+        <nav class="md:hidden bg-gulf-surface/90 backdrop-blur-lg border-t border-gulf-border h-16 shrink-0 relative z-40 pb-[env(safe-area-inset-bottom)]">
+            <div class="flex justify-around items-center h-full px-2">
+                <button onclick="switchView('view-home')" class="flex flex-col items-center justify-center w-14 h-full text-gulf-blue active-scale focus-ring rounded-lg">
+                    <i data-lucide="home" class="w-6 h-6 mb-0.5"></i>
+                    <span class="text-[10px] font-medium">Home</span>
+                </button>
+                <button onclick="switchView('view-explore')" class="flex flex-col items-center justify-center w-14 h-full text-gulf-muted hover:text-gulf-text transition-colors active-scale focus-ring rounded-lg">
+                    <i data-lucide="compass" class="w-6 h-6 mb-0.5"></i>
+                    <span class="text-[10px] font-medium">Explore</span>
+                </button>
+                
+                <!-- Prominent Create Button -->
+                <div class="relative -top-5">
+                    <button class="flex items-center justify-center w-14 h-14 bg-gulf-midnight text-white rounded-full border-4 border-gulf-background shadow-lg hover:bg-slate-800 transition-colors focus-ring active-scale">
+                        <i data-lucide="plus" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <button class="flex flex-col items-center justify-center w-14 h-full text-gulf-muted hover:text-gulf-text transition-colors active-scale focus-ring rounded-lg relative">
+                    <i data-lucide="message-circle" class="w-6 h-6 mb-0.5"></i>
+                    <span class="text-[10px] font-medium">Messages</span>
+                    <span class="absolute top-2 right-3 w-2 h-2 bg-gulf-danger rounded-full border border-white"></span>
+                </button>
+                <button onclick="switchView('view-dashboard')" class="flex flex-col items-center justify-center w-14 h-full text-gulf-muted hover:text-gulf-text transition-colors active-scale focus-ring rounded-lg">
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Profile" class="w-6 h-6 rounded-full border border-gulf-border mb-0.5 object-cover">
+                    <span class="text-[10px] font-medium">Profile</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- ================= UNIVERSAL MODALS & OVERLAYS ================= -->
+
+        <!-- UNIVERSAL CART / CHECKOUT SLIDE-OUT (Rules 20, 21) -->
+        <div id="cart-drawer" class="fixed inset-0 bg-gulf-midnight/40 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300">
+            <div class="absolute inset-y-0 right-0 w-full md:w-[400px] bg-gulf-surface shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 rounded-l-2xl md:rounded-l-3xl overflow-hidden" id="cart-panel">
+                <!-- Mobile Drag Handle -->
+                <div class="md:hidden w-full flex justify-center pt-3 pb-1"><div class="w-12 h-1.5 bg-slate-200 rounded-full"></div></div>
+                
+                <div class="p-4 md:p-6 border-b border-gulf-border flex justify-between items-center bg-white shrink-0">
+                    <h2 class="text-xl font-extrabold text-gulf-midnight">Your Cart</h2>
+                    <button onclick="toggleCart()" class="p-2 text-gulf-muted hover:bg-slate-100 rounded-full focus-ring active-scale"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                
+                <div class="flex-1 overflow-y-auto p-4 md:p-6 bg-gulf-background space-y-4 custom-scrollbar">
+                    <!-- Cart Item -->
+                    <div class="bg-white p-4 rounded-2xl border border-gulf-border flex gap-4 shadow-sm">
+                        <div class="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center text-gulf-blue shrink-0">
+                            <i data-lucide="file-text" class="w-8 h-8"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-sm text-gulf-text truncate">Gulf Pro CV Template</h4>
+                            <p class="text-xs text-gulf-muted mb-2">Digital Download</p>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-gulf-midnight">$15.00</span>
+                                <div class="flex items-center gap-2 border border-gulf-border rounded-lg px-2 py-0.5">
+                                    <button class="text-gulf-muted hover:text-gulf-text">-</button>
+                                    <span class="text-xs font-medium">1</span>
+                                    <button class="text-gulf-muted hover:text-gulf-text">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 md:p-6 bg-white border-t border-gulf-border shrink-0 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
+                    <div class="space-y-2 mb-4 text-sm">
+                        <div class="flex justify-between text-gulf-muted"><span>Subtotal</span><span>$15.00</span></div>
+                        <div class="flex justify-between text-gulf-muted"><span>Taxes & Fees</span><span>$0.75</span></div>
+                        <div class="flex justify-between font-extrabold text-lg text-gulf-midnight pt-2 border-t border-slate-100"><span>Total</span><span>$15.75</span></div>
+                    </div>
+                    <button onclick="alert('Proceeding to Secure Checkout Engine (Rule 21)...')" class="w-full bg-gulf-midnight text-white py-3.5 rounded-xl font-bold text-sm hover:bg-slate-800 transition-colors flex items-center justify-center gap-2 shadow-lg active-scale focus-ring">
+                        <i data-lucide="lock" class="w-4 h-4"></i> Secure Checkout
+                    </button>
+                    <p class="text-center text-[10px] text-gulf-muted mt-3"><i data-lucide="shield-check" class="inline w-3 h-3 mr-0.5"></i> Payments are encrypted and tokenized (Rule 22).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- AK GLORA FULL SCREEN AI (Rules 32, 69) -->
+        <div id="ai-modal" class="fixed inset-0 bg-gulf-background z-50 hidden flex-col animate-slide-up pb-[env(safe-area-inset-bottom)]">
+            <header class="h-16 glass-dark border-b border-gulf-midnight flex items-center justify-between px-4 shrink-0 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center relative">
+                        <i data-lucide="bot" class="w-5 h-5 text-gulf-cyan"></i>
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-gulf-success rounded-full border-2 border-gulf-midnight"></span>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-white leading-tight">AK GLORA</h2>
+                        <p class="text-[10px] text-gulf-cyan">Your AI Guide to the Gulf</p>
+                    </div>
+                </div>
+                <button onclick="toggleAKGlora()" class="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full focus-ring active-scale"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </header>
+            
+            <div class="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-4">
+                <!-- AI Message -->
+                <div class="flex gap-3 max-w-[85%]">
+                    <div class="w-8 h-8 rounded-full bg-gulf-midnight flex items-center justify-center shrink-0 shadow-sm"><i data-lucide="bot" class="w-4 h-4 text-gulf-cyan"></i></div>
+                    <div class="bg-white border border-gulf-border rounded-2xl rounded-tl-sm p-3 md:p-4 shadow-sm text-sm text-gulf-text leading-relaxed">
+                        Hello Ahmed! I'm AK GLORA. How can I assist you with your Gulf journey today? I can help you find jobs, plan your travel, or prepare for Umrah.
+                    </div>
+                </div>
+                <!-- Suggested Prompts -->
+                <div class="flex flex-wrap gap-2 pl-11">
+                    <button class="bg-blue-50 border border-blue-100 text-gulf-blue px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-100 transition-colors focus-ring">Find jobs matching my CV</button>
+                    <button class="bg-amber-50 border border-amber-100 text-gulf-gold px-3 py-1.5 rounded-full text-xs font-medium hover:bg-amber-100 transition-colors focus-ring">Umrah visa requirements</button>
+                </div>
+            </div>
+            
+            <div class="p-4 bg-white border-t border-gulf-border shrink-0">
+                <div class="relative">
+                    <input type="text" placeholder="Ask AK GLORA..." class="w-full bg-gulf-background border border-gulf-border rounded-full py-3.5 pl-4 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-gulf-cyan transition-shadow shadow-sm focus-ring">
+                    <button class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-gulf-cyan text-white flex items-center justify-center hover:bg-cyan-600 transition-colors active-scale focus-ring"><i data-lucide="send" class="w-4 h-4 ml-0.5"></i></button>
+                </div>
+                <p class="text-center text-[9px] text-gulf-muted mt-2">AI can make mistakes. Verify official information with authorities.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- UI INTERACTION SCRIPTS -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Core View Switcher (Simulating App Router - Rule 65)
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show target view
+            const target = document.getElementById(viewId);
+            if(target) {
+                target.classList.add('active');
+                // Scroll main container to top
+                document.getElementById('main-scroll-area').scrollTop = 0;
+            } else {
+                console.warn(`View ${viewId} not found. Showing fallback.`);
+            }
+        }
+
+        // Cart Drawer Logic
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const panel = document.getElementById('cart-panel');
+            
+            if (drawer.classList.contains('hidden')) {
+                // Open
+                drawer.classList.remove('hidden');
+                // Trigger reflow
+                void drawer.offsetWidth;
+                drawer.classList.remove('opacity-0');
+                panel.classList.remove('translate-x-full');
+            } else {
+                // Close
+                drawer.classList.add('opacity-0');
+                panel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    drawer.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // AK GLORA Modal Logic
+        function toggleAKGlora() {
+            const modal = document.getElementById('ai-modal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        // Placeholder functions for Mobile Menus
+        function toggleMobileMenu() {
+            alert('Mobile Slide-out Menu (Rule 30) initiated.');
+        }
+        function toggleSearchModal() {
+            // In full app, opens full-screen search on mobile, or dropdown on desktop.
+            console.log('Search focused');
+        }
+    </script>
+</body>
+</html>
