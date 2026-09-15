@@ -1,0 +1,11 @@
+git status
+
+git add -A
+
+git status
+
+git commit -m "Update all GoGulf project files"
+
+git push origin main
+
+git status
