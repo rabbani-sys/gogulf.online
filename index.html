@@ -1304,19 +1304,16 @@
                 
                 // Extract user metadata (Google sends full_name and avatar_url)
                 const meta = session.user.user_metadata || {};
-                const name = meta.full_name || session.user.email?.split('@')[0] || 'user';
+                const name = meta.full_name || session.user.email?.split('@')[0] || 'User';
                 const avatar = meta.avatar_url || `https://api.dicebear.com/9.x/micah/svg?seed=${name}&backgroundColor=f0fdf4`;
                 
                 window.AppState.currentUser.username = name;
                 window.AppState.currentUser.avatar = avatar;
                 
-                // Update UI to show Log Out button
+                // Update UI to show Log Out button - Using full className for 100% reliability
                 if (desktopBtn) {
                     desktopBtn.onclick = window.logout;
-                    desktopBtn.classList.replace('bg-emerald-50', 'bg-red-50');
-                    desktopBtn.classList.replace('text-emerald-800', 'text-red-800');
-                    desktopBtn.classList.replace('border-emerald-200', 'border-red-200');
-                    desktopBtn.classList.replace('hover:bg-emerald-100', 'hover:bg-red-100');
+                    desktopBtn.className = 'flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-red-100 transition-colors group font-bold text-red-800 relative bg-red-50 mb-2 border border-red-200 shadow-sm';
                     if (desktopIcon) desktopIcon.src = 'https://img.icons8.com/3d-fluency/96/exit.png';
                     if (desktopText) desktopText.innerText = 'Log Out';
                 }
@@ -1333,13 +1330,10 @@
                 window.AppState.userId = 'local-user';
                 window.AppState.currentUser = { username: 'guest_user', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Guest&backgroundColor=f0fdf4', role: 'candidate' };
                 
-                // Update UI to show Log In button
+                // Update UI to show Log In button - Using full className for 100% reliability
                 if (desktopBtn) {
                     desktopBtn.onclick = () => window.openAuthModal('login');
-                    desktopBtn.classList.replace('bg-red-50', 'bg-emerald-50');
-                    desktopBtn.classList.replace('text-red-800', 'text-emerald-800');
-                    desktopBtn.classList.replace('border-red-200', 'border-emerald-200');
-                    desktopBtn.classList.replace('hover:bg-red-100', 'hover:bg-emerald-100');
+                    desktopBtn.className = 'flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-emerald-100 transition-colors group font-bold text-emerald-800 relative bg-emerald-50 mb-2 border border-emerald-200 shadow-sm';
                     if (desktopIcon) desktopIcon.src = 'https://img.icons8.com/3d-fluency/96/key.png';
                     if (desktopText) desktopText.innerText = 'Sign In';
                 }
@@ -1360,7 +1354,8 @@
                 alert("Failed to log out.");
             } else {
                 console.log("Logged out successfully");
-                // The onAuthStateChange listener will automatically trigger and fix the UI
+                // A hard reload is the safest way to clear all local UI states and data back to guest mode
+                window.location.reload(); 
             }
         };
 
