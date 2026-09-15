@@ -321,7 +321,7 @@
 
         <div class="mt-auto px-2 xl:px-0 mb-4 w-full">
             <button onclick="window.openAuthModal('login')" class="flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-emerald-100 transition-colors group font-bold text-emerald-800 relative bg-emerald-50 mb-2 border border-emerald-200 shadow-sm">
-                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/login-rounded-right.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Login"></div>
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/key.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Login"></div>
                 <span class="hidden xl:block text-sm uppercase tracking-wide">Sign In / Join</span>
                 <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Sign In / Join</div>
             </button>
@@ -2170,7 +2170,7 @@
             const getIcon = (name) => `https://img.icons8.com/3d-fluency/96/${name}.png`;
             const btn = (icon, text, action, extraClass = '') => `
                 <button onclick="${action};" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-emerald-50 rounded-xl transition-colors border border-transparent hover:border-emerald-100 group text-left ${extraClass}">
-                    <img src="${getIcon(icon)}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <img src="${getIcon(icon)}" onerror="this.src='https://img.icons8.com/3d-fluency/96/cancel.png'" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
                     <span class="text-sm font-extrabold text-gray-800 group-hover:text-emerald-900">${text}</span>
                 </button>
             `;
@@ -2237,20 +2237,20 @@
                 menuHtml += `<div class="h-px bg-gray-200 my-1 mx-2"></div>`;
                 
                 // Safety & Moderation Actions
-                menuHtml += btn('invisible', 'Not Interested', `console.log('Hide'); window.closePostMenu();`);
+                menuHtml += btn('hide', 'Not Interested', `console.log('Hide'); window.closePostMenu();`);
                 menuHtml += `
                 <button onclick="window.closePostMenu(); window.openReportModal(${postId});" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-amber-50 rounded-xl transition-colors border border-transparent hover:border-amber-100 group text-left">
-                    <img src="${getIcon('warning-shield')}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <img src="${getIcon('warning-shield')}" onerror="this.src='https://img.icons8.com/3d-fluency/96/warning.png'" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
                     <span class="text-sm font-extrabold text-amber-600 group-hover:text-amber-700">Report Content</span>
                 </button>`;
                 menuHtml += `
                 <button onclick="window.closePostMenu(); window.openReportModal(${postId}, true);" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-red-50 rounded-xl transition-colors border border-transparent hover:border-red-100 group text-left">
-                    <img src="${getIcon('siren')}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <img src="${getIcon('police-car-light')}" onerror="this.src='https://img.icons8.com/3d-fluency/96/error.png'" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
                     <span class="text-sm font-extrabold text-red-600 group-hover:text-red-700">Report Scam / Fraud</span>
                 </button>`;
                 menuHtml += `
                 <button onclick="window.closePostMenu(); window.openBlockModal('${post.username}');" class="w-full flex items-center gap-3.5 p-3.5 hover:bg-gray-100 rounded-xl transition-colors border border-transparent hover:border-gray-300 group text-left">
-                    <img src="${getIcon('denied')}" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
+                    <img src="${getIcon('denied')}" onerror="this.src='https://img.icons8.com/3d-fluency/96/cancel.png'" loading="lazy" class="w-6 h-6 drop-shadow-sm group-hover:scale-110 transition-transform">
                     <span class="text-sm font-extrabold text-gray-600 group-hover:text-gray-900">Block @${post.username}</span>
                 </button>`;
             }
@@ -2465,7 +2465,7 @@
                     </div>
 
                     <button id="auth-submit-btn" type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-extrabold text-sm py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all flex items-center justify-center gap-2 mt-2">
-                        ${mainAction} <img src="https://img.icons8.com/3d-fluency/96/login-rounded-right.png" class="w-5 h-5">
+                        ${mainAction} <img src="https://img.icons8.com/3d-fluency/96/key.png" class="w-5 h-5">
                     </button>
                 </form>
 
