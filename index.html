@@ -170,7 +170,7 @@
             </div>
         </div>
         <div class="flex items-center space-x-3">
-            <button onclick="window.openAuthModal('signup')" class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-[10px] font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full shadow-sm hover:scale-105 transition-transform mr-1">
+            <button id="mobile-auth-btn" onclick="window.openAuthModal('signup')" class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-[10px] font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full shadow-sm hover:scale-105 transition-transform mr-1">
                 Join
             </button>
             <div class="relative cursor-pointer hover:opacity-70 transition-opacity hidden sm:block" onclick="window.switchView('notifications')">
@@ -187,23 +187,28 @@
     </nav>
 
     <!-- Mobile Bottom Nav -->
-    <div class="fixed bottom-0 w-full bg-white border-t border-cyan-200 flex justify-around items-center h-12 z-50 px-2 sm:hidden pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-        <button onclick="window.switchView('home')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors group relative" data-target="home">
-            <div class="group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/home.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Home"></div>
+    <div class="fixed bottom-0 w-full bg-white border-t border-cyan-200 flex justify-around items-center h-14 z-50 px-1 sm:hidden pb-safe shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <button onclick="window.switchView('home')" class="nav-btn p-1 flex-1 flex flex-col justify-center items-center hover:bg-[#f0fdf4] transition-colors group relative" data-target="home">
+            <div class="group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/home.png" loading="lazy" class="w-6 h-6 drop-shadow-sm" alt="Home"></div>
+            <span class="text-[10px] font-bold text-emerald-800 mt-1 leading-none group-hover:text-emerald-700 transition-colors">Home</span>
         </button>
-        <button onclick="window.switchView('ecosystem')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors group relative" data-target="ecosystem">
-            <div class="group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/globe.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Ecosystem"></div>
+        <button onclick="window.switchView('ecosystem')" class="nav-btn p-1 flex-1 flex flex-col justify-center items-center hover:bg-[#f0fdf4] transition-colors group relative" data-target="ecosystem">
+            <div class="group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/globe.png" loading="lazy" class="w-6 h-6 drop-shadow-sm" alt="Destinations"></div>
+            <span class="text-[10px] font-normal text-gray-500 mt-1 leading-none group-hover:text-emerald-700 transition-colors">Destinations</span>
         </button>
-        <button onclick="window.openCreateModal()" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors group relative">
-            <div class="group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/plus-math.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Create"></div>
+        <button onclick="window.openCreateModal()" class="nav-btn p-1 flex-1 flex flex-col justify-center items-center hover:bg-[#f0fdf4] transition-colors group relative">
+            <div class="group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/plus-math.png" loading="lazy" class="w-6 h-6 drop-shadow-sm" alt="Create"></div>
+            <span class="text-[10px] font-normal text-gray-500 mt-1 leading-none group-hover:text-emerald-700 transition-colors">Create</span>
         </button>
-        <button onclick="window.switchView('messages')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors group relative" data-target="messages">
-            <div class="group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/chat.png" loading="lazy" class="w-7 h-7 drop-shadow-sm" alt="Messages"></div>
+        <button onclick="window.switchView('messages')" class="nav-btn p-1 flex-1 flex flex-col justify-center items-center hover:bg-[#f0fdf4] transition-colors group relative" data-target="messages">
+            <div class="group-hover:scale-110 transition-transform"><img src="https://img.icons8.com/3d-fluency/96/chat.png" loading="lazy" class="w-6 h-6 drop-shadow-sm" alt="Messages"></div>
+            <span class="text-[10px] font-normal text-gray-500 mt-1 leading-none group-hover:text-emerald-700 transition-colors">Chat</span>
         </button>
-        <button onclick="window.switchView('profile')" class="nav-btn p-2 flex-1 flex justify-center hover:bg-[#f0fdf4] transition-colors group relative" data-target="profile">
+        <button onclick="window.switchView('profile')" class="nav-btn p-1 flex-1 flex flex-col justify-center items-center hover:bg-[#f0fdf4] transition-colors group relative" data-target="profile">
             <div class="group-hover:scale-110 transition-transform">
-                <img src="https://api.dicebear.com/9.x/micah/svg?seed=Felix&backgroundColor=ecefe1" loading="lazy" alt="Profile" class="w-7 h-7 rounded-full border border-emerald-200 shadow-sm bg-white" />
+                <img src="https://api.dicebear.com/9.x/micah/svg?seed=Felix&backgroundColor=ecefe1" loading="lazy" alt="Profile" class="w-6 h-6 rounded-full border border-emerald-200 shadow-sm bg-white" />
             </div>
+            <span class="text-[10px] font-normal text-gray-500 mt-1 leading-none group-hover:text-emerald-700 transition-colors">Profile</span>
         </button>
     </div>
 
@@ -303,51 +308,51 @@
                 <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/search.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Search"></div>
                 <span class="hidden xl:block text-base">Search</span>
                 <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Search</div>
+        <div class="flex-1 flex flex-col space-y-1 xl:space-y-2 w-full px-1 xl:px-0 mt-2">
+            <button onclick="window.switchView('home')" class="nav-btn flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-bold relative" data-target="home">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/home.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Home"></div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-bold text-emerald-800 xl:text-gray-900 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">Home</span>
             </button>
-            <button onclick="window.switchView('ecosystem')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="ecosystem">
-                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/globe.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Ecosystem"></div>
-                <span class="hidden xl:block text-base">Ecosystem</span>
-                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Ecosystem</div>
+            <button onclick="window.switchView('search')" class="nav-btn flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="search">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/search.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Search"></div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-normal text-gray-500 xl:text-gray-800 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">Search</span>
             </button>
-            <button onclick="window.switchView('reels')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="reels">
-                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/clapperboard.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Jobs Reels"></div>
-                <span class="hidden xl:block text-base">Jobs Reels</span>
-                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Jobs Reels</div>
+            <button onclick="window.switchView('ecosystem')" class="nav-btn flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="ecosystem">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/globe.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Destinations"></div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-normal text-gray-500 xl:text-gray-800 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">Destinations</span>
             </button>
-            <button onclick="window.switchView('messages')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="messages">
-                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/chat.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Messages"></div>
-                <span class="hidden xl:block text-base">Messages</span>
-                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Messages</div>
+            <button onclick="window.switchView('reels')" class="nav-btn flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="reels">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/clapperboard.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Jobs Reels"></div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-normal text-gray-500 xl:text-gray-800 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">Reels</span>
             </button>
-            <button onclick="window.switchView('notifications')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="notifications">
-                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/like--v2.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Notifications"></div>
-                <span class="hidden xl:block text-base">Notifications</span>
-                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Notifications</div>
+            <button onclick="window.switchView('messages')" class="nav-btn flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="messages">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/chat.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Messages"></div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-normal text-gray-500 xl:text-gray-800 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">Chat</span>
             </button>
-            <button onclick="window.openCreateModal()" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="create">
-                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/plus-math.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Create"></div>
-                <span class="hidden xl:block text-base">Create</span>
-                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Create Post</div>
+            <button onclick="window.switchView('notifications')" class="nav-btn flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="notifications">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/like--v2.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Notifications"></div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-normal text-gray-500 xl:text-gray-800 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">Alerts</span>
             </button>
-            <button onclick="window.switchView('profile')" class="nav-btn flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group font-normal relative" data-target="profile">
+            <button onclick="window.openCreateModal()" class="nav-btn flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#f0fdf4] transition-colors group font-normal relative" data-target="create">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/plus-math.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Create"></div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-normal text-gray-500 xl:text-gray-800 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">Create</span>
+            </button>
+            <button onclick="window.switchView('profile')" class="nav-btn flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group font-normal relative" data-target="profile">
                 <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm">
-                    <img src="https://api.dicebear.com/9.x/micah/svg?seed=Felix&backgroundColor=ecefe1" loading="lazy" alt="Profile" class="w-7 h-7 xl:mr-4 rounded-full border border-emerald-200 shadow-sm bg-white" />
+                    <img src="https://api.dicebear.com/9.x/micah/svg?seed=Felix&backgroundColor=ecefe1" loading="lazy" alt="Profile" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4 rounded-full border border-emerald-200 shadow-sm bg-white" />
                 </div>
-                <span class="hidden xl:block text-base">Profile</span>
-                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Profile</div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-normal text-gray-500 xl:text-gray-800 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">Profile</span>
             </button>
         </div>
 
-        <div class="mt-auto px-2 xl:px-0 mb-2 w-full pt-4">
-            <button onclick="window.openAuthModal('login')" class="flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-emerald-100 transition-colors group font-bold text-emerald-800 relative bg-emerald-50 mb-2 border border-emerald-200 shadow-sm">
-                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/key.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Login"></div>
-                <span class="hidden xl:block text-sm uppercase tracking-wide">Sign In / Join</span>
-                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">Sign In / Join</div>
+        <div class="mt-auto px-1 xl:px-0 mb-2 w-full pt-4">
+            <button id="desktop-auth-btn" onclick="window.openAuthModal('login')" class="flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-emerald-100 transition-colors group font-bold text-emerald-800 relative bg-emerald-50 mb-2 border border-emerald-200 shadow-sm">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img id="desktop-auth-icon" src="https://img.icons8.com/3d-fluency/96/key.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Login"></div>
+                <span id="desktop-auth-text" class="text-[10px] xl:text-sm mt-1 xl:mt-0 uppercase tracking-tight xl:tracking-wide leading-none text-center xl:text-left">Sign In</span>
             </button>
-            <button onclick="window.toggleMegaMenu()" class="flex items-center justify-center xl:justify-start w-full p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group relative">
-                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/menu.png" loading="lazy" class="w-7 h-7 xl:mr-4" alt="Menu"></div>
-                <span class="hidden xl:block text-base">More</span>
-                <div class="absolute left-[70px] bg-gray-900 text-white text-[11px] font-bold px-2.5 py-1.5 rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 xl:hidden whitespace-nowrap">More Apps</div>
+            <button onclick="window.toggleMegaMenu()" class="flex flex-col xl:flex-row items-center justify-center xl:justify-start w-full p-2 xl:p-3 rounded-lg hover:bg-[#ecefe1] transition-colors group relative">
+                <div class="relative group-hover:scale-105 transition-transform drop-shadow-sm"><img src="https://img.icons8.com/3d-fluency/96/menu.png" loading="lazy" class="w-6 h-6 xl:w-7 xl:h-7 xl:mr-4" alt="Menu"></div>
+                <span class="text-[10px] xl:text-base mt-1 xl:mt-0 font-bold text-gray-600 xl:text-gray-800 group-hover:text-emerald-700 transition-colors leading-none tracking-tight">More</span>
             </button>
         </div>
     </aside>
@@ -434,44 +439,85 @@
             </div>
         </div>
         
-        <div id="view-ecosystem" class="view-section w-full max-w-4xl p-0 sm:p-8 flex-col items-center bg-gray-50 min-h-screen sm:border-x border-emerald-100">
-            <!-- Massive Landing Hero -->
-            <div class="w-full bg-gradient-to-br from-emerald-600 via-emerald-700 to-[#022c22] p-8 sm:p-12 sm:rounded-3xl shadow-xl relative overflow-hidden mb-8 text-white">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-400 rounded-full blur-3xl opacity-20"></div>
-                <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-cyan-300 rounded-full blur-3xl opacity-20"></div>
+        <!-- GLOBAL DESTINATIONS HUB -->
+        <div id="view-ecosystem" class="view-section w-full max-w-4xl p-0 sm:p-8 flex-col items-center bg-gray-50 min-h-screen sm:border-x border-emerald-100 pb-20">
+            
+            <!-- Dynamic Multi-Banner Hero Carousel -->
+            <div class="w-full relative bg-gray-900 sm:rounded-3xl shadow-xl overflow-hidden mb-4 group h-[350px] sm:h-[400px]">
+                <div class="flex overflow-x-auto snap-x snap-mandatory h-full w-full scrollbar-hide scroll-smooth" id="destination-hero-slider">
+                    
+                    <!-- UAE Banner -->
+                    <div class="snap-center shrink-0 w-full h-full relative">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover opacity-70">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                        <div class="absolute bottom-16 sm:bottom-20 left-6 sm:left-12 text-white">
+                            <span class="bg-emerald-500/80 backdrop-blur-sm text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-widest mb-2 inline-block">Middle East</span>
+                            <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight">United Arab Emirates</h1>
+                            <p class="text-gray-200 font-semibold text-sm sm:text-base mt-2 max-w-lg">The hub of global innovation. Find thousands of jobs, golden visa opportunities, and real estate in Dubai & Abu Dhabi.</p>
+                            <button onclick="window.openCountryHub('ae', 'United Arab Emirates')" class="mt-4 bg-white text-emerald-900 font-extrabold px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 transition-transform flex items-center gap-2">Explore UAE <span class="text-lg">🇦🇪</span></button>
+                        </div>
+                    </div>
+
+                    <!-- Saudi Arabia Banner -->
+                    <div class="snap-center shrink-0 w-full h-full relative">
+                        <img src="https://images.unsplash.com/photo-1581017621182-124b819f7278?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover opacity-70">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                        <div class="absolute bottom-16 sm:bottom-20 left-6 sm:left-12 text-white">
+                            <span class="bg-green-500/80 backdrop-blur-sm text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-widest mb-2 inline-block">Middle East</span>
+                            <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight">Saudi Arabia</h1>
+                            <p class="text-gray-200 font-semibold text-sm sm:text-base mt-2 max-w-lg">Vision 2030 is here. Explore mega-projects like NEOM, massive recruitment drives, and new business visas.</p>
+                            <button onclick="window.openCountryHub('sa', 'Saudi Arabia')" class="mt-4 bg-white text-green-900 font-extrabold px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 transition-transform flex items-center gap-2">Explore KSA <span class="text-lg">🇸🇦</span></button>
+                        </div>
+                    </div>
+
+                    <!-- Germany Banner -->
+                    <div class="snap-center shrink-0 w-full h-full relative">
+                        <img src="https://images.unsplash.com/photo-1599946347371-68eb71b16afc?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover opacity-70">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                        <div class="absolute bottom-16 sm:bottom-20 left-6 sm:left-12 text-white">
+                            <span class="bg-blue-500/80 backdrop-blur-sm text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-widest mb-2 inline-block">Europe</span>
+                            <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight">Germany</h1>
+                            <p class="text-gray-200 font-semibold text-sm sm:text-base mt-2 max-w-lg">Your gateway to Europe. Discover Ausbildung programs, Blue Card jobs, and the new Opportunity Card (Chancenkarte).</p>
+                            <button onclick="window.openCountryHub('de', 'Germany')" class="mt-4 bg-white text-blue-900 font-extrabold px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 transition-transform flex items-center gap-2">Explore Germany <span class="text-lg">🇩🇪</span></button>
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="relative z-10 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
-                    <div class="max-w-xl">
-                        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full mb-4">
-                            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-50">Global Mobility OS</span>
-                        </div>
-                        <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-4">Your Journey to the Gulf Starts Here.</h1>
-                        <p class="text-emerald-100/90 font-medium text-sm sm:text-base leading-relaxed mb-6">
-                            Find the right opportunity, prepare your application, manage your visa and build your life abroad — all in one unified platform.
-                        </p>
-                        <div class="flex flex-wrap gap-2 text-xs font-bold text-emerald-100 mb-6 uppercase tracking-wider">
-                            <span>Jobs</span> <span class="opacity-50">•</span>
-                            <span>Careers</span> <span class="opacity-50">•</span>
-                            <span>Visa</span> <span class="opacity-50">•</span>
-                            <span>Education</span> <span class="opacity-50">•</span>
-                            <span>Travel</span> <span class="opacity-50">•</span>
-                            <span>Housing</span>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-3 justify-center sm:justify-start">
-                            <button onclick="window.navigateToModule('Jobs')" class="bg-white text-emerald-800 font-extrabold px-6 py-3 rounded-xl shadow-lg hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                                <img src="https://img.icons8.com/3d-fluency/96/briefcase.png" class="w-5 h-5"> Find Jobs
-                            </button>
-                            <button onclick="window.navigateToModule('My Journey')" class="bg-emerald-800/50 backdrop-blur-md border border-emerald-400/30 text-white font-extrabold px-6 py-3 rounded-xl hover:bg-emerald-800/70 transition-colors flex items-center justify-center gap-2">
-                                <img src="https://img.icons8.com/3d-fluency/96/globe.png" class="w-5 h-5"> Explore Destinations
-                            </button>
-                        </div>
+                <!-- Slider Controls -->
+                <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
+                    <button onclick="document.getElementById('destination-hero-slider').scrollBy({left: -400, behavior: 'smooth'})" class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center hover:bg-white/40 text-white transition-colors">&larr;</button>
+                    <button onclick="document.getElementById('destination-hero-slider').scrollBy({left: 400, behavior: 'smooth'})" class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center hover:bg-white/40 text-white transition-colors">&rarr;</button>
+                </div>
+            </div>
+
+            <!-- Beautiful Search & Filter Box -->
+            <div class="w-[92%] sm:w-[85%] bg-white/95 backdrop-blur-xl border border-emerald-200/60 rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 -mt-12 sm:-mt-16 relative z-20 mb-10 mx-auto">
+                <h3 class="font-black text-gray-900 text-lg mb-3 flex items-center gap-2">
+                    <img src="https://img.icons8.com/3d-fluency/96/map-marker.png" class="w-6 h-6"> Find Your Path
+                </h3>
+                
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <select class="bg-gray-50 border border-gray-200 rounded-xl p-3 outline-none focus:border-emerald-500 text-sm font-bold text-gray-700 sm:w-1/3">
+                        <option value="all">🌍 All Continents</option>
+                        <option value="me">🕌 Middle East</option>
+                        <option value="eu">🏰 Europe</option>
+                        <option value="as">🏯 Asia</option>
+                        <option value="am">🗽 Americas</option>
+                        <option value="af">🐘 Africa</option>
+                    </select>
+                    <div class="relative flex-1">
+                        <img src="https://img.icons8.com/3d-fluency/96/search.png" class="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 opacity-60">
+                        <input type="text" placeholder="Search countries, jobs, universities..." class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-11 pr-4 py-3 outline-none focus:border-emerald-500 text-sm font-semibold text-gray-800">
                     </div>
-                    <div class="hidden sm:block shrink-0 relative">
-                        <img src="https://img.icons8.com/3d-fluency/96/globe.png" class="w-40 h-40 drop-shadow-2xl animate-[spin_30s_linear_infinite]">
-                        <img src="https://img.icons8.com/3d-fluency/96/airplane-take-off.png" class="w-16 h-16 absolute -top-4 -right-4 drop-shadow-lg transform rotate-12">
-                        <img src="https://img.icons8.com/3d-fluency/96/briefcase.png" class="w-12 h-12 absolute -bottom-4 -left-4 drop-shadow-lg transform -rotate-12">
-                    </div>
+                    <button class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-black px-6 py-3 rounded-xl shadow-md hover:scale-[1.02] transition-transform">Explore</button>
+                </div>
+
+                <div class="flex overflow-x-auto scrollbar-hide gap-2 mt-4 pt-4 border-t border-gray-100">
+                    <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center mr-2">Quick Filters:</span>
+                    <button class="shrink-0 bg-emerald-50 border border-emerald-100 text-emerald-800 text-[11px] font-extrabold px-3 py-1.5 rounded-lg hover:bg-emerald-100 transition-colors">💼 Jobs & Careers</button>
+                    <button class="shrink-0 bg-blue-50 border border-blue-100 text-blue-800 text-[11px] font-extrabold px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors">🎓 Education & Univs</button>
+                    <button class="shrink-0 bg-amber-50 border border-amber-100 text-amber-800 text-[11px] font-extrabold px-3 py-1.5 rounded-lg hover:bg-amber-100 transition-colors">🛂 Visas & Immig.</button>
+                    <button class="shrink-0 bg-purple-50 border border-purple-100 text-purple-800 text-[11px] font-extrabold px-3 py-1.5 rounded-lg hover:bg-purple-100 transition-colors">🏠 Housing & Reloc.</button>
                 </div>
             </div>
 
@@ -481,10 +527,9 @@
                 <div class="mb-10">
                     <div class="flex justify-between items-end mb-4">
                         <div>
-                            <h3 class="text-2xl font-black text-gray-900 tracking-tight">Choose Your Destination</h3>
-                            <p class="text-sm font-bold text-gray-500 mt-1">Gulf First, Europe Next. Global Expansion.</p>
+                            <h3 class="text-2xl font-black text-gray-900 tracking-tight">Top Destinations</h3>
+                            <p class="text-sm font-bold text-gray-500 mt-1">Select a country to view exclusive opportunities.</p>
                         </div>
-                        <button onclick="window.navigateToModule('My Journey')" class="text-xs font-extrabold text-emerald-600 hover:text-emerald-800 transition-colors uppercase tracking-wider hidden sm:block">Explore Europe →</button>
                     </div>
                     
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3">
@@ -496,13 +541,30 @@
                             {n: 'Kuwait', f: 'kw', c: 'from-blue-50 to-white border-blue-200 text-blue-900'},
                             {n: 'Bahrain', f: 'bh', c: 'from-rose-50 to-white border-rose-200 text-rose-900'}
                         ].map(d => `
-                            <div class="bg-gradient-to-br ${d.c} border rounded-xl p-3 shadow-sm hover:shadow-md hover:scale-105 transition-all cursor-pointer flex flex-col items-center justify-center text-center group">
+                            <div onclick="window.openCountryHub('${d.f}', '${d.n}')" class="bg-gradient-to-br ${d.c} border rounded-xl p-3 shadow-sm hover:shadow-md hover:scale-105 transition-all cursor-pointer flex flex-col items-center justify-center text-center group">
                                 <img src="https://flagcdn.com/w80/${d.f}.png" class="w-10 h-10 object-cover rounded-full shadow-sm border border-black/10 mb-2 group-hover:scale-110 transition-transform">
                                 <span class="text-[10px] sm:text-xs font-extrabold leading-tight">${d.n}</span>
                             </div>
                         `).join('')}
                     </div>
-                    <button onclick="window.navigateToModule('My Journey')" class="w-full mt-3 sm:hidden text-xs font-extrabold text-emerald-600 bg-emerald-50 py-2.5 rounded-lg border border-emerald-100 uppercase tracking-wider">Explore Europe & Global →</button>
+                </div>
+
+                <!-- Europe Expansion -->
+                <div class="mb-10">
+                    <h3 class="text-xl font-black text-gray-900 tracking-tight mb-4">Europe & Global Expansion</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                        ${[
+                            {n: 'Germany', f: 'de', c: 'border-gray-200'},
+                            {n: 'United Kingdom', f: 'gb', c: 'border-gray-200'},
+                            {n: 'Canada', f: 'ca', c: 'border-gray-200'},
+                            {n: 'Australia', f: 'au', c: 'border-gray-200'}
+                        ].map(d => `
+                            <div onclick="window.openCountryHub('${d.f}', '${d.n}')" class="bg-white border ${d.c} rounded-xl p-3 shadow-sm hover:shadow-md hover:border-emerald-300 hover:scale-105 transition-all cursor-pointer flex items-center gap-3 group">
+                                <img src="https://flagcdn.com/w80/${d.f}.png" class="w-8 h-8 object-cover rounded-full shadow-sm border border-black/10 group-hover:scale-110 transition-transform shrink-0">
+                                <span class="text-xs font-extrabold text-gray-800 leading-tight">${d.n}</span>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
 
                 <!-- Core Intentions -->
@@ -623,12 +685,17 @@
                 <button onclick="window.switchView('ecosystem')" class="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-full border border-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-600"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </button>
-                <span class="font-extrabold text-gray-800 text-sm uppercase tracking-wide">Back to Ecosystem</span>
+                <span class="font-extrabold text-gray-800 text-sm uppercase tracking-wide">Back to Destinations</span>
             </div>
             
             <div id="module-viewer-content" class="w-full max-w-3xl flex flex-col space-y-6 p-4 sm:p-0">
                 <!-- Injected dynamically by JS based on selected Mega Menu item -->
             </div>
+        </div>
+
+        <!-- NEW: DYNAMIC COUNTRY HUB VIEW -->
+        <div id="view-country-hub" class="view-section w-full max-w-4xl p-0 flex-col items-center bg-gray-50 min-h-screen sm:border-x border-emerald-100 pb-20 hidden">
+            <!-- Injected by JS -->
         </div>
 
         <!-- 3. REELS VIEW -->
@@ -1208,25 +1275,73 @@
         async function initializeAppWrapper() {
             // Listen to auth state changes
             window.supabase.auth.onAuthStateChange((event, session) => {
-                if (session) {
-                    window.AppState.userId = session.user.id;
-                    window.AppState.currentUser.username = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'user';
-                }
+                updateUIForAuthState(session);
             });
 
             // Get initial session
             const { data: { session } } = await window.supabase.auth.getSession();
-            if (session) {
-                window.AppState.userId = session.user.id;
-                window.AppState.currentUser.username = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'user';
-            } else {
-                window.AppState.userId = 'local-user';
-            }
+            updateUIForAuthState(session);
 
             setupPostsListener();
             renderStaticViews();
             lucide.createIcons();
         }
+
+        function updateUIForAuthState(session) {
+            const desktopBtn = document.getElementById('desktop-auth-btn');
+            const desktopIcon = document.getElementById('desktop-auth-icon');
+            const desktopText = document.getElementById('desktop-auth-text');
+            const mobileBtn = document.getElementById('mobile-auth-btn');
+
+            if (session) {
+                window.AppState.userId = session.user.id;
+                window.AppState.currentUser.username = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'user';
+                
+                // Update UI to show Log Out button
+                if (desktopBtn) {
+                    desktopBtn.onclick = window.logout;
+                    desktopBtn.classList.replace('bg-emerald-50', 'bg-red-50');
+                    desktopBtn.classList.replace('text-emerald-800', 'text-red-800');
+                    desktopBtn.classList.replace('border-emerald-200', 'border-red-200');
+                    desktopBtn.classList.replace('hover:bg-emerald-100', 'hover:bg-red-100');
+                    if (desktopIcon) desktopIcon.src = 'https://img.icons8.com/3d-fluency/96/exit.png';
+                    if (desktopText) desktopText.innerText = 'Log Out';
+                }
+                if (mobileBtn) {
+                    mobileBtn.onclick = window.logout;
+                    mobileBtn.innerText = 'Log Out';
+                    mobileBtn.className = "bg-red-100 text-red-800 border border-red-200 text-[10px] font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full shadow-sm hover:scale-105 transition-transform mr-1";
+                }
+            } else {
+                window.AppState.userId = 'local-user';
+                
+                // Update UI to show Log In button
+                if (desktopBtn) {
+                    desktopBtn.onclick = () => window.openAuthModal('login');
+                    desktopBtn.classList.replace('bg-red-50', 'bg-emerald-50');
+                    desktopBtn.classList.replace('text-red-800', 'text-emerald-800');
+                    desktopBtn.classList.replace('border-red-200', 'border-emerald-200');
+                    desktopBtn.classList.replace('hover:bg-red-100', 'hover:bg-emerald-100');
+                    if (desktopIcon) desktopIcon.src = 'https://img.icons8.com/3d-fluency/96/key.png';
+                    if (desktopText) desktopText.innerText = 'Sign In';
+                }
+                if (mobileBtn) {
+                    mobileBtn.onclick = () => window.openAuthModal('signup');
+                    mobileBtn.innerText = 'Join';
+                    mobileBtn.className = "bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-[10px] font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full shadow-sm hover:scale-105 transition-transform mr-1";
+                }
+            }
+        }
+
+        window.logout = async function() {
+            const { error } = await window.supabase.auth.signOut();
+            if (error) {
+                console.error("Logout Error:", error.message);
+                alert("Failed to log out.");
+            } else {
+                console.log("Logged out successfully");
+            }
+        };
 
         function useLocalMode() {
             window.AppState.userId = window.AppState.userId || 'local-user';
@@ -1621,14 +1736,29 @@
             });
             const target = document.getElementById('view-' + viewId);
             if(target) target.classList.add('active');
+            
+            // Un-hide if it's the country hub (it has a hidden class by default)
+            if(viewId === 'country-hub' && target) {
+                target.classList.remove('hidden');
+            } else if (document.getElementById('view-country-hub')) {
+                document.getElementById('view-country-hub').classList.add('hidden');
+            }
 
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 const text = btn.querySelector('span');
                 if (btn.getAttribute('data-target') === viewId) {
-                    if (text) text.classList.replace('font-normal', 'font-bold');
+                    if (text) {
+                        text.classList.replace('font-normal', 'font-bold');
+                        text.classList.replace('text-gray-500', 'text-emerald-800');
+                        text.classList.replace('xl:text-gray-800', 'xl:text-gray-900');
+                    }
                     btn.classList.add('bg-[#f0fdf4]');
                 } else {
-                    if (text) text.classList.replace('font-bold', 'font-normal');
+                    if (text) {
+                        text.classList.replace('font-bold', 'font-normal');
+                        text.classList.replace('text-emerald-800', 'text-gray-500');
+                        text.classList.replace('xl:text-gray-900', 'xl:text-gray-800');
+                    }
                     btn.classList.remove('bg-[#f0fdf4]');
                 }
             });
@@ -1639,6 +1769,104 @@
             window.closeMegaMenu();
             window.switchView('module-viewer');
             window.renderModuleViewer(moduleName);
+            window.scrollTo(0, 0);
+        };
+
+        // === NEW COUNTRY HUB LOGIC ===
+        window.openCountryHub = function(countryCode, countryName) {
+            window.switchView('country-hub');
+            
+            const flagUrl = `https://flagcdn.com/w160/${countryCode.toLowerCase()}.png`;
+            
+            // Get background image based on country (Mock logic)
+            let bgImage = 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c'; // Default UAE
+            if(countryCode === 'sa') bgImage = 'https://images.unsplash.com/photo-1581017621182-124b819f7278';
+            if(countryCode === 'de') bgImage = 'https://images.unsplash.com/photo-1599946347371-68eb71b16afc';
+            if(countryCode === 'qa') bgImage = 'https://images.unsplash.com/photo-1539267150772-51c35626eb39';
+            
+            const html = `
+                <!-- Mobile Back Button -->
+                <div class="w-full bg-white p-3 border-b border-emerald-100 sm:hidden sticky top-14 z-40 shadow-sm flex items-center gap-3">
+                    <button onclick="window.switchView('ecosystem')" class="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-full border border-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-600"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <span class="font-extrabold text-gray-800 text-sm uppercase tracking-wide">All Destinations</span>
+                </div>
+
+                <!-- Country Hero Header -->
+                <div class="w-full relative bg-gray-900 shadow-sm overflow-hidden h-[250px] sm:h-[350px]">
+                    <img src="${bgImage}?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent"></div>
+                    <div class="absolute bottom-6 sm:bottom-10 left-4 sm:left-10 right-4 flex items-end gap-4 sm:gap-6">
+                        <img src="${flagUrl}" class="w-16 h-16 sm:w-24 sm:h-24 object-cover rounded-full border-4 border-white shadow-xl bg-white">
+                        <div class="text-white flex-1">
+                            <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">${countryName}</h1>
+                            <p class="text-gray-200 font-bold text-xs sm:text-sm mt-1">Explore all opportunities, requirements, and guides.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Country Hub Filters -->
+                <div class="w-full bg-white border-b border-gray-200 sticky top-14 sm:top-0 z-30 shadow-sm">
+                    <div class="flex overflow-x-auto scrollbar-hide px-2 sm:px-8">
+                        <button class="shrink-0 py-4 px-4 font-black text-sm border-b-4 border-emerald-600 text-emerald-900">Overview</button>
+                        <button class="shrink-0 py-4 px-4 font-bold text-sm border-b-4 border-transparent text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-colors">Jobs & Careers</button>
+                        <button class="shrink-0 py-4 px-4 font-bold text-sm border-b-4 border-transparent text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-colors">Education</button>
+                        <button class="shrink-0 py-4 px-4 font-bold text-sm border-b-4 border-transparent text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-colors">Visas & Immig.</button>
+                        <button class="shrink-0 py-4 px-4 font-bold text-sm border-b-4 border-transparent text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-colors">Housing</button>
+                        <button class="shrink-0 py-4 px-4 font-bold text-sm border-b-4 border-transparent text-gray-500 hover:text-gray-800 hover:bg-gray-50 transition-colors">Services</button>
+                    </div>
+                </div>
+
+                <!-- Country Content Area -->
+                <div class="w-full max-w-3xl p-4 sm:p-6 mx-auto flex flex-col gap-6">
+                    
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                        <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex items-center gap-3">
+                            <img src="https://img.icons8.com/3d-fluency/96/briefcase.png" class="w-10 h-10">
+                            <div><div class="text-xl font-black text-gray-900">12.4k</div><div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Active Jobs</div></div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm flex items-center gap-3">
+                            <img src="https://img.icons8.com/3d-fluency/96/passport.png" class="w-10 h-10">
+                            <div><div class="text-xl font-black text-gray-900">8</div><div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Visa Pathways</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Filter / Search specific to Country -->
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="font-black text-gray-900 text-sm mb-3">Search inside ${countryName}</h3>
+                        <div class="flex gap-2">
+                            <input type="text" placeholder="e.g. Civil Engineer in Dubai" class="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:border-emerald-500 text-sm font-semibold text-gray-800">
+                            <button class="bg-emerald-600 text-white font-black px-5 py-2.5 rounded-xl shadow-md hover:bg-emerald-700 transition-colors">Search</button>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder Feed for Country specific posts -->
+                    <h3 class="font-black text-gray-900 text-lg mt-2 border-b border-gray-200 pb-2">Top Opportunities in ${countryName}</h3>
+                    
+                    <!-- Mock Job Card -->
+                    <div class="bg-white border border-emerald-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start">
+                            <div class="flex gap-3">
+                                <img src="https://api.dicebear.com/9.x/bottts/svg?seed=${countryName}Corp" class="w-12 h-12 rounded-xl bg-gray-100 border border-gray-200">
+                                <div>
+                                    <h4 class="font-black text-gray-900 text-base leading-tight">Senior Project Manager</h4>
+                                    <p class="text-xs font-bold text-gray-500 mt-0.5">Global Constructors Ltd. • ${countryName}</p>
+                                    <span class="inline-block mt-2 bg-emerald-50 text-emerald-700 text-[10px] font-extrabold px-2 py-1 rounded border border-emerald-100 uppercase tracking-wider">🟣 Hiring Now</span>
+                                </div>
+                            </div>
+                            <button class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center hover:bg-gray-100 text-gray-400 hover:text-emerald-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button>
+                        </div>
+                        <div class="mt-4 flex gap-2">
+                            <button class="flex-1 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-xs font-black py-2.5 rounded-xl shadow-sm hover:scale-[1.02] transition-transform">Quick Apply</button>
+                            <button class="flex-1 bg-white border border-emerald-200 text-emerald-800 text-xs font-black py-2.5 rounded-xl shadow-sm hover:bg-emerald-50 transition-colors">View Details</button>
+                        </div>
+                    </div>
+
+                </div>
+            `;
+            
+            document.getElementById('view-country-hub').innerHTML = html;
             window.scrollTo(0, 0);
         };
 
@@ -2107,9 +2335,9 @@
                 menuHtml += `<div class="h-px bg-gray-200 my-1.5 mx-2"></div>`;
                 
                 // Safety & Moderation Actions (Universal)
-                menuHtml += btn('hide', 'Not Interested', `console.log('Hide'); window.closePostMenu();`);
+                menuHtml += btn('dislike', 'Not Interested', `console.log('Hide'); window.closePostMenu();`);
                 menuHtml += btn('warning-shield', 'Report Content', `window.closePostMenu(); window.openReportModal(${postId});`, 'group-hover:text-amber-700 hover:bg-amber-50 hover:border-amber-100');
-                menuHtml += btn('police-car-light', 'Report Scam / Fraud', `window.closePostMenu(); window.openReportModal(${postId}, true);`, 'group-hover:text-red-700 hover:bg-red-50 hover:border-red-100');
+                menuHtml += btn('error', 'Report Scam / Fraud', `window.closePostMenu(); window.openReportModal(${postId}, true);`, 'group-hover:text-red-700 hover:bg-red-50 hover:border-red-100');
                 menuHtml += btn('denied', `Block @${post.username}`, `window.closePostMenu(); window.openBlockModal('${post.username}');`, 'group-hover:text-gray-950 hover:bg-gray-100 hover:border-gray-300');
             }
 
