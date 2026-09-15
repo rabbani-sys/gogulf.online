@@ -1275,12 +1275,18 @@
         async function initializeAppWrapper() {
             // Listen to auth state changes
             window.supabase.auth.onAuthStateChange((event, session) => {
+                console.log("Auth Event:", event);
                 updateUIForAuthState(session);
             });
 
-            // Get initial session
-            const { data: { session } } = await window.supabase.auth.getSession();
-            updateUIForAuthState(session);
+            // Get initial session securely via getUser (Better than getSession for security)
+            const { data: { user } } = await window.supabase.auth.getUser();
+            if (user) {
+                // If user exists, reconstruct a session-like object for our UI updater
+                updateUIForAuthState({ user: user });
+            } else {
+                updateUIForAuthState(null);
+            }
 
             setupPostsListener();
             renderStaticViews();
@@ -1293,9 +1299,16 @@
             const desktopText = document.getElementById('desktop-auth-text');
             const mobileBtn = document.getElementById('mobile-auth-btn');
 
-            if (session) {
+            if (session && session.user) {
                 window.AppState.userId = session.user.id;
-                window.AppState.currentUser.username = session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'user';
+                
+                // Extract user metadata (Google sends full_name and avatar_url)
+                const meta = session.user.user_metadata || {};
+                const name = meta.full_name || session.user.email?.split('@')[0] || 'user';
+                const avatar = meta.avatar_url || `https://api.dicebear.com/9.x/micah/svg?seed=${name}&backgroundColor=f0fdf4`;
+                
+                window.AppState.currentUser.username = name;
+                window.AppState.currentUser.avatar = avatar;
                 
                 // Update UI to show Log Out button
                 if (desktopBtn) {
@@ -1312,8 +1325,13 @@
                     mobileBtn.innerText = 'Log Out';
                     mobileBtn.className = "bg-red-100 text-red-800 border border-red-200 text-[10px] font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full shadow-sm hover:scale-105 transition-transform mr-1";
                 }
+
+                // Force re-render of static views to update avatars/names in the UI
+                renderStaticViews();
+
             } else {
                 window.AppState.userId = 'local-user';
+                window.AppState.currentUser = { username: 'guest_user', avatar: 'https://api.dicebear.com/9.x/micah/svg?seed=Guest&backgroundColor=f0fdf4', role: 'candidate' };
                 
                 // Update UI to show Log In button
                 if (desktopBtn) {
@@ -1330,6 +1348,8 @@
                     mobileBtn.innerText = 'Join';
                     mobileBtn.className = "bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-[10px] font-extrabold uppercase tracking-wide px-3 py-1.5 rounded-full shadow-sm hover:scale-105 transition-transform mr-1";
                 }
+                
+                renderStaticViews();
             }
         }
 
@@ -1340,6 +1360,7 @@
                 alert("Failed to log out.");
             } else {
                 console.log("Logged out successfully");
+                // The onAuthStateChange listener will automatically trigger and fix the UI
             }
         };
 
@@ -1476,6 +1497,36 @@
         };
 
         function renderStaticViews() {
+            // Use current user from AppState
+            const currentUser = window.AppState.currentUser;
+            
+            // Update the Right Sidebar Mini Profile (Desktop)
+            const rightSidebarProfile = document.querySelector('.hidden.lg\\:block .flex.items-center.justify-between.mb-6');
+            if (rightSidebarProfile) {
+                rightSidebarProfile.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <img src="${currentUser.avatar}" loading="lazy" class="w-12 h-12 rounded-full border border-emerald-200 shadow-sm bg-white object-cover" />
+                        <div>
+                            <p class="text-sm font-bold group-hover:text-emerald-700 transition-colors">${currentUser.username}</p>
+                            <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-0.5">${currentUser.role}</p>
+                        </div>
+                    </div>
+                    <button class="text-xs font-bold text-emerald-600 hover:text-emerald-800 transition-colors">Switch</button>
+                `;
+            }
+
+            // Update the Left Sidebar Profile Icon (Desktop)
+            const profileNavBtn = document.querySelector('button[data-target="profile"] img');
+            if(profileNavBtn) {
+                profileNavBtn.src = currentUser.avatar;
+            }
+
+            // Update Mobile Bottom Nav Profile Icon
+            const mobileProfileBtn = document.querySelector('.fixed.bottom-0 button[data-target="profile"] img');
+            if(mobileProfileBtn) {
+                mobileProfileBtn.src = currentUser.avatar;
+            }
+
             // Stories
             document.getElementById('stories-container').innerHTML = MOCK_DATA.stories.map(s => `
                 <div class="flex flex-col items-center flex-shrink-0 cursor-pointer w-[70px] hover:scale-105 transition-transform" onclick="window.viewStory(${s.id})">
@@ -1536,7 +1587,8 @@
             `;
             
             lucide.createIcons();
-            window.renderProfile('candidate');
+            // Pass the current user's role to the profile renderer
+            window.renderProfile(window.AppState.currentUser.role || 'candidate');
         }
 
         // === INTERACTION LOGIC CATEGORY ===
@@ -1544,6 +1596,12 @@
         window.renderProfile = function(roleKey) {
             const roleData = PROFILE_ROLES[roleKey];
             if (!roleData) return;
+            
+            // Override with actual user data if logged in
+            const currentUser = window.AppState.currentUser;
+            const displayUsername = currentUser.username !== 'guest_user' ? currentUser.username : roleData.username;
+            const displayName = currentUser.username !== 'guest_user' ? currentUser.username : roleData.name;
+            const displayAvatar = currentUser.username !== 'guest_user' ? currentUser.avatar : `https://api.dicebear.com/9.x/micah/svg?seed=${roleData.username}&backgroundColor=ecefe1`;
 
             // Build Stats
             const statsHtml = roleData.stats.map(s => `
@@ -1576,7 +1634,7 @@
 
                     <!-- Profile Photo -->
                     <div class="relative z-10 w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-tr from-emerald-300 to-emerald-600 p-[3px] mb-4 sm:mb-0 shrink-0 shadow-xl mt-4 sm:mt-10 group cursor-pointer">
-                        <img src="https://api.dicebear.com/9.x/micah/svg?seed=${roleData.username}&backgroundColor=ecefe1" loading="lazy" class="w-full h-full rounded-full border-4 border-white object-cover bg-[#ecefe1] group-hover:opacity-90 transition-opacity" />
+                        <img src="${displayAvatar}" loading="lazy" class="w-full h-full rounded-full border-4 border-white object-cover bg-[#ecefe1] group-hover:opacity-90 transition-opacity" />
                     </div>
 
                     <!-- Profile Information -->
@@ -1584,10 +1642,10 @@
                         <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between w-full">
                             <div>
                                 <h2 class="text-3xl font-black flex items-center justify-center sm:justify-start gap-1 text-gray-900 tracking-tight">
-                                    ${roleData.name}
+                                    ${displayName}
                                     ${roleData.verified ? '<img src="https://img.icons8.com/3d-fluency/96/verified-badge.png" loading="lazy" class="w-6 h-6 drop-shadow-sm ml-1" title="Verified" />' : ''}
                                 </h2>
-                                <p class="text-emerald-700 font-extrabold text-sm mb-2 mt-1">@${roleData.username}</p>
+                                <p class="text-emerald-700 font-extrabold text-sm mb-2 mt-1">@${displayUsername}</p>
                                 
                                 ${roleData.status ? `
                                 <div class="mt-2 mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl ${roleData.status.bg} ${roleData.status.border} border shadow-sm">
