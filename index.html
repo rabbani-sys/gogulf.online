@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>goGULF.online by Rabbani™ | Premium GCC Edition</title>
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        arabic: ['Amiri', 'serif'],
+                    },
+                    colors: {
+                        desert: {
+                            50: '#FCFBF9', 
+                            100: '#F5F3EC', 
+                            200: '#EAE5D8',
+                            300: '#DFD5C1',
+                        },
+                        olive: {
+                            50: '#F4F6F3',
+                            100: '#E4EAE2', 
+                            300: '#AEC0A8', 
+                            500: '#7B9671', 
+                            700: '#4D6145', 
+                            900: '#2A3525', 
+                        },
+                        gold: {
+                            400: '#D4AF37', 
+                            500: '#C59B27', 
+                            600: '#AA8222', 
+                        },
+                        teal: {
+                            900: '#133C3F', 
+                        }
+                    },
+                    boxShadow: {
+                        'olive-glow': '0 20px 40px -10px rgba(77, 97, 69, 0.25)',
+                        'olive-glow-lg': '0 30px 60px -15px rgba(77, 97, 69, 0.35)',
+                        'soft-float': '0 10px 30px -5px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 1.5rem); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        html, body { 
+            background-color: #f0f0f0; 
+            margin: 0; 
+            padding: 0; 
+            scroll-behavior: smooth;
+        }
+        #root { display: flex; justify-content: center; }
+        
+        .app-container {
+            max-width: 28rem;
+            width: 100%;
+            margin: 0 auto;
+            background-color: #FCFBF9;
+            height: 100vh;
+            height: 100dvh;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            color: #2A3525;
+        }
+
+        .scrollable-container {
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInSlideRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-in-up { animation: fadeInSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-in-right { animation: fadeInSlideRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .interactive-card {
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 30;
+            background: rgba(252, 251, 249, 0.95);
+            border: 1px solid #DFD5C1;
+            box-shadow: 0 4px 15px rgba(42, 53, 37, 0.15);
+            border-radius: 50%;
+            padding: 6px;
+            color: #4D6145;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        @media (hover: hover) and (pointer: fine) {
+            .slider-arrow { display: flex; align-items: center; justify-content: center; }
+            .group:hover .slider-arrow { opacity: 1; pointer-events: auto; cursor: pointer; }
+            .slider-arrow:hover { background: #F5F3EC; color: #C59B27; transform: translateY(-50%) scale(1.1); }
+        }
+
+        .toggle-checkbox:checked { right: 0; border-color: #7B9671; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #7B9671; }
+        .toggle-checkbox { right: 0; z-index: 1; border-color: #DFD5C1; transition: all 0.3s; }
+        .toggle-label { background-color: #DFD5C1; transition: all 0.3s; }
+        
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.expanded { max-height: 500px; opacity: 1; }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="app-container selection:bg-olive-500 selection:text-white relative">
+            
+            <div id="splash-screen" class="absolute inset-0 z-[100] bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/4"></div>
+                <div class="absolute bottom-0 left-0 w-80 h-80 bg-olive-500/10 rounded-full blur-[50px] translate-y-1/3 -translate-x-1/3"></div>
+
+                <div class="relative z-10 flex flex-col items-center text-center px-6 w-full">
+                    <div class="flex items-center justify-center gap-4 mb-8">
+                        <div class="flex items-center px-4 py-3 bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20">
+                            <div class="mr-2.5 px-2 py-1 rounded bg-white text-olive-900 font-sans font-black text-sm tracking-tight flex items-center justify-center">go</div>
+                            <div class="flex flex-col items-start justify-center">
+                                <span class="font-sans font-black text-2xl tracking-tighter text-white leading-none">GULF</span>
+                                <span class="text-[7px] font-black tracking-[0.2em] text-olive-200 uppercase mt-1.5 pl-0.5 opacity-90 leading-none">BY RABBANI™</span>
+                            </div>
+                        </div>
+                        <div class="w-[1px] h-12 bg-white/20 rounded-full"></div>
+                        <div class="flex flex-col items-end justify-center">
+                            <span class="font-arabic text-[2.5rem] text-gold-400 leading-none drop-shadow-md" dir="rtl" style="line-height: 0.75;">الخليج</span>
+                            <span class="text-[12px] font-bold tracking-widest text-white/70 font-sans mt-2.5 pr-1 leading-none">.online</span>
+                        </div>
+                    </div>
+                    <h2 class="text-gold-400 font-black tracking-widest text-sm uppercase mb-3 drop-shadow-sm">Global Mobility Marketplace</h2>
+                    <p class="text-olive-100 text-[12px] font-medium leading-relaxed max-w-[280px] mb-8 opacity-90">Jobs • Careers • Education • Training • Mobility • Travel • Settlement</p>
+                    <p class="text-white text-base font-bold mb-16 tracking-wide shadow-sm">For the World. From Anywhere.</p>
+                    <div class="flex flex-col items-center mt-4">
+                        <div class="w-10 h-10 border-[3px] border-olive-700 border-t-gold-500 rounded-full animate-spin mb-4 shadow-lg"></div>
+                        <span class="text-[10px] font-bold text-olive-300 uppercase tracking-widest animate-pulse">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <header id="app-header" class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-olive-100 px-5 py-3 flex justify-between items-center shadow-sm hidden">
+                <button onclick="toggleMenu()" class="p-2.5 bg-desert-100 hover:bg-olive-100 rounded-2xl transition-colors border border-transparent hover:border-olive-300">
+                    <i data-lucide="align-left" class="w-6 h-6 text-olive-900"></i>
+                </button>
+                <div class="flex items-center justify-center cursor-pointer group" onclick="navigateTo('home')">
+                    <div class="flex items-center group-hover:scale-105 transition-transform duration-300 gap-3">
+                        <div class="flex items-center px-3 py-2 bg-white rounded-xl shadow-sm border border-olive-100">
+                            <div class="mr-2 px-1.5 py-0.5 rounded bg-gradient-to-br from-olive-700 to-olive-900 text-white font-sans font-black text-[12px] tracking-tight flex items-center justify-center">go</div>
+                            <div class="flex flex-col items-start justify-center">
+                                <span class="font-sans font-black text-[1.35rem] tracking-tighter text-olive-900 leading-none">GULF</span>
+                                <span class="text-[5.5px] font-black tracking-[0.2em] text-olive-500 uppercase mt-1 pl-0.5 opacity-90 leading-none">BY RABBANI™</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end justify-center">
+                            <span class="font-arabic text-[1.7rem] text-gold-500 leading-none drop-shadow-sm" dir="rtl" style="line-height: 0.75;">الخليج</span>
+                            <span class="text-[9px] font-bold tracking-widest text-olive-600 font-sans mt-1.5 pr-1 leading-none">.online</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button class="p-2.5 bg-desert-100 hover:bg-olive-100 rounded-2xl transition-colors border border-transparent hover:border-olive-300" onclick="navigateTo('profile')">
+                        <i data-lucide="user" class="w-6 h-6 text-olive-900"></i>
+                    </button>
+                    <button class="p-2.5 relative bg-desert-100 hover:bg-olive-100 rounded-2xl transition-colors border border-transparent hover:border-olive-300">
+                        <i data-lucide="bell" class="w-6 h-6 text-olive-900"></i>
+                        <span class="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-gold-500 rounded-full border-2 border-desert-100"></span>
+                    </button>
+                </div>
+            </header>
+
+            <div id="main-menu" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-500 ease-in-out">
+                <div id="menu-backdrop" class="absolute inset-0 bg-teal-900/40 backdrop-blur-sm transition-opacity duration-500 opacity-0 pointer-events-none" onclick="toggleMenu(true)"></div>
+                <div class="absolute inset-y-0 left-0 w-80 bg-desert-50 shadow-[20px_0_40px_rgba(42,53,37,0.15)] overflow-y-auto overscroll-y-contain scrollable-container flex flex-col border-r border-olive-100">
+                    <div class="p-8 bg-gradient-to-br from-olive-900 via-olive-700 to-teal-900 text-white flex justify-between items-start rounded-br-[3rem] shadow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 opacity-10"><i data-lucide="compass" class="w-40 h-40 translate-x-1/4 -translate-y-1/4"></i></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-start mb-2 gap-3">
+                                <div class="flex items-center px-3 py-2 bg-white/10 backdrop-blur-md rounded-xl shadow-sm border border-white/20">
+                                    <div class="mr-2 px-1.5 py-0.5 rounded bg-white text-olive-900 font-sans font-black text-[12px] tracking-tight flex items-center justify-center">go</div>
+                                    <div class="flex flex-col items-start justify-center">
+                                        <span class="font-sans font-black text-[1.35rem] tracking-tighter text-white leading-none">GULF</span>
+                                        <span class="text-[5.5px] font-black tracking-[0.2em] text-olive-200 uppercase mt-1 pl-0.5 opacity-90 leading-none">BY RABBANI™</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end justify-center">
+                                    <span class="font-arabic text-[1.7rem] text-gold-400 leading-none drop-shadow-sm" dir="rtl" style="line-height: 0.75;">الخليج</span>
+                                    <span class="text-[9px] font-bold tracking-widest text-white/70 font-sans mt-1.5 pr-1 leading-none">.online</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="toggleMenu(true)" class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors backdrop-blur-md relative z-10">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div class="py-6 flex-1 px-4 space-y-1 pb-24" id="menu-links"></div>
+                </div>
+            </div>
+
+            <main id="app-content" class="flex-1 overflow-y-auto overscroll-y-contain scrollable-container"></main>
+
+            <div id="bottom-nav-wrapper" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-40 group pointer-events-none hidden">
+                <div class="relative w-full h-full pointer-events-auto">
+                    <button onclick="scrollSlider('bottom-nav', -150)" class="slider-arrow left-2 shadow-sm border border-olive-200 bg-white/95 z-50 !w-8 !h-8 flex items-center justify-center !p-0">
+                        <i data-lucide="chevron-left" class="w-5 h-5 text-olive-700"></i>
+                    </button>
+                    <nav class="glass-card border-t border-olive-100 px-2 py-3 flex overflow-x-auto hide-scrollbar scroll-smooth snap-x shadow-[0_-10px_30px_rgba(77,97,69,0.05)] pb-safe rounded-t-[2rem] w-full" id="bottom-nav"></nav>
+                    <button onclick="scrollSlider('bottom-nav', 150)" class="slider-arrow right-2 shadow-sm border border-olive-200 bg-white/95 z-50 !w-8 !h-8 flex items-center justify-center !p-0">
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-olive-700"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'hi'; 
+
+        const DICT = {
+            'Jobs Marketplace': { en: 'Jobs Marketplace', hi: 'Naukri Marketplace' },
+            'Search roles...': { en: 'Search roles...', hi: 'Role search karein...' },
+            'All': { en: 'All', hi: 'Sabhi' },
+            'Remote': { en: 'Remote', hi: 'Ghar se kaam' },
+            'Visa Sponsored': { en: 'Visa Sponsored', hi: 'Visa Sponsored' },
+            'Opportunity Details': { en: 'Opportunity Details', hi: 'Naukri ki details' },
+            'Location': { en: 'Location', hi: 'Jagah' },
+            'Salary': { en: 'Salary', hi: 'Tankhwa' },
+            'Type': { en: 'Type', hi: 'Kaam ka type' },
+            'Experience': { en: 'Experience', hi: 'Tazurba' },
+            'Description & Requirements': { en: 'Description & Requirements', hi: 'Kaam aur Zarooratein' },
+            'Important Notice': { en: 'Important Notice', hi: 'Zaroori Soochna' },
+            'Proceed to Apply': { en: 'Proceed to Apply', hi: 'Apply karne badhein' },
+            'Details': { en: 'Details', hi: 'Details' },
+            'goGULF Oasis': { en: 'goGULF Oasis', hi: 'goGULF Oasis' },
+            'Premium Services & Mobility Tools': { en: 'Premium Services & Mobility Tools', hi: 'Premium Services & Tools' },
+            'Training': { en: 'Training', hi: 'Training' },
+            'Docs': { en: 'Docs', hi: 'Kagzaat' },
+            'Visa': { en: 'Visa', hi: 'Visa' },
+            'Access': { en: 'Access', hi: 'Dekhein' },
+            'Explore the World': { en: 'Explore the World', hi: 'Duniya Ghumein' },
+            'Discover global mobility opportunities across 200+ countries.': { en: 'Discover global mobility opportunities across 200+ countries.', hi: '200+ deshon mein naukri ke mauke dhundhein.' },
+            'Select Region': { en: 'Select Region', hi: 'Region Chunein' },
+            'View Countries': { en: 'View Countries', hi: 'Desh Dekhein' },
+            'Search Everything': { en: 'Search Everything', hi: 'Sab Kuch Khojein' },
+            'Jobs, interviews, courses, services...': { en: 'Jobs, interviews, courses, services...', hi: 'Naukri, interviews, courses, services...' },
+            'Anywhere': { en: 'Anywhere', hi: 'Kahin Bhi' },
+            'Filter': { en: 'Filter', hi: 'Filter' },
+            'Sort': { en: 'Sort', hi: 'Sort' },
+            'results found': { en: 'results found', hi: 'parinam mile' }
+        };
+
+        function t(key) {
+            if (DICT[key] && DICT[key][currentLang]) {
+                return DICT[key][currentLang];
+            }
+            return key; 
+        }
+
+        window.toggleLanguage = function() {
+            currentLang = currentLang === 'en' ? 'hi' : 'en';
+            renderApp(); 
+        }
+
+        function getLangToggleHTML() {
+            return `
+                <div class="flex items-center justify-between bg-white px-4 py-2 rounded-xl shadow-sm border border-olive-100 mb-4 mx-5 relative z-20">
+                    <span class="text-[12px] font-bold text-olive-700">Language / Bhasha</span>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" name="toggle" id="lang-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" ${currentLang === 'en' ? 'checked' : ''} onchange="toggleLanguage()"/>
+                        <label for="lang-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                    <div class="absolute right-[4.5rem] flex gap-5 pointer-events-none text-[10px] font-black tracking-wider text-white">
+                        <span class="${currentLang === 'hi' ? 'opacity-100' : 'opacity-0'} drop-shadow-md">HI</span>
+                        <span class="${currentLang === 'en' ? 'opacity-100' : 'opacity-0'} drop-shadow-md">EN</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        const CATEGORIES = [
+            { id: 'jobs', name: 'Jobs', iconUrl: 'https://img.icons8.com/fluency/96/briefcase.png', bg: 'bg-olive-50', color: 'text-olive-700' },
+            { id: 'interviews', name: 'Interviews', iconUrl: 'https://img.icons8.com/fluency/96/microphone.png', bg: 'bg-desert-100', color: 'text-gold-600' },
+            { id: 'training', name: 'Training', iconUrl: 'https://img.icons8.com/fluency/96/training.png', bg: 'bg-olive-50', color: 'text-olive-500' },
+            { id: 'education', name: 'Education', iconUrl: 'https://img.icons8.com/fluency/96/books.png', bg: 'bg-desert-50', color: 'text-teal-900' },
+            { id: 'mobility', name: 'Mobility', iconUrl: 'https://img.icons8.com/fluency/96/passport.png', bg: 'bg-desert-100', color: 'text-gold-600' },
+            { id: 'documents', name: 'Documents', iconUrl: 'https://img.icons8.com/fluency/96/document.png', bg: 'bg-olive-50', color: 'text-olive-700' },
+            { id: 'travel', name: 'Travel', iconUrl: 'https://img.icons8.com/fluency/96/airplane-take-off.png', bg: 'bg-desert-100', color: 'text-teal-900' },
+            { id: 'accommodation', name: 'Accommodation', iconUrl: 'https://img.icons8.com/fluency/96/skyscrapers.png', bg: 'bg-olive-50', color: 'text-olive-500' },
+            { id: 'settlement', name: 'Settlement', iconUrl: 'https://img.icons8.com/fluency/96/home.png', bg: 'bg-desert-50', color: 'text-gold-600' },
+            { id: 'marketplace', name: 'Marketplace', iconUrl: 'https://img.icons8.com/fluency/96/shopping-cart.png', bg: 'bg-desert-100', color: 'text-teal-900' },
+        ];
+
+        const DESTINATIONS = [
+            { id: 'ae', name: 'UAE', flagCode: 'ae', subtitle: 'Jobs & More', bg: 'bg-gradient-to-br from-desert-100 to-desert-200' },
+            { id: 'sa', name: 'Saudi Arabia', flagCode: 'sa', subtitle: 'Jobs & Mobility', bg: 'bg-gradient-to-br from-olive-50 to-olive-100' },
+            { id: 'qa', name: 'Qatar', flagCode: 'qa', subtitle: 'Jobs & Careers', bg: 'bg-gradient-to-br from-[#F9F5EC] to-desert-300' },
+            { id: 'kw', name: 'Kuwait', flagCode: 'kw', subtitle: 'Jobs & Careers', bg: 'bg-gradient-to-br from-[#F4F9F4] to-[#E2EBE2]' },
+            { id: 'om', name: 'Oman', flagCode: 'om', subtitle: 'Jobs & Mobility', bg: 'bg-gradient-to-br from-desert-100 to-olive-50' },
+            { id: 'bh', name: 'Bahrain', flagCode: 'bh', subtitle: 'Jobs & Careers', bg: 'bg-gradient-to-br from-olive-50 to-[#F9F5EC]' },
+        ];
+
+        const TRENDING_JOBS = [
+            { id: 'j1', title: 'Warehouse Worker', company: 'ABC Logistics Ltd.', location: 'Dubai, UAE', salary: 'AED 3,000 - 4,500', type: 'Full Time', tags: ['Visa Support', 'Accommodation'], posted: '2 days ago' },
+            { id: 'j2', title: 'Heavy Vehicle Driver', company: 'Saudi Trans Co.', location: 'Riyadh, KSA', salary: 'SAR 4,000 - 5,500', type: 'Full Time', tags: ['Urgent', 'Visa Support'], posted: '5 hours ago' },
+            { id: 'j3', title: 'Registered Nurse', company: 'Gulf Care Hospital', location: 'Doha, Qatar', salary: 'QAR 6,000 - 8,000', type: 'Full Time', tags: ['Licensing Support'], posted: '1 week ago' },
+            { id: 'j4', title: 'Hospitality Staff', company: 'Luxury Hotels Group', location: 'Dubai, UAE', salary: 'AED 2,500 - 3,500', type: 'Contract', tags: ['Accommodation'], posted: '3 days ago' },
+        ];
+
+        const UPCOMING_INTERVIEWS = [
+            { id: 'i1', title: 'UAE Warehouse Recruitment', company: 'ABC Logistics Ltd.', date: '28 Sept 2026', positions: 20, type: 'Online Interview', price: '₹99', flagCode: 'ae', icon: 'video' },
+            { id: 'i2', title: 'Saudi Construction Drive', company: 'Saudi Builders', date: '05 Oct 2026', positions: 50, type: 'Physical Event', price: '₹149', flagCode: 'sa', icon: 'map-pin' },
+            { id: 'i3', title: 'Healthcare Staffing', company: 'Gulf Care Hospital', date: '12 Oct 2026', positions: 35, type: 'Online Interview', price: '₹99', flagCode: 'qa', icon: 'video' }
+        ];
+
+        const MARKETPLACE_PRODUCTS = [
+            { id: 'p1', title: 'Professional CV Writing', price: '₹299', rating: 4.8, desc: 'Career-focused CV preparation.', type: 'Service', iconUrl: 'https://img.icons8.com/fluency/96/resume.png' },
+            { id: 'p2', title: 'UAE Interview App.', price: '₹99', rating: 4.7, desc: 'Application processing for opportunities.', type: 'Digital', iconUrl: 'https://img.icons8.com/fluency/96/smartphone-tablet.png' },
+            { id: 'p3', title: 'English for Gulf Careers', price: '₹1,999', rating: 4.9, desc: 'Online career-focused language training.', type: 'Training', iconUrl: 'https://img.icons8.com/fluency/96/language.png' },
+            { id: 'p4', title: 'Visa Doc Assistance', price: '₹499', rating: 4.8, desc: 'Assistance with documentation workflow.', type: 'Service', iconUrl: 'https://img.icons8.com/fluency/96/document.png' },
+        ];
+
+        const MOBILITY_JOURNEY = [
+            { step: 1, title: 'Career Goal', status: 'completed' },
+            { step: 2, title: 'Profile', status: 'completed' },
+            { step: 3, title: 'Job Search', status: 'completed' },
+            { step: 4, title: 'Application', status: 'completed' },
+            { step: 5, title: 'Interview', status: 'active' },
+            { step: 6, title: 'Job Offer', status: 'pending' },
+            { step: 7, title: 'Documentation', status: 'pending' },
+            { step: 8, title: 'Visa', status: 'pending' },
+            { step: 9, title: 'Travel', status: 'pending' },
+            { step: 10, title: 'Arrival', status: 'pending' },
+            { step: 11, title: 'Settlement', status: 'pending' },
+        ];
+
+        const UN_REGIONS = [
+            { id: 'africa', name: 'Africa', iconUrl: 'https://img.icons8.com/fluency/96/africa.png', bg: 'bg-gradient-to-br from-[#F5F3EC] to-[#F4F6F3]', subregions: ['Northern Africa', 'Western Africa', 'Middle Africa', 'Eastern Africa', 'Southern Africa'] },
+            { id: 'americas', name: 'Americas', iconUrl: 'https://img.icons8.com/fluency/96/north-america.png', bg: 'bg-gradient-to-br from-[#F4F6F3] to-[#EAE5D8]', subregions: ['Northern America', 'Central America', 'Caribbean', 'South America'] },
+            { id: 'asia', name: 'Asia', iconUrl: 'https://img.icons8.com/fluency/96/asia.png', bg: 'bg-gradient-to-br from-[#E4EAE2] to-[#F5F3EC]', subregions: ['Central Asia', 'Eastern Asia', 'South-eastern Asia', 'Southern Asia', 'Western Asia'] },
+            { id: 'europe', name: 'Europe', iconUrl: 'https://img.icons8.com/fluency/96/europe.png', bg: 'bg-gradient-to-br from-[#F5F3EC] to-[#E4EAE2]', subregions: ['Eastern Europe', 'Northern Europe', 'Southern Europe', 'Western Europe'] },
+            { id: 'oceania', name: 'Oceania', iconUrl: 'https://img.icons8.com/fluency/96/australia-map.png', bg: 'bg-gradient-to-br from-[#F4F6F3] to-[#DFD5C1]', subregions: ['Australia and New Zealand', 'Melanesia', 'Micronesia', 'Polynesia'] }
+        ];
+
+        const rawCountries = [
+            "af,Afghanistan,🇦🇫,Asia", "am,Armenia,🇦🇲,Asia", "az,Azerbaijan,🇦🇿,Asia", "bh,Bahrain,🇧🇭,Asia", "bd,Bangladesh,🇧🇩,Asia", "bt,Bhutan,🇧🇹,Asia", "bn,Brunei,🇧🇳,Asia", "kh,Cambodia,🇰🇭,Asia", "cn,China,🇨🇳,Asia", "cy,Cyprus,🇨🇾,Asia", "ge,Georgia,🇬🇪,Asia", "in,India,🇮🇳,Asia", "id,Indonesia,🇮🇩,Asia", "ir,Iran,🇮🇷,Asia", "iq,Iraq,🇮🇶,Asia", "il,Israel,🇮🇱,Asia", "jp,Japan,🇯🇵,Asia", "jo,Jordan,🇯🇴,Asia", "kz,Kazakhstan,🇰🇿,Asia", "kw,Kuwait,🇰🇼,Asia", "kg,Kyrgyzstan,🇰🇬,Asia", "la,Laos,🇱🇦,Asia", "lb,Lebanon,🇱🇧,Asia", "my,Malaysia,🇲🇾,Asia", "mv,Maldives,🇲🇻,Asia", "mn,Mongolia,🇲🇳,Asia", "mm,Myanmar,🇲🇲,Asia", "np,Nepal,🇳🇵,Asia", "kp,North Korea,🇰🇵,Asia", "om,Oman,🇴🇲,Asia", "pk,Pakistan,🇵🇰,Asia", "ps,Palestine,🇵🇸,Asia", "ph,Philippines,🇵🇭,Asia", "qa,Qatar,🇶🇦,Asia", "sa,Saudi Arabia,🇸🇦,Asia", "sg,Singapore,🇸🇬,Asia", "kr,South Korea,🇰🇷,Asia", "lk,Sri Lanka,🇱🇰,Asia", "sy,Syria,🇸🇾,Asia", "tj,Tajikistan,🇹🇯,Asia", "th,Thailand,🇹🇭,Asia", "tl,Timor-Leste,🇹🇱,Asia", "tr,Türkiye,🇹🇷,Asia", "tm,Turkmenistan,🇹🇲,Asia", "ae,United Arab Emirates,🇦🇪,Asia", "uz,Uzbekistan,🇺🇿,Asia", "vn,Vietnam,🇻🇳,Asia", "ye,Yemen,🇾🇪,Asia",
+            "dz,Algeria,🇩🇿,Africa", "ao,Angola,🇦🇴,Africa", "bj,Benin,🇧🇯,Africa", "bw,Botswana,🇧🇼,Africa", "bf,Burkina Faso,🇧🇫,Africa", "bi,Burundi,🇧🇮,Africa", "cv,Cabo Verde,🇨🇻,Africa", "cm,Cameroon,🇨🇲,Africa", "cf,Central African Republic,🇨🇫,Africa", "td,Chad,🇹🇩,Africa", "km,Comoros,🇰🇲,Africa", "cg,Republic of the Congo,🇨🇬,Africa", "cd,Democratic Republic of the Congo,🇨🇩,Africa", "ci,Côte d’Ivoire,🇨🇮,Africa", "dj,Djibouti,🇩🇯,Africa", "eg,Egypt,🇪🇬,Africa", "gq,Equatorial Guinea,🇬🇶,Africa", "er,Eritrea,🇪🇷,Africa", "sz,Eswatini,🇸🇿,Africa", "et,Ethiopia,🇪🇹,Africa", "ga,Gabon,🇬🇦,Africa", "gm,Gambia,🇬🇲,Africa", "gh,Ghana,🇬🇭,Africa", "gw,Guinea-Bissau,🇬🇼,Africa", "gn,Guinea,🇬🇳,Africa", "ke,Kenya,🇰🇪,Africa", "ls,Lesotho,🇱🇸,Africa", "lr,Liberia,🇱🇷,Africa", "ly,Libya,🇱🇾,Africa", "mg,Madagascar,🇲🇬,Africa", "mw,Malawi,🇲🇼,Africa", "ml,Mali,🇲🇱,Africa", "mr,Mauritania,🇲🇷,Africa", "mu,Mauritius,🇲🇺,Africa", "ma,Morocco,🇲🇦,Africa", "mz,Mozambique,🇲🇿,Africa", "na,Namibia,🇳🇦,Africa", "ne,Niger,🇳🇪,Africa", "ng,Nigeria,🇳🇬,Africa", "rw,Rwanda,🇷🇼,Africa", "st,São Tomé and Príncipe,🇸🇹,Africa", "sn,Senegal,🇸🇳,Africa", "sc,Seychelles,🇸🇨,Africa", "sl,Sierra Leone,🇸🇱,Africa", "so,Somalia,🇸🇴,Africa", "za,South Africa,🇿🇦,Africa", "ss,South Sudan,🇸🇸,Africa", "sd,Sudan,🇸🇩,Africa", "tz,Tanzania,🇹🇿,Africa", "tg,Togo,🇹🇬,Africa", "tn,Tunisia,🇹🇳,Africa", "ug,Uganda,🇺🇬,Africa", "zm,Zambia,🇿🇲,Africa", "zw,Zimbabwe,🇿🇼,Africa",
+            "al,Albania,🇦🇱,Europe", "ad,Andorra,🇦🇩,Europe", "at,Austria,🇦🇹,Europe", "by,Belarus,🇧🇾,Europe", "be,Belgium,🇧🇪,Europe", "ba,Bosnia and Herzegovina,🇧🇦,Europe", "bg,Bulgaria,🇧🇬,Europe", "hr,Croatia,🇭🇷,Europe", "cz,Czechia,🇨🇿,Europe", "dk,Denmark,🇩🇰,Europe", "ee,Estonia,🇪🇪,Europe", "fi,Finland,🇫🇮,Europe", "fr,France,🇫🇷,Europe", "de,Germany,🇩🇪,Europe", "gr,Greece,🇬🇷,Europe", "hu,Hungary,🇭🇺,Europe", "is,Iceland,🇮🇸,Europe", "ie,Ireland,🇮🇪,Europe", "it,Italy,🇮🇹,Europe", "lv,Latvia,🇱🇻,Europe", "li,Liechtenstein,🇱🇮,Europe", "lt,Lithuania,🇱🇹,Europe", "lu,Luxembourg,🇱🇺,Europe", "mt,Malta,🇲🇹,Europe", "md,Moldova,🇲🇩,Europe", "mc,Monaco,🇲🇨,Europe", "me,Montenegro,🇲🇪,Europe", "nl,Netherlands,🇳🇱,Europe", "mk,North Macedonia,🇲🇰,Europe", "no,Norway,🇳🇴,Europe", "pl,Poland,🇵🇱,Europe", "pt,Portugal,🇵🇹,Europe", "ro,Romania,🇷🇴,Europe", "ru,Russia,🇷🇺,Europe", "sm,San Marino,🇸🇲,Europe", "rs,Serbia,🇷🇸,Europe", "sk,Slovakia,🇸🇰,Europe", "si,Slovenia,🇸🇮,Europe", "es,Spain,🇪🇸,Europe", "se,Sweden,🇸🇪,Europe", "ch,Switzerland,🇨🇭,Europe", "ua,Ukraine,🇺🇦,Europe", "gb,United Kingdom,🇬🇧,Europe", "va,Vatican City,🇻🇦,Europe",
+            "ag,Antigua and Barbuda,🇦🇬,North America", "bs,Bahamas,🇧🇸,North America", "bb,Barbados,🇧🇧,North America", "bz,Belize,🇧🇿,North America", "ca,Canada,🇨🇦,North America", "cr,Costa Rica,🇨🇷,North America", "cu,Cuba,🇨🇺,North America", "dm,Dominica,🇩🇲,North America", "do,Dominican Republic,🇩🇴,North America", "sv,El Salvador,🇸🇻,North America", "gd,Grenada,🇬🇩,North America", "gt,Guatemala,🇬🇹,North America", "ht,Haiti,🇭🇹,North America", "hn,Honduras,🇭🇳,North America", "jm,Jamaica,🇯🇲,North America", "mx,Mexico,🇲🇽,North America", "ni,Nicaragua,🇳🇮,North America", "pa,Panama,🇵🇦,North America", "kn,Saint Kitts and Nevis,🇰🇳,North America", "lc,Saint Lucia,🇱🇨,North America", "vc,Saint Vincent and the Grenadines,🇻🇨,North America", "tt,Trinidad and Tobago,🇹🇹,North America", "us,United States,🇺🇸,North America",
+            "ar,Argentina,🇦🇷,South America", "bo,Bolivia,🇧🇴,South America", "br,Brazil,🇧🇷,South America", "cl,Chile,🇨🇱,South America", "co,Colombia,🇨🇴,South America", "ec,Ecuador,🇪🇨,South America", "gy,Guyana,🇬🇾,South America", "py,Paraguay,🇵🇾,South America", "pe,Peru,🇵🇪,South America", "sr,Suriname,🇸🇷,South America", "uy,Uruguay,🇺🇾,South America", "ve,Venezuela,🇻🇪,South America",
+            "au,Australia,🇦🇺,Oceania", "fj,Fiji,🇫🇯,Oceania", "ki,Kiribati,🇰🇮,Oceania", "mh,Marshall Islands,🇲🇭,Oceania", "fm,Micronesia,🇫🇲,Oceania", "nr,Nauru,🇳🇷,Oceania", "nz,New Zealand,🇳🇿,Oceania", "pw,Palau,🇵🇼,Oceania", "pg,Papua New Guinea,🇵🇬,Oceania", "ws,Samoa,🇼🇸,Oceania", "sb,Solomon Islands,🇸🇧,Oceania", "to,Tonga,🇹🇴,Oceania", "tv,Tuvalu,🇹🇻,Oceania", "vu,Vanuatu,🇻🇺,Oceania"
+        ];
+
+        const GLOBAL_COUNTRIES = rawCountries.map(c => {
+            const parts = c.split(',');
+            return {
+                id: parts[0],
+                name: parts[1],
+                emoji: parts[2],
+                continent: parts[3],
+                flagCode: parts[0],
+                tags: parts[3] + ' • Jobs'
+            };
+        });
+
+        let activeTab = 'welcome';
+        let isMenuOpen = false;
+        let selectedJob = null;
+        let selectedCountry = null;
+        let isAppReady = false; 
+
+        let typewriterTimeout;
+        const searchExamples = [
+            "Germany warehouse jobs", "🇦🇪 UAE driver jobs", "USA nursing jobs", 
+            "Canada student programs", "UK healthcare training", "Japan factory jobs", 
+            "Australia skilled jobs", "Dubai accommodation", "France language course",
+            "🇸🇦 Riyadh civil engineer", "🇶🇦 Qatar hospitality"
+        ];
+        let exampleIdx = 0;
+        let charIdx = 0;
+        let isTypingDeleting = false;
+
+        function toggleMenu(forceClose = false) {
+            isMenuOpen = forceClose ? false : !isMenuOpen;
+            const menuEl = document.getElementById('main-menu');
+            const backdropEl = document.getElementById('menu-backdrop');
+            
+            if(isMenuOpen) {
+                menuEl.classList.remove('-translate-x-full');
+                backdropEl.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                menuEl.classList.add('-translate-x-full');
+                backdropEl.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        window.navigateTo = function(tab) {
+            activeTab = tab;
+            selectedJob = null;
+            toggleMenu(true);
+            
+            const mainContent = document.getElementById('app-content');
+            mainContent.scrollTop = 0; 
+            
+            const header = document.getElementById('app-header');
+            const bottomNav = document.getElementById('bottom-nav-wrapper');
+            
+            if (header && bottomNav) {
+                if (activeTab === 'welcome') {
+                    header.style.display = 'none';
+                    bottomNav.style.display = 'none';
+                } else {
+                    header.style.display = 'flex';
+                    bottomNav.style.display = 'block';
+                }
+            }
+            
+            renderApp();
+
+            if (activeTab === 'home' && isAppReady) {
+                setTimeout(startTypewriter, 100);
+            }
+        };
+
+        window.selectJob = function(jobId) {
+            selectedJob = TRENDING_JOBS.find(j => j.id === jobId);
+            activeTab = 'jobs';
+            document.getElementById('app-content').scrollTop = 0;
+            renderApp();
+        };
+
+        window.clearJobSelection = function() {
+            selectedJob = null;
+            renderApp();
+        };
+
+        window.selectCountry = function(countryId) {
+            selectedCountry = GLOBAL_COUNTRIES.find(c => c.id === countryId) || GLOBAL_COUNTRIES[0];
+            activeTab = 'country';
+            document.getElementById('app-content').scrollTop = 0;
+            renderApp();
+        };
+        
+        window.clearCountrySelection = function() {
+            selectedCountry = null;
+            activeTab = 'countries';
+            renderApp();
+        };
+
+        window.scrollSlider = function(containerId, amount) {
+            const container = document.getElementById(containerId);
+            if (container) container.scrollBy({ left: amount, behavior: 'smooth' });
+        };
+        
+        window.toggleAccordion = function(regionId) {
+            const content = document.getElementById(`accordion-${regionId}`);
+            const icon = document.getElementById(`icon-${regionId}`);
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.classList.remove('rotate-90');
+            } else {
+                document.querySelectorAll('.accordion-content').forEach(el => el.classList.remove('expanded'));
+                document.querySelectorAll('.accordion-icon').forEach(el => el.classList.remove('rotate-90'));
+                
+                content.classList.add('expanded');
+                icon.classList.add('rotate-90');
+            }
+        };
+
+        function startTypewriter() {
+            clearTimeout(typewriterTimeout);
+            isTypingDeleting = false;
+            charIdx = 0;
+            typeWriterEffect();
+        }
+
+        function typeWriterEffect() {
+            if (!isAppReady || activeTab !== 'home') return; 
+            
+            const inputEl = document.getElementById('ai-search-input');
+            const locInputEl = document.getElementById('ai-loc-input');
+            if (!inputEl || !locInputEl) return;
+
+            const currentPhrase = searchExamples[exampleIdx];
+            
+            const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+            const segments = Array.from(segmenter.segment(currentPhrase)).map(s => s.segment);
+
+            if (isTypingDeleting) {
+                charIdx--;
+            } else {
+                charIdx++;
+            }
+
+            const currentStr = segments.slice(0, charIdx).join('');
+            
+            if(exampleIdx % 2 === 0) {
+                inputEl.placeholder = "e.g. " + currentStr;
+                locInputEl.placeholder = "Where? All Countries";
+            } else {
+                inputEl.placeholder = "What are you looking for?";
+                locInputEl.placeholder = "e.g. " + currentStr;
+            }
+
+            let typeSpeed = isTypingDeleting ? 40 : 80;
+
+            if (!isTypingDeleting && charIdx === segments.length) {
+                typeSpeed = 2000; 
+                isTypingDeleting = true;
+            } else if (isTypingDeleting && charIdx === 0) {
+                isTypingDeleting = false;
+                exampleIdx = (exampleIdx + 1) % searchExamples.length; 
+                typeSpeed = 500; 
+            }
+
+            typewriterTimeout = setTimeout(typeWriterEffect, typeSpeed);
+        }
+
+        // --- LIVE SEARCH FILTERING FUNCTIONS ---
+        
+        window.generateJobsHTML = function(query = '') {
+            const q = query.toLowerCase();
+            const filtered = TRENDING_JOBS.filter(job => 
+                job.title.toLowerCase().includes(q) || 
+                job.company.toLowerCase().includes(q) || 
+                job.location.toLowerCase().includes(q)
+            );
+            
+            if(filtered.length === 0) return `<div class="p-8 text-center text-olive-400 font-semibold bg-white rounded-2xl shadow-sm border border-olive-100">No opportunities found matching "${query}"</div>`;
+            
+            return filtered.map(job => `
+                <div onclick="selectJob('${job.id}')" class="bg-white p-5 rounded-[1.5rem] shadow-soft-float border border-olive-100 cursor-pointer hover:shadow-olive-glow interactive-card hover:border-olive-300 group relative overflow-hidden">
+                     <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-olive-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                     <div class="flex justify-between items-start mb-4 relative z-10">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center group-hover:bg-olive-100 transition-colors border border-olive-100/50 overflow-hidden shrink-0 shadow-sm">
+                                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(job.company)}&background=EAE5D8&color=2A3525&bold=true" alt="${job.company}" class="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-olive-900 text-[16px] leading-tight mb-1 group-hover:text-olive-700 transition-colors">${job.title}</h4>
+                                <p class="text-[13px] font-semibold text-gold-600">${job.company}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-[13px] font-medium text-olive-700 bg-desert-50 p-3 rounded-xl mb-4 border border-olive-100 relative z-10">
+                        <div class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-gold-500"></i> ${job.location}</div>
+                        <div class="flex items-center"><i data-lucide="wallet" class="w-4 h-4 mr-2 text-teal-900"></i> ${job.salary}</div>
+                    </div>
+                    <div class="pt-3 border-t border-olive-100 flex justify-between items-center relative z-10">
+                        <span class="text-[11px] font-semibold text-olive-400 flex items-center"><i data-lucide="clock" class="w-3.5 h-3.5 mr-1.5"></i> ${job.posted}</span>
+                        <span class="text-gold-600 font-bold text-[13px] flex items-center group-hover:translate-x-1 transition-transform">${t('Details')} <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i></span>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        window.renderJobsList = function(query) {
+            const container = document.getElementById('jobs-list-container');
+            if(container) {
+                container.innerHTML = generateJobsHTML(query);
+                lucide.createIcons();
+            }
+        };
+
+        window.generateCountriesHTML = function(query = '') {
+            const q = query.toLowerCase();
+            const filtered = GLOBAL_COUNTRIES.filter(c => 
+                c.name.toLowerCase().includes(q) || 
+                c.continent.toLowerCase().includes(q)
+            );
+            const displayList = q ? filtered : filtered.slice(0, 50);
+            
+            if(displayList.length === 0) return `<div class="p-8 text-center text-olive-400 font-semibold bg-white rounded-2xl shadow-sm border border-olive-100">No countries found matching "${query}"</div>`;
+            
+            let cardsHTML = displayList.map(country => `
+                <div class="bg-white p-4 rounded-[1.5rem] shadow-soft-float border border-olive-100 flex items-center gap-4 hover:shadow-olive-glow cursor-pointer transition-all interactive-card hover:-translate-y-1 group relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-olive-50 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0 bg-desert-100 flex items-center justify-center relative z-10">
+                        <img src="https://flagcdn.com/w160/${country.flagCode}.png" alt="${country.name}" class="w-full h-full object-cover" onerror="this.style.display='none'"/>
+                        <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <div class="flex-1 relative z-10">
+                        <h3 class="font-bold text-olive-900 text-[16px] flex items-center gap-1.5 leading-tight">${country.emoji} ${country.name}</h3>
+                        <p class="text-olive-500 text-[10px] font-bold uppercase tracking-widest mt-1 opacity-90">${country.tags}</p>
+                    </div>
+                    <button onclick="selectCountry('${country.id}')" class="px-4 py-2 bg-desert-50 hover:bg-gold-50 text-gold-600 text-[11px] font-bold rounded-xl border border-olive-100 group-hover:border-gold-200 transition-colors shrink-0 relative z-10 flex items-center gap-1">
+                        Explore <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            let header = `<div class="text-[11px] font-bold text-olive-400 uppercase tracking-widest mb-1 text-center">Showing ${displayList.length} of ${filtered.length} Countries</div>`;
+            let footer = (!q && filtered.length > 50) ? `<button class="w-full py-4 mt-2 bg-white rounded-[1.5rem] border border-olive-200 text-olive-700 font-bold shadow-soft-float hover:bg-desert-100 transition-colors">Load More Countries...</button>` : '';
+            
+            return header + cardsHTML + footer;
+        };
+
+        window.renderCountriesList = function(query) {
+            const container = document.getElementById('countries-list-container');
+            if(container) {
+                container.innerHTML = generateCountriesHTML(query);
+                lucide.createIcons();
+            }
+        };
+
+        window.generateInterviewsHTML = function(query = '') {
+            const q = query.toLowerCase();
+            const filtered = UPCOMING_INTERVIEWS.filter(i => 
+                i.title.toLowerCase().includes(q) || 
+                i.company.toLowerCase().includes(q) || 
+                i.type.toLowerCase().includes(q)
+            );
+            
+            if(filtered.length === 0) return `<div class="p-8 text-center text-olive-400 font-semibold bg-white rounded-2xl shadow-sm border border-olive-100">No events found matching "${query}"</div>`;
+            
+            return filtered.map(interview => `
+                <div class="bg-white p-5 rounded-[1.5rem] shadow-soft-float border border-olive-100 cursor-pointer hover:shadow-olive-glow interactive-card hover:border-olive-300 group relative overflow-hidden">
+                    <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-olive-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    <div class="flex justify-between items-start mb-4 relative z-10">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center border border-olive-100/50 overflow-hidden shrink-0 shadow-sm relative">
+                                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(interview.company)}&background=EAE5D8&color=2A3525&bold=true" alt="Employer" class="w-full h-full object-cover" />
+                                <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-sm">
+                                    <img src="https://flagcdn.com/w20/${interview.flagCode}.png" class="w-3.5 h-3.5 object-cover rounded-full" />
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-olive-900 text-[16px] leading-tight mb-1 group-hover:text-olive-700 transition-colors">${interview.title}</h4>
+                                <p class="text-[13px] font-semibold text-gold-600">${interview.company}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-[13px] font-medium text-olive-700 bg-desert-50 p-3 rounded-xl mb-4 border border-olive-100 relative z-10">
+                        <div class="flex items-center"><i data-lucide="calendar" class="w-4 h-4 mr-2 text-gold-500"></i> ${interview.date}</div>
+                        <div class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-2 text-teal-900"></i> ${interview.positions} positions</div>
+                    </div>
+                    <div class="pt-3 border-t border-olive-100 flex justify-between items-center relative z-10">
+                        <span class="text-[11px] font-semibold text-olive-400 flex items-center"><i data-lucide="${interview.icon}" class="w-3.5 h-3.5 mr-1.5"></i> ${interview.type}</span>
+                        <button class="bg-olive-50 text-olive-700 border border-olive-200 text-[11px] px-4 py-1.5 rounded-lg font-bold hover:bg-olive-100 transition-colors">Book ${interview.price}</button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        window.renderInterviewsList = function(query) {
+            const container = document.getElementById('interviews-list-container');
+            if(container) {
+                container.innerHTML = generateInterviewsHTML(query);
+                lucide.createIcons();
+            }
+        };
+
+        function getWelcomeHTML() {
+            const intents = [
+                { id: 'work', name: 'Work', icon: 'briefcase', color: 'text-gold-500', bg: 'bg-gold-50' },
+                { id: 'study', name: 'Study', icon: 'graduation-cap', color: 'text-teal-700', bg: 'bg-teal-50' },
+                { id: 'train', name: 'Train', icon: 'award', color: 'text-olive-500', bg: 'bg-olive-50' },
+                { id: 'move', name: 'Move', icon: 'globe', color: 'text-gold-600', bg: 'bg-desert-100' },
+                { id: 'travel', name: 'Travel', icon: 'plane', color: 'text-olive-700', bg: 'bg-olive-100' },
+                { id: 'settle', name: 'Settle', icon: 'home', color: 'text-teal-900', bg: 'bg-teal-50' },
+                { id: 'grow', name: 'Grow', icon: 'rocket', color: 'text-gold-500', bg: 'bg-gold-50' }
+            ];
+            
+            let intentsHTML = intents.map(intent => `
+                <div class="flex flex-col items-center justify-center p-4 bg-white/70 backdrop-blur-md rounded-[1.5rem] shadow-soft-float border border-white/60 w-[30%] min-w-[95px] cursor-pointer hover:bg-white transition-all duration-300 hover:shadow-olive-glow hover:-translate-y-1 group">
+                    <div class="p-3.5 rounded-full ${intent.bg} mb-2.5 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="${intent.icon}" class="w-6 h-6 ${intent.color}"></i>
+                    </div>
+                    <span class="text-[12px] font-bold text-olive-900 tracking-wide">${intent.name}</span>
+                </div>
+            `).join('');
+
+            return `
+                <div class="min-h-[100dvh] bg-gradient-to-br from-desert-50 via-desert-100 to-olive-50 flex flex-col justify-between animate-in-up relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-[28rem] h-[28rem] bg-gold-400/10 rounded-full blur-[60px] -translate-y-1/3 translate-x-1/4 pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 w-[24rem] h-[24rem] bg-teal-900/10 rounded-full blur-[60px] translate-y-1/4 -translate-x-1/4 pointer-events-none"></div>
+
+                    <div class="px-6 pt-20 relative z-10 flex flex-col items-center text-center">
+                        <div class="w-20 h-20 bg-white rounded-3xl shadow-soft-float flex items-center justify-center mb-8 border border-olive-100 relative">
+                            <i data-lucide="compass" class="w-10 h-10 text-gold-500 drop-shadow-sm relative z-10"></i>
+                        </div>
+                        <h1 class="text-3xl font-black text-olive-900 mb-4 leading-tight tracking-tight">Your Global Journey<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-600">Starts Here</span></h1>
+                        <p class="text-olive-500 text-[15px] font-medium max-w-[280px] leading-relaxed">
+                            Find opportunities and services across <strong class="text-olive-700">200+ countries and territories</strong>.
+                        </p>
+                    </div>
+
+                    <div class="px-6 py-6 relative z-10 flex-1 flex flex-col justify-center">
+                        <h3 class="text-[11px] font-black text-olive-400 text-center mb-6 uppercase tracking-[0.2em]">What do you want to do?</h3>
+                        <div class="flex flex-wrap justify-center gap-3.5">
+                            ${intentsHTML}
+                        </div>
+                    </div>
+
+                    <div class="px-6 pb-12 pt-4 relative z-10 flex flex-col gap-3.5">
+                        <button onclick="navigateTo('home')" class="w-full bg-gradient-to-r from-olive-700 to-teal-900 text-white font-bold py-4 rounded-2xl shadow-olive-glow hover:shadow-olive-glow-lg transition-all duration-300 text-[16px] border border-olive-900/50 flex items-center justify-center gap-2">
+                            Get Started <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                        <button onclick="navigateTo('home')" class="w-full py-4 text-olive-500 font-bold text-[14px] hover:text-olive-900 transition-colors flex items-center justify-center gap-2 bg-white/40 backdrop-blur-md rounded-2xl border border-white/50 hover:bg-white/60">
+                            Explore Without Account
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getHomeHTML() {
+            let catHTML = CATEGORIES.map(cat => `
+                <button onclick="navigateTo('${cat.id === 'jobs' ? 'jobs' : (cat.id === 'interviews' ? 'interviews' : 'services')}')" 
+                        class="min-w-[105px] flex-shrink-0 snap-start group flex flex-col items-center justify-center p-4 bg-white rounded-[1.5rem] shadow-soft-float border border-olive-100 hover:border-gold-400 hover:shadow-olive-glow interactive-card hover:-translate-y-1.5 relative overflow-hidden">
+                    <div class="p-3 rounded-2xl mb-2.5 ${cat.bg} group-hover:scale-110 transition-transform duration-500 ease-out z-10 border border-olive-50 flex items-center justify-center">
+                        <img src="${cat.iconUrl}" alt="${cat.name}" class="w-8 h-8 object-contain drop-shadow-sm" onerror="this.src='https://img.icons8.com/fluency/96/grid.png'"/>
+                    </div>
+                    <span class="text-[11px] font-semibold text-olive-900 text-center tracking-wide z-10">${cat.name}</span>
+                </button>
+            `).join('');
+
+            let topDestinationsHTML = ['Asia', 'Europe', 'North America', 'Africa'].map(cont => {
+                const topCountries = GLOBAL_COUNTRIES.filter(c => c.continent === cont).slice(0, 7);
+                const cards = topCountries.map(dest => `
+                    <div onclick="selectCountry('${dest.id}')" class="min-w-[125px] snap-start bg-white border border-olive-100 rounded-[1.5rem] p-4 shadow-sm flex flex-col items-center flex-shrink-0 cursor-pointer hover:shadow-olive-glow interactive-card hover:-translate-y-1.5 relative overflow-hidden group">
+                        <div class="w-14 h-14 mb-2.5 rounded-full overflow-hidden border-2 border-white shadow-soft-float group-hover:scale-110 transition-transform duration-500 relative z-10 bg-desert-100 flex items-center justify-center shrink-0">
+                            <img src="https://flagcdn.com/w160/${dest.flagCode}.png" alt="${dest.name}" class="w-full h-full object-cover" onerror="this.style.display='none'"/>
+                        </div>
+                        <span class="font-bold text-olive-900 text-[13px] relative z-10 text-center leading-tight truncate w-full">${dest.emoji} ${dest.name}</span>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="mt-4">
+                        <div class="px-6 flex justify-between items-center mb-2">
+                            <h4 class="text-[12px] font-black text-olive-400 uppercase tracking-widest">${cont}</h4>
+                        </div>
+                        <div class="relative group w-full">
+                            <button onclick="scrollSlider('cont-scroll-${cont.replace(/\s/g,'')}', -200)" class="slider-arrow left-2"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                            <div id="cont-scroll-${cont.replace(/\s/g,'')}" class="flex overflow-x-auto px-6 pb-4 pt-1 gap-3 hide-scrollbar scroll-smooth snap-x">
+                                ${cards}
+                                <div onclick="navigateTo('destinations')" class="min-w-[125px] snap-start bg-desert-100/50 border border-olive-200/50 rounded-[1.5rem] p-4 shadow-sm flex flex-col items-center justify-center flex-shrink-0 cursor-pointer hover:bg-gold-50 transition-colors group text-olive-700 hover:text-gold-600">
+                                    <div class="w-10 h-10 mb-2 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform"><i data-lucide="arrow-right" class="w-5 h-5"></i></div>
+                                    <span class="font-bold text-[12px] text-center leading-tight">Explore<br/>${cont}</span>
+                                </div>
+                            </div>
+                            <button onclick="scrollSlider('cont-scroll-${cont.replace(/\s/g,'')}', 200)" class="slider-arrow right-2"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            let jobsHTML = TRENDING_JOBS.slice(0, 3).map(job => `
+                <div onclick="selectJob('${job.id}')" 
+                     class="bg-white p-5 rounded-[1.5rem] shadow-soft-float border border-olive-100 cursor-pointer hover:shadow-olive-glow interactive-card hover:border-olive-300 hover:-translate-y-1.5 group relative overflow-hidden">
+                    <div class="absolute -right-12 -bottom-12 w-40 h-40 bg-olive-100/50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                    
+                    <div class="flex justify-between items-start mb-3 relative z-10">
+                        <div>
+                            <h4 class="font-bold text-olive-900 text-lg leading-tight mb-1 group-hover:text-olive-700 transition-colors">${job.title}</h4>
+                            <p class="text-sm text-olive-500 font-medium">${job.company}</p>
+                        </div>
+                        <div class="p-2 bg-desert-50 rounded-full text-olive-300 hover:text-gold-500 hover:bg-gold-50 transition-colors border border-transparent hover:border-gold-100">
+                            <i data-lucide="bookmark" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center text-teal-900 font-medium text-sm mb-4 bg-desert-100 w-fit px-3 py-1.5 rounded-xl border border-desert-200 relative z-10">
+                        <i data-lucide="map-pin" class="w-[14px] h-[14px] mr-1.5 text-gold-600"></i> ${job.location}
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 relative z-10">
+                        <span class="bg-gold-50 text-gold-600 text-[11px] px-3 py-1 rounded-lg font-semibold border border-gold-200/50">${job.salary}</span>
+                        <span class="bg-olive-50 text-olive-700 text-[11px] px-3 py-1 rounded-lg font-semibold border border-olive-100">${job.type}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            let fastTrackHTML = `
+                <div class="mt-6 px-5 relative z-20">
+                    <div class="flex justify-between items-end mb-3 px-1">
+                        <h3 class="text-[17px] font-black text-olive-900 flex items-center gap-2">
+                            <div class="relative flex items-center justify-center w-5 h-5">
+                                <span class="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-30 animate-ping"></span>
+                                <div class="w-2.5 h-2.5 bg-red-500 rounded-full relative z-10 shadow-[0_0_8px_rgba(239,68,68,0.8)] border border-white"></div>
+                            </div>
+                            Live & Fast-Track
+                        </h3>
+                    </div>
+                    
+                    <div class="bg-white rounded-[1.5rem] p-1.5 shadow-[0_20px_50px_-12px_rgba(77,97,69,0.2)] border border-olive-100 relative overflow-hidden group interactive-card hover:shadow-olive-glow-lg">
+                        <!-- Innovative Gradient sweep background -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-gold-400/10 via-olive-500/5 to-teal-500/10 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-gold-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                        
+                        <div class="bg-white/80 backdrop-blur-md rounded-[1.25rem] p-3.5 relative z-10 flex flex-col gap-3.5 border border-white/50">
+                            
+                            <!-- Premium Action Filters -->
+                            <div class="relative group/actions w-full">
+                                <button onclick="scrollSlider('ft-actions', -200)" class="slider-arrow left-0 -ml-1 !w-7 !h-7 flex items-center justify-center !p-0 shadow-sm"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                                <div id="ft-actions" class="flex overflow-x-auto hide-scrollbar gap-2.5 snap-x pb-1 scroll-smooth">
+                                    <button class="snap-start shrink-0 px-4 py-2 bg-gradient-to-r from-red-500 to-rose-600 text-white text-[12px] font-bold rounded-xl shadow-[0_8px_15px_-3px_rgba(239,68,68,0.4)] flex items-center gap-1.5 hover:-translate-y-0.5 transition-transform border border-red-400/50">
+                                        <i data-lucide="video" class="w-4 h-4 text-white/90"></i> Live Interview
+                                    </button>
+                                    <button class="snap-start shrink-0 px-4 py-2 bg-gradient-to-r from-gold-500 to-gold-600 text-white text-[12px] font-bold rounded-xl shadow-[0_8px_15px_-3px_rgba(197,155,39,0.4)] flex items-center gap-1.5 hover:-translate-y-0.5 transition-transform border border-gold-400/50">
+                                        <i data-lucide="zap" class="w-4 h-4 text-white/90 fill-white/20"></i> Direct Selection
+                                    </button>
+                                    <button class="snap-start shrink-0 px-4 py-2 bg-gradient-to-br from-olive-800 to-teal-900 text-white text-[12px] font-bold rounded-xl shadow-[0_8px_15px_-3px_rgba(42,53,37,0.4)] flex items-center gap-1.5 hover:-translate-y-0.5 transition-transform border border-olive-700/50">
+                                        <i data-lucide="file-badge" class="w-4 h-4 text-gold-400"></i> Ready Offer Letter
+                                    </button>
+                                    <button class="snap-start shrink-0 px-4 py-2 bg-gradient-to-br from-teal-700 to-teal-800 text-white text-[12px] font-bold rounded-xl shadow-[0_8px_15px_-3px_rgba(19,60,63,0.4)] flex items-center gap-1.5 hover:-translate-y-0.5 transition-transform border border-teal-600/50">
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-teal-200"></i> Pre-approved Jobs
+                                    </button>
+                                    <button class="snap-start shrink-0 px-4 py-2 bg-white text-olive-900 text-[12px] font-bold rounded-xl shadow-sm border border-olive-200 flex items-center gap-1.5 hover:bg-olive-50 transition-colors">
+                                        <i data-lucide="stethoscope" class="w-4 h-4 text-red-500"></i> Direct Medical
+                                    </button>
+                                    <button class="snap-start shrink-0 px-4 py-2 bg-white text-olive-900 text-[12px] font-bold rounded-xl shadow-sm border border-olive-200 flex items-center gap-1.5 hover:bg-olive-50 transition-colors">
+                                        <i data-lucide="file-search" class="w-4 h-4 text-gold-500"></i> CV Selection
+                                    </button>
+                                </div>
+                                <button onclick="scrollSlider('ft-actions', 200)" class="slider-arrow right-0 -mr-1 !w-7 !h-7 flex items-center justify-center !p-0 shadow-sm"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                            </div>
+
+                            <!-- Elegant Divider -->
+                            <div class="h-px w-full bg-gradient-to-r from-transparent via-olive-200 to-transparent opacity-60"></div>
+
+                            <!-- Taxonomy Filters (City, Date, etc.) -->
+                            <div class="relative group/filters w-full">
+                                <button onclick="scrollSlider('ft-filters', -200)" class="slider-arrow left-0 -ml-1 !w-6 !h-6 flex items-center justify-center !p-0 shadow-sm"><i data-lucide="chevron-left" class="w-3.5 h-3.5"></i></button>
+                                <div id="ft-filters" class="flex overflow-x-auto hide-scrollbar gap-2 snap-x scroll-smooth">
+                                    <button class="snap-start shrink-0 px-3 py-1.5 bg-desert-50/80 backdrop-blur-sm border border-olive-100 text-olive-700 text-[11px] font-semibold rounded-lg hover:bg-olive-100 transition-colors flex items-center gap-1.5">
+                                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-olive-400"></i> City
+                                    </button>
+                                    <button class="snap-start shrink-0 px-3 py-1.5 bg-desert-50/80 backdrop-blur-sm border border-olive-100 text-olive-700 text-[11px] font-semibold rounded-lg hover:bg-olive-100 transition-colors flex items-center gap-1.5">
+                                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-olive-400"></i> Date
+                                    </button>
+                                    <button class="snap-start shrink-0 px-3 py-1.5 bg-desert-50/80 backdrop-blur-sm border border-olive-100 text-olive-700 text-[11px] font-semibold rounded-lg hover:bg-olive-100 transition-colors flex items-center gap-1.5">
+                                        <i data-lucide="globe" class="w-3.5 h-3.5 text-olive-400"></i> Countries
+                                    </button>
+                                    <button class="snap-start shrink-0 px-3 py-1.5 bg-desert-50/80 backdrop-blur-sm border border-olive-100 text-olive-700 text-[11px] font-semibold rounded-lg hover:bg-olive-100 transition-colors flex items-center gap-1.5">
+                                        <i data-lucide="briefcase" class="w-3.5 h-3.5 text-olive-400"></i> Position
+                                    </button>
+                                    <button class="snap-start shrink-0 px-3 py-1.5 bg-desert-50/80 backdrop-blur-sm border border-olive-100 text-olive-700 text-[11px] font-semibold rounded-lg hover:bg-olive-100 transition-colors flex items-center gap-1.5">
+                                        <i data-lucide="wifi" class="w-3.5 h-3.5 text-olive-400"></i> Online
+                                    </button>
+                                    <button class="snap-start shrink-0 px-3 py-1.5 bg-desert-50/80 backdrop-blur-sm border border-olive-100 text-olive-700 text-[11px] font-semibold rounded-lg hover:bg-olive-100 transition-colors flex items-center gap-1.5">
+                                        <i data-lucide="laptop" class="w-3.5 h-3.5 text-olive-400"></i> Remote
+                                    </button>
+                                </div>
+                                <button onclick="scrollSlider('ft-filters', 200)" class="slider-arrow right-0 -mr-1 !w-6 !h-6 flex items-center justify-center !p-0 shadow-sm"><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return `
+                <div class="pb-32 animate-in-up">
+                    <div class="relative bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 text-white px-6 pt-10 pb-20 rounded-b-[2.5rem] shadow-olive-glow-lg overflow-hidden">
+                        <div class="absolute top-0 right-0 w-80 h-80 bg-gold-400/15 rounded-full blur-[40px] -translate-y-1/3 translate-x-1/4 mix-blend-screen"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="inline-flex items-center px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-[9px] font-bold tracking-widest text-gold-400 mb-5 border border-white/20 uppercase">
+                                <i data-lucide="sparkles" class="w-3 h-3 mr-1.5"></i> Global Mobility Marketplace
+                            </div>
+                            <h1 class="text-4xl font-black mb-4 leading-[1.15] tracking-tight">Your Global Career<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">Journey Starts Here</span></h1>
+                            <p class="text-olive-100 mb-8 text-sm font-medium opacity-90 flex flex-wrap gap-x-2 gap-y-1 items-center">
+                                <span>Jobs</span><span class="w-1 h-1 rounded-full bg-gold-500"></span>
+                                <span>Training</span><span class="w-1 h-1 rounded-full bg-gold-500"></span>
+                                <span>Visa</span><span class="w-1 h-1 rounded-full bg-gold-500"></span>
+                                <span>Travel</span><span class="w-1 h-1 rounded-full bg-gold-500"></span>
+                                <span>Grow</span>
+                            </p>
+                            
+                            <div class="bg-white/10 backdrop-blur-xl p-3.5 rounded-[2rem] shadow-2xl border border-white/20 flex flex-col gap-3 relative z-20">
+                                <div class="flex items-center px-4 py-2 bg-white/95 rounded-2xl shadow-inner focus-within:ring-2 focus-within:ring-gold-500 transition-all border border-transparent">
+                                    <i data-lucide="search" class="w-5 h-5 text-gold-500"></i>
+                                    <input type="text" id="ai-search-input" placeholder="What are you looking for?" class="w-full p-2.5 bg-transparent outline-none text-olive-900 text-sm font-medium placeholder:text-olive-300" />
+                                </div>
+                                <div class="flex items-center px-4 py-2 bg-white/95 rounded-2xl shadow-inner focus-within:ring-2 focus-within:ring-gold-500 transition-all border border-transparent">
+                                    <i data-lucide="globe" class="w-5 h-5 text-gold-500"></i>
+                                    <input type="text" id="ai-loc-input" placeholder="Where? All Countries" class="w-full p-2.5 bg-transparent outline-none text-olive-900 text-sm font-medium placeholder:text-olive-300" />
+                                </div>
+                                <button onclick="navigateTo('search')" class="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-white font-bold py-4 rounded-2xl shadow-lg transition-all duration-300 w-full mt-1 flex items-center justify-center gap-2">
+                                    Search <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${fastTrackHTML}
+
+                    <div class="mt-8">
+                        <div class="px-6 flex justify-between items-end mb-3">
+                            <h3 class="text-xl font-bold text-olive-900 flex items-center gap-2"><i data-lucide="layout-grid" class="w-5 h-5 text-gold-500"></i> Categories</h3>
+                            <span class="text-gold-600 text-sm font-semibold cursor-pointer hover:text-gold-500 transition-colors" onclick="navigateTo('services')">View All</span>
+                        </div>
+                        <div class="relative group w-full z-20">
+                            <button onclick="scrollSlider('cat-scroll', -200)" class="slider-arrow left-2"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                            <div id="cat-scroll" class="flex overflow-x-auto gap-3.5 hide-scrollbar scroll-smooth snap-x px-5 pb-4 pt-2">
+                                ${catHTML}
+                            </div>
+                            <button onclick="scrollSlider('cat-scroll', 200)" class="slider-arrow right-2"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <div class="px-6 flex justify-between items-end mb-2">
+                            <h3 class="text-xl font-bold text-olive-900 flex items-center gap-2"><i data-lucide="map" class="w-5 h-5 text-gold-500"></i> Top Destinations</h3>
+                            <span class="text-gold-600 text-sm font-semibold cursor-pointer hover:text-gold-500 transition-colors" onclick="navigateTo('destinations')">View All</span>
+                        </div>
+                        ${topDestinationsHTML}
+                    </div>
+
+                    <div class="px-6 mt-4">
+                        <div class="flex justify-between items-end mb-4">
+                            <h3 class="text-xl font-bold text-olive-900 flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-gold-500"></i> Trending Roles</h3>
+                            <span class="text-gold-600 text-sm font-semibold cursor-pointer hover:text-gold-500 transition-colors" onclick="navigateTo('jobs')">View All</span>
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            ${jobsHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getJobDetailsHTML() {
+            const tagsHTML = selectedJob.tags.map(tag => `<span class="bg-olive-50 text-olive-700 text-xs px-3.5 py-1.5 rounded-lg font-medium border border-olive-100">${tag}</span>`).join('');
+            
+            return `
+                <div class="pb-48 bg-desert-50 min-h-full animate-in-right">
+                    <div class="sticky top-0 bg-white/90 backdrop-blur-xl z-20 px-4 py-3 border-b border-olive-100 flex items-center justify-between shadow-sm">
+                        <button onclick="clearJobSelection()" class="p-2.5 bg-desert-100 rounded-xl hover:bg-olive-100 text-olive-700 transition-colors border border-transparent hover:border-olive-200">
+                            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        </button>
+                        <h2 class="font-bold text-olive-900 truncate px-4">${t('Opportunity Details')}</h2>
+                        <button class="p-2.5 text-olive-400 hover:text-gold-500 transition-colors"><i data-lucide="share-2" class="w-5 h-5"></i></button>
+                    </div>
+                    
+                    <div class="pt-4">${getLangToggleHTML()}</div>
+
+                    <div class="p-6 bg-white shadow-soft-float rounded-b-[2rem] border-b border-olive-100 relative overflow-hidden -mt-2">
+                        <div class="absolute right-0 top-0 w-32 h-32 bg-gold-50/50 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+                        
+                        <h1 class="text-2xl font-bold text-olive-900 mb-2 leading-tight relative z-10">${selectedJob.title}</h1>
+                        <div class="flex items-center text-gold-600 font-semibold mb-6 text-[15px] relative z-10">
+                            <i data-lucide="building" class="w-4 h-4 mr-2"></i> ${selectedJob.company}
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3 mb-6 relative z-10">
+                            <div class="bg-desert-50 p-3.5 rounded-2xl border border-olive-100">
+                                <p class="text-[10px] font-bold text-olive-400 uppercase tracking-widest mb-1 flex items-center"><i data-lucide="map-pin" class="w-3 h-3 mr-1.5 text-gold-500"></i> ${t('Location')}</p>
+                                <p class="font-semibold text-olive-900 text-[13px]">${selectedJob.location}</p>
+                            </div>
+                            <div class="bg-desert-50 p-3.5 rounded-2xl border border-olive-100">
+                                <p class="text-[10px] font-bold text-olive-400 uppercase tracking-widest mb-1 flex items-center"><i data-lucide="wallet" class="w-3 h-3 mr-1.5 text-gold-500"></i> ${t('Salary')}</p>
+                                <p class="font-semibold text-teal-900 text-[13px]">${selectedJob.salary}</p>
+                            </div>
+                            <div class="bg-desert-50 p-3.5 rounded-2xl border border-olive-100">
+                                <p class="text-[10px] font-bold text-olive-400 uppercase tracking-widest mb-1 flex items-center"><i data-lucide="clock" class="w-3 h-3 mr-1.5 text-gold-500"></i> ${t('Type')}</p>
+                                <p class="font-semibold text-olive-900 text-[13px]">${selectedJob.type}</p>
+                            </div>
+                            <div class="bg-desert-50 p-3.5 rounded-2xl border border-olive-100">
+                                <p class="text-[10px] font-bold text-olive-400 uppercase tracking-widest mb-1 flex items-center"><i data-lucide="graduation-cap" class="w-3 h-3 mr-1.5 text-gold-500"></i> ${t('Experience')}</p>
+                                <p class="font-semibold text-olive-900 text-[13px]">0 - 2 Years</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2 relative z-10">
+                            ${tagsHTML}
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-white mt-4 shadow-soft-float rounded-[2rem] border border-olive-100 mx-4">
+                        <h3 class="font-bold text-olive-900 text-lg mb-4 flex items-center"><i data-lucide="file-text" class="w-5 h-5 mr-2 text-olive-500"></i> ${t('Description & Requirements')}</h3>
+                        <ul class="list-disc pl-5 text-olive-700 space-y-3 text-[14px] font-normal leading-relaxed marker:text-gold-500">
+                            <li>Perform general duties as outlined by the employer.</li>
+                            <li>Required Education: High School Diploma or equivalent.</li>
+                            <li>Required Language: Basic English proficiency.</li>
+                            <li>Valid passport with minimum 1-year validity required for visa processing.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-4 bg-orange-50 text-orange-800 text-[11px] rounded-2xl m-4 border border-orange-100 font-medium leading-relaxed shadow-sm">
+                        <strong class="block mb-1 text-orange-900 text-xs"><i data-lucide="alert-circle" class="w-3.5 h-3.5 inline mr-1 -mt-0.5"></i> ${t('Important Notice')}</strong> Payment for any platform service does not guarantee employment, interview selection, visa approval or a job offer.
+                    </div>
+
+                    <div class="fixed bottom-[4.5rem] left-0 right-0 p-4 bg-white/95 backdrop-blur-xl border-t border-olive-100 flex gap-3 z-20 max-w-md mx-auto rounded-t-[2rem] shadow-[0_-15px_30px_rgba(42,53,37,0.08)]">
+                        <button class="p-4 rounded-2xl bg-desert-100 border border-olive-200 text-olive-700 hover:text-gold-600 hover:bg-gold-50 transition-colors">
+                             <i data-lucide="bookmark" class="w-6 h-6"></i>
+                        </button>
+                        <button class="flex-1 bg-gradient-to-r from-olive-700 to-teal-900 text-white font-bold py-4 rounded-2xl shadow-olive-glow hover:shadow-olive-glow-lg interactive-card text-[15px] border border-olive-900/50 flex items-center justify-center gap-2">
+                            ${t('Proceed to Apply')} <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getJobsHTML() {
+            if(selectedJob) return getJobDetailsHTML();
+
+            let filterHTML = ['All', 'UAE', 'Saudi Arabia', 'Qatar', 'Remote', 'Visa Sponsored'].map((filter, i) => `
+                <button class="whitespace-nowrap flex-shrink-0 snap-start px-5 py-2.5 rounded-full text-[13px] font-semibold shadow-soft-float transition-all duration-300 border ${i === 0 ? 'bg-olive-700 text-white border-transparent' : 'bg-white border-olive-100 text-olive-500 hover:bg-desert-100 hover:text-olive-900 hover:border-olive-300'}">
+                    ${t(filter)}
+                </button>
+            `).join('');
+
+            let jobsListHTML = TRENDING_JOBS.map(job => `
+                <div onclick="selectJob('${job.id}')" class="bg-white p-5 rounded-[1.5rem] shadow-soft-float border border-olive-100 cursor-pointer hover:shadow-olive-glow interactive-card hover:border-olive-300 group relative overflow-hidden">
+                     <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-olive-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                     
+                     <div class="flex justify-between items-start mb-4 relative z-10">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center group-hover:bg-olive-100 transition-colors border border-olive-100/50 overflow-hidden shrink-0 shadow-sm">
+                                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(job.company)}&background=EAE5D8&color=2A3525&bold=true" alt="${job.company}" class="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-olive-900 text-[16px] leading-tight mb-1 group-hover:text-olive-700 transition-colors">${job.title}</h4>
+                                <p class="text-[13px] font-semibold text-gold-600">${job.company}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-[13px] font-medium text-olive-700 bg-desert-50 p-3 rounded-xl mb-4 border border-olive-100 relative z-10">
+                        <div class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-gold-500"></i> ${job.location}</div>
+                        <div class="flex items-center"><i data-lucide="wallet" class="w-4 h-4 mr-2 text-teal-900"></i> ${job.salary}</div>
+                    </div>
+                    <div class="pt-3 border-t border-olive-100 flex justify-between items-center relative z-10">
+                        <span class="text-[11px] font-semibold text-olive-400 flex items-center"><i data-lucide="clock" class="w-3.5 h-3.5 mr-1.5"></i> ${job.posted}</span>
+                        <span class="text-gold-600 font-bold text-[13px] flex items-center group-hover:translate-x-1 transition-transform">${t('Details')} <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i></span>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="pb-32 animate-in-up bg-desert-50 min-h-full">
+                    <div class="bg-gradient-to-br from-olive-900 to-teal-900 text-white px-6 pt-8 pb-16 rounded-b-[2.5rem] shadow-olive-glow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/4"></div>
+                        
+                        <h1 class="text-3xl font-black mb-5 relative z-10 flex items-center gap-3 tracking-tight">
+                            <i data-lucide="briefcase" class="w-7 h-7 text-gold-400"></i> ${t('Jobs Marketplace')}
+                        </h1>
+                        <div class="flex gap-3 relative z-10 mb-2">
+                            <div class="flex-1 flex items-center bg-white/10 backdrop-blur-md rounded-2xl px-4 py-3 border border-white/20 shadow-inner focus-within:bg-white/20 transition-colors">
+                                <i data-lucide="search" class="w-5 h-5 text-gold-400 mr-3"></i>
+                                <input type="text" oninput="renderJobsList(this.value)" placeholder="${t('Search roles...')}" class="bg-transparent text-white placeholder-white/70 outline-none w-full text-[15px] font-medium" />
+                            </div>
+                            <button class="bg-white/10 backdrop-blur-md border border-white/20 text-white p-3 rounded-2xl shadow-lg hover:bg-white/20 transition-all"><i data-lucide="sliders-horizontal" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="-mt-4 relative z-20">${getLangToggleHTML()}</div>
+
+                    <div class="relative group w-full z-20 pb-4">
+                        <button onclick="scrollSlider('filter-scroll', -200)" class="slider-arrow left-1"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                        <div id="filter-scroll" class="px-5 flex gap-3 overflow-x-auto hide-scrollbar scroll-smooth snap-x py-1">
+                            ${filterHTML}
+                        </div>
+                        <button onclick="scrollSlider('filter-scroll', 200)" class="slider-arrow right-1"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                    </div>
+
+                    <div class="px-5 mt-2 flex flex-col gap-4" id="jobs-list-container">
+                        ${generateJobsHTML()}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getServicesHTML() {
+            const tabs = ['All', 'Training', 'Docs', 'Visa'].map((tab, i) => `
+                <div class="min-w-[100px] flex-1 flex-shrink-0 snap-start text-center py-3 rounded-2xl text-[13px] font-bold shadow-soft-float cursor-pointer transition-all duration-300 border ${i===0 ? 'bg-gradient-to-r from-gold-500 to-gold-600 text-white border-transparent' : 'bg-white border-olive-100 text-olive-500 hover:bg-desert-100 hover:text-olive-900 hover:border-olive-300'}">
+                    ${t(tab)}
+                </div>
+            `).join('');
+
+            const productsHTML = MARKETPLACE_PRODUCTS.map(prod => {
+                return `
+                    <div class="bg-white p-4 rounded-[1.5rem] shadow-soft-float border border-olive-100 flex gap-4 items-center hover:shadow-olive-glow interactive-card hover:border-olive-300 group relative overflow-hidden">
+                        <div class="w-20 h-20 bg-desert-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-olive-50 transition-colors relative overflow-hidden border border-olive-100/50 z-10">
+                            <img src="${prod.iconUrl}" alt="${prod.type}" class="w-11 h-11 object-contain drop-shadow-md relative z-10 group-hover:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div class="flex-1 py-1 relative z-10">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="text-[9px] font-bold text-olive-400 uppercase tracking-widest">${prod.type}</span>
+                                <span class="flex items-center text-[10px] font-bold text-gold-700 bg-gold-50 px-2 py-0.5 rounded-md border border-gold-200/50"><i data-lucide="star" class="w-2.5 h-2.5 fill-current mr-1"></i> ${prod.rating}</span>
+                            </div>
+                            <h4 class="font-bold text-olive-900 text-[15px] leading-tight mt-1 mb-1.5 group-hover:text-olive-700 transition-colors">${prod.title}</h4>
+                            <p class="text-[12px] text-olive-500 font-medium line-clamp-1 mb-3">${prod.desc}</p>
+                            <div class="flex justify-between items-center">
+                                <span class="font-black text-teal-900 text-lg">${prod.price}</span>
+                                <button class="bg-olive-50 text-olive-700 border border-olive-200 text-[11px] px-4 py-1.5 rounded-lg font-bold hover:bg-olive-100 transition-colors">${t('Access')}</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="pb-32 animate-in-up bg-desert-50 min-h-full">
+                    <div class="bg-gradient-to-br from-olive-700 via-olive-900 to-teal-900 text-white px-6 pt-8 pb-16 rounded-b-[2.5rem] shadow-olive-glow-lg relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 20px 20px;"></div>
+                        
+                        <h1 class="text-3xl font-black mb-2 relative z-10 flex items-center gap-3 tracking-tight">
+                            <i data-lucide="store" class="w-7 h-7 text-gold-400"></i> ${t('goGULF Oasis')}
+                        </h1>
+                        <p class="text-olive-100 text-[14px] font-medium relative z-10">${t('Premium Services & Mobility Tools')}</p>
+                    </div>
+
+                    <div class="-mt-4 relative z-20">${getLangToggleHTML()}</div>
+
+                    <div class="relative group w-full z-20">
+                        <button onclick="scrollSlider('service-tabs', -200)" class="slider-arrow left-1"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                        <div id="service-tabs" class="px-5 py-2 flex gap-3 overflow-x-auto hide-scrollbar scroll-smooth snap-x">
+                            ${tabs}
+                        </div>
+                        <button onclick="scrollSlider('service-tabs', 200)" class="slider-arrow right-1"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                    </div>
+
+                    <div class="px-5 mt-2 grid grid-cols-1 gap-4">
+                        ${productsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getProfileHTML() {
+            const journeyHTML = MOBILITY_JOURNEY.map(step => `
+                <div class="flex items-center gap-4 group relative">
+                    <div class="absolute left-4 top-10 bottom-[-2rem] w-[2px] bg-olive-100 -z-10 last:hidden"></div>
+                    
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold ring-4 ring-white shadow-sm z-10 transition-colors
+                        ${step.status === 'completed' ? 'bg-olive-500 text-white' : 
+                          step.status === 'active' ? 'bg-gold-500 text-white ring-gold-50' : 'bg-desert-100 text-olive-400'}">
+                        ${step.status === 'completed' ? '<i data-lucide="check" class="w-4 h-4"></i>' : step.step}
+                    </div>
+                    <div class="flex-1 transition-all duration-300 py-1 ${step.status === 'active' ? 'bg-white p-3 rounded-xl border border-gold-200 shadow-sm translate-x-1' : ''}">
+                        <h4 class="font-bold text-[15px] ${step.status === 'active' ? 'text-olive-900' : step.status === 'completed' ? 'text-olive-700' : 'text-olive-400'}">
+                            ${step.title}
+                        </h4>
+                        ${step.status === 'active' ? '<p class="text-[11px] font-semibold text-gold-600 mt-1 flex items-center"><i data-lucide="calendar" class="w-3 h-3 mr-1"></i> Scheduled for 28 Sept.</p>' : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="pb-32 animate-in-up bg-desert-50 min-h-full">
+                    <div class="bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 pt-10 pb-32 px-6 relative rounded-b-[2.5rem] shadow-olive-glow-lg">
+                        <div class="flex justify-between items-center text-white mb-4 relative z-10">
+                            <h1 class="text-3xl font-black tracking-tight">My Profile</h1>
+                            <button class="bg-white/10 backdrop-blur-md p-2.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors"><i data-lucide="settings" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="px-5 -mt-24 relative z-10">
+                        <div class="bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-olive-glow p-6 border border-white text-center">
+                            <div class="w-24 h-24 bg-gradient-to-br from-desert-100 to-olive-100 rounded-full mx-auto border-[4px] border-white shadow-soft-float flex items-center justify-center -mt-16 mb-4 relative overflow-hidden">
+                                <img src="https://api.dicebear.com/9.x/micah/svg?seed=Ahmed&backgroundColor=transparent" alt="Ahmed Hassan" class="w-20 h-20 object-contain translate-y-2 drop-shadow-md" />
+                            </div>
+                            <h2 class="text-2xl font-bold text-olive-900 mb-1">Ahmed Hassan</h2>
+                            <p class="text-gold-600 font-medium text-[13px] mb-5">Supply Chain Expert • Egypt</p>
+                            
+                            <div class="w-full bg-desert-100 rounded-full h-2.5 mb-2 overflow-hidden border border-olive-100/50">
+                                <div class="bg-gradient-to-r from-gold-400 to-gold-600 h-full rounded-full w-[82%] relative"></div>
+                            </div>
+                            <p class="text-[9px] font-bold text-olive-400 text-right uppercase tracking-widest">Profile Strength: 82%</p>
+                        </div>
+                    </div>
+
+                    <div class="px-5 mt-10">
+                        <div class="flex justify-between items-end mb-5">
+                            <h3 class="text-xl font-bold text-olive-900">Mobility Journey</h3>
+                            <span class="text-[11px] font-bold text-olive-900 bg-gold-50 border border-gold-200 px-3 py-1 rounded-lg shadow-sm">🇦🇪 UAE Route</span>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-[2rem] shadow-soft-float border border-olive-100 relative">
+                            <div class="flex flex-col gap-6 relative z-10">
+                                ${journeyHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getGlobalDestinationsHTML() {
+            const regionsHTML = UN_REGIONS.map(region => {
+                const subregionsList = region.subregions.map(sub => `<li onclick="navigateTo('countries')" class="py-2.5 border-b border-olive-100/50 last:border-0 text-[14px] font-medium text-olive-700 hover:text-gold-600 hover:pl-2 transition-all cursor-pointer flex items-center justify-between group/sub"><span>${sub}</span> <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 group-hover/sub:opacity-100 transition-opacity"></i></li>`).join('');
+
+                return `
+                <div class="bg-white rounded-[1.5rem] shadow-soft-float border border-olive-100 overflow-hidden mb-3">
+                    <div onclick="toggleAccordion('${region.id}')" class="p-5 flex items-center gap-5 hover:bg-desert-50 cursor-pointer transition-colors relative z-10">
+                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 relative overflow-hidden border border-olive-100/50 ${region.bg}">
+                            <img src="${region.iconUrl}" alt="${region.name}" class="w-9 h-9 object-contain drop-shadow-md relative z-10" />
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-olive-900 text-lg leading-tight">${region.name}</h3>
+                            <p class="text-olive-400 text-[11px] font-bold mt-0.5 uppercase tracking-widest">${region.subregions.length} Subregions</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300" id="icon-${region.id}">
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-olive-500"></i>
+                        </div>
+                    </div>
+                    <div id="accordion-${region.id}" class="accordion-content bg-desert-50/50 border-t border-olive-100/50">
+                        <ul class="px-6 py-2">
+                            ${subregionsList}
+                        </ul>
+                    </div>
+                </div>
+            `}).join('');
+
+            return `
+                <div class="pb-32 animate-in-up bg-desert-50 min-h-full">
+                    <div class="bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 text-white px-6 pt-8 pb-10 rounded-b-[2.5rem] shadow-olive-glow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
+                            <i data-lucide="globe-2" class="w-48 h-48 translate-x-1/4 -translate-y-1/4"></i>
+                        </div>
+                        <div class="absolute bottom-0 left-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[40px] translate-y-1/4 -translate-x-1/4"></div>
+                        
+                        <div class="relative z-10">
+                            <h1 class="text-3xl font-black mb-2 flex items-center gap-3 tracking-tight">
+                                <i data-lucide="globe" class="w-7 h-7 text-gold-400"></i> ${t('Explore the World')}
+                            </h1>
+                            <p class="text-olive-100 text-[14px] font-medium opacity-90">${t('Discover global mobility opportunities across 200+ countries.')}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">${getLangToggleHTML()}</div>
+
+                    <div class="px-5 mt-4 flex flex-col">
+                        <h2 class="text-xl font-black text-olive-900 flex items-center gap-2 mb-4">
+                            🌍 ${t('Select Region')}
+                        </h2>
+                        ${regionsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getDemandHTML() {
+            return `
+                <div class="p-10 text-center flex flex-col items-center justify-center mt-20 animate-in-up duration-500">
+                    <div class="w-24 h-24 bg-desert-100 rounded-full flex items-center justify-center mb-6 shadow-inner border border-olive-100/50">
+                        <img src="https://img.icons8.com/fluency/96/lightning-bolt.png" class="w-14 h-14 object-contain drop-shadow-md" alt="On Demand" />
+                    </div>
+                    <h2 class="text-2xl font-bold text-olive-900 mb-2">On Demand</h2>
+                    <p class="text-olive-500 font-medium text-sm">Instant services and immediate fulfillment requests will appear here.</p>
+                </div>
+            `;
+        }
+
+        function getDestinationsHTML() {
+            const continents = ['Asia', 'Europe', 'North America', 'South America', 'Africa', 'Oceania'];
+            
+            let allDestinationsHTML = continents.map(cont => {
+                const countriesInCont = GLOBAL_COUNTRIES.filter(c => c.continent === cont);
+                if(countriesInCont.length === 0) return '';
+                
+                const cards = countriesInCont.map(country => `
+                    <div onclick="selectCountry('${country.id}')" class="min-w-[140px] snap-start bg-white border border-olive-100 rounded-[1.5rem] p-4 shadow-sm flex flex-col items-center flex-shrink-0 cursor-pointer hover:shadow-olive-glow interactive-card hover:-translate-y-2 relative overflow-hidden group">
+                        <div class="w-16 h-16 mb-3 rounded-full overflow-hidden border-[3px] border-white shadow-soft-float group-hover:scale-110 transition-transform duration-500 relative z-10 bg-desert-100 flex items-center justify-center shrink-0">
+                            <img src="https://flagcdn.com/w160/${country.flagCode}.png" alt="${country.name}" class="w-full h-full object-cover" onerror="this.style.display='none'"/>
+                        </div>
+                        <span class="font-bold text-olive-900 text-[14px] relative z-10 text-center leading-tight w-full truncate">${country.emoji} ${country.name}</span>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="mt-4">
+                        <h3 class="px-5 text-lg font-black text-olive-900 mb-2 flex items-center gap-2">${cont}</h3>
+                        <div class="relative group w-full">
+                            <button onclick="scrollSlider('dest-scroll-${cont.replace(/\s/g,'')}', -250)" class="slider-arrow left-2"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                            <div id="dest-scroll-${cont.replace(/\s/g,'')}" class="flex overflow-x-auto px-5 pb-6 pt-2 gap-3.5 hide-scrollbar scroll-smooth snap-x">
+                                ${cards}
+                            </div>
+                            <button onclick="scrollSlider('dest-scroll-${cont.replace(/\s/g,'')}', 250)" class="slider-arrow right-2"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="pb-32 animate-in-up bg-desert-50 min-h-full">
+                    <div class="bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 text-white px-6 pt-8 pb-10 rounded-b-[2.5rem] shadow-olive-glow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/4"></div>
+                        <h1 class="text-3xl font-black mb-2 relative z-10 flex items-center gap-3">
+                            <i data-lucide="map" class="w-7 h-7 text-gold-400"></i> Top Destinations
+                        </h1>
+                        <p class="text-olive-100 text-[14px] font-medium relative z-10">Explore 195 countries across 6 continents.</p>
+                    </div>
+                    
+                    <div class="pt-4">${getLangToggleHTML()}</div>
+                    
+                    <div class="-mt-2 flex flex-col">
+                        ${allDestinationsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getInterviewsHTML() {
+            return `
+                <div class="pb-32 animate-in-up bg-desert-50 min-h-full">
+                    <div class="bg-gradient-to-br from-olive-900 to-teal-900 text-white px-6 pt-8 pb-16 rounded-b-[2.5rem] shadow-olive-glow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/4"></div>
+                        <h1 class="text-3xl font-black mb-5 relative z-10 flex items-center gap-3 tracking-tight">
+                            <i data-lucide="mic" class="w-7 h-7 text-gold-400"></i> Upcoming Interviews
+                        </h1>
+                        <div class="flex gap-3 relative z-10">
+                            <div class="flex-1 flex items-center bg-white/10 backdrop-blur-md rounded-2xl px-4 py-3 border border-white/20 shadow-inner focus-within:bg-white/20 transition-colors">
+                                <i data-lucide="search" class="w-5 h-5 text-gold-400 mr-3"></i>
+                                <input type="text" oninput="renderInterviewsList(this.value)" placeholder="Search events..." class="bg-transparent text-white placeholder-white/70 outline-none w-full text-[15px] font-medium" />
+                            </div>
+                            <button class="bg-white/10 backdrop-blur-md border border-white/20 text-white p-3 rounded-2xl shadow-lg hover:bg-white/20 transition-all"><i data-lucide="sliders-horizontal" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="px-5 mt-6 flex flex-col gap-4" id="interviews-list-container">
+                        ${generateInterviewsHTML()}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getCountryDirectoryHTML() {
+            const filters = ['All', 'Continent', 'Region', 'Country', 'Language', 'Currency', 'Job Market', 'Study', 'Work', 'Visa Route', 'Cost of Living', 'Settlement'];
+            
+            let filterHTML = filters.map((filter, i) => `
+                <button class="whitespace-nowrap flex-shrink-0 snap-start px-4 py-2 rounded-xl text-[12px] font-bold shadow-soft-float transition-all duration-300 border ${i === 0 ? 'bg-olive-700 text-white border-transparent' : 'bg-white border-olive-100 text-olive-500 hover:bg-desert-100 hover:text-olive-900 hover:border-olive-300'}">
+                    ${t(filter)}
+                </button>
+            `).join('');
+
+            let cardsHTML = GLOBAL_COUNTRIES.slice(0, 50).map(country => `
+                <div class="bg-white p-4 rounded-[1.5rem] shadow-soft-float border border-olive-100 flex items-center gap-4 hover:shadow-olive-glow cursor-pointer transition-all interactive-card hover:-translate-y-1 group relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-olive-50 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0 bg-desert-100 flex items-center justify-center relative z-10">
+                        <img src="https://flagcdn.com/w160/${country.flagCode}.png" alt="${country.name}" class="w-full h-full object-cover" onerror="this.style.display='none'"/>
+                        <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <div class="flex-1 relative z-10">
+                        <h3 class="font-bold text-olive-900 text-[16px] flex items-center gap-1.5 leading-tight">${country.emoji} ${country.name}</h3>
+                        <p class="text-olive-500 text-[10px] font-bold uppercase tracking-widest mt-1 opacity-90">${country.tags}</p>
+                    </div>
+                    <button onclick="selectCountry('${country.id}')" class="px-4 py-2 bg-desert-50 hover:bg-gold-50 text-gold-600 text-[11px] font-bold rounded-xl border border-olive-100 group-hover:border-gold-200 transition-colors shrink-0 relative z-10 flex items-center gap-1">
+                        Explore <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            return `
+                <div class="pb-32 animate-in-up bg-desert-50 min-h-full">
+                    <div class="bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 text-white px-6 pt-8 pb-16 rounded-b-[2.5rem] shadow-olive-glow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
+                        
+                        <h1 class="text-3xl font-black mb-5 relative z-10 flex items-center gap-3 tracking-tight">
+                            <i data-lucide="globe" class="w-7 h-7 text-gold-400"></i> ${t('Countries')}
+                        </h1>
+                        
+                        <div class="flex gap-3 relative z-10 mb-2">
+                            <div class="flex-1 flex items-center bg-white/10 backdrop-blur-md rounded-2xl px-4 py-3 border border-white/20 shadow-inner focus-within:bg-white/20 transition-colors">
+                                <i data-lucide="search" class="w-5 h-5 text-gold-400 mr-3"></i>
+                                <input type="text" oninput="renderCountriesList(this.value)" placeholder="${t('Search 200+ countries and territories')}" class="bg-transparent text-white placeholder-white/70 outline-none w-full text-[14px] font-medium" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative group w-full z-20 pb-3 -mt-6">
+                        <button onclick="scrollSlider('country-filter-scroll', -200)" class="slider-arrow left-1"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                        <div id="country-filter-scroll" class="px-5 flex gap-2.5 overflow-x-auto hide-scrollbar scroll-smooth snap-x py-1">
+                            ${filterHTML}
+                        </div>
+                        <button onclick="scrollSlider('country-filter-scroll', 200)" class="slider-arrow right-1"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                    </div>
+
+                    <div class="px-5 mt-2 flex flex-col gap-3.5" id="countries-list-container">
+                        ${generateCountriesHTML()}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getCountryPageHTML() {
+            const country = selectedCountry || GLOBAL_COUNTRIES[0];
+            
+            const tabs = ['Overview', 'Jobs', 'Interviews', 'Education', 'Training', 'Mobility', 'Travel', 'Accommodation', 'Settlement'];
+            const tabsHTML = tabs.map((tab, i) => `
+                <button class="whitespace-nowrap flex-shrink-0 snap-start px-5 py-2.5 rounded-xl text-[13px] font-bold shadow-soft-float transition-all duration-300 border ${i === 0 ? 'bg-olive-700 text-white border-transparent' : 'bg-white border-olive-100 text-olive-500 hover:bg-desert-100 hover:text-olive-900 hover:border-olive-300'}">
+                    ${tab}
+                </button>
+            `).join('');
+
+            const exploreItems = [
+                { id: 'jobs', name: 'Jobs', iconUrl: 'https://img.icons8.com/fluency/96/briefcase.png' },
+                { id: 'interviews', name: 'Interviews', iconUrl: 'https://img.icons8.com/fluency/96/microphone.png' },
+                { id: 'education', name: 'Education', iconUrl: 'https://img.icons8.com/fluency/96/books.png' },
+                { id: 'training', name: 'Training', iconUrl: 'https://img.icons8.com/fluency/96/training.png' },
+                { id: 'mobility', name: 'Mobility', iconUrl: 'https://img.icons8.com/fluency/96/passport.png' },
+                { id: 'documents', name: 'Documents', iconUrl: 'https://img.icons8.com/fluency/96/document.png' },
+                { id: 'cost', name: 'Cost of Living', iconUrl: 'https://img.icons8.com/fluency/96/money.png' },
+                { id: 'travel', name: 'Travel', iconUrl: 'https://img.icons8.com/fluency/96/airplane-take-off.png' },
+                { id: 'accommodation', name: 'Accommodation', iconUrl: 'https://img.icons8.com/fluency/96/skyscrapers.png' },
+                { id: 'settlement', name: 'Settlement', iconUrl: 'https://img.icons8.com/fluency/96/home.png' },
+            ];
+            
+            const exploreHTML = exploreItems.map(item => `
+                <div class="bg-white p-4 rounded-[1.5rem] shadow-soft-float border border-olive-100 flex flex-col items-center gap-2 hover:shadow-olive-glow cursor-pointer transition-all interactive-card hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-desert-50 rounded-2xl flex items-center justify-center border border-olive-100/50">
+                        <img src="${item.iconUrl}" alt="${item.name}" class="w-9 h-9 object-contain drop-shadow-sm" onerror="this.src='https://img.icons8.com/fluency/96/grid.png'"/>
+                    </div>
+                    <span class="text-[13px] font-bold text-olive-900 text-center">${item.name}</span>
+                </div>
+            `).join('');
+
+            return `
+                <div class="pb-32 animate-in-right bg-desert-50 min-h-full">
+                    <div class="sticky top-0 bg-white/90 backdrop-blur-xl z-20 px-4 py-3 border-b border-olive-100 flex items-center justify-between shadow-sm">
+                        <button onclick="clearCountrySelection()" class="p-2.5 bg-desert-100 rounded-xl hover:bg-olive-100 text-olive-700 transition-colors border border-transparent hover:border-olive-200">
+                            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        </button>
+                        <h2 class="font-bold text-olive-900 truncate px-4 flex items-center gap-2">${country.emoji} ${country.name}</h2>
+                        <button class="p-2.5 text-olive-400 hover:text-gold-500 transition-colors"><i data-lucide="share-2" class="w-5 h-5"></i></button>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 text-white px-6 pt-8 pb-14 rounded-b-[2.5rem] shadow-olive-glow-lg relative overflow-hidden -mt-2">
+                        <div class="absolute right-0 top-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
+                        <div class="relative z-10 flex flex-col items-center text-center">
+                            <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-soft-float bg-desert-100 mb-4 flex items-center justify-center">
+                                <img src="https://flagcdn.com/w160/${country.flagCode}.png" alt="${country.name}" class="w-full h-full object-cover"/>
+                            </div>
+                            <h1 class="text-3xl font-black mb-2">${country.name} Global Mobility</h1>
+                            <p class="text-olive-100 text-[11px] font-bold uppercase tracking-widest opacity-90 leading-relaxed max-w-[280px]">
+                                Jobs • Careers • Education • Training • Mobility • Travel • Settlement
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="relative group w-full z-20 -mt-6 pb-2">
+                        <button onclick="scrollSlider('country-tabs-scroll', -200)" class="slider-arrow left-1"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                        <div id="country-tabs-scroll" class="px-5 flex gap-2.5 overflow-x-auto hide-scrollbar scroll-smooth snap-x py-1">
+                            ${tabsHTML}
+                        </div>
+                        <button onclick="scrollSlider('country-tabs-scroll', 200)" class="slider-arrow right-1"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                    </div>
+                    
+                    <div class="px-5 mt-4">
+                        <h3 class="font-bold text-olive-900 text-xl mb-4 flex items-center gap-2">Explore ${country.name}</h3>
+                        <div class="grid grid-cols-2 gap-3.5">
+                            ${exploreHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getGlobalSearchHTML() {
+            const searchTypes = ['All', 'Jobs', 'Interviews', 'Training', 'Education', 'Services', 'Employers', 'Countries', 'Accommodation', 'Travel'];
+            const typeTabsHTML = searchTypes.map((type, i) => `
+                <button class="whitespace-nowrap flex-shrink-0 snap-start px-5 py-2.5 rounded-full text-[13px] font-semibold shadow-soft-float transition-all duration-300 border ${i === 0 ? 'bg-olive-700 text-white border-transparent' : 'bg-white border-olive-100 text-olive-500 hover:bg-desert-100 hover:text-olive-900 hover:border-olive-300'}">
+                    ${t(type)}
+                </button>
+            `).join('');
+
+            // Mix of mock results to demonstrate "All" category
+            const job = TRENDING_JOBS[0];
+            const country = GLOBAL_COUNTRIES[0];
+            const product = MARKETPLACE_PRODUCTS[0];
+
+            return `
+                <div class="pb-32 animate-in-up bg-desert-50 min-h-full">
+                    <div class="bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 text-white px-6 pt-8 pb-16 rounded-b-[2.5rem] shadow-olive-glow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/4"></div>
+                        
+                        <h1 class="text-3xl font-black mb-5 relative z-10 flex items-center gap-3 tracking-tight">
+                            <i data-lucide="search" class="w-7 h-7 text-gold-400"></i> ${t('Search Everything')}
+                        </h1>
+                        <div class="flex flex-col gap-3 relative z-10">
+                            <div class="flex items-center bg-white/10 backdrop-blur-md rounded-2xl px-4 py-3 border border-white/20 shadow-inner focus-within:bg-white/20 transition-colors">
+                                <i data-lucide="search" class="w-5 h-5 text-gold-400 mr-3"></i>
+                                <input type="text" placeholder="${t('Jobs, interviews, courses, services...')}" class="bg-transparent text-white placeholder-white/70 outline-none w-full text-[14px] font-medium" />
+                            </div>
+                            <div class="flex items-center bg-white/10 backdrop-blur-md rounded-2xl px-4 py-3 border border-white/20 shadow-inner focus-within:bg-white/20 transition-colors">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-gold-400 mr-3"></i>
+                                <input type="text" placeholder="🌍 ${t('Anywhere')}" class="bg-transparent text-white placeholder-white/70 outline-none w-full text-[14px] font-medium" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="-mt-4 relative z-20">${getLangToggleHTML()}</div>
+
+                    <div class="relative group w-full z-20 pb-2">
+                        <button onclick="scrollSlider('search-type-scroll', -200)" class="slider-arrow left-1"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                        <div id="search-type-scroll" class="px-5 flex gap-2.5 overflow-x-auto hide-scrollbar scroll-smooth snap-x py-1">
+                            ${typeTabsHTML}
+                        </div>
+                        <button onclick="scrollSlider('search-type-scroll', 200)" class="slider-arrow right-1"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                    </div>
+
+                    <div class="px-5 mt-2 flex justify-between items-center mb-4">
+                        <h3 class="text-sm font-bold text-olive-900">124 ${t('results found')}</h3>
+                        <div class="flex gap-2">
+                            <button class="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-olive-200 rounded-xl text-xs font-bold text-olive-700 shadow-sm hover:bg-desert-100 transition-colors">
+                                <i data-lucide="filter" class="w-3.5 h-3.5"></i> ${t('Filter')}
+                            </button>
+                            <button class="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-olive-200 rounded-xl text-xs font-bold text-olive-700 shadow-sm hover:bg-desert-100 transition-colors">
+                                <i data-lucide="arrow-up-down" class="w-3.5 h-3.5"></i> ${t('Sort')}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="px-5 flex flex-col gap-4">
+                        <!-- Job Result -->
+                        <div onclick="selectJob('${job.id}')" class="bg-white p-5 rounded-[1.5rem] shadow-soft-float border border-olive-100 cursor-pointer hover:shadow-olive-glow interactive-card hover:border-olive-300 group relative overflow-hidden">
+                            <div class="flex justify-between items-start mb-4 relative z-10">
+                                <div class="flex gap-4">
+                                    <div class="w-12 h-12 bg-desert-100 rounded-xl flex items-center justify-center border border-olive-100/50 overflow-hidden shrink-0 shadow-sm">
+                                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(job.company)}&background=EAE5D8&color=2A3525&bold=true" class="w-full h-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <span class="text-[9px] font-bold text-olive-400 uppercase tracking-widest mb-1 block">Job Opportunity</span>
+                                        <h4 class="font-bold text-olive-900 text-[16px] leading-tight mb-1 group-hover:text-olive-700 transition-colors">${job.title}</h4>
+                                        <p class="text-[13px] font-semibold text-gold-600">${job.company}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Country Result -->
+                        <div onclick="selectCountry('${country.id}')" class="bg-white p-4 rounded-[1.5rem] shadow-soft-float border border-olive-100 flex items-center gap-4 hover:shadow-olive-glow cursor-pointer transition-all interactive-card group">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0 bg-desert-100 flex items-center justify-center">
+                                <img src="https://flagcdn.com/w160/${country.flagCode}.png" class="w-full h-full object-cover"/>
+                            </div>
+                            <div class="flex-1">
+                                <span class="text-[9px] font-bold text-olive-400 uppercase tracking-widest mb-0.5 block">Destination</span>
+                                <h3 class="font-bold text-olive-900 text-[16px] flex items-center gap-1.5 leading-tight">${country.emoji} ${country.name}</h3>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5 text-gold-500"></i>
+                        </div>
+
+                        <!-- Service Result -->
+                        <div class="bg-white p-4 rounded-[1.5rem] shadow-soft-float border border-olive-100 flex gap-4 items-center hover:shadow-olive-glow interactive-card group">
+                            <div class="w-16 h-16 bg-desert-100 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden border border-olive-100/50">
+                                <img src="${product.iconUrl}" class="w-9 h-9 object-contain drop-shadow-md" />
+                            </div>
+                            <div class="flex-1 py-1">
+                                <span class="text-[9px] font-bold text-olive-400 uppercase tracking-widest block mb-0.5">${product.type}</span>
+                                <h4 class="font-bold text-olive-900 text-[15px] leading-tight mb-1 group-hover:text-olive-700 transition-colors">${product.title}</h4>
+                                <span class="font-black text-teal-900">${product.price}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateBottomNav() {
+            const navItems = [
+                { id: 'home', icon: 'home', label: 'Home' },
+                { id: 'explore', icon: 'compass', label: 'Explore' },
+                { id: 'countries', icon: 'map', label: 'Countries' },
+                { id: 'jobs', icon: 'briefcase', label: 'Jobs' },
+                { id: 'interviews', icon: 'mic', label: 'Interviews' },
+                { id: 'services', icon: 'store', label: 'Services' },
+                { id: 'demand', icon: 'zap', label: 'Demand' },
+                { id: 'profile', icon: 'user', label: 'Profile' },
+            ];
+
+            const navContainer = document.getElementById('bottom-nav');
+            const currentScroll = navContainer.scrollLeft; 
+            
+            navContainer.innerHTML = navItems.map(item => `
+                <button onclick="navigateTo('${item.id}')" class="min-w-[72px] flex-shrink-0 snap-center flex flex-col items-center py-2 transition-all duration-300 ease-out relative ${activeTab === item.id ? 'text-olive-700 scale-105' : 'text-olive-400 hover:text-olive-700'}">
+                    ${activeTab === item.id ? '<div class="absolute -top-1 w-1 h-1 bg-gold-500 rounded-full shadow-[0_0_8px_#D4AF37]"></div>' : ''}
+                    <i data-lucide="${item.icon}" class="w-[20px] h-[20px] transition-all duration-300 ${activeTab === item.id ? 'fill-olive-50 stroke-olive-700 drop-shadow-sm' : ''}" stroke-width="${activeTab === item.id ? 2 : 1.5}"></i>
+                    <span class="text-[9px] mt-1 font-bold tracking-wide ${activeTab === item.id ? 'opacity-100 text-olive-900' : 'opacity-70'}">${item.label}</span>
+                </button>
+            `).join('');
+            
+            navContainer.scrollLeft = currentScroll;
+        }
+
+        function setupMenuLinks() {
+            const menuItems = [
+                { icon: 'home', label: 'Home', action: 'home' },
+                { icon: 'compass', label: 'Explore Opportunities', action: 'explore' },
+                { icon: 'target', label: 'Career Assessment', action: 'explore' },
+                { icon: 'search', label: 'Global Search', action: 'search' },
+                { icon: 'briefcase', label: 'Jobs Marketplace', action: 'jobs' },
+                { icon: 'mic', label: 'Interviews', action: 'jobs' },
+                { icon: 'file-badge-2', label: 'Visa & Immigration', action: 'services' },
+                { icon: 'folder-open', label: 'Documents', action: 'services' },
+                { icon: 'graduation-cap', label: 'Education & Training', action: 'services' },
+                { icon: 'store', label: 'Marketplace', action: 'services' },
+                { icon: 'user', label: 'My goGULF Profile', action: 'profile' },
+            ];
+
+            const menuContainer = document.getElementById('menu-links');
+            menuContainer.innerHTML = menuItems.map(item => `
+                <button onclick="navigateTo('${item.action}')" class="w-full flex items-center px-4 py-3.5 rounded-2xl hover:bg-olive-100 hover:text-olive-900 text-left transition-all duration-300 group">
+                    <i data-lucide="${item.icon}" class="w-[20px] h-[20px] text-olive-400 group-hover:text-gold-500 mr-4 transition-colors" stroke-width="1.5"></i>
+                    <span class="text-olive-900 font-medium text-[15px]">${item.label}</span>
+                </button>
+            `).join('');
+        }
+
+        function renderApp() {
+            const contentDiv = document.getElementById('app-content');
+            
+            clearTimeout(typewriterTimeout);
+            
+            if (activeTab === 'jobs' && selectedJob) {
+                contentDiv.innerHTML = getJobDetailsHTML();
+            } else if (activeTab === 'country' && selectedCountry) {
+                contentDiv.innerHTML = getCountryPageHTML();
+            } else {
+                switch(activeTab) {
+                    case 'welcome': contentDiv.innerHTML = getWelcomeHTML(); break;
+                    case 'home': 
+                        contentDiv.innerHTML = getHomeHTML(); 
+                        if (isAppReady) setTimeout(startTypewriter, 100); 
+                        break;
+                    case 'search': contentDiv.innerHTML = getGlobalSearchHTML(); break;
+                    case 'jobs': contentDiv.innerHTML = getJobsHTML(); break;
+                    case 'interviews': contentDiv.innerHTML = getInterviewsHTML(); break;
+                    case 'services': contentDiv.innerHTML = getServicesHTML(); break;
+                    case 'destinations': contentDiv.innerHTML = getDestinationsHTML(); break;
+                    case 'countries': contentDiv.innerHTML = getCountryDirectoryHTML(); break;
+                    case 'profile': contentDiv.innerHTML = getProfileHTML(); break;
+                    case 'explore': contentDiv.innerHTML = getGlobalDestinationsHTML(); break;
+                    case 'demand': contentDiv.innerHTML = getDemandHTML(); break;
+                }
+            }
+            
+            lucide.createIcons();
+            updateBottomNav();
+            lucide.createIcons();
+        }
+
+        window.onload = function() {
+            setupMenuLinks();
+            
+            document.getElementById('app-header').style.display = 'none';
+            document.getElementById('bottom-nav-wrapper').style.display = 'none';
+            
+            renderApp();
+            
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                if (splash) {
+                    splash.classList.add('opacity-0');
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        isAppReady = true;
+                        
+                        if (activeTab === 'home') {
+                            startTypewriter();
+                            
+                            setTimeout(() => {
+                                const nav = document.getElementById('bottom-nav');
+                                if (nav) {
+                                    nav.scrollBy({ left: 120, behavior: 'smooth' });
+                                    setTimeout(() => {
+                                        nav.scrollBy({ left: -120, behavior: 'smooth' });
+                                    }, 800);
+                                }
+                            }, 500);
+                        }
+
+                    }, 700); 
+                }
+            }, 2500); 
+        };
+    </script>
+</body>
+</html>
