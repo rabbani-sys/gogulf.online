@@ -65,15 +65,21 @@
         .window-controls button:hover { background: rgba(0,0,0,0.1); }
         .window-controls button.close:hover { background: #e81123; color: white; }
 
-        /* Taskbar */
-        .taskbar { height: 48px; width: 100%; position: absolute; bottom: 0; z-index: 9999; display: flex; align-items: center; padding: 0 12px; }
-        .taskbar-center { flex: 1; display: flex; justify-content: center; gap: 4px; }
-        .taskbar-icon { width: 40px; height: 40px; border-radius: 4px; display: flex; justify-content: center; align-items: center; transition: all 0.2s; cursor: pointer; position: relative; }
-        .taskbar-icon:hover { background: rgba(255,255,255,0.8); }
-        .taskbar-icon.active::after { content: ''; position: absolute; bottom: 2px; width: 16px; height: 3px; background: #0067c0; border-radius: 2px; }
+        /* Floating Dock */
+        .dock-container { position: absolute; bottom: 20px; left: 0; right: 0; z-index: 9999; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 24px; pointer-events: none; }
+        .dock-center { pointer-events: auto; background: rgba(244, 246, 243, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(174, 192, 168, 0.4); border-radius: 9999px; padding: 8px 12px; display: flex; gap: 4px; box-shadow: 0 20px 40px -10px rgba(77, 97, 69, 0.25), inset 0 1px 0 rgba(255,255,255,0.5); align-items: center; }
+        .dock-right { pointer-events: auto; background: rgba(244, 246, 243, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(174, 192, 168, 0.4); border-radius: 9999px; padding: 6px 16px; display: flex; gap: 12px; box-shadow: 0 20px 40px -10px rgba(77, 97, 69, 0.25), inset 0 1px 0 rgba(255,255,255,0.5); align-items: center; color: #4D6145; transition: all 0.3s ease; }
+        .dock-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; justify-content: center; align-items: center; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; position: relative; }
+        .dock-icon:hover { background: rgba(174, 192, 168, 0.25); transform: translateY(-6px); box-shadow: 0 10px 20px -5px rgba(77, 97, 69, 0.2); }
+        .dock-icon.active::after { content: ''; position: absolute; bottom: 2px; width: 4px; height: 4px; background: #C59B27; border-radius: 50%; box-shadow: 0 0 4px rgba(197, 155, 39, 0.5); }
+        
+        @media (max-width: 640px) {
+            .dock-container { justify-content: center; padding: 0 10px; bottom: 10px; }
+            .dock-right { display: none; }
+        }
 
-        /* Start Menu */
-        .start-menu { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(20px); width: 640px; height: 720px; border-radius: 8px; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 9998; padding: 24px; display: flex; flex-direction: column; }
+        /* Start Menu Modern Olive */
+        .start-menu { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px); width: 640px; height: 720px; border-radius: 24px; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 9998; padding: 24px; display: flex; flex-direction: column; background: rgba(244, 246, 243, 0.85); backdrop-filter: blur(30px); border: 1px solid rgba(174, 192, 168, 0.4); box-shadow: 0 30px 60px -15px rgba(77, 97, 69, 0.3), inset 0 1px 0 rgba(255,255,255,0.5); }
         .start-menu.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
 
         /* App specific styles (goGULF) */
@@ -122,57 +128,67 @@
         </div>
 
         <!-- Start Menu -->
-        <div id="start-menu" class="start-menu glass">
+        <div id="start-menu" class="start-menu">
             <div class="px-8 pt-4 pb-2">
                 <div class="relative">
-                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                    <input type="text" placeholder="Type here to search" class="w-full bg-white/80 border border-gray-300/50 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-win-accent focus:bg-white transition-colors">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-olive-500"></i>
+                    <input type="text" placeholder="Type here to search" class="w-full bg-white/60 border border-olive-200 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-gold-400 focus:bg-white focus:ring-2 focus:ring-gold-500/20 transition-all text-olive-900 placeholder:text-olive-400 shadow-inner">
                 </div>
             </div>
             
             <div class="flex-1 px-8 py-4 overflow-y-auto hide-scrollbar">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-semibold text-gray-800">Pinned</h3>
-                    <button class="text-xs text-gray-600 hover:text-black bg-white/50 px-2 py-1 rounded">All apps ></button>
+                    <h3 class="text-sm font-bold text-olive-900">Pinned</h3>
+                    <button class="text-[10px] font-bold text-olive-600 hover:text-olive-900 bg-white/50 border border-olive-100 shadow-sm px-2.5 py-1 rounded-md transition-colors">All apps ></button>
                 </div>
                 
                 <div class="grid grid-cols-6 gap-y-6 gap-x-2">
                     <!-- App Icons -->
-                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded" onclick="toggleAppWindow('gogulf-window'); toggleStartMenu()">
-                        <div class="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center p-0.5">
-                            <div class="w-full h-full bg-gradient-to-br from-olive-700 to-olive-900 rounded flex items-center justify-center text-white font-sans font-black text-[10px] tracking-tight">go</div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-olive-100/50 p-2 rounded-xl transition-colors group" onclick="toggleAppWindow('gogulf-window'); toggleStartMenu()">
+                        <div class="w-12 h-12 bg-white rounded-2xl shadow-sm border border-olive-100 flex items-center justify-center p-1 group-hover:scale-105 group-hover:shadow-olive-glow transition-all">
+                            <div class="w-full h-full bg-gradient-to-br from-olive-700 to-olive-900 rounded-xl flex items-center justify-center text-white font-sans font-black text-xs tracking-tight">go</div>
                         </div>
-                        <span class="text-xs text-gray-800 truncate w-full text-center">goGULF</span>
+                        <span class="text-xs font-semibold text-olive-800 truncate w-full text-center">goGULF</span>
                     </div>
-                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-8 h-8" alt="Edge">
-                        <span class="text-xs text-gray-800 truncate w-full text-center">Edge</span>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-olive-100/50 p-2 rounded-xl transition-colors group">
+                        <div class="w-12 h-12 bg-white rounded-2xl shadow-sm border border-olive-100 flex items-center justify-center group-hover:scale-105 transition-all">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-7 h-7 grayscale contrast-125 sepia-[.3] hue-rotate-[-40deg]" alt="Edge">
+                        </div>
+                        <span class="text-xs font-semibold text-olive-800 truncate w-full text-center">Edge</span>
                     </div>
-                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
-                        <i data-lucide="mail" class="w-8 h-8 text-blue-500"></i>
-                        <span class="text-xs text-gray-800 truncate w-full text-center">Mail</span>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-olive-100/50 p-2 rounded-xl transition-colors group">
+                        <div class="w-12 h-12 bg-white rounded-2xl shadow-sm border border-olive-100 flex items-center justify-center group-hover:scale-105 transition-all">
+                            <i data-lucide="mail" class="w-6 h-6 text-olive-600"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-olive-800 truncate w-full text-center">Mail</span>
                     </div>
-                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
-                        <i data-lucide="image" class="w-8 h-8 text-blue-400"></i>
-                        <span class="text-xs text-gray-800 truncate w-full text-center">Photos</span>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-olive-100/50 p-2 rounded-xl transition-colors group">
+                        <div class="w-12 h-12 bg-white rounded-2xl shadow-sm border border-olive-100 flex items-center justify-center group-hover:scale-105 transition-all">
+                            <i data-lucide="image" class="w-6 h-6 text-gold-500"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-olive-800 truncate w-full text-center">Photos</span>
                     </div>
-                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
-                        <i data-lucide="settings" class="w-8 h-8 text-gray-600"></i>
-                        <span class="text-xs text-gray-800 truncate w-full text-center">Settings</span>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-olive-100/50 p-2 rounded-xl transition-colors group">
+                        <div class="w-12 h-12 bg-white rounded-2xl shadow-sm border border-olive-100 flex items-center justify-center group-hover:scale-105 transition-all">
+                            <i data-lucide="settings" class="w-6 h-6 text-olive-700"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-olive-800 truncate w-full text-center">Settings</span>
                     </div>
-                     <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
-                        <i data-lucide="calculator" class="w-8 h-8 text-green-500"></i>
-                        <span class="text-xs text-gray-800 truncate w-full text-center">Calculator</span>
+                     <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-olive-100/50 p-2 rounded-xl transition-colors group">
+                        <div class="w-12 h-12 bg-white rounded-2xl shadow-sm border border-olive-100 flex items-center justify-center group-hover:scale-105 transition-all">
+                            <i data-lucide="calculator" class="w-6 h-6 text-teal-700"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-olive-800 truncate w-full text-center">Calculator</span>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-auto bg-black/5 rounded-b-lg p-4 flex justify-between items-center -mx-6 -mb-6">
-                <div class="flex items-center gap-3 hover:bg-white/50 p-2 rounded cursor-pointer">
-                    <img src="https://i.pravatar.cc/150?img=11" class="w-8 h-8 rounded-full" alt="User">
-                    <span class="text-sm font-semibold text-gray-800">User</span>
+            <div class="mt-auto bg-olive-900/5 border-t border-olive-200/50 rounded-b-[23px] p-4 flex justify-between items-center -mx-6 -mb-6">
+                <div class="flex items-center gap-3 hover:bg-white/50 p-2 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-olive-200 shadow-sm">
+                    <img src="https://i.pravatar.cc/150?img=11" class="w-9 h-9 rounded-full border-2 border-white shadow-sm" alt="User">
+                    <span class="text-sm font-bold text-olive-900">User</span>
                 </div>
-                <button class="p-2 hover:bg-white/50 rounded text-gray-700">
+                <button class="p-2 hover:bg-red-50 hover:text-red-500 rounded-xl text-olive-700 transition-colors border border-transparent hover:border-red-100 shadow-sm">
                     <i data-lucide="power" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -342,50 +358,57 @@
             </div>
         </div>
 
-        <!-- Taskbar -->
-        <div class="taskbar glass border-t border-white/20">
-            <!-- Start Button -->
-            <button onclick="toggleStartMenu()" class="taskbar-icon group" title="Start">
-                <svg viewBox="0 0 88 88" class="w-6 h-6 group-hover:scale-105 transition-transform">
-                    <path fill="#00a4ef" d="M0 42.1V10L39 4v38.1z"/>
-                    <path fill="#7fba00" d="M42.1 3.5 88 0v42.1H42.1z"/>
-                    <path fill="#ffb900" d="M0 45.9h39V84l-39-6z"/>
-                    <path fill="#f25022" d="M42.1 45.9H88V88l-45.9-7.2z"/>
-                </svg>
-            </button>
+        <!-- Floating Dock & SysTray (Replaces Taskbar) -->
+        <div class="dock-container">
+            <!-- Left Spacer -->
+            <div class="flex-1"></div>
             
-            <!-- Search -->
-            <div class="ml-2 flex items-center bg-white/60 hover:bg-white border border-gray-300 rounded px-2 h-8 w-48 cursor-text transition-colors">
-                <i data-lucide="search" class="w-4 h-4 text-gray-600 mr-2"></i>
-                <span class="text-xs text-gray-500">Search</span>
-            </div>
-            
-            <!-- App Icons Center -->
-            <div class="taskbar-center">
-                 <div class="taskbar-icon active group relative" onclick="toggleAppWindow('gogulf-window')" title="goGULF">
-                    <div class="w-6 h-6 bg-gradient-to-br from-olive-700 to-olive-900 rounded-sm flex items-center justify-center text-white font-sans font-black text-[8px] tracking-tight group-hover:scale-110 transition-transform">go</div>
-                </div>
-                <div class="taskbar-icon group relative" title="Edge">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-6 h-6 group-hover:scale-110 transition-transform" alt="Edge">
-                </div>
-                <div class="taskbar-icon group relative" title="File Explorer">
-                    <i data-lucide="folder" class="w-6 h-6 text-yellow-500 fill-yellow-200 group-hover:scale-110 transition-transform"></i>
-                </div>
-            </div>
-            
-            <!-- System Tray -->
-            <div class="flex items-center gap-2 h-full text-sm">
-                <button class="px-2 h-full hover:bg-white/50 rounded flex items-center transition-colors">
-                    <i data-lucide="chevron-up" class="w-4 h-4"></i>
+            <!-- Center Dock -->
+            <div class="dock-center">
+                <!-- Start Button -->
+                <button onclick="toggleStartMenu()" class="dock-icon group" title="Start">
+                    <svg viewBox="0 0 88 88" class="w-5 h-5 transition-transform group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(197,155,39,0.5)]">
+                        <path fill="#AEC0A8" d="M0 42.1V10L39 4v38.1z"/>
+                        <path fill="#7B9671" d="M42.1 3.5 88 0v42.1H42.1z"/>
+                        <path fill="#C59B27" d="M0 45.9h39V84l-39-6z"/>
+                        <path fill="#4D6145" d="M42.1 45.9H88V88l-45.9-7.2z"/>
+                    </svg>
                 </button>
-                <div class="flex items-center gap-2 px-2 h-full hover:bg-white/50 rounded cursor-pointer transition-colors">
-                    <i data-lucide="wifi" class="w-4 h-4"></i>
-                    <i data-lucide="volume-2" class="w-4 h-4"></i>
-                    <i data-lucide="battery-medium" class="w-4 h-4"></i>
+                
+                <div class="w-px h-8 bg-olive-300/40 mx-2 rounded-full"></div>
+                
+                <!-- App Icons -->
+                <div class="dock-icon active group relative" onclick="toggleAppWindow('gogulf-window')" title="goGULF">
+                    <div class="w-9 h-9 bg-gradient-to-br from-olive-700 to-olive-900 rounded-[12px] flex items-center justify-center text-white font-sans font-black text-[11px] tracking-tight shadow-md border border-olive-600/50 group-hover:shadow-olive-glow transition-all">go</div>
                 </div>
-                <div class="flex flex-col items-end justify-center px-2 h-full hover:bg-white/50 rounded cursor-pointer text-xs transition-colors">
-                    <span id="sys-time">02:18 AM</span>
-                    <span id="sys-date">9/21/2026</span>
+                <div class="dock-icon group relative" title="Edge">
+                    <div class="w-9 h-9 bg-white/50 rounded-[12px] flex items-center justify-center border border-white shadow-sm group-hover:bg-white transition-all">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-5 h-5 grayscale contrast-125 sepia-[.3] hue-rotate-[-40deg]" alt="Edge">
+                    </div>
+                </div>
+                <div class="dock-icon group relative" title="File Explorer">
+                    <div class="w-9 h-9 bg-gradient-to-br from-gold-400 to-gold-600 rounded-[12px] flex items-center justify-center shadow-md border border-gold-300/50 group-hover:shadow-lg transition-all">
+                        <i data-lucide="folder" class="w-4 h-4 text-white fill-white/30"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right System Tray -->
+            <div class="flex-1 flex justify-end">
+                <div class="dock-right group relative hover:bg-white/90 hover:border-olive-300 transition-all cursor-pointer">
+                    <button class="px-1 hover:text-olive-900 transition-colors hidden md:block">
+                        <i data-lucide="chevron-up" class="w-4 h-4"></i>
+                    </button>
+                    <div class="flex items-center gap-2.5 px-1 text-olive-700 group-hover:text-olive-900 transition-colors">
+                        <i data-lucide="wifi" class="w-[15px] h-[15px]"></i>
+                        <i data-lucide="volume-2" class="w-[15px] h-[15px]"></i>
+                        <i data-lucide="battery-medium" class="w-[15px] h-[15px]"></i>
+                    </div>
+                    <div class="w-px h-6 bg-olive-300/40 mx-1"></div>
+                    <div class="flex flex-col items-end justify-center px-1 text-olive-900">
+                        <span id="sys-time" class="text-[11px] font-bold leading-tight">02:18 AM</span>
+                        <span id="sys-date" class="text-[9px] font-semibold text-olive-600">9/21/2026</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -457,7 +480,7 @@
                     top: win.style.top
                 };
                 win.style.width = '100vw';
-                win.style.height = 'calc(100vh - 48px)'; // minus taskbar
+                win.style.height = 'calc(100vh - 90px)'; // leave space for floating dock
                 win.style.left = '0';
                 win.style.top = '0';
                 win.style.borderRadius = '0';
