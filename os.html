@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Windows 11 goGULF</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Segoe UI', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        gulf: ['Outfit', 'sans-serif'], 
+                        arabic: ['Amiri', 'serif'] 
+                    },
+                    colors: {
+                        win: {
+                            bg: '#f3f3f3',
+                            accent: '#0067c0',
+                            taskbar: 'rgba(243, 243, 243, 0.85)',
+                            window: '#ffffff',
+                            text: '#000000',
+                            border: 'rgba(0, 0, 0, 0.1)',
+                            hover: 'rgba(255, 255, 255, 0.8)'
+                        },
+                        desert: { 50: '#FCFBF9', 100: '#F5F3EC', 200: '#EAE5D8', 300: '#DFD5C1' },
+                        olive: { 50: '#F4F6F3', 100: '#E4EAE2', 300: '#AEC0A8', 500: '#7B9671', 700: '#4D6145', 900: '#2A3525' },
+                        gold: { 400: '#D4AF37', 500: '#C59B27', 600: '#AA8222' },
+                        teal: { 900: '#133C3F' }
+                    },
+                    boxShadow: {
+                        'win-window': '0 32px 64px rgba(0,0,0,0.2), 0 2px 21px rgba(0,0,0,0.08)',
+                        'win-menu': '0 8px 32px rgba(0,0,0,0.15)',
+                        'olive-glow': '0 20px 40px -10px rgba(77, 97, 69, 0.25)',
+                        'olive-glow-lg': '0 30px 60px -15px rgba(77, 97, 69, 0.35)',
+                        'soft-float': '0 10px 30px -5px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #000; }
+        
+        .desktop-bg {
+            background-image: url('https://images.unsplash.com/photo-1617478755490-e21232a5eeaf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=80');
+            background-size: cover; background-position: center; height: 100vh; width: 100vw; position: relative;
+        }
+
+        /* Glassmorphism utilities */
+        .glass { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.4); }
+        .glass-dark { background: rgba(30, 30, 30, 0.65); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); color: white; }
+
+        /* Window controls */
+        .window { position: absolute; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.1s; }
+        .titlebar { height: 32px; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+        .window-controls button { width: 46px; height: 32px; border: none; background: transparent; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: background 0.2s; }
+        .window-controls button:hover { background: rgba(0,0,0,0.1); }
+        .window-controls button.close:hover { background: #e81123; color: white; }
+
+        /* Taskbar */
+        .taskbar { height: 48px; width: 100%; position: absolute; bottom: 0; z-index: 9999; display: flex; align-items: center; padding: 0 12px; }
+        .taskbar-center { flex: 1; display: flex; justify-content: center; gap: 4px; }
+        .taskbar-icon { width: 40px; height: 40px; border-radius: 4px; display: flex; justify-content: center; align-items: center; transition: all 0.2s; cursor: pointer; position: relative; }
+        .taskbar-icon:hover { background: rgba(255,255,255,0.8); }
+        .taskbar-icon.active::after { content: ''; position: absolute; bottom: 2px; width: 16px; height: 3px; background: #0067c0; border-radius: 2px; }
+
+        /* Start Menu */
+        .start-menu { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(20px); width: 640px; height: 720px; border-radius: 8px; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 9998; padding: 24px; display: flex; flex-direction: column; }
+        .start-menu.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+
+        /* App specific styles (goGULF) */
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 1.5rem); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .scrollable-container { -webkit-overflow-scrolling: touch; }
+        
+        .go-gulf-app { font-family: 'Outfit', sans-serif; height: 100%; display: flex; flex-direction: column; position: relative; background: #FCFBF9; overflow: hidden;}
+        
+        @keyframes fadeInSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInSlideRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .animate-in-up { animation: fadeInSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-in-right { animation: fadeInSlideRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .interactive-card { transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        
+        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 30; background: rgba(252, 251, 249, 0.95); border: 1px solid #DFD5C1; box-shadow: 0 4px 15px rgba(42, 53, 37, 0.15); border-radius: 50%; padding: 6px; color: #4D6145; opacity: 0; pointer-events: none; transition: all 0.3s ease; display: none; }
+        @media (hover: hover) and (pointer: fine) {
+            .slider-arrow { display: flex; align-items: center; justify-content: center; }
+            .group:hover .slider-arrow, .group\/actions:hover .slider-arrow, .group\/filters:hover .slider-arrow { opacity: 1; pointer-events: auto; cursor: pointer; }
+            .slider-arrow:hover { background: #F5F3EC; color: #C59B27; transform: translateY(-50%) scale(1.1); }
+        }
+
+        @keyframes scrollMarketplace { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-160px * 3 - 36px)); } }
+        .animate-scroll-marketplace { animation: scrollMarketplace 15s linear infinite; }
+        .marketplace-container:hover .animate-scroll-marketplace { animation-play-state: paused; }
+    </style>
+</head>
+<body>
+    <div class="desktop-bg" id="desktop">
+        
+        <!-- Desktop Icons -->
+        <div class="p-4 grid grid-cols-1 gap-4 w-[100px]">
+            <div class="flex flex-col items-center gap-1 cursor-pointer hover:bg-white/20 p-2 rounded transition-colors group" ondblclick="toggleAppWindow('gogulf-window')">
+                <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-gradient-to-br from-olive-700 to-olive-900 rounded-lg flex items-center justify-center text-white font-sans font-black text-xs tracking-tight">go</div>
+                </div>
+                <span class="text-white text-xs drop-shadow-md text-center">goGULF</span>
+            </div>
+            
+            <div class="flex flex-col items-center gap-1 cursor-pointer hover:bg-white/20 p-2 rounded transition-colors">
+                <i data-lucide="trash-2" class="w-10 h-10 text-white/80 drop-shadow-md"></i>
+                <span class="text-white text-xs drop-shadow-md text-center">Recycle Bin</span>
+            </div>
+        </div>
+
+        <!-- Start Menu -->
+        <div id="start-menu" class="start-menu glass">
+            <div class="px-8 pt-4 pb-2">
+                <div class="relative">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                    <input type="text" placeholder="Type here to search" class="w-full bg-white/80 border border-gray-300/50 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-win-accent focus:bg-white transition-colors">
+                </div>
+            </div>
+            
+            <div class="flex-1 px-8 py-4 overflow-y-auto hide-scrollbar">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-semibold text-gray-800">Pinned</h3>
+                    <button class="text-xs text-gray-600 hover:text-black bg-white/50 px-2 py-1 rounded">All apps ></button>
+                </div>
+                
+                <div class="grid grid-cols-6 gap-y-6 gap-x-2">
+                    <!-- App Icons -->
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded" onclick="toggleAppWindow('gogulf-window'); toggleStartMenu()">
+                        <div class="w-10 h-10 bg-white rounded-lg shadow-sm flex items-center justify-center p-0.5">
+                            <div class="w-full h-full bg-gradient-to-br from-olive-700 to-olive-900 rounded flex items-center justify-center text-white font-sans font-black text-[10px] tracking-tight">go</div>
+                        </div>
+                        <span class="text-xs text-gray-800 truncate w-full text-center">goGULF</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-8 h-8" alt="Edge">
+                        <span class="text-xs text-gray-800 truncate w-full text-center">Edge</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
+                        <i data-lucide="mail" class="w-8 h-8 text-blue-500"></i>
+                        <span class="text-xs text-gray-800 truncate w-full text-center">Mail</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
+                        <i data-lucide="image" class="w-8 h-8 text-blue-400"></i>
+                        <span class="text-xs text-gray-800 truncate w-full text-center">Photos</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
+                        <i data-lucide="settings" class="w-8 h-8 text-gray-600"></i>
+                        <span class="text-xs text-gray-800 truncate w-full text-center">Settings</span>
+                    </div>
+                     <div class="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/40 p-2 rounded">
+                        <i data-lucide="calculator" class="w-8 h-8 text-green-500"></i>
+                        <span class="text-xs text-gray-800 truncate w-full text-center">Calculator</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto bg-black/5 rounded-b-lg p-4 flex justify-between items-center -mx-6 -mb-6">
+                <div class="flex items-center gap-3 hover:bg-white/50 p-2 rounded cursor-pointer">
+                    <img src="https://i.pravatar.cc/150?img=11" class="w-8 h-8 rounded-full" alt="User">
+                    <span class="text-sm font-semibold text-gray-800">User</span>
+                </div>
+                <button class="p-2 hover:bg-white/50 rounded text-gray-700">
+                    <i data-lucide="power" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- App Window: goGULF -->
+        <div id="gogulf-window" class="window glass shadow-win-window hidden" style="width: 414px; height: 800px; left: 100px; top: 50px;">
+            <div class="titlebar bg-white/50 backdrop-blur-md" id="gogulf-titlebar">
+                <div class="flex items-center px-3 gap-2">
+                    <div class="w-4 h-4 bg-gradient-to-br from-olive-700 to-olive-900 rounded flex items-center justify-center text-white font-sans font-black text-[6px] tracking-tight">go</div>
+                    <span class="text-xs text-gray-800 font-sans">goGULF.online</span>
+                </div>
+                <div class="window-controls flex h-full">
+                    <button onclick="minimizeWindow('gogulf-window')"><i data-lucide="minus" class="w-4 h-4 text-gray-600"></i></button>
+                    <button onclick="maximizeWindow('gogulf-window')"><i data-lucide="square" class="w-3 h-3 text-gray-600"></i></button>
+                    <button class="close" onclick="closeWindow('gogulf-window')"><i data-lucide="x" class="w-4 h-4 text-gray-600"></i></button>
+                </div>
+            </div>
+            
+            <!-- goGULF App Content Container -->
+            <div class="go-gulf-app flex-1 selection:bg-olive-500 selection:text-white relative font-gulf text-olive-900">
+                <!-- Splash Screen -->
+                <div id="splash-screen" class="absolute inset-0 z-[100] bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-gold-400/10 rounded-full blur-[50px] -translate-y-1/2 translate-x-1/4"></div>
+                    <div class="absolute bottom-0 left-0 w-80 h-80 bg-olive-500/10 rounded-full blur-[50px] translate-y-1/3 -translate-x-1/3"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center px-6 w-full">
+                        <div class="flex items-center justify-center gap-4 mb-8">
+                            <div class="flex items-center px-4 py-3 bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20">
+                                <div class="mr-2.5 px-2 py-1 rounded bg-white text-olive-900 font-sans font-black text-sm tracking-tight flex items-center justify-center">go</div>
+                                <div class="flex flex-col items-start justify-center">
+                                    <span class="font-sans font-black text-2xl tracking-tighter text-white leading-none">GULF</span>
+                                    <span class="text-[7px] font-black tracking-[0.2em] text-olive-200 uppercase mt-1.5 pl-0.5 opacity-90 leading-none">BY RABBANI™</span>
+                                </div>
+                            </div>
+                            <div class="w-[1px] h-12 bg-white/20 rounded-full"></div>
+                            <div class="flex flex-col items-end justify-center">
+                                <span class="font-arabic text-[2.5rem] text-gold-400 leading-none drop-shadow-md" dir="rtl" style="line-height: 0.75;">الخليج</span>
+                                <span class="text-[12px] font-bold tracking-widest text-white/70 font-sans mt-2.5 pr-1 leading-none">.online</span>
+                            </div>
+                        </div>
+                        <h2 class="text-gold-400 font-black tracking-widest text-sm uppercase mb-3 drop-shadow-sm">Global Mobility Marketplace</h2>
+                        <p class="text-olive-100 text-[12px] font-medium leading-relaxed max-w-[280px] mb-8 opacity-90">Jobs • Careers • Education • Training • Mobility • Travel</p>
+                        <div class="flex flex-col items-center mt-4">
+                            <div class="w-10 h-10 border-[3px] border-olive-700 border-t-gold-500 rounded-full animate-spin mb-4 shadow-lg"></div>
+                            <span class="text-[10px] font-bold text-olive-300 uppercase tracking-widest animate-pulse">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Header -->
+                <header id="app-header" class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-olive-100 px-5 py-3 flex justify-between items-center shadow-sm transition-transform duration-300 transform hidden">
+                    <button onclick="toggleMenu()" class="p-2.5 bg-desert-100 hover:bg-olive-100 rounded-2xl transition-colors border border-transparent hover:border-olive-300"><i data-lucide="align-left" class="w-6 h-6 text-olive-900"></i></button>
+                    <div class="flex items-center justify-center cursor-pointer group" onclick="navigateTo('home')">
+                        <div class="flex items-center px-3 py-2 bg-white rounded-xl shadow-sm border border-olive-100 group-hover:scale-105 transition-transform duration-300">
+                            <div class="mr-2 px-1.5 py-0.5 rounded bg-gradient-to-br from-olive-700 to-olive-900 text-white font-sans font-black text-[12px] tracking-tight flex items-center justify-center">go</div>
+                            <span class="font-sans font-black text-[1.35rem] tracking-tighter text-olive-900 leading-none">GULF</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button class="p-2.5 bg-desert-100 hover:bg-olive-100 rounded-2xl transition-colors" onclick="navigateTo('profile')"><i data-lucide="user" class="w-6 h-6 text-olive-900"></i></button>
+                        <button class="p-2.5 relative bg-desert-100 hover:bg-olive-100 rounded-2xl transition-colors" onclick="navigateTo('alerts')"><i data-lucide="bell" class="w-6 h-6 text-olive-900"></i><span class="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-gold-500 rounded-full border-2 border-desert-100"></span></button>
+                    </div>
+                </header>
+
+                <!-- Sticky Search -->
+                <div id="sticky-search" class="absolute top-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-xl border-b border-olive-100 px-4 py-3 transform -translate-y-full transition-transform duration-300 flex items-center gap-2 shadow-sm pointer-events-none">
+                   <button onclick="toggleMenu()" class="p-2.5 bg-desert-50 hover:bg-olive-100 rounded-xl transition-colors border border-olive-100 shrink-0"><i data-lucide="align-left" class="w-5 h-5 text-olive-900"></i></button>
+                   <div class="flex-1 flex items-center bg-desert-50 border border-olive-100 rounded-xl px-3 py-2.5 shadow-inner" onclick="navigateTo('search')">
+                       <i data-lucide="search" class="w-4 h-4 text-gold-500 mr-2 shrink-0"></i>
+                       <input type="text" placeholder="Search jobs, services..." class="bg-transparent outline-none w-full text-sm font-medium text-olive-900 placeholder:text-olive-300 pointer-events-none">
+                   </div>
+                   <button onclick="navigateTo('filter')" class="p-2.5 bg-gradient-to-r from-gold-500 to-gold-600 rounded-xl text-white shadow-sm hover:scale-105 transition-transform shrink-0"><i data-lucide="sliders-horizontal" class="w-5 h-5"></i></button>
+                </div>
+
+                <!-- Main Menu -->
+                <div id="main-menu" class="absolute inset-0 z-50 transform -translate-x-full transition-transform duration-500 ease-in-out">
+                    <div id="menu-backdrop" class="absolute inset-0 bg-teal-900/40 backdrop-blur-sm transition-opacity duration-500 opacity-0 pointer-events-none" onclick="toggleMenu(true)"></div>
+                    <div class="absolute inset-y-0 left-0 w-[85%] max-w-[320px] bg-desert-50 shadow-[20px_0_40px_rgba(42,53,37,0.15)] overflow-y-auto overscroll-y-contain scrollable-container flex flex-col border-r border-olive-100">
+                        <div class="p-8 bg-gradient-to-br from-olive-900 via-olive-700 to-teal-900 text-white flex justify-between items-start rounded-br-[3rem] shadow-lg relative overflow-hidden shrink-0">
+                            <div class="absolute top-0 right-0 opacity-10"><i data-lucide="compass" class="w-40 h-40 translate-x-1/4 -translate-y-1/4"></i></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-start mb-2 gap-3">
+                                    <div class="flex items-center px-3 py-2 bg-white/10 backdrop-blur-md rounded-xl shadow-sm border border-white/20">
+                                        <div class="mr-2 px-1.5 py-0.5 rounded bg-white text-olive-900 font-sans font-black text-[12px] tracking-tight flex items-center justify-center">go</div>
+                                        <span class="font-sans font-black text-[1.35rem] tracking-tighter text-white leading-none">GULF</span>
+                                    </div>
+                                </div>
+                                <p class="text-[10px] text-olive-200 font-bold uppercase tracking-widest mt-1 opacity-80">Global Mobility Marketplace</p>
+                            </div>
+                            <button onclick="toggleMenu(true)" class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors backdrop-blur-md relative z-10"><i data-lucide="x" class="w-5 h-5"></i></button>
+                        </div>
+                        <div class="py-6 flex-1 px-4 space-y-1 pb-24" id="menu-links"></div>
+                    </div>
+                </div>
+
+                <!-- Fast Track Modal -->
+                <div id="fast-track-modal" class="absolute inset-0 z-[100] transform translate-y-full transition-transform duration-500 ease-in-out flex flex-col justify-end pointer-events-none">
+                    <div class="absolute inset-0 bg-teal-900/40 backdrop-blur-sm opacity-0 transition-opacity duration-500 pointer-events-auto" id="fast-track-backdrop" onclick="toggleFastTrackModal()"></div>
+                    <div class="relative w-full bg-desert-50 rounded-t-[2.5rem] shadow-olive-glow-lg h-[85%] flex flex-col overflow-hidden pointer-events-auto border-t border-olive-200">
+                        <div class="w-12 h-1.5 bg-olive-200 rounded-full mx-auto mt-4 mb-2 shrink-0"></div>
+                        <div class="p-6 flex-1 overflow-y-auto">
+                            <div class="flex justify-between items-center mb-2">
+                                <h2 class="text-2xl font-black text-olive-900 flex items-center gap-2">
+                                    <div class="relative flex items-center justify-center w-4 h-4"><span class="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-30 animate-ping"></span><div class="w-2 h-2 bg-red-500 rounded-full relative z-10 shadow-[0_0_8px_rgba(239,68,68,0.8)] border border-white"></div></div> Live Action Hub
+                                </h2>
+                                <button onclick="toggleFastTrackModal()" class="p-2 bg-olive-100 rounded-full text-olive-500 hover:bg-olive-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+                            </div>
+                            <p class="text-olive-500 text-sm mb-6 font-medium">Connect with verified employers across the globe in real-time.</p>
+                            <div class="grid gap-3.5">
+                                <button class="w-full p-4 bg-gradient-to-r from-red-500 to-rose-600 text-white font-bold rounded-[1.5rem] shadow-sm flex items-center justify-between hover:scale-[1.02] transition-transform text-left">
+                                    <div class="flex items-center gap-4"><div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0"><i data-lucide="users" class="w-6 h-6"></i></div><div><div class="text-lg flex items-center gap-2">Face-to-Face <span class="px-1.5 py-0.5 bg-white/20 rounded text-[9px] font-black uppercase tracking-widest shadow-inner">LIVE</span></div><div class="text-xs text-white/80 font-semibold mt-0.5 leading-tight">Dubai & Riyadh drives ongoing. Secure walk-in slot.</div></div></div><i data-lucide="chevron-right" class="w-5 h-5 opacity-70 shrink-0"></i>
+                                </button>
+                                <button class="w-full p-4 bg-gradient-to-r from-gold-500 to-gold-600 text-white font-bold rounded-[1.5rem] shadow-sm flex items-center justify-between hover:scale-[1.02] transition-transform text-left">
+                                    <div class="flex items-center gap-4"><div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0"><i data-lucide="file-badge" class="w-6 h-6"></i></div><div><div class="text-lg">Pre-Approved Offers</div><div class="text-xs text-white/80 font-semibold mt-0.5 leading-tight">Direct selections based on your AI-verified CV.</div></div></div><i data-lucide="chevron-right" class="w-5 h-5 opacity-70 shrink-0"></i>
+                                </button>
+                                <button class="w-full p-4 bg-gradient-to-br from-teal-700 to-teal-800 text-white font-bold rounded-[1.5rem] shadow-sm flex items-center justify-between hover:scale-[1.02] transition-transform text-left">
+                                    <div class="flex items-center gap-4"><div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0"><i data-lucide="video" class="w-6 h-6"></i></div><div><div class="text-lg">Online Interviews</div><div class="text-xs text-white/80 font-semibold mt-0.5 leading-tight">Virtual hiring events in progress. Enter waiting room.</div></div></div><i data-lucide="chevron-right" class="w-5 h-5 opacity-70 shrink-0"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Story Modal -->
+                <div id="story-modal" class="absolute inset-0 z-[150] hidden items-center justify-center p-5">
+                    <div id="story-backdrop" class="absolute inset-0 bg-teal-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300" onclick="closeStory()"></div>
+                    <div id="story-modal-content" class="relative z-10 w-full max-w-sm bg-desert-50 rounded-[2rem] shadow-2xl border border-olive-200 overflow-hidden transform scale-95 opacity-0 transition-all duration-300"></div>
+                </div>
+
+                <!-- Chat Modal -->
+                <div id="chat-modal" class="absolute inset-0 z-[200] transform translate-y-full scale-95 opacity-0 transition-all duration-500 ease-in-out flex flex-col justify-end pointer-events-none pb-safe pt-10 px-2">
+                    <div class="absolute inset-0 bg-teal-900/60 backdrop-blur-md transition-opacity duration-500 pointer-events-auto -z-10" id="chat-backdrop" onclick="toggleChatModal()"></div>
+                    <div class="relative w-full max-w-md mx-auto bg-[#F4F6F3] rounded-[2.5rem] shadow-2xl h-[88%] flex flex-col overflow-hidden pointer-events-auto border border-white/40 ring-1 ring-black/5">
+                        <div class="bg-white px-5 py-4 flex items-center justify-between border-b border-olive-100 shadow-sm z-20 shrink-0">
+                            <div class="flex items-center gap-3">
+                                <div class="relative"><div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-sm"><i data-lucide="bot" class="w-6 h-6 text-white"></i></div><span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span></div>
+                                <div>
+                                    <h3 class="font-black text-olive-900 leading-tight">goGULF Assistant</h3>
+                                    <p class="text-[11px] font-bold text-olive-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Online</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button id="chat-lang-toggle" onclick="toggleChatLanguage()" class="px-2 py-1.5 bg-desert-100 hover:bg-olive-100 transition-colors text-[10px] font-black tracking-widest text-olive-700 rounded-lg border border-olive-200 shadow-sm">HI / EN</button>
+                                <button onclick="toggleChatModal()" class="p-2 bg-desert-50 rounded-full text-olive-500 hover:bg-olive-100 transition-colors border border-transparent hover:border-olive-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+                            </div>
+                        </div>
+                        <div id="chat-messages-area" class="flex-1 overflow-y-auto p-5 scrollable-container bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed" style="background-color: #FCFBF9;"></div>
+                        <div class="bg-white p-3 border-t border-olive-100 z-20 shrink-0">
+                            <div class="flex items-center gap-2 bg-desert-50 p-1.5 rounded-full border border-olive-200 focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-500/20 transition-all">
+                                <button class="p-2 text-olive-400 hover:text-gold-500 transition-colors shrink-0"><i data-lucide="paperclip" class="w-5 h-5"></i></button>
+                                <input type="text" id="chat-text-input" placeholder="Type a message..." class="flex-1 bg-transparent border-none outline-none text-sm font-medium text-olive-900 placeholder:text-olive-300 px-1" onkeypress="handleChatInput(event)">
+                                <button onclick="handleChatInput({key: 'Enter'})" class="w-10 h-10 rounded-full bg-gradient-to-br from-olive-700 to-teal-900 flex items-center justify-center shrink-0 shadow-sm hover:scale-105 transition-transform"><i data-lucide="send" class="w-4 h-4 text-white -ml-0.5 mt-0.5"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <main id="app-content" class="flex-1 overflow-y-auto overscroll-y-contain scrollable-container relative z-10"></main>
+
+                <div id="bottom-nav-wrapper" class="absolute bottom-0 left-0 right-0 z-40 group pointer-events-none hidden bg-white/90 backdrop-blur-md border-t border-olive-100">
+                    <div class="relative w-full h-full pointer-events-auto">
+                        <button onclick="scrollSlider('bottom-nav', -150)" class="slider-arrow left-1 shadow-sm border border-olive-200 bg-white/95 z-50 !w-6 !h-6 flex items-center justify-center !p-0"><i data-lucide="chevron-left" class="w-4 h-4 text-olive-700"></i></button>
+                        <nav class="px-2 py-2 flex overflow-x-auto hide-scrollbar scroll-smooth snap-x w-full" id="bottom-nav"></nav>
+                        <button onclick="scrollSlider('bottom-nav', 150)" class="slider-arrow right-1 shadow-sm border border-olive-200 bg-white/95 z-50 !w-6 !h-6 flex items-center justify-center !p-0"><i data-lucide="chevron-right" class="w-4 h-4 text-olive-700"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Taskbar -->
+        <div class="taskbar glass border-t border-white/20">
+            <!-- Start Button -->
+            <button onclick="toggleStartMenu()" class="taskbar-icon group" title="Start">
+                <svg viewBox="0 0 88 88" class="w-6 h-6 group-hover:scale-105 transition-transform">
+                    <path fill="#00a4ef" d="M0 42.1V10L39 4v38.1z"/>
+                    <path fill="#7fba00" d="M42.1 3.5 88 0v42.1H42.1z"/>
+                    <path fill="#ffb900" d="M0 45.9h39V84l-39-6z"/>
+                    <path fill="#f25022" d="M42.1 45.9H88V88l-45.9-7.2z"/>
+                </svg>
+            </button>
+            
+            <!-- Search -->
+            <div class="ml-2 flex items-center bg-white/60 hover:bg-white border border-gray-300 rounded px-2 h-8 w-48 cursor-text transition-colors">
+                <i data-lucide="search" class="w-4 h-4 text-gray-600 mr-2"></i>
+                <span class="text-xs text-gray-500">Search</span>
+            </div>
+            
+            <!-- App Icons Center -->
+            <div class="taskbar-center">
+                 <div class="taskbar-icon active group relative" onclick="toggleAppWindow('gogulf-window')" title="goGULF">
+                    <div class="w-6 h-6 bg-gradient-to-br from-olive-700 to-olive-900 rounded-sm flex items-center justify-center text-white font-sans font-black text-[8px] tracking-tight group-hover:scale-110 transition-transform">go</div>
+                </div>
+                <div class="taskbar-icon group relative" title="Edge">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="w-6 h-6 group-hover:scale-110 transition-transform" alt="Edge">
+                </div>
+                <div class="taskbar-icon group relative" title="File Explorer">
+                    <i data-lucide="folder" class="w-6 h-6 text-yellow-500 fill-yellow-200 group-hover:scale-110 transition-transform"></i>
+                </div>
+            </div>
+            
+            <!-- System Tray -->
+            <div class="flex items-center gap-2 h-full text-sm">
+                <button class="px-2 h-full hover:bg-white/50 rounded flex items-center transition-colors">
+                    <i data-lucide="chevron-up" class="w-4 h-4"></i>
+                </button>
+                <div class="flex items-center gap-2 px-2 h-full hover:bg-white/50 rounded cursor-pointer transition-colors">
+                    <i data-lucide="wifi" class="w-4 h-4"></i>
+                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                    <i data-lucide="battery-medium" class="w-4 h-4"></i>
+                </div>
+                <div class="flex flex-col items-end justify-center px-2 h-full hover:bg-white/50 rounded cursor-pointer text-xs transition-colors">
+                    <span id="sys-time">02:18 AM</span>
+                    <span id="sys-date">9/21/2026</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // OS Logic
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('sys-time').innerText = `${hours}:${minutes} ${ampm}`;
+            document.getElementById('sys-date').innerText = `${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function toggleStartMenu() {
+            document.getElementById('start-menu').classList.toggle('open');
+        }
+        
+        document.addEventListener('click', (e) => {
+            const startMenu = document.getElementById('start-menu');
+            const isClickInside = startMenu.contains(e.target) || e.target.closest('[title="Start"]');
+            if (!isClickInside && startMenu.classList.contains('open')) {
+                startMenu.classList.remove('open');
+            }
+        });
+
+        // Window Management
+        let isMaximized = false;
+        let prevStyles = {};
+
+        function toggleAppWindow(id) {
+            const win = document.getElementById(id);
+            if (win.classList.contains('hidden')) {
+                win.classList.remove('hidden');
+            } else {
+                win.classList.add('hidden');
+            }
+        }
+
+        function closeWindow(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function minimizeWindow(id) {
+            // Simple hide for minimize in this demo
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function maximizeWindow(id) {
+            const win = document.getElementById(id);
+            if (isMaximized) {
+                win.style.width = prevStyles.width;
+                win.style.height = prevStyles.height;
+                win.style.left = prevStyles.left;
+                win.style.top = prevStyles.top;
+                win.style.borderRadius = '8px';
+                isMaximized = false;
+            } else {
+                prevStyles = {
+                    width: win.style.width,
+                    height: win.style.height,
+                    left: win.style.left,
+                    top: win.style.top
+                };
+                win.style.width = '100vw';
+                win.style.height = 'calc(100vh - 48px)'; // minus taskbar
+                win.style.left = '0';
+                win.style.top = '0';
+                win.style.borderRadius = '0';
+                isMaximized = true;
+            }
+        }
+
+        // Make window draggable
+        dragElement(document.getElementById("gogulf-window"));
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            const header = document.getElementById(elmnt.id + "-titlebar");
+            if (header) {
+                header.onmousedown = dragMouseDown;
+            } else {
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                if (isMaximized) return; // don't drag if maximized
+                e = e || window.event;
+                // prevent dragging if clicking on window controls
+                if (e.target.closest('.window-controls')) return;
+                
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+                
+                // Bring to front
+                elmnt.style.zIndex = 100;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // --- goGULF App Logic ---
+        let activeTab = 'auth'; 
+        let isMenuOpen = false;
+        let selectedJob = null;
+        let selectedCountry = null;
+        let isAppReady = false; 
+        let currentUser = null;
+        let isLoginMode = true;
+        let historyStack = [];
+        let isChatOpen = false;
+        let currentHeroSlide = 0;
+        let heroInterval = null;
+        let typewriterTimeout = null;
+        let isTypingDeleting = false;
+        let charIdx = 0;
+        let exampleIdx = 0;
+        let autoScrollInterval = null;
+        let authTimeout = null;
+        let currentLanguage = 'hinglish';
+        let applicationStep = 0;
+        let applicationData = {};
+
+        const searchExamples = ["Germany warehouse jobs", "🇦🇪 UAE driver jobs", "USA nursing jobs", "Canada student programs", "🇸🇦 Riyadh civil engineer", "🇶🇦 Qatar hospitality"];
+
+        const HERO_SLIDES = [
+            { badge: "Global Mobility Marketplace", badgeIcon: "sparkles", title: "Your Global Career<br/><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600\">Journey Starts Here</span>", desc: "<span>Jobs</span><span class=\"w-1 h-1 rounded-full bg-gold-500\"></span><span>Training</span><span class=\"w-1 h-1 rounded-full bg-gold-500\"></span><span>Visa</span><span class=\"w-1 h-1 rounded-full bg-gold-500\"></span><span>Travel</span>", bgClass: "from-olive-900 via-teal-900 to-olive-900", ctaText: "Search <i data-lucide=\"arrow-right\" class=\"w-5 h-5\"></i>" },
+            { badge: "For Employers & HR", badgeIcon: "building", title: "Hire Top Global<br/><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600\">Talent Faster</span>", desc: "Post jobs, access verified professionals, and run recruitment drives.", bgClass: "from-teal-900 via-olive-900 to-teal-900", ctaText: "Post a Job <i data-lucide=\"briefcase\" class=\"w-5 h-5\"></i>" },
+            { badge: "For Agencies & Consultancies", badgeIcon: "briefcase", title: "Expand Your<br/><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600\">Global Reach</span>", desc: "Manage mobility cases, source talent, and offer premium services.", bgClass: "from-olive-800 via-olive-900 to-teal-800", ctaText: "Partner With Us <i data-lucide=\"handshake\" class=\"w-5 h-5\"></i>" },
+            { badge: "Travel & Umrah Packages", badgeIcon: "plane", title: "Discover Premium<br/><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600\">Tour Packages</span>", desc: "Book exclusive Umrah packages, guided tours, and global travel.", bgClass: "from-teal-800 via-teal-900 to-olive-900", ctaText: "Explore Packages <i data-lucide=\"compass\" class=\"w-5 h-5\"></i>" }
+        ];
+
+        const CATEGORIES = [
+            { id: 'jobs', name: 'Jobs', iconUrl: 'https://img.icons8.com/fluency/96/briefcase.png', bg: 'bg-olive-50', color: 'text-olive-700' },
+            { id: 'interviews', name: 'Interviews', iconUrl: 'https://img.icons8.com/fluency/96/microphone.png', bg: 'bg-desert-100', color: 'text-gold-600' },
+            { id: 'training', name: 'Training', iconUrl: 'https://img.icons8.com/fluency/96/training.png', bg: 'bg-olive-50', color: 'text-olive-500' },
+            { id: 'education', name: 'Education', iconUrl: 'https://img.icons8.com/fluency/96/books.png', bg: 'bg-desert-50', color: 'text-teal-900' },
+            { id: 'mobility', name: 'Mobility', iconUrl: 'https://img.icons8.com/fluency/96/passport.png', bg: 'bg-desert-100', color: 'text-gold-600' },
+            { id: 'documents', name: 'Documents', iconUrl: 'https://img.icons8.com/fluency/96/document.png', bg: 'bg-olive-50', color: 'text-olive-700' },
+            { id: 'travel', name: 'Travel', iconUrl: 'https://img.icons8.com/fluency/96/airplane-take-off.png', bg: 'bg-desert-100', color: 'text-teal-900' },
+            { id: 'accommodation', name: 'Accommodation', iconUrl: 'https://img.icons8.com/fluency/96/skyscrapers.png', bg: 'bg-olive-50', color: 'text-olive-500' },
+            { id: 'settlement', name: 'Settlement', iconUrl: 'https://img.icons8.com/fluency/96/home.png', bg: 'bg-desert-50', color: 'text-gold-600' },
+            { id: 'marketplace', name: 'Marketplace', iconUrl: 'https://img.icons8.com/fluency/96/shopping-cart.png', bg: 'bg-desert-100', color: 'text-teal-900' },
+        ];
+
+        const TRENDING_JOBS = [
+            { id: 'j1', title: 'Warehouse Worker', flagEmoji: '🇦🇪', company: 'ABC Logistics Ltd.', location: 'Dubai, UAE', salary: 'AED 3,000 - 4,500', type: 'Full Time', experience: 'Entry Level', accommodation: 'Provided', status: 'Open', tags: ['Visa Support', 'Accommodation'], posted: '2 days ago' },
+            { id: 'j2', title: 'Heavy Vehicle Driver', flagEmoji: '🇸🇦', company: 'Saudi Trans Co.', location: 'Riyadh, KSA', salary: 'SAR 4,000 - 5,500', type: 'Full Time', experience: 'Experienced', accommodation: 'Where stated', status: 'Open', tags: ['Urgent', 'Visa Support'], posted: '5 hours ago' },
+            { id: 'j3', title: 'Registered Nurse', flagEmoji: '🇶🇦', company: 'Gulf Care Hospital', location: 'Doha, Qatar', salary: 'QAR 6,000 - 8,000', type: 'Full Time', experience: 'Professional', accommodation: 'Allowance', status: 'Open', tags: ['Licensing Support'], posted: '1 week ago' },
+            { id: 'j4', title: 'Hospitality Staff', flagEmoji: '🇦🇪', company: 'Luxury Hotels Group', location: 'Dubai, UAE', salary: 'AED 2,500 - 3,500', type: 'Contract', experience: 'Entry Level', accommodation: 'Provided', status: 'Open', tags: ['Accommodation'], posted: '3 days ago' },
+            { id: 'j5', title: 'Warehouse Worker', flagEmoji: '🇩🇪', company: 'EuroLogistics GmbH', location: 'Berlin, Germany', salary: '€1,800 - €2,200', type: 'Full Time', experience: 'Entry Level', accommodation: 'Where stated', status: 'Open', tags: ['Work Visa'], posted: '1 day ago' }
+        ];
+
+        const SUCCESS_STORIES = [
+            { id: 'ss1', name: 'Ahmed H.', role: 'Civil Engineer', from: 'Egypt', to: 'Saudi Arabia', flagCode: 'sa', image: 'https://i.pravatar.cc/150?img=11', time: '3 Weeks', tag: 'Direct Hire' },
+            { id: 'ss2', name: 'Sarah K.', role: 'Registered Nurse', from: 'Philippines', to: 'UAE', flagCode: 'ae', image: 'https://i.pravatar.cc/150?img=9', time: '4 Weeks', tag: 'Fast-Track' },
+            { id: 'ss3', name: 'Omar M.', role: 'Logistics Mgr', from: 'Jordan', to: 'Qatar', flagCode: 'qa', image: 'https://i.pravatar.cc/150?img=12', time: '2 Weeks', tag: 'Pre-Screened' },
+            { id: 'ss4', name: 'Ravi P.', role: 'IT Consultant', from: 'India', to: 'Germany', flagCode: 'de', image: 'https://i.pravatar.cc/150?img=14', time: '6 Weeks', tag: 'Blue Card' },
+            { id: 'ss5', name: 'Fatima Z.', role: 'Fin. Analyst', from: 'Morocco', to: 'Kuwait', flagCode: 'kw', image: 'https://i.pravatar.cc/150?img=5', time: '3 Weeks', tag: 'Verified' },
+            { id: 'ss6', name: 'Ali Y.', role: 'Hospitality', from: 'Pakistan', to: 'Oman', flagCode: 'om', image: 'https://i.pravatar.cc/150?img=15', time: '2 Weeks', tag: 'Live Interview' }
+        ];
+
+        const rawCountries = [ "af,Afghanistan,🇦🇫,Asia", "in,India,🇮🇳,Asia", "ae,United Arab Emirates,🇦🇪,Asia", "sa,Saudi Arabia,🇸🇦,Asia", "qa,Qatar,🇶🇦,Asia", "de,Germany,🇩🇪,Europe", "us,United States,🇺🇸,North America", "ca,Canada,🇨🇦,North America", "gb,United Kingdom,🇬🇧,Europe", "au,Australia,🇦🇺,Oceania" ];
+        const GLOBAL_COUNTRIES = rawCountries.map(c => { const parts = c.split(','); return { id: parts[0], name: parts[1], emoji: parts[2], continent: parts[3], flagCode: parts[0], tags: parts[3] + ' • Jobs' }; });
+
+        window.showToast = function(message, icon = 'info', type = 'default') {
+            const toast = document.createElement('div');
+            const bgClass = type === 'error' ? 'bg-red-900 border-red-700' : (type === 'success' ? 'bg-olive-900 border-olive-700' : 'bg-olive-900 border-olive-700');
+            const iconColor = type === 'error' ? 'text-red-400' : 'text-gold-400';
+            // Adjusted toast to stay within app window context if possible, or append to window
+            toast.className = `absolute top-10 left-1/2 transform -translate-x-1/2 ${bgClass} text-white px-4 py-2 rounded-full shadow-lg z-[300] text-xs font-bold animate-in-up flex items-center gap-2 border w-max max-w-[90%]`;
+            toast.innerHTML = `<i data-lucide="${icon}" class="w-3 h-3 shrink-0 ${iconColor}"></i> <span class="truncate">${message}</span>`;
+            document.getElementById('gogulf-window').appendChild(toast);
+            lucide.createIcons();
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translate(-50%, -20px)'; toast.style.transition = 'all 0.3s ease'; setTimeout(() => toast.remove(), 300); }, 3500);
+        };
+
+        window.toggleAuthMode = function(mode) { isLoginMode = mode === 'login'; renderApp(); };
+        window.cancelAuthTimeout = function() { clearTimeout(authTimeout); const progressContainer = document.getElementById('auth-progress-container'); if (progressContainer) progressContainer.style.opacity = '0'; };
+        window.showGuestMessageAndRedirect = function() { showToast('Exploring as Guest User...', 'user', 'info'); navigateTo('home'); };
+        window.startAuthTimer = function() { const bar = document.getElementById('auth-progress-bar'); if (bar) { bar.style.transition = 'width 3s linear'; setTimeout(() => { bar.style.width = '100%'; }, 50); } authTimeout = setTimeout(() => { showGuestMessageAndRedirect(); }, 3000); };
+        
+        window.handleGoGulfSSO = function() {
+            cancelAuthTimeout(); const btn = document.getElementById('auth-submit-btn');
+            if(btn) { btn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Processing...'; btn.disabled = true; }
+            setTimeout(() => { currentUser = { email: "user@gogulf.online" }; showToast("Authenticated", 'shield-check', 'success'); navigateTo('home'); }, 1000);
+        }
+
+        window.handleSupabaseAuth = function() {
+            cancelAuthTimeout(); const email = document.getElementById('auth-email').value; const password = document.getElementById('auth-password').value; const btn = document.getElementById('auth-submit-btn');
+            if(!email || !password) { showToast("Please enter both email and password.", 'alert-circle', 'error'); return; }
+            const originalText = btn.innerHTML; btn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Processing...'; btn.disabled = true;
+            // Simulated login
+            setTimeout(() => { currentUser = { email: email }; showToast(`Welcome, ${email.split('@')[0]}!`, 'check-circle', 'success'); navigateTo('home'); }, 1000); 
+        };
+
+        window.handleLogout = function() { currentUser = null; showToast('Logged out.', 'check', 'success'); navigateTo('auth'); };
+
+        window.toggleMenu = function(forceClose = false) {
+            isMenuOpen = forceClose ? false : !isMenuOpen; const menuEl = document.getElementById('main-menu'); const backdropEl = document.getElementById('menu-backdrop');
+            if(isMenuOpen) { menuEl.classList.remove('-translate-x-full'); backdropEl.classList.remove('opacity-0', 'pointer-events-none'); } else { menuEl.classList.add('-translate-x-full'); backdropEl.classList.add('opacity-0', 'pointer-events-none'); }
+        }
+
+        window.toggleFastTrackModal = function() {
+            const modal = document.getElementById('fast-track-modal'); const backdrop = document.getElementById('fast-track-backdrop');
+            if (modal.classList.contains('translate-y-full')) { modal.classList.remove('translate-y-full'); backdrop.classList.remove('opacity-0', 'pointer-events-none'); backdrop.classList.add('opacity-100'); } else { modal.classList.add('translate-y-full'); backdrop.classList.remove('opacity-100'); backdrop.classList.add('opacity-0', 'pointer-events-none'); }
+        }
+
+        window.navigateTo = function(tab, isBack = false) {
+            if (!isBack && activeTab && activeTab !== tab && activeTab !== 'auth' && activeTab !== 'welcome') { historyStack.push(activeTab); }
+            activeTab = tab; selectedJob = null; toggleMenu(true); const mainContent = document.getElementById('app-content'); if(mainContent) mainContent.scrollTop = 0; 
+            const topHeader = document.getElementById('app-header'); const stickySearch = document.getElementById('sticky-search');
+            if(topHeader) topHeader.style.transform = 'translateY(0)';
+            if(stickySearch) { stickySearch.style.transform = 'translateY(-100%)'; stickySearch.classList.add('pointer-events-none'); }
+            renderApp();
+            if (activeTab === 'home' && isAppReady) { setTimeout(startTypewriter, 100); }
+        };
+
+        window.goBack = function() { const prev = historyStack.pop(); if (prev) { navigateTo(prev, true); } else { navigateTo('home', true); } };
+        window.closeScreen = function() { historyStack = []; navigateTo('home', true); };
+        window.selectJob = function(jobId) { selectedJob = TRENDING_JOBS.find(j => j.id === jobId) || TRENDING_JOBS[0]; historyStack.push(activeTab); activeTab = 'jobs'; document.getElementById('app-content').scrollTop = 0; renderApp(); };
+        window.selectCountry = function(countryId) { selectedCountry = GLOBAL_COUNTRIES.find(c => c.id === countryId) || GLOBAL_COUNTRIES[0]; historyStack.push(activeTab); activeTab = 'country'; document.getElementById('app-content').scrollTop = 0; renderApp(); };
+        window.scrollSlider = function(containerId, amount) { const container = document.getElementById(containerId); if (container) container.scrollBy({ left: amount, behavior: 'smooth' }); };
+
+        window.openStory = function(id) {
+            const story = SUCCESS_STORIES.find(s => s.id === id); if(!story) return;
+            const modal = document.getElementById('story-modal'); const content = document.getElementById('story-modal-content');
+            content.innerHTML = `
+                <div class="relative bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 h-24 flex justify-center pt-4 border-b border-olive-700">
+                    <button onclick="closeStory()" class="absolute top-2 right-2 p-1.5 bg-white/10 rounded-full backdrop-blur-md text-white hover:bg-white/30 transition-colors border border-white/20"><i data-lucide="x" class="w-3 h-3"></i></button>
+                    <div class="absolute -bottom-8 w-20 h-20 rounded-full border-[3px] border-desert-50 shadow-lg overflow-hidden bg-white"><img src="${story.image}" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=${story.name}&background=DFD5C1&color=2A3525'"/></div>
+                </div>
+                <div class="pt-10 pb-6 px-4 text-center">
+                    <h3 class="text-lg font-black text-olive-900 flex items-center justify-center gap-1.5">${story.name} <img src="https://flagcdn.com/w40/${story.flagCode}.png" class="w-4 h-4 rounded-full object-cover shadow-sm border border-olive-100" alt="${story.to}" /></h3>
+                    <p class="text-[11px] font-bold text-gold-600 mb-4">${story.role}</p>
+                    <div class="flex items-center justify-center gap-2 mb-4 bg-white p-2.5 rounded-xl border border-olive-100 shadow-soft-float">
+                        <div class="flex flex-col items-center w-16"><span class="text-[9px] font-bold text-olive-400 uppercase tracking-widest mb-0.5">From</span><span class="font-bold text-olive-900 text-[11px] truncate w-full text-center">${story.from}</span></div>
+                        <div class="flex-1 border-t-2 border-dashed border-gold-300 relative flex justify-center"><i data-lucide="plane" class="w-3 h-3 text-gold-500 absolute -top-1.5 bg-white px-0.5"></i></div>
+                        <div class="flex flex-col items-center w-16"><span class="text-[9px] font-bold text-olive-400 uppercase tracking-widest mb-0.5">To</span><span class="font-bold text-teal-900 text-[11px] truncate w-full text-center">${story.to}</span></div>
+                    </div>
+                    <p class="text-olive-700 italic font-medium text-xs leading-relaxed mb-4 px-1">"goGULF fast-tracked my career. The connections made everything seamless."</p>
+                    <div class="flex justify-between items-center bg-desert-100 rounded-lg p-2 border border-olive-100"><div class="flex items-center gap-1.5"><div class="p-1 bg-white rounded shadow-sm border border-olive-50"><i data-lucide="zap" class="w-3 h-3 text-gold-500"></i></div><span class="text-[10px] font-bold text-olive-900">${story.time}</span></div><span class="bg-gradient-to-r from-olive-700 to-teal-900 text-white text-[9px] font-bold px-2 py-1 rounded md uppercase tracking-wide shadow-sm">${story.tag}</span></div>
+                </div>
+            `;
+            modal.classList.remove('hidden'); modal.classList.add('flex'); lucide.createIcons({ root: content });
+            setTimeout(() => { document.getElementById('story-backdrop').classList.remove('opacity-0'); content.classList.remove('scale-95', 'opacity-0'); content.classList.add('scale-100', 'opacity-100'); }, 10);
+        };
+        window.closeStory = function() {
+            const modal = document.getElementById('story-modal'); const content = document.getElementById('story-modal-content');
+            document.getElementById('story-backdrop').classList.add('opacity-0'); content.classList.remove('scale-100', 'opacity-100'); content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+        };
+
+        const chatScripts = {
+            hinglish: {
+                welcome: "👋 Namaste! Main aapka goGULF Assistant hoon. Main aapko jobs dhoondhne, apply karne, ya aapke sawalo ke jawab dene mein madad kar sakta hoon. <br><br>Aap aaj kya karna chahenge?",
+                options: ["Apply for a Job", "Track Application", "View FAQ"],
+                faqIntro: "Yahan kuch aam puche jane wale sawal hain:",
+                faqOptions: ["How do I get a Visa?", "Are there any hidden charges?", "Main Menu"],
+                faqAns1: "Hum aapke liye visa ka poora process handle karte hain! Select hone ke baad, humari team embassy ke sath coordinate karti hai.",
+                faqAns2: "Koi chhupe hue charges nahi! goGULF 100% transparency ke sath kaam karta hai.",
+                appStep1: "Badiya! Chaliye aapka application shuru karte hain. Sabse pehle, aapka pura naam kya hai?",
+                appStep2: "{name}, aapse milkar acha laga! Aapka current job title kya hai?",
+                appStep3: "Samajh gaya. Apna phone number darj karein taki humari team aapse sampark kar sake.",
+                appDone: "🎉 <b>Application Jama Ho Gaya!</b><br>Humari team jald hi {phone} par aapse sampark karegi.",
+                fallback: "Kripya diye gaye options chune ya 'Menu' type karein."
+            },
+            english: {
+                welcome: "👋 Hello! I am your goGULF Assistant. I can help you find jobs, apply instantly, or answer your questions. <br><br>What would you like to do today?",
+                options: ["Apply for a Job", "Track Application", "View FAQ"],
+                faqIntro: "Here are some frequently asked questions:",
+                faqOptions: ["How do I get a Visa?", "Are there any hidden charges?", "Main Menu"],
+                faqAns1: "We handle the entire visa process for you! Once selected, our team coordinates with the embassy to secure your visa.",
+                faqAns2: "No hidden charges! goGULF operates with 100% transparency. Service fees are stated clearly before you accept any offer.",
+                appStep1: "Great! Let's get your application started. First, what is your full name?",
+                appStep2: "Nice to meet you, {name}! What is your current job title?",
+                appStep3: "Got it. Could you please provide your phone number so our team can contact you?",
+                appDone: "🎉 <b>Application Submitted!</b><br>Our team will contact you shortly at {phone}.",
+                fallback: "Please select an option above or type 'Menu' to start over."
+            }
+        };
+
+        window.toggleChatLanguage = function() {
+            currentLanguage = currentLanguage === 'hinglish' ? 'english' : 'hinglish';
+            document.getElementById('chat-lang-toggle').innerText = currentLanguage === 'hinglish' ? 'HI / EN' : 'EN / HI';
+            applicationStep = 0; applicationData = {}; document.getElementById('chat-messages-area').innerHTML = '';
+            setTimeout(() => { appendBotMessage(chatScripts[currentLanguage].welcome, chatScripts[currentLanguage].options); }, 300);
+        }
+
+        window.toggleChatModal = function() {
+            isChatOpen = !isChatOpen; const modal = document.getElementById('chat-modal'); const backdrop = document.getElementById('chat-backdrop'); const fab = document.getElementById('search-fab');
+            if (isChatOpen) {
+                modal.classList.remove('translate-y-full', 'scale-95', 'opacity-0'); backdrop.classList.remove('opacity-0', 'pointer-events-none'); backdrop.classList.add('opacity-100'); if(fab) fab.classList.add('scale-0');
+                const chatArea = document.getElementById('chat-messages-area');
+                if (chatArea && chatArea.children.length === 0) { setTimeout(() => { appendBotMessage(chatScripts[currentLanguage].welcome, chatScripts[currentLanguage].options); }, 400); }
+            } else {
+                modal.classList.add('translate-y-full', 'scale-95', 'opacity-0'); backdrop.classList.remove('opacity-100'); backdrop.classList.add('opacity-0', 'pointer-events-none'); if(fab) fab.classList.remove('scale-0');
+            }
+        }
+
+        window.appendUserMessage = function(text) {
+            const chatArea = document.getElementById('chat-messages-area');
+            const msgHTML = `<div class="flex justify-end mb-3 animate-in-right"><div class="bg-gradient-to-r from-olive-700 to-teal-900 text-white rounded-xl rounded-tr-sm px-3 py-2 max-w-[80%] shadow-sm text-[12px] font-medium">${text}</div></div>`;
+            chatArea.insertAdjacentHTML('beforeend', msgHTML); chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        window.appendBotMessage = function(text, options = []) {
+            const chatArea = document.getElementById('chat-messages-area');
+            let optionsHTML = '';
+            if(options.length > 0) {
+                optionsHTML = `<div class="flex flex-col gap-1.5 mt-2 w-full">` + options.map(opt => `<button onclick="handleChatOption('${opt}')" class="text-left px-3 py-1.5 bg-white text-olive-700 text-[11px] font-bold rounded-lg border border-olive-200 hover:bg-olive-50 hover:border-olive-300 transition-colors shadow-sm">${opt}</button>`).join('') + `</div>`;
+            }
+            const msgHTML = `<div class="flex justify-start mb-3 animate-in-up"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shrink-0 mr-2 mt-0.5 shadow-sm border border-white"><i data-lucide="bot" class="w-3 h-3 text-white"></i></div><div class="bg-desert-50 border border-olive-100 text-olive-900 rounded-xl rounded-tl-sm px-3 py-2 max-w-[85%] shadow-sm text-[12px]">${text}${optionsHTML}</div></div>`;
+            chatArea.insertAdjacentHTML('beforeend', msgHTML); lucide.createIcons({ root: chatArea }); chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        window.handleChatOption = function(option) {
+            appendUserMessage(option);
+            setTimeout(() => {
+                const chatArea = document.getElementById('chat-messages-area');
+                const lastBotMsg = chatArea.querySelectorAll('.bg-desert-50');
+                if(lastBotMsg.length > 0) { const buttonsDiv = lastBotMsg[lastBotMsg.length-1].querySelector('.flex-col.gap-1\\.5'); if(buttonsDiv) buttonsDiv.remove(); }
+                const script = chatScripts[currentLanguage];
+                if(option === "View FAQ") { appendBotMessage(script.faqIntro, script.faqOptions); } 
+                else if(option === "How do I get a Visa?") { appendBotMessage(script.faqAns1, ["Main Menu"]); } 
+                else if(option === "Are there any hidden charges?") { appendBotMessage(script.faqAns2, ["Main Menu"]); } 
+                else if (option === "Main Menu") { applicationStep = 0; appendBotMessage(script.welcome, script.options); } 
+                else if (option === "Apply for a Job") { applicationStep = 1; appendBotMessage(script.appStep1); }
+            }, 600);
+        }
+
+        window.handleChatInput = function(e) {
+            if(e.key === 'Enter') {
+                const input = document.getElementById('chat-text-input'); const text = input.value.trim(); if(!text) return;
+                input.value = ''; appendUserMessage(text); const script = chatScripts[currentLanguage];
+                setTimeout(() => {
+                    if(applicationStep === 1) { applicationData.name = text; applicationStep = 2; appendBotMessage(script.appStep2.replace('{name}', text)); } 
+                    else if (applicationStep === 2) { applicationData.role = text; applicationStep = 3; appendBotMessage(script.appStep3); } 
+                    else if (applicationStep === 3) { applicationData.phone = text; applicationStep = 0; appendBotMessage(script.appDone.replace('{phone}', text), ["Main Menu"]); } 
+                    else if (text.toLowerCase() === 'menu') { applicationStep = 0; appendBotMessage(script.welcome, script.options); } 
+                    else { appendBotMessage(script.fallback); }
+                }, 800);
+            }
+        }
+
+        window.startAutoScroll = function() { clearInterval(autoScrollInterval); const container = document.getElementById('stories-scroll'); if(container) { autoScrollInterval = setInterval(() => { if (isMenuOpen || document.getElementById('story-modal')?.classList.contains('flex')) return; if(container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) { container.scrollTo({left: 0, behavior: 'smooth'}); } else { container.scrollBy({left: 90, behavior: 'smooth'}); } }, 2500); } };
+        window.startTypewriter = function() { clearTimeout(typewriterTimeout); isTypingDeleting = false; charIdx = 0; typeWriterEffect(); }
+        window.typeWriterEffect = function() {
+            if (!isAppReady || activeTab !== 'home') return; 
+            const inputEl = document.getElementById('ai-search-input'); const locInputEl = document.getElementById('ai-loc-input'); if (!inputEl || !locInputEl) return;
+            const currentPhrase = searchExamples[exampleIdx]; const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' }); const segments = Array.from(segmenter.segment(currentPhrase)).map(s => s.segment);
+            if (isTypingDeleting) charIdx--; else charIdx++;
+            const currentStr = segments.slice(0, charIdx).join('');
+            if(exampleIdx % 2 === 0) { inputEl.placeholder = "e.g. " + currentStr; locInputEl.placeholder = "Where? All Countries"; } else { inputEl.placeholder = "What are you looking for?"; locInputEl.placeholder = "e.g. " + currentStr; }
+            let typeSpeed = isTypingDeleting ? 40 : 80;
+            if (!isTypingDeleting && charIdx === segments.length) { typeSpeed = 2000; isTypingDeleting = true; } else if (isTypingDeleting && charIdx === 0) { isTypingDeleting = false; exampleIdx = (exampleIdx + 1) % searchExamples.length; typeSpeed = 500; }
+            typewriterTimeout = setTimeout(typeWriterEffect, typeSpeed);
+        }
+
+        window.startHeroSlider = function() {
+            clearInterval(heroInterval); currentHeroSlide = 0; 
+            heroInterval = setInterval(() => {
+                if (activeTab !== 'home') return;
+                const textContainer = document.getElementById('hero-text-content'); const bgContainer = document.getElementById('hero-bg-layer'); if (!textContainer || !bgContainer) return;
+                textContainer.style.opacity = '0';
+                setTimeout(() => {
+                    currentHeroSlide = (currentHeroSlide + 1) % HERO_SLIDES.length; const slide = HERO_SLIDES[currentHeroSlide];
+                    const badgeTextEl = document.getElementById('hero-badge-text'); const badgeIconEl = document.getElementById('hero-badge-icon'); const titleEl = document.getElementById('hero-title'); const descEl = document.getElementById('hero-desc'); const ctaEl = document.getElementById('hero-dynamic-cta');
+                    if (badgeTextEl) badgeTextEl.innerText = slide.badge; if (badgeIconEl) badgeIconEl.setAttribute('data-lucide', slide.badgeIcon); if (titleEl) titleEl.innerHTML = slide.title; if (descEl) descEl.innerHTML = slide.desc; if (ctaEl) ctaEl.innerHTML = slide.ctaText;
+                    bgContainer.className = `absolute inset-0 bg-gradient-to-br ${slide.bgClass} transition-colors duration-1000`; lucide.createIcons({ root: textContainer }); textContainer.style.opacity = '1';
+                }, 500); 
+            }, 4000); 
+        }
+
+        window.getScreenHeaderHTML = function(title, extraAction = '') {
+            return `
+            <div class="sticky top-0 bg-white/90 backdrop-blur-xl z-[60] px-4 py-2 border-b border-olive-100 flex items-center justify-between shadow-sm">
+                <button onclick="goBack()" class="p-2 bg-desert-100 rounded-lg hover:bg-olive-100 text-olive-700 transition-colors border border-transparent hover:border-olive-200 shadow-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
+                <h2 class="font-bold text-olive-900 truncate px-4 flex-1 text-center text-sm capitalize">${title}</h2>
+                <div class="flex items-center gap-1">${extraAction}<button onclick="closeScreen()" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-100 transition-colors border border-transparent hover:border-red-200 shadow-sm"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+            </div>
+            `;
+        }
+
+        function getAuthHTML() {
+            return `
+                <div class="min-h-full bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 flex flex-col justify-center px-4 relative overflow-hidden animate-in-up py-10">
+                    <div class="absolute top-0 right-0 w-60 h-60 bg-gold-400/10 rounded-full blur-[40px] -translate-y-1/3 translate-x-1/4 pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 w-60 h-60 bg-olive-500/10 rounded-full blur-[40px] translate-y-1/3 -translate-x-1/3 pointer-events-none"></div>
+                    <div class="relative z-10 w-full max-w-sm mx-auto">
+                        <div class="flex flex-col items-center mb-6">
+                            <div class="flex items-center px-3 py-2 bg-white/10 backdrop-blur-md rounded-xl shadow-lg border border-white/20 mb-3"><div class="mr-2 px-1.5 py-0.5 rounded bg-white text-olive-900 font-sans font-black text-[10px] tracking-tight flex items-center justify-center">go</div><div class="flex flex-col items-start justify-center"><span class="font-sans font-black text-xl tracking-tighter text-white leading-none">GULF</span></div></div>
+                            <h1 class="text-xl font-black text-white tracking-tight">Welcome to goGULF</h1>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-xl p-1.5 rounded-2xl border border-white/20 shadow-2xl mb-4">
+                            <div class="flex gap-1 mb-3 p-1"><button onclick="toggleAuthMode('login')" class="flex-1 py-2 ${isLoginMode ? 'bg-white text-olive-900 shadow-sm' : 'text-white hover:bg-white/10'} rounded-xl font-bold text-xs transition-all">Login</button><button onclick="toggleAuthMode('signup')" class="flex-1 py-2 ${!isLoginMode ? 'bg-white text-olive-900 shadow-sm' : 'text-white hover:bg-white/10'} rounded-xl font-bold text-xs transition-all">Sign Up</button></div>
+                            <div class="px-3 pb-3 flex flex-col gap-2.5">
+                                <div><label class="text-[9px] font-bold text-white uppercase tracking-widest ml-1 mb-1 block">Email Address</label><input type="email" id="auth-email" onfocus="cancelAuthTimeout()" placeholder="name@example.com" class="w-full bg-white/10 border border-white/30 rounded-xl p-2.5 text-white font-bold placeholder-white/70 outline-none focus:border-gold-400 transition-all text-xs"/></div>
+                                <div><label class="text-[9px] font-bold text-white uppercase tracking-widest ml-1 mb-1 block">Password</label><input type="password" id="auth-password" onfocus="cancelAuthTimeout()" placeholder="••••••••" class="w-full bg-white/10 border border-white/30 rounded-xl p-2.5 text-white font-bold placeholder-white/70 outline-none focus:border-gold-400 transition-all text-xs"/></div>
+                                <button id="auth-submit-btn" onclick="handleSupabaseAuth()" class="w-full bg-gradient-to-r from-gold-500 to-gold-600 text-white font-bold py-3 rounded-xl shadow-[0_10px_25px_rgba(197,155,39,0.25)] hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 mt-1 text-sm">${isLoginMode ? 'Login Securely' : 'Create Account'} <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+                                <div class="relative my-1.5 flex items-center"><div class="flex-grow border-t border-white/30"></div><span class="flex-shrink-0 mx-2 text-white/70 text-[9px] font-bold tracking-widest uppercase">Or</span><div class="flex-grow border-t border-white/30"></div></div>
+                                <button onclick="handleGoGulfSSO()" class="w-full bg-white text-olive-900 font-bold py-2.5 rounded-xl shadow-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 border border-transparent text-xs"><img src="https://img.icons8.com/color/48/google-logo.png" alt="Google" class="w-4 h-4"/>Continue with Google</button>
+                            </div>
+                        </div>
+                        <div class="text-center relative">
+                            <button onclick="cancelAuthTimeout(); showGuestMessageAndRedirect();" class="text-white hover:text-gold-400 text-[11px] font-bold transition-colors flex items-center justify-center gap-1.5 mx-auto">Explore as Guest <i data-lucide="compass" class="w-3 h-3"></i></button>
+                            <div id="auth-progress-container" class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-white/30 rounded-full overflow-hidden transition-opacity duration-300"><div id="auth-progress-bar" class="h-full bg-gold-500 w-0"></div></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getWelcomeHTML() {
+            const intents = [ { id: 'work', name: 'Work', icon: 'briefcase', color: 'text-gold-500', bg: 'bg-gold-50' }, { id: 'study', name: 'Study', icon: 'graduation-cap', color: 'text-teal-700', bg: 'bg-teal-50' }, { id: 'train', name: 'Train', icon: 'award', color: 'text-olive-500', bg: 'bg-olive-50' }, { id: 'move', name: 'Move', icon: 'globe', color: 'text-gold-600', bg: 'bg-desert-100' }, { id: 'travel', name: 'Travel', icon: 'plane', color: 'text-olive-700', bg: 'bg-olive-100' }, { id: 'settle', name: 'Settle', icon: 'home', color: 'text-teal-900', bg: 'bg-teal-50' } ];
+            let intentsHTML = intents.map(intent => `<div class="flex flex-col items-center justify-center p-3 bg-white/70 backdrop-blur-md rounded-xl shadow-soft-float border border-white/60 w-[30%] min-w-[80px] cursor-pointer hover:bg-white transition-all duration-300 hover:shadow-olive-glow hover:-translate-y-1 group"><div class="p-2.5 rounded-full ${intent.bg} mb-2 shadow-inner group-hover:scale-110 transition-transform duration-300"><i data-lucide="${intent.icon}" class="w-5 h-5 ${intent.color}"></i></div><span class="text-[10px] font-bold text-olive-900 tracking-wide">${intent.name}</span></div>`).join('');
+            return `
+                <div class="min-h-full bg-gradient-to-br from-desert-50 via-desert-100 to-olive-50 flex flex-col justify-between animate-in-up relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-[20rem] h-[20rem] bg-gold-400/10 rounded-full blur-[40px] -translate-y-1/3 translate-x-1/4 pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 w-[16rem] h-[16rem] bg-teal-900/10 rounded-full blur-[40px] translate-y-1/4 -translate-x-1/4 pointer-events-none"></div>
+                    <div class="px-4 pt-12 relative z-10 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-white rounded-2xl shadow-soft-float flex items-center justify-center mb-6 border border-olive-100 relative"><i data-lucide="compass" class="w-8 h-8 text-gold-500 drop-shadow-sm relative z-10"></i></div>
+                        <h1 class="text-2xl font-black text-olive-900 mb-2 leading-tight tracking-tight">Your Global Journey<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-600">Starts Here</span></h1>
+                        <p class="text-olive-500 text-[13px] font-medium max-w-[250px] leading-relaxed">Find opportunities and services across <strong class="text-olive-700">200+ countries</strong>.</p>
+                    </div>
+                    <div class="px-4 py-4 relative z-10 flex-1 flex flex-col justify-center"><h3 class="text-[9px] font-black text-olive-400 text-center mb-4 uppercase tracking-[0.2em]">What do you want to do?</h3><div class="flex flex-wrap justify-center gap-2.5">${intentsHTML}</div></div>
+                    <div class="px-4 pb-8 pt-2 relative z-10 flex flex-col gap-2.5"><button onclick="navigateTo('home')" class="w-full bg-gradient-to-r from-olive-700 to-teal-900 text-white font-bold py-3 rounded-xl shadow-olive-glow hover:shadow-olive-glow-lg transition-all duration-300 text-sm border border-olive-900/50 flex items-center justify-center gap-2">Get Started <i data-lucide="arrow-right" class="w-4 h-4"></i></button><button onclick="navigateTo('home')" class="w-full py-2.5 text-olive-500 font-bold text-xs hover:text-olive-900 transition-colors flex items-center justify-center gap-2 bg-white/40 backdrop-blur-md rounded-xl border border-white/50 hover:bg-white/60">Explore Without Account</button></div>
+                </div>
+            `;
+        }
+
+        function getHomeHTML() {
+            let catHTML = CATEGORIES.map(cat => `<button onclick="navigateTo('${cat.id}')" class="min-w-[85px] flex-shrink-0 snap-start group flex flex-col items-center justify-center p-3 bg-white rounded-xl shadow-soft-float border border-olive-100 hover:border-gold-400 hover:shadow-olive-glow interactive-card hover:-translate-y-1 relative overflow-hidden"><div class="p-2 rounded-xl mb-2 ${cat.bg} group-hover:scale-110 transition-transform duration-500 ease-out z-10 border border-olive-50 flex items-center justify-center"><img src="${cat.iconUrl}" alt="${cat.name}" class="w-6 h-6 object-contain drop-shadow-sm" onerror="this.src='https://img.icons8.com/fluency/96/grid.png'"/></div><span class="text-[9px] font-semibold text-olive-900 text-center tracking-wide z-10">${cat.name}</span></button>`).join('');
+            const continents = ['Asia', 'Europe', 'North America'];
+            let topDestinationsHTML = continents.map(cont => {
+                const topCountries = GLOBAL_COUNTRIES.filter(c => c.continent === cont).slice(0, 5); if (topCountries.length === 0) return '';
+                const cards = topCountries.map(dest => `<div onclick="selectCountry('${dest.id}')" class="min-w-[100px] snap-start bg-white border border-olive-100 rounded-xl p-3 shadow-sm flex flex-col items-center flex-shrink-0 cursor-pointer hover:shadow-olive-glow interactive-card hover:-translate-y-1 relative overflow-hidden group"><div class="w-10 h-10 mb-2 rounded-full overflow-hidden border-2 border-white shadow-soft-float group-hover:scale-110 transition-transform duration-500 relative z-10 bg-desert-100 flex items-center justify-center shrink-0"><img src="https://flagcdn.com/w160/${dest.flagCode}.png" alt="${dest.name}" class="w-full h-full object-cover" onerror="this.style.display='none'"/></div><span class="font-bold text-olive-900 text-xs relative z-10 text-center leading-tight">${dest.emoji} ${dest.name}</span></div>`).join('');
+                return `<div class="mt-3"><h4 class="px-4 text-[11px] font-black text-olive-700 mb-1.5 uppercase tracking-wide">${cont}</h4><div class="relative group w-full"><button onclick="scrollSlider('home-dest-scroll-${cont.replace(/\s/g,'')}', -200)" class="slider-arrow left-1 !w-6 !h-6 !p-0"><i data-lucide="chevron-left" class="w-4 h-4"></i></button><div id="home-dest-scroll-${cont.replace(/\s/g,'')}" class="flex overflow-x-auto gap-2.5 hide-scrollbar scroll-smooth snap-x px-4 pb-2 pt-1">${cards}</div><button onclick="scrollSlider('home-dest-scroll-${cont.replace(/\s/g,'')}', 200)" class="slider-arrow right-1 !w-6 !h-6 !p-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></button></div></div>`;
+            }).join('');
+            let jobsHTML = TRENDING_JOBS.slice(0, 3).map(job => `<div onclick="selectJob('${job.id}')" class="bg-white p-4 rounded-xl shadow-soft-float border border-olive-100 cursor-pointer hover:shadow-olive-glow interactive-card hover:border-olive-300 group relative overflow-hidden"><div class="absolute -right-10 -bottom-10 w-28 h-28 bg-olive-100/50 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div><div class="flex justify-between items-start mb-2 relative z-10"><div class="flex gap-2"><div class="w-10 h-10 bg-desert-100 rounded-lg flex items-center justify-center border border-olive-100/50 overflow-hidden shrink-0 shadow-sm text-xl">${job.flagEmoji}</div><div><h4 class="font-bold text-olive-900 text-[14px] leading-tight mb-0.5 group-hover:text-olive-700 transition-colors">${job.title}</h4><p class="text-[11px] font-semibold text-gold-600">${job.company} <span class="text-olive-400 mx-0.5">•</span> <span class="text-teal-900">${job.location}</span></p></div></div><button class="p-1.5 bg-desert-50 rounded-full text-olive-300 hover:text-red-500 hover:bg-red-50 transition-colors border border-transparent hover:border-red-100 shrink-0" onclick="event.stopPropagation(); this.classList.toggle('text-red-500'); this.classList.toggle('text-olive-300'); this.querySelector('svg').classList.toggle('fill-current');"><i data-lucide="heart" class="w-4 h-4"></i></button></div><div class="flex flex-wrap gap-1.5 mb-3 relative z-10"><span class="bg-gold-50 text-gold-700 text-[9px] px-2 py-0.5 rounded-md font-bold border border-gold-200/50 flex items-center"><i data-lucide="wallet" class="w-2.5 h-2.5 mr-1"></i> ${job.salary}</span><span class="bg-olive-50 text-olive-700 text-[9px] px-2 py-0.5 rounded-md font-bold border border-olive-100 flex items-center"><i data-lucide="briefcase" class="w-2.5 h-2.5 mr-1"></i> ${job.type}</span></div><div class="bg-desert-50 rounded-lg p-2 mb-3 text-[10px] text-olive-700 font-medium border border-olive-100 relative z-10 flex flex-col gap-1"><div class="flex justify-between items-center"><span class="text-olive-500">Accommodation:</span><span class="font-semibold text-olive-900">${job.accommodation}</span></div><div class="flex justify-between items-center"><span class="text-olive-500">Application:</span><span class="font-semibold text-teal-600">${job.status}</span></div></div><div class="pt-1 flex justify-between items-center relative z-10"><span class="text-[9px] font-semibold text-olive-400 flex items-center"><i data-lucide="clock" class="w-3 h-3 mr-1"></i> ${job.posted}</span><button class="bg-gradient-to-r from-olive-700 to-teal-900 text-white font-bold text-[10px] px-3 py-1.5 rounded-lg shadow-sm group-hover:shadow-md transition-all flex items-center gap-1">View <i data-lucide="chevron-right" class="w-3 h-3"></i></button></div></div>`).join('');
+
+            return `
+                <div class="pb-24 animate-in-up">
+                    <div class="bg-white pt-4 pb-2 border-b border-olive-100 relative z-20">
+                        <div class="px-4 flex justify-between items-center mb-3"><h3 class="text-xs font-black text-olive-900 flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3 text-gold-500 fill-gold-500"></i> Success Stories</h3><div class="flex gap-1"><button onclick="scrollSlider('stories-scroll', -120); clearInterval(autoScrollInterval);" class="w-6 h-6 rounded-full bg-desert-50 border border-olive-100 flex items-center justify-center hover:bg-gold-50 text-olive-700 transition-colors"><i data-lucide="chevron-left" class="w-3 h-3"></i></button><button onclick="scrollSlider('stories-scroll', 120); clearInterval(autoScrollInterval);" class="w-6 h-6 rounded-full bg-desert-50 border border-olive-100 flex items-center justify-center hover:bg-gold-50 text-olive-700 transition-colors"><i data-lucide="chevron-right" class="w-3 h-3"></i></button></div></div>
+                        <div class="relative w-full group"><div id="stories-scroll" class="flex overflow-x-auto gap-3 hide-scrollbar scroll-smooth px-4 pb-2 snap-x">${SUCCESS_STORIES.map(story => `<div onclick="openStory('${story.id}')" class="snap-start shrink-0 flex flex-col items-center gap-1 cursor-pointer group/story w-[64px]"><div class="relative p-[2px] rounded-full bg-gradient-to-tr from-gold-400 via-red-400 to-teal-500 group-hover/story:scale-105 transition-transform duration-300 shadow-sm"><div class="w-12 h-12 rounded-full border-2 border-white overflow-hidden bg-desert-100 relative"><img src="${story.image}" alt="${story.name}" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=${story.name}&background=DFD5C1&color=2A3525'" /></div><div class="absolute -bottom-0.5 -right-0.5 bg-white rounded-full p-[1px] shadow-sm border border-olive-50 overflow-hidden w-[18px] h-[18px] flex items-center justify-center"><img src="https://flagcdn.com/w40/${story.flagCode}.png" class="w-full h-full object-cover rounded-full" alt="${story.to}" /></div></div><span class="text-[9px] font-bold text-olive-900 truncate w-full text-center">${story.name}</span></div>`).join('')}</div></div>
+                    </div>
+                    <div class="relative bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 text-white px-5 pt-8 pb-16 rounded-b-[2rem] shadow-olive-glow overflow-hidden">
+                        <div id="hero-bg-layer" class="absolute inset-0 bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 transition-colors duration-1000"></div><div class="absolute top-0 right-0 w-60 h-60 bg-gold-400/15 rounded-full blur-[30px] -translate-y-1/3 translate-x-1/4 mix-blend-screen z-0"></div>
+                        <div class="relative z-10 text-white">
+                            <div id="hero-text-content" class="transition-opacity duration-500 ease-in-out opacity-100">
+                                <div class="inline-flex items-center px-2 py-1 bg-white/10 backdrop-blur-md rounded-full text-[8px] font-bold tracking-widest text-gold-400 mb-3 border border-white/20 uppercase"><i id="hero-badge-icon" data-lucide="sparkles" class="w-2.5 h-2.5 mr-1"></i> <span id="hero-badge-text">Global Mobility Marketplace</span></div>
+                                <h1 id="hero-title" class="text-3xl font-black mb-3 leading-[1.15] tracking-tight">Your Global Career<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">Journey Starts Here</span></h1>
+                                <p id="hero-desc" class="text-olive-100 mb-5 text-xs font-medium opacity-90 flex flex-wrap gap-x-1.5 gap-y-1 items-center"><span>Jobs</span><span class="w-1 h-1 rounded-full bg-gold-500"></span><span>Training</span><span class="w-1 h-1 rounded-full bg-gold-500"></span><span>Visa</span><span class="w-1 h-1 rounded-full bg-gold-500"></span><span>Travel</span></p>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-xl p-2.5 rounded-[1.5rem] shadow-xl border border-white/20 flex flex-col gap-2 relative z-20">
+                                <div class="flex items-center px-3 py-1.5 bg-white/95 rounded-xl shadow-inner focus-within:ring-2 focus-within:ring-gold-500 transition-all border border-transparent"><i data-lucide="search" class="w-4 h-4 text-gold-500"></i><input type="text" id="ai-search-input" placeholder="What are you looking for?" class="w-full p-2 bg-transparent outline-none text-olive-900 text-xs font-medium placeholder:text-olive-300" /></div>
+                                <div class="flex items-center px-3 py-1.5 bg-white/95 rounded-xl shadow-inner focus-within:ring-2 focus-within:ring-gold-500 transition-all border border-transparent"><i data-lucide="globe" class="w-4 h-4 text-gold-500"></i><input type="text" id="ai-loc-input" placeholder="Where? All Countries" class="w-full p-2 bg-transparent outline-none text-olive-900 text-xs font-medium placeholder:text-olive-300" /></div>
+                                <button id="hero-dynamic-cta" onclick="navigateTo('search')" class="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-white font-bold py-2.5 rounded-xl shadow-md transition-all duration-300 w-full mt-1 flex items-center justify-center gap-1.5 text-sm">Search <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5 px-4 relative z-20">
+                        <div class="flex justify-between items-end mb-2 px-1"><h3 class="text-sm font-black text-olive-900 flex items-center gap-1.5"><div class="relative flex items-center justify-center w-4 h-4"><span class="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-30 animate-ping"></span><div class="w-2 h-2 bg-red-500 rounded-full relative z-10 shadow-[0_0_6px_rgba(239,68,68,0.8)] border border-white"></div></div> Live & Fast-Track</h3></div>
+                        <div class="bg-white rounded-xl p-1 shadow-[0_15px_40px_-10px_rgba(77,97,69,0.15)] border border-olive-100 relative overflow-hidden group interactive-card hover:shadow-olive-glow">
+                            <div class="absolute inset-0 bg-gradient-to-r from-gold-400/10 via-olive-500/5 to-teal-500/10 opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+                            <div class="bg-white/80 backdrop-blur-md rounded-lg p-2.5 relative z-10 flex flex-col gap-2.5 border border-white/50">
+                                <div class="relative group/actions w-full"><button onclick="scrollSlider('ft-actions', -150)" class="slider-arrow left-0 -ml-1 !w-5 !h-5 flex items-center justify-center !p-0 shadow-sm"><i data-lucide="chevron-left" class="w-3 h-3"></i></button><div id="ft-actions" class="flex overflow-x-auto hide-scrollbar gap-2 snap-x pb-1 scroll-smooth"><button onclick="toggleFastTrackModal()" class="snap-start shrink-0 px-3 py-1.5 bg-gradient-to-r from-red-500 to-rose-600 text-white text-[10px] font-bold rounded-lg shadow-sm flex items-center gap-1.5 hover:-translate-y-0.5 transition-transform"><i data-lucide="video" class="w-3 h-3 text-white/90"></i> Live Interview</button><button onclick="toggleFastTrackModal()" class="snap-start shrink-0 px-3 py-1.5 bg-gradient-to-r from-gold-500 to-gold-600 text-white text-[10px] font-bold rounded-lg shadow-sm flex items-center gap-1.5 hover:-translate-y-0.5 transition-transform"><i data-lucide="zap" class="w-3 h-3 text-white/90 fill-white/20"></i> Direct Selection</button></div><button onclick="scrollSlider('ft-actions', 150)" class="slider-arrow right-0 -mr-1 !w-5 !h-5 flex items-center justify-center !p-0 shadow-sm"><i data-lucide="chevron-right" class="w-3 h-3"></i></button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6"><div class="px-4 flex justify-between items-end mb-2"><h3 class="text-base font-bold text-olive-900 flex items-center gap-1.5"><i data-lucide="layout-grid" class="w-4 h-4 text-gold-500"></i> Categories</h3><span class="text-gold-600 text-xs font-semibold cursor-pointer hover:text-gold-500 transition-colors" onclick="navigateTo('services')">All</span></div><div class="relative group w-full z-20"><button onclick="scrollSlider('cat-scroll', -150)" class="slider-arrow left-1 !w-6 !h-6 !p-0"><i data-lucide="chevron-left" class="w-4 h-4"></i></button><div id="cat-scroll" class="flex overflow-x-auto gap-2.5 hide-scrollbar scroll-smooth snap-x px-4 pb-3 pt-1">${catHTML}</div><button onclick="scrollSlider('cat-scroll', 150)" class="slider-arrow right-1 !w-6 !h-6 !p-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></button></div></div>
+                    
+                    <div class="mt-4"><div class="px-4 flex justify-between items-end mb-2"><h3 class="text-base font-bold text-olive-900 flex items-center gap-1.5"><i data-lucide="map" class="w-4 h-4 text-gold-500"></i> Destinations</h3></div>${topDestinationsHTML}</div>
+                    
+                    <div class="px-4 mt-6 mb-3 relative z-20"><div class="bg-gradient-to-r from-olive-50 to-white rounded-2xl border border-olive-200/60 p-3 flex items-center gap-3 shadow-sm overflow-hidden marketplace-container relative"><div class="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div><div class="w-1/3 shrink-0 relative z-10 bg-gradient-to-r from-olive-50 to-transparent pr-2"><h3 class="text-sm font-black text-olive-900 leading-tight">Career & Mobility <br/><span class="text-teal-700">Market</span></h3></div><div class="flex-1 overflow-hidden relative"><div class="flex gap-2 animate-scroll-marketplace w-max"><div class="w-[120px] shrink-0 bg-orange-50/50 rounded-xl p-2 border border-orange-100/50"><div class="text-[9px] font-black text-orange-500 flex items-center gap-1 mb-1.5"><span class="text-xs">🔥</span> Trending</div><ul class="text-[8px] font-bold text-olive-700 space-y-1"><li>Germany Jobs</li><li>Nursing Careers</li></ul></div><div class="w-[120px] shrink-0 bg-blue-50/50 rounded-xl p-2 border border-blue-100/50"><div class="text-[9px] font-black text-blue-500 flex items-center gap-1 mb-1.5"><span class="text-xs">✨</span> Recommended</div><ul class="text-[8px] font-bold text-olive-700 space-y-1"><li>CV Optimization</li><li>Language A1</li></ul></div></div></div></div></div>
+                    
+                    <div class="px-4 mt-4"><div class="flex justify-between items-end mb-3"><h3 class="text-base font-bold text-olive-900 flex items-center gap-1.5"><i data-lucide="trending-up" class="w-4 h-4 text-gold-500"></i> Trending Roles</h3><span class="text-gold-600 text-xs font-semibold cursor-pointer hover:text-gold-500 transition-colors" onclick="navigateTo('jobs')">All</span></div><div class="flex flex-col gap-3">${jobsHTML}</div></div>
+                </div>
+            `;
+        }
+
+        function getServicesHTML() {
+            const extraAction = `<button onclick="showToast('Cart is empty', 'shopping-cart', 'info')" class="p-2 bg-white rounded-lg hover:bg-olive-50 text-olive-700 transition-colors shadow-sm border border-olive-100 relative"><i data-lucide="shopping-cart" class="w-4 h-4"></i></button>`;
+            const mainServices = [ { id: 'jobs', title: 'Jobs', icon: 'briefcase', iconColor: 'text-gold-500', bg: 'bg-gold-50', border: 'border-gold-100', items: ['Full-time jobs', 'Remote jobs'], action: 'Explore Jobs' }, { id: 'interviews', title: 'Interviews', icon: 'mic', iconColor: 'text-teal-700', bg: 'bg-teal-50', border: 'border-teal-100', items: ['Walk-in events', 'Virtual interviews'], action: 'Explore Interviews' }, { id: 'training', title: 'Training', icon: 'award', iconColor: 'text-olive-600', bg: 'bg-olive-50', border: 'border-olive-100', items: ['Language', 'Skill certification'], action: 'Explore Training' } ];
+            let servicesCardsHTML = mainServices.map(service => `<div class="bg-white p-4 rounded-xl shadow-soft-float border border-olive-100 hover:shadow-olive-glow transition-all group interactive-card"><div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl ${service.bg} flex items-center justify-center border ${service.border} shrink-0 group-hover:scale-105 transition-transform"><i data-lucide="${service.icon}" class="w-5 h-5 ${service.iconColor}"></i></div><h3 class="font-black text-olive-900 text-base leading-tight">${service.title}</h3></div><div class="grid grid-cols-2 gap-y-2 gap-x-1.5 mb-4">${service.items.map(item => `<div class="flex items-start gap-1 text-[10px] font-semibold text-olive-700 leading-tight"><span class="text-gold-500 text-[8px] shrink-0 mt-0.5">❖</span> ${item}</div>`).join('')}</div><button onclick="navigateTo('${service.id}')" class="w-full py-2 bg-desert-50 hover:bg-olive-50 text-olive-900 text-[11px] font-bold rounded-lg border border-olive-200 transition-colors shadow-sm flex items-center justify-center gap-1.5 group/btn">${service.action} <i data-lucide="arrow-right" class="w-3 h-3 text-olive-400 group-hover/btn:translate-x-1 transition-transform"></i></button></div>`).join('');
+            return `
+                <div class="pb-24 bg-desert-50 min-h-full animate-in-right relative">
+                    ${window.getScreenHeaderHTML('goGULF Oasis', extraAction)}
+                    <div class="relative bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 p-6 overflow-hidden rounded-b-[2rem] shadow-olive-glow mb-6 border-b border-olive-700"><div class="absolute inset-0 opacity-[0.15] bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9IiNmZmYiLz48L3N2Zz4=')]"></div><div class="relative z-10 pt-1"><div class="inline-flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-gold-500/20 to-gold-500/5 border border-gold-500/30 rounded-full text-[8px] font-black uppercase tracking-widest text-gold-400 mb-3 shadow-sm"><span class="w-1 h-1 rounded-full bg-gold-400 animate-ping mr-0.5"></span> Premium Oasis</div><h1 class="text-2xl font-black text-white mb-2 leading-[1.15] tracking-tight">Accelerate Your <br/><span class="relative inline-block"><span class="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-gold-300 to-white">Global Journey</span></span></h1></div></div>
+                    <div class="px-4 mb-5 relative group w-full"><div id="service-cat-scroll" class="flex overflow-x-auto gap-2 hide-scrollbar snap-x scroll-smooth pb-1">${['All Categories', 'Jobs', 'Visa'].map((c, i) => `<button class="snap-start shrink-0 px-3 py-1.5 ${i === 0 ? 'bg-olive-700 text-white border-olive-700 shadow-sm' : 'bg-white text-olive-700 border-olive-200 hover:bg-desert-100 shadow-soft-float'} border text-[10px] font-bold rounded-lg transition-colors">${c}</button>`).join('')}</div></div>
+                    <div class="px-4 mb-6"><div class="flex flex-col gap-3">${servicesCardsHTML}</div></div>
+                </div>
+            `;
+        }
+
+        function getProfileHTML() {
+            const emailPrefix = currentUser?.email ? currentUser.email.split('@')[0] : 'Guest';
+            const emailDisplay = currentUser?.email ? currentUser.email : 'guest@gogulf.online';
+            return `
+                <div class="pb-24 bg-desert-50 min-h-full animate-in-up relative">
+                    ${window.getScreenHeaderHTML('My Profile', `<button class="p-2 bg-white rounded-lg hover:bg-olive-50 text-olive-700 transition-colors shadow-sm border border-olive-100"><i data-lucide="settings" class="w-4 h-4"></i></button>`)}
+                    <div class="bg-gradient-to-br from-olive-900 via-teal-900 to-olive-900 pt-8 pb-16 px-5 relative rounded-b-[2rem] shadow-olive-glow -mt-1"><div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent"></div></div>
+                    <div class="px-4 -mt-12 relative z-10 mb-5"><div class="bg-white/95 backdrop-blur-xl rounded-2xl shadow-soft-float p-5 border border-olive-100 text-center"><div class="w-16 h-16 bg-gradient-to-br from-desert-100 to-olive-50 rounded-full mx-auto border-[3px] border-white shadow-md flex items-center justify-center -mt-10 mb-2 relative"><span class="text-2xl font-black text-olive-700 uppercase">${emailPrefix.charAt(0)}</span><div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div></div><h2 class="text-lg font-black text-olive-900 mb-0.5 truncate">${emailPrefix}</h2><p class="text-gold-600 font-bold text-[10px] mb-3 tracking-wide">${emailDisplay}</p><div class="w-full bg-desert-100 rounded-full h-1.5 mb-1.5 shadow-inner overflow-hidden border border-olive-50"><div class="bg-gradient-to-r from-gold-400 to-gold-500 h-full rounded-full w-[45%] relative"></div></div><div class="flex justify-between items-center"><p class="text-[8px] font-black text-olive-400 uppercase tracking-widest">Profile Strength</p><p class="text-[8px] font-black text-gold-600 uppercase tracking-widest">45%</p></div></div></div>
+                    <div class="px-4 mb-5"><div class="bg-white p-4 rounded-xl shadow-sm border border-olive-100"><h3 class="font-bold text-olive-900 text-sm mb-3 flex items-center gap-1.5"><i data-lucide="map" class="w-4 h-4 text-gold-500"></i> Mobility Journey</h3><div class="flex flex-col gap-4 relative"><div class="absolute left-[13px] top-3 bottom-3 w-0.5 bg-desert-100 z-0"></div><div class="flex items-start gap-3 relative z-10"><div class="w-7 h-7 rounded-full bg-olive-700 text-white flex items-center justify-center shrink-0 border-2 border-white shadow-sm"><i data-lucide="check" class="w-3 h-3"></i></div><div class="pt-0.5"><h4 class="font-bold text-olive-900 text-xs">Career Goal</h4><p class="text-[9px] font-medium text-olive-500 mt-0.5">Work Abroad</p></div></div><div class="flex items-start gap-3 relative z-10"><div class="w-7 h-7 rounded-full bg-gold-500 text-white flex items-center justify-center shrink-0 border-2 border-white shadow-sm ring-1 ring-gold-100"><span class="text-[10px] font-black">2</span></div><div class="bg-desert-50 p-2.5 rounded-lg border border-gold-200 shadow-sm flex-1"><h4 class="font-bold text-olive-900 text-xs">Complete Profile</h4><p class="text-[9px] font-medium text-olive-500 mt-1 mb-1.5">Upload CV.</p><button class="text-[9px] font-bold bg-white border border-olive-200 px-2 py-1 rounded text-olive-700 shadow-sm">Upload</button></div></div></div></div></div>
+                    <div class="px-4 mb-6">${currentUser ? `<button onclick="handleLogout()" class="w-full bg-white text-red-500 font-bold py-2.5 rounded-xl shadow-sm border border-red-100 hover:bg-red-50 transition-colors flex items-center justify-center gap-1.5 text-sm"><i data-lucide="log-out" class="w-4 h-4"></i> Log Out</button>` : `<button onclick="toggleAuthMode('login'); navigateTo('auth');" class="w-full bg-gradient-to-r from-olive-700 to-teal-900 text-white font-bold py-2.5 rounded-xl shadow-sm hover:scale-[1.02] transition-transform flex items-center justify-center gap-1.5 text-sm"><i data-lucide="log-in" class="w-4 h-4"></i> Log In</button>`}</div>
+                </div>
+            `;
+        }
+
+        function getAdvancedFilterHTML() {
+            const toggleClasses = "this.classList.toggle('bg-olive-700'); this.classList.toggle('text-white'); this.classList.toggle('border-olive-700'); this.classList.toggle('bg-white'); this.classList.toggle('text-olive-700'); this.classList.toggle('border-olive-200');";
+            const createPill = (label, active = false) => `<button onclick="${toggleClasses}" class="px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition-colors ${active ? 'bg-olive-700 text-white border-olive-700' : 'bg-white text-olive-700 border-olive-200 hover:bg-desert-100'}">${label}</button>`;
+            return `
+                <div class="pb-24 bg-desert-50 min-h-full animate-in-right relative">
+                    ${window.getScreenHeaderHTML('Filters', `<button class="text-gold-600 font-bold text-[11px] hover:text-gold-500 transition-colors px-1">Reset</button>`)}
+                    <div class="p-4 flex flex-col gap-4">
+                        <div class="bg-white p-4 rounded-xl shadow-soft-float border border-olive-100"><h3 class="font-bold text-olive-900 text-sm mb-3 flex items-center gap-1.5"><i data-lucide="map" class="w-4 h-4 text-olive-400"></i> Location</h3><div class="flex flex-col gap-2"><div><select class="w-full p-2 bg-desert-50 border border-olive-100 rounded-lg text-xs font-medium text-olive-900 outline-none focus:border-gold-400"><option>All Countries</option></select></div></div></div>
+                        <div class="bg-white p-4 rounded-xl shadow-soft-float border border-olive-100"><h3 class="font-bold text-olive-900 text-sm mb-3 flex items-center gap-1.5"><i data-lucide="target" class="w-4 h-4 text-olive-400"></i> Type</h3><div class="flex flex-wrap gap-1.5">${createPill('Job', true)}${createPill('Interview')}${createPill('Training')}</div></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getGenericScreenHTML(title) {
+            return `
+                <div class="pb-24 bg-desert-50 min-h-full animate-in-right relative">
+                    ${window.getScreenHeaderHTML(title.replace('-', ' '), `<button class="p-2 text-olive-400 hover:text-olive-700 transition-colors"><i data-lucide="more-vertical" class="w-4 h-4"></i></button>`)}
+                    <div class="p-6 text-center flex flex-col items-center justify-center mt-12 animate-in-up duration-500"><div class="w-16 h-16 bg-desert-100 rounded-full flex items-center justify-center mb-4 shadow-inner border border-olive-100/50"><i data-lucide="sparkles" class="w-6 h-6 text-gold-500 drop-shadow-md"></i></div><h2 class="text-xl font-bold text-olive-900 mb-1 capitalize">${title.replace('-', ' ')}</h2><p class="text-olive-500 font-medium text-xs">Coming soon.</p></div>
+                </div>
+            `;
+        }
+
+        function updateBottomNav() {
+            const navItems = [ { id: 'home', icon: 'home', label: 'Home' }, { id: 'explore', icon: 'compass', label: 'Explore' }, { id: 'jobs', icon: 'briefcase', label: 'Jobs' }, { id: 'chat', icon: 'message-circle', label: 'Chat' }, { id: 'profile', icon: 'user', label: 'Profile' } ];
+            const navContainer = document.getElementById('bottom-nav'); if(!navContainer) return; const currentScroll = navContainer.scrollLeft; 
+            navContainer.innerHTML = navItems.map(item => `<button onclick="navigateTo('${item.id}')" class="min-w-[56px] flex-shrink-0 snap-center flex flex-col items-center py-1 transition-all duration-300 ease-out relative ${activeTab === item.id ? 'text-olive-700 scale-105' : 'text-olive-400 hover:text-olive-700'}">${activeTab === item.id ? '<div class="absolute -top-0.5 w-1 h-1 bg-gold-500 rounded-full shadow-[0_0_4px_#D4AF37]"></div>' : ''}<i data-lucide="${item.icon}" class="w-[18px] h-[18px] transition-all duration-300 ${activeTab === item.id ? 'fill-olive-50 stroke-olive-700 drop-shadow-sm' : ''}" stroke-width="${activeTab === item.id ? 2 : 1.5}"></i><span class="text-[8px] mt-0.5 font-bold tracking-wide ${activeTab === item.id ? 'opacity-100 text-olive-900' : 'opacity-70'}">${item.label}</span></button>`).join('');
+            navContainer.scrollLeft = currentScroll;
+        }
+
+        function setupMenuLinks() {
+            const EXTENDED_NAV = [ { id: 'home', icon: 'home', label: 'Home' }, { id: 'jobs', icon: 'briefcase', label: 'Jobs Marketplace' }, { id: 'chat', icon: 'message-circle', label: 'Messages' }, { id: 'settings', icon: 'settings', label: 'Settings' }, { id: 'logout', icon: 'log-out', label: 'Logout' } ];
+            const menuContainer = document.getElementById('menu-links'); if(!menuContainer) return;
+            menuContainer.innerHTML = EXTENDED_NAV.map(item => { const action = item.id === 'logout' ? 'handleLogout(); toggleMenu(true);' : `navigateTo('${item.id}')`; const textClass = item.id === 'logout' ? 'text-red-600' : 'text-olive-900'; const iconClass = item.id === 'logout' ? 'text-red-500' : 'text-olive-400'; return `<button onclick="${action}" class="w-full flex items-center px-3 py-2.5 rounded-xl hover:bg-olive-100 hover:text-olive-900 text-left transition-all duration-300 group"><i data-lucide="${item.icon}" class="w-4 h-4 ${iconClass} mr-3 transition-colors" stroke-width="1.5"></i><span class="${textClass} font-medium text-sm">${item.label}</span></button>`; }).join('');
+        }
+
+        function renderApp() {
+            const contentDiv = document.getElementById('app-content'); const header = document.getElementById('app-header'); const bottomNav = document.getElementById('bottom-nav-wrapper');
+            clearTimeout(typewriterTimeout); clearInterval(heroInterval); 
+            if (activeTab === 'auth' || activeTab === 'welcome') { if (header) header.classList.add('hidden'); if (bottomNav) bottomNav.classList.add('hidden'); } else { if (header) header.classList.remove('hidden'); if (bottomNav) bottomNav.classList.remove('hidden'); }
+            
+            switch(activeTab) {
+                case 'auth': contentDiv.innerHTML = getAuthHTML(); break;
+                case 'welcome': contentDiv.innerHTML = getWelcomeHTML(); break;
+                case 'home': contentDiv.innerHTML = getHomeHTML() + `<button id="search-fab" onclick="toggleChatModal()" class="absolute bottom-16 right-4 z-[80] w-12 h-12 bg-gradient-to-br from-gold-400 to-gold-600 rounded-full shadow-[0_10px_30px_rgba(197,155,39,0.4)] flex items-center justify-center hover:scale-110 transition-all duration-300 border-2 border-white"><i data-lucide="message-circle" class="w-5 h-5 text-white drop-shadow-md"></i></button>`; if (isAppReady) { setTimeout(startTypewriter, 100); startHeroSlider(); } break;
+                case 'filter': contentDiv.innerHTML = getAdvancedFilterHTML(); break;
+                case 'services': contentDiv.innerHTML = getServicesHTML(); break;
+                case 'profile': contentDiv.innerHTML = getProfileHTML(); break;
+                default: contentDiv.innerHTML = getGenericScreenHTML(activeTab); break;
+            }
+            lucide.createIcons(); updateBottomNav(); lucide.createIcons();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const appContent = document.getElementById('app-content');
+            if (appContent) { appContent.addEventListener('scroll', (e) => { if(activeTab !== 'home') return; const topHeader = document.getElementById('app-header'); const stickySearch = document.getElementById('sticky-search'); if(e.target.scrollTop > 100) { if(topHeader) topHeader.style.transform = 'translateY(-100%)'; if(stickySearch) { stickySearch.style.transform = 'translateY(0)'; stickySearch.classList.remove('pointer-events-none'); } } else { if(topHeader) topHeader.style.transform = 'translateY(0)'; if(stickySearch) { stickySearch.style.transform = 'translateY(-100%)'; stickySearch.classList.add('pointer-events-none'); } } }); }
+            
+            setupMenuLinks(); renderApp();
+            
+            // Initial boot sequence for app window
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                if (splash) { splash.classList.add('opacity-0'); setTimeout(() => { splash.style.display = 'none'; isAppReady = true; if (activeTab === 'auth') { startAuthTimer(); } else if (activeTab === 'home') { startTypewriter(); startHeroSlider(); startAutoScroll(); } }, 700); }
+            }, 1500); // Shorter splash for this demo
+
+            lucide.createIcons();
+            document.getElementById('gogulf-window').classList.remove('hidden'); // Show app by default for demo
+        });
+    </script>
+</body>
+</html>
