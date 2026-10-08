@@ -1,25 +1,12 @@
 {
-  "id": "./",
   "name": "Serbia Career Gateway",
   "short_name": "Serbia Gateway",
-  "description": "Digital career application and proposal portal for Serbia opportunities.",
-  "start_url": "./index.html",
+  "description": "Serbia career application and candidate portal",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
-  ],
   "background_color": "#0f172a",
   "theme_color": "#8b5cf6",
-  "orientation": "portrait-primary",
-  "prefer_related_applications": false,
-  "categories": [
-    "business",
-    "productivity",
-    "education"
-  ],
   "icons": [
     {
       "src": "icons/icon-192.png",
