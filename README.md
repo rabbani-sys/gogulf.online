@@ -1,6 +1,6 @@
-# Serbia Career Gateway — FINAL LIVE V3.4
+# Serbia Career Gateway — FINAL LIVE V4.0
 
-## Critical fixes in V3.4
+## Critical fixes in V4.0
 - Fixed the JavaScript parse error that stopped the entire application from running and left the splash screen permanently visible.
 - Added a production safety fallback that always releases the splash screen.
 - Fixed automatic proposal account creation flow.
@@ -22,11 +22,20 @@ Replace the old GitHub project files with this ZIP contents. Use HTTPS. After re
 Do not put a service-role key or database password in GitHub.
 
 
-## V3.4 navigation freeze
+## V4.0 navigation freeze
 - After proposal signature/account creation, dashboard opens in the same tab.
 - No Login Portal text is shown in the top navigation.
 - Candidate dashboard uses icon-based navigation.
 
 
-## V3.4 dashboard access
+## V4.0 dashboard access
 A persistent Dashboard CTA appears after authentication. After a signed proposal creates the account, the dashboard opens automatically in the same tab. Dashboard contains icon navigation for Overview, Application, Proposal, Payments, Documents, Timeline, Notifications and Support.
+
+
+## V4.0 final readiness
+- Visible Dashboard CTA after account/session creation.
+- Same-tab automatic dashboard entry after signed proposal.
+- Email Address field explicitly marked Optional in the proposal form.
+- No Login Portal dependency after signing.
+- Dashboard feature icons: Overview, Application, Proposal, Payments, Documents, Timeline, Notifications, Support.
+- Splash-screen emergency fallback prevents a blank/stuck first screen.

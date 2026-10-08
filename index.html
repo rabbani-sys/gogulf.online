@@ -289,7 +289,8 @@
                 
             </div>
             
-            <button id="candidate-dashboard-cta" onclick="openCandidateDashboard()" class="hidden bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-2 text-sm" aria-label="Open candidate dashboard"><i class="fa-solid fa-grid-2"></i><span class="hidden sm:inline">Dashboard</span></button>
+            
+            <button id="candidate-dashboard-cta" type="button" onclick="openCandidateDashboard()" class="hidden bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-400 hover:to-blue-400 border border-white/20 text-white px-3 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 text-sm" aria-label="Open Dashboard"><i class="fa-solid fa-grid-2"></i><span>Dashboard</span></button>
             <button id="pwa-install-btn" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border border-white/30 text-white px-3 py-2 sm:px-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2 text-sm z-50"><i class="fa-solid fa-mobile-screen-button animate-bounce"></i></button>
         </div>
     </nav>
@@ -339,6 +340,17 @@
     </div>
 
     <div id="dashboard-panel" class="glass-card p-5 md:p-7">
+<div id="dashboard-feature-grid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mt-6">
+  <button class="dashboard-icon-btn" onclick="document.querySelector('[data-section=overview]')?.click()"><i class="fa-solid fa-house"></i><span>Overview</span></button>
+  <button class="dashboard-icon-btn" onclick="document.querySelector('[data-section=application]')?.click()"><i class="fa-solid fa-file-lines"></i><span>Application</span></button>
+  <button class="dashboard-icon-btn" onclick="document.querySelector('[data-section=proposal]')?.click()"><i class="fa-solid fa-file-signature"></i><span>Proposal</span></button>
+  <button class="dashboard-icon-btn" onclick="document.querySelector('[data-section=payments]')?.click()"><i class="fa-solid fa-credit-card"></i><span>Payments</span></button>
+  <button class="dashboard-icon-btn" onclick="document.querySelector('[data-section=documents]')?.click()"><i class="fa-solid fa-folder-open"></i><span>Documents</span></button>
+  <button class="dashboard-icon-btn" onclick="document.querySelector('[data-section=timeline]')?.click()"><i class="fa-solid fa-route"></i><span>Timeline</span></button>
+  <button class="dashboard-icon-btn" onclick="document.querySelector('[data-section=notifications]')?.click()"><i class="fa-solid fa-bell"></i><span>Notifications</span></button>
+  <button class="dashboard-icon-btn" onclick="document.querySelector('[data-section=support]')?.click()"><i class="fa-solid fa-headset"></i><span>Support</span></button>
+</div>
+
       <div id="dash-overview" class="dash-panel">
         <div class="text-xs uppercase tracking-widest text-white/40">Welcome</div>
         <h3 class="text-2xl font-bold text-white mt-1">Your Serbia Career Journey</h3>
@@ -1116,6 +1128,12 @@ document.addEventListener("DOMContentLoaded",()=>{
                         <div>
                             <label class="block text-tiny font-bold uppercase tracking-wider text-white/70 mb-2 ml-1">Mobile Number</label>
                             <input type="tel" id="mobile" class="glass-input" placeholder="+1 234 567 8900" required>
+<div class="mt-4">
+  <label for="email" class="block text-sm font-semibold text-white/80 mb-2">Email Address <span class="text-white/40">(Optional)</span></label>
+  <input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com (optional)" class="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-white/35 focus:outline-none focus:ring-2 focus:ring-purple-400">
+  <p class="text-xs text-white/40 mt-1">You can continue without an email. If provided, it becomes your portal username.</p>
+</div>
+
                         </div>
                     </div>
                 </div>
@@ -1876,7 +1894,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         // ==========================================
         // 3. Form Submission & PDF Generation
         // ==========================================
-        async function submitProposal() {
+        async async function submitProposal() {
             // Gather Data
             const fname = document.getElementById('fname').value.trim();
             const lname = document.getElementById('lname').value.trim();
@@ -2189,9 +2207,20 @@ async function forceDashboardAfterProposal(data) {
   sessionStorage.setItem("serbia_must_change_password", "1");
   sessionStorage.setItem("serbia_candidate_username", result.username);
   sessionStorage.setItem("serbia_candidate_user_id", result.user?.id || "");
+  sessionStorage.setItem("serbia_dashboard_access", "1");
+
+  // Keep the signed proposal state locally so a refresh does not lose the portal CTA.
+  sessionStorage.setItem("serbia_proposal_signed", "1");
+
+  // Open the dashboard in the SAME TAB immediately.
+  if (typeof openCandidateDashboard === "function") {
+    openCandidateDashboard();
+  }
   window.dispatchEvent(new CustomEvent("serbia:account-created", { detail: result }));
-  if (typeof showToast === "function") showToast("Account created. Opening your dashboard…", "success");
-  setTimeout(() => { openCandidateDashboard(); }, 150);
+
+  if (typeof showToast === "function") {
+    showToast("Proposal signed. Your account is ready. Welcome to your dashboard.", "success");
+  }
   return result;
 }
 
@@ -2251,6 +2280,51 @@ window.SerbiaCandidateAuth = {
       });
     }
   });
+})();
+</script>
+
+<script>
+(function(){
+  function setDashboardCTA(show){
+    const el=document.getElementById("candidate-dashboard-cta");
+    if(el) el.classList.toggle("hidden", !show);
+  }
+  async function syncDashboardAccess(){
+    let show=!!sessionStorage.getItem("serbia_dashboard_access");
+    try{
+      if(window.SerbiaSB && window.SerbiaSB.auth){
+        const r=await window.SerbiaSB.auth.getSession();
+        show=show || !!r.data.session;
+      }
+    }catch(e){}
+    setDashboardCTA(show);
+  }
+  window.addEventListener("serbia:account-created",()=>{setDashboardCTA(true);setTimeout(()=>{if(typeof openCandidateDashboard==="function")openCandidateDashboard();},0);});
+  document.addEventListener("DOMContentLoaded",syncDashboardAccess);
+  setTimeout(syncDashboardAccess,1000);
+  setTimeout(syncDashboardAccess,3000);
+  window.addEventListener("pageshow",syncDashboardAccess);
+})();
+</script>
+
+<script>
+(function(){
+  function releaseSplash(){
+    try{
+      var candidates=[
+        document.getElementById("splash-screen"),
+        document.getElementById("splash"),
+        document.querySelector('[id*="splash"]')
+      ];
+      candidates.forEach(function(el){
+        if(el){el.style.display="none";el.classList.add("hidden");}
+      });
+      document.body.classList.remove("overflow-hidden");
+    }catch(e){}
+  }
+  document.addEventListener("DOMContentLoaded",function(){setTimeout(releaseSplash,1500);});
+  window.addEventListener("load",function(){setTimeout(releaseSplash,500);});
+  setTimeout(releaseSplash,4000);
 })();
 </script>
 </body>
