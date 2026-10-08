@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Serbia Proposal">
     <link rel="manifest" id="manifest-link">
-    <meta name="application-version" content="V3.2-FINAL-LIVE"><title>Serbia Career Gateway | Digital Application</title>
+    <meta name="application-version" content="V3.3-FINAL-LIVE"><title>Serbia Career Gateway | Digital Application</title>
 
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -286,10 +286,7 @@
                     <i class="fa-solid fa-robot text-lg text-purple-400"></i>
                     Help & Support
                 </a>
-                <a href="#" onclick="openModal('login-modal', event)" class="text-white/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
-                    <i class="fa-solid fa-arrow-right-to-bracket text-lg text-green-400"></i>
-                    Login Portal
-                </a>
+                
             </div>
             
             <button id="pwa-install-btn" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border border-white/30 text-white px-3 py-2 sm:px-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2 text-sm z-50"><i class="fa-solid fa-mobile-screen-button animate-bounce"></i></button>
@@ -297,35 +294,109 @@
     </nav>
 
     
-<section id="candidate-dashboard" class="hidden fixed inset-0 z-[90] overflow-y-auto bg-slate-950/95 backdrop-blur-xl p-4 md:p-8">
-  <div class="max-w-6xl mx-auto">
-    <div class="glass-card p-5 md:p-7">
-      <div class="flex items-center justify-between gap-4 mb-6">
+
+<section id="candidate-dashboard" class="hidden fixed inset-0 z-[90] overflow-y-auto bg-slate-950/98 backdrop-blur-xl">
+  <div class="min-h-full max-w-7xl mx-auto px-3 sm:px-5 md:px-8 py-5 md:py-8">
+    <div class="flex items-center justify-between gap-3 mb-5">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-user text-white"></i>
+        </div>
         <div>
-          <div class="text-xs uppercase tracking-widest text-white/50">Candidate Portal</div>
-          <h2 class="text-2xl md:text-3xl font-bold text-white">Your Dashboard</h2>
-        </div>
-        <button type="button" onclick="document.getElementById('candidate-dashboard').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-white/20 text-white">Close</button>
-      </div>
-      <div id="serbia-password-box" class="rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 mb-6">
-        <div class="font-bold text-amber-200">Security: change your initial password</div>
-        <p class="text-sm text-white/70 mt-1">Your account was created automatically after signing your proposal. Please choose a new password before continuing.</p>
-        <div class="mt-3 flex flex-col sm:flex-row gap-2">
-          <input id="serbia-new-password" type="password" minlength="8" placeholder="New password (8+ characters)" class="flex-1 rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-white">
-          <button type="button" onclick="(async()=>{try{await SerbiaCandidateAuth.changePassword(document.getElementById('serbia-new-password').value);document.getElementById('serbia-password-box').classList.add('hidden')}catch(e){alert(e.message)}})()" class="rounded-xl bg-white text-slate-900 px-5 py-3 font-bold">Change Password</button>
+          <div class="text-xs uppercase tracking-widest text-white/40">Candidate Portal</div>
+          <h2 class="text-xl md:text-2xl font-bold text-white">My Dashboard</h2>
         </div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="text-white/50 text-xs">Application</div><div class="text-white font-bold mt-1">Submitted</div></div>
-        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="text-white/50 text-xs">Proposal</div><div class="text-white font-bold mt-1">Signed</div></div>
-        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="text-white/50 text-xs">Payment</div><div class="text-white font-bold mt-1">View Request</div></div>
-        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="text-white/50 text-xs">Documents</div><div class="text-white font-bold mt-1">Upload</div></div>
+      <button type="button" onclick="closeCandidateDashboard()" class="w-10 h-10 rounded-xl border border-white/15 text-white/70 hover:text-white hover:bg-white/10">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 mb-6">
+      <button class="dashboard-icon-btn" data-section="overview"><i class="fa-solid fa-house"></i><span>Overview</span></button>
+      <button class="dashboard-icon-btn" data-section="application"><i class="fa-solid fa-file-lines"></i><span>Application</span></button>
+      <button class="dashboard-icon-btn" data-section="proposal"><i class="fa-solid fa-file-signature"></i><span>Proposal</span></button>
+      <button class="dashboard-icon-btn" data-section="payments"><i class="fa-solid fa-credit-card"></i><span>Payments</span></button>
+      <button class="dashboard-icon-btn" data-section="documents"><i class="fa-solid fa-folder-open"></i><span>Documents</span></button>
+      <button class="dashboard-icon-btn" data-section="timeline"><i class="fa-solid fa-route"></i><span>Timeline</span></button>
+      <button class="dashboard-icon-btn" data-section="notifications"><i class="fa-solid fa-bell"></i><span>Alerts</span></button>
+      <button class="dashboard-icon-btn" data-section="support"><i class="fa-solid fa-headset"></i><span>Support</span></button>
+    </div>
+
+    <div id="serbia-password-box" class="rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 mb-5">
+      <div class="flex items-start gap-3">
+        <i class="fa-solid fa-shield-halved text-amber-300 mt-1"></i>
+        <div class="flex-1">
+          <div class="font-bold text-amber-200">Change your temporary password</div>
+          <p class="text-sm text-white/70 mt-1">Your account was created automatically after your proposal was signed. Set a new password before continuing.</p>
+          <div class="mt-3 flex flex-col sm:flex-row gap-2">
+            <input id="serbia-new-password" type="password" minlength="8" placeholder="New password (8+ characters)" class="flex-1 rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-white">
+            <button type="button" onclick="(async()=>{try{await SerbiaCandidateAuth.changePassword(document.getElementById('serbia-new-password').value);document.getElementById('serbia-password-box').classList.add('hidden')}catch(e){alert(e.message)}})()" class="rounded-xl bg-white text-slate-900 px-5 py-3 font-bold">Change Password</button>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div id="dashboard-panel" class="glass-card p-5 md:p-7">
+      <div id="dash-overview" class="dash-panel">
+        <div class="text-xs uppercase tracking-widest text-white/40">Welcome</div>
+        <h3 class="text-2xl font-bold text-white mt-1">Your Serbia Career Journey</h3>
+        <p class="text-white/60 mt-2">Your signed proposal, application, documents, payments and processing updates are available here.</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+          <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><i class="fa-solid fa-file-signature text-purple-300 text-xl"></i><div class="text-white/50 text-xs mt-3">Proposal</div><div class="text-white font-bold">Signed</div></div>
+          <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><i class="fa-solid fa-credit-card text-green-300 text-xl"></i><div class="text-white/50 text-xs mt-3">Payment</div><div class="text-white font-bold">View</div></div>
+          <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><i class="fa-solid fa-folder-open text-blue-300 text-xl"></i><div class="text-white/50 text-xs mt-3">Documents</div><div class="text-white font-bold">Manage</div></div>
+          <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><i class="fa-solid fa-route text-yellow-300 text-xl"></i><div class="text-white/50 text-xs mt-3">Process</div><div class="text-white font-bold">Track</div></div>
+        </div>
+      </div>
+      <div id="dash-application" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Application</h3><p class="text-white/60 mt-2">Your Serbia career application details and status will appear here.</p></div>
+      <div id="dash-proposal" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Proposal</h3><p class="text-white/60 mt-2">Your signed proposal and proposal status will appear here.</p></div>
+      <div id="dash-payments" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Payment Center</h3><p class="text-white/60 mt-2">Active payment requests, bank instructions, payment proofs and receipts will appear here.</p></div>
+      <div id="dash-documents" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Documents</h3><p class="text-white/60 mt-2">Upload and track your required documents here.</p></div>
+      <div id="dash-timeline" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Process Timeline</h3><p class="text-white/60 mt-2">Track your application from submission through joining.</p></div>
+      <div id="dash-notifications" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Notifications</h3><p class="text-white/60 mt-2">Important application and payment updates will appear here.</p></div>
+      <div id="dash-support" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Support</h3><p class="text-white/60 mt-2">Create and manage your support requests here.</p></div>
     </div>
   </div>
 </section>
 
-    <main class="pt-32 pb-32 md:pb-20 px-4 md:px-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+<style>
+.dashboard-icon-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.45rem;min-height:78px;padding:.7rem .35rem;border:1px solid rgba(255,255,255,.10);border-radius:1rem;background:rgba(255,255,255,.045);color:rgba(255,255,255,.68);font-size:.72rem;font-weight:700;transition:.2s}
+.dashboard-icon-btn i{font-size:1.25rem}
+.dashboard-icon-btn:hover,.dashboard-icon-btn.active{background:rgba(139,92,246,.18);border-color:rgba(167,139,250,.45);color:#fff;transform:translateY(-1px)}
+</style>
+
+<script>
+function openCandidateDashboard(){
+  const d=document.getElementById("candidate-dashboard");
+  if(!d)return;
+  d.classList.remove("hidden");
+  document.body.classList.add("overflow-hidden");
+  d.scrollTop=0;
+}
+function closeCandidateDashboard(){
+  const d=document.getElementById("candidate-dashboard");
+  if(!d)return;
+  d.classList.add("hidden");
+  document.body.classList.remove("overflow-hidden");
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  document.querySelectorAll(".dashboard-icon-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const key=btn.dataset.section;
+      document.querySelectorAll(".dashboard-icon-btn").forEach(x=>x.classList.remove("active"));
+      btn.classList.add("active");
+      document.querySelectorAll(".dash-panel").forEach(x=>x.classList.add("hidden"));
+      const panel=document.getElementById("dash-"+key);
+      if(panel)panel.classList.remove("hidden");
+    });
+  });
+  const first=document.querySelector(".dashboard-icon-btn");
+  if(first)first.classList.add("active");
+});
+</script>
+
+<main class="pt-32 pb-32 md:pb-20 px-4 md:px-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         
         <!-- Left Column: Hero Info -->
         <div class="lg:col-span-4 lg:sticky lg:top-32">
@@ -1177,10 +1248,7 @@
                 <i class="fa-solid fa-robot text-xl mb-0.5"></i>
                 <span class="text-[0.65rem] font-semibold">Support</span>
             </a>
-            <a href="#" onclick="openModal('login-modal', event)" class="dock-item text-white/60 hover:text-white flex flex-col items-center gap-1 w-16">
-                <i class="fa-solid fa-arrow-right-to-bracket text-xl mb-0.5"></i>
-                <span class="text-[0.65rem] font-semibold">Login</span>
-            </a>
+            
         </div>
     </div>
 
@@ -2121,15 +2189,7 @@ async function forceDashboardAfterProposal(data) {
   sessionStorage.setItem("serbia_candidate_user_id", result.user?.id || "");
   window.dispatchEvent(new CustomEvent("serbia:account-created", { detail: result }));
   if (typeof showToast === "function") showToast("Account created. Opening your dashboard…", "success");
-  setTimeout(() => {
-    const dashboard = document.getElementById("candidate-dashboard");
-    if (dashboard) {
-      dashboard.classList.remove("hidden");
-      dashboard.scrollIntoView({behavior:"smooth", block:"start"});
-    } else if (typeof openModal === "function" && document.getElementById("login-modal")) {
-      openModal("login-modal");
-    }
-  }, 250);
+  setTimeout(() => { openCandidateDashboard(); }, 150);
   return result;
 }
 

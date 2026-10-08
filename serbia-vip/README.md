@@ -1,6 +1,6 @@
-# Serbia Career Gateway — FINAL LIVE V3.2
+# Serbia Career Gateway — FINAL LIVE V3.3
 
-## Critical fixes in V3.2
+## Critical fixes in V3.3
 - Fixed the JavaScript parse error that stopped the entire application from running and left the splash screen permanently visible.
 - Added a production safety fallback that always releases the splash screen.
 - Fixed automatic proposal account creation flow.
@@ -20,3 +20,9 @@ In Supabase Dashboard, Authentication -> Providers -> Email, turn OFF Confirm em
 Replace the old GitHub project files with this ZIP contents. Use HTTPS. After replacement, hard refresh the site and, if the old PWA is installed, uninstall/reinstall it so the new service-worker/cache is used.
 
 Do not put a service-role key or database password in GitHub.
+
+
+## V3.3 navigation freeze
+- After proposal signature/account creation, dashboard opens in the same tab.
+- No Login Portal text is shown in the top navigation.
+- Candidate dashboard uses icon-based navigation.
