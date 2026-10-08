@@ -6,27 +6,9 @@
     <meta name="theme-color" content="#8b5cf6">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Serbia Gateway">
-    <meta name="description" content="Serbia Career Gateway — digital career application and proposal portal">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Serbia Gateway">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="manifest" href="./manifest.webmanifest">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Serbia Gateway">
+    <meta name="apple-mobile-web-app-title" content="Serbia Proposal">
+    <link rel="manifest" id="manifest-link">
     <title>Serbia Career Proposal | Digital Application</title>
-
-
-    <!-- SUPABASE CONFIG: use your project's publishable/anon key only. Never put service_role here. -->
-    <script>
-        window.SERBIA_APP_CONFIG = {
-            supabaseUrl: "https://csjfidgeeqyqdbxnilno.supabase.co",
-            supabaseAnonKey: "sb_publishable_eFBP7b8ypQbYotxRXK53Xw_g-miKB_8",
-            appVersion: "2.0.0"
-        };
-    </script>
 
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,7 +16,6 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <script defer src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap');
@@ -323,7 +304,7 @@
                 </a>
             </div>
             
-            <button id="pwa-install-btn" type="button" aria-label="Install Serbia Gateway app" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border border-white/30 text-white px-3 py-2 sm:px-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2 text-sm z-50">
+            <button id="pwa-install-btn" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border border-white/30 text-white px-3 py-2 sm:px-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2 text-sm z-50">
                 <i class="fa-solid fa-mobile-screen-button animate-bounce"></i> <span class="hidden sm:inline">Install App</span>
             </button>
         </div>
@@ -1049,10 +1030,6 @@
                             <label class="block text-tiny font-bold uppercase tracking-wider text-white/70 mb-2 ml-1">Mobile Number</label>
                             <input type="tel" id="mobile" class="glass-input" placeholder="+1 234 567 8900" required>
                         </div>
-                        <div>
-                            <label class="block text-tiny font-bold uppercase tracking-wider text-white/70 mb-2 ml-1">Email Address <span class="text-white/40 normal-case font-normal">(Optional)</span></label>
-                            <input type="email" id="email" class="glass-input" placeholder="you@example.com">
-                        </div>
                     </div>
                 </div>
 
@@ -1393,7 +1370,7 @@
         <div id="payment-invoice-breakup" class="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5"></div>
         <form id="payment-request-form" onsubmit="event.preventDefault(); submitPaymentRequest();">
           <div class="grid md:grid-cols-2 gap-4 mb-4"><div><label class="form-label">Payer Name</label><input id="pay-payer-name" class="glass-input" required></div><div><label class="form-label">Mobile</label><input id="pay-payer-mobile" type="tel" class="glass-input" required></div><div><label class="form-label">Email</label><input id="pay-payer-email" type="email" class="glass-input" required></div><div><label class="form-label">Amount to Pay</label><input id="pay-amount" class="glass-input font-black" readonly></div></div>
-          <label class="form-label">Payment Method</label><div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4" id="payment-methods"><label class="payment-method"><input type="radio" name="paymentMethod" value="Bank Transfer"> Bank Transfer</label><label class="payment-method"><input type="radio" name="paymentMethod" value="NEFT/RTGS"> NEFT / RTGS</label><label class="payment-method"><input type="radio" name="paymentMethod" value="Cash/Office"> Cash / Office</label></div>
+          <label class="form-label">Payment Method</label><div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4" id="payment-methods"><label class="payment-method"><input type="radio" name="paymentMethod" value="UPI" required> UPI</label><label class="payment-method"><input type="radio" name="paymentMethod" value="Bank Transfer"> Bank Transfer</label><label class="payment-method"><input type="radio" name="paymentMethod" value="NEFT/RTGS"> NEFT / RTGS</label><label class="payment-method"><input type="radio" name="paymentMethod" value="Cash/Office"> Cash / Office</label></div>
           <div class="bg-blue-500/10 border border-blue-400/20 rounded-xl p-3 text-xs text-blue-200 mb-5"><i class="fa-solid fa-circle-info mr-1"></i> After you continue, the official bank/payment details will be displayed. Do not upload a proof until the transfer is actually completed.</div>
           <button class="w-full bg-gradient-to-r from-teal-500 to-blue-600 py-3.5 rounded-xl font-black shadow-lg">Continue to Payment Details <i class="fa-solid fa-arrow-right ml-2"></i></button>
         </form>
@@ -1437,11 +1414,11 @@
                 <p class="text-white/60 text-sm">Access your personalized candidate portal</p>
             </div>
             
-            <form class="relative z-10" onsubmit="event.preventDefault(); loginAndOpenDashboard(this.userid.value);">
+            <form class="relative z-10" onsubmit="event.preventDefault(); simulateGoogleSheetCall('login', {uid: this.userid.value});">
                 <div class="mb-4">
                     <div class="relative">
                         <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-white/40"></i>
-                        <input type="text" name="userid" type="email" placeholder="Email address" class="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white outline-none focus:border-green-500/50 focus:bg-white/10 transition-all" required>
+                        <input type="text" name="userid" placeholder="User ID / Application Ref" class="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white outline-none focus:border-green-500/50 focus:bg-white/10 transition-all" required>
                     </div>
                 </div>
                 <div class="mb-2">
@@ -1493,15 +1470,15 @@
                 </div>
             </div>
             
-            <form onsubmit="event.preventDefault(); signupCandidate(this);">
+            <form onsubmit="event.preventDefault(); simulateGoogleSheetCall('signup', {email: this.email.value});">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Full Name</label>
-                        <input type="text" name="fullName" placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                        <input type="text" placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
                     </div>
                     <div>
                         <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Passport Number</label>
-                        <input type="text" name="passport" placeholder="A1234567" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                        <input type="text" placeholder="A1234567" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Email Address</label>
@@ -1509,11 +1486,11 @@
                     </div>
                     <div>
                         <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Mobile Number</label>
-                        <input type="tel" name="mobile" placeholder="+1 234 567 8900" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                        <input type="tel" placeholder="+1 234 567 8900" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
                     </div>
                     <div>
                         <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Create Password</label>
-                        <input type="password" name="password" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                        <input type="password" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
                     </div>
                 </div>
                 
@@ -1777,10 +1754,9 @@
             userMsg.className = 'flex items-end gap-2 chat-bubble justify-end';
             userMsg.innerHTML = `
                 <div class="bg-blue-600 rounded-2xl rounded-br-none p-3 max-w-[85%] shadow-md">
-                    <p class="text-sm text-white m-0"></p>
+                    <p class="text-sm text-white m-0">${text}</p>
                 </div>
             `;
-            userMsg.querySelector("p").textContent = text;
             history.appendChild(userMsg);
             history.scrollTop = history.scrollHeight;
 
@@ -1824,144 +1800,25 @@
         }
 
         // ==========================================
-        // 1.6 Supabase backend
+        // 1.6 Mock Google Sheets Integration API
         // ==========================================
-        const APP_CONFIG = window.SERBIA_APP_CONFIG || {};
-        const SUPABASE_URL = APP_CONFIG.supabaseUrl || "";
-        const SUPABASE_ANON_KEY = APP_CONFIG.supabaseAnonKey || "";
-        const supabaseClient = (window.supabase && SUPABASE_URL && !SUPABASE_URL.includes("YOUR_PROJECT") && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE"))
-            ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-
-        async function getAuthSession(){
-            if(!supabaseClient) return null;
-            const {data}=await supabaseClient.auth.getSession();
-            return data?.session||null;
+        
+        // This function simulates making a POST request to a Google Apps Script Web App URL
+        // which would append rows to a Google Sheet.
+        function simulateGoogleSheetCall(actionType, data = {}) {
+            return new Promise((resolve) => {
+                showToast(`Connecting to secure database...`, 'info', 1000);
+                setTimeout(() => {
+                    if(actionType === 'login'){
+                        const p=ensurePortal(); p.ref=data.uid||p.ref; savePortal(p); closeModal('login-modal'); showToast('Login successful. Opening your dashboard…','success'); setTimeout(()=>openCandidateDashboard(true),250);
+                    } else if(actionType === 'signup'){
+                        showToast(`Registration complete for ${data.email||'your account'}! Please login.`,'success'); setTimeout(()=>{closeModal('signup-modal');openModal('login-modal')},900);
+                    }
+                    resolve({status:200,message:'Success'});
+                },700);
+            });
         }
 
-        async function saveProposalToSupabase(record){
-            if(!supabaseClient) return {status:"local",message:"Supabase is not configured."};
-            try{
-                const session=await getAuthSession();
-                let candidate=null;
-                if(session){
-                    const {data:existing}=await supabaseClient.from('candidates').select('*').eq('user_id',session.user.id).maybeSingle();
-                    if(existing) candidate=existing;
-                }
-                const candidatePayload={
-                    ...(candidate?.id?{id:candidate.id}:{}),
-                    ...(session?.user?.id?{user_id:session.user.id}:{}),
-                    first_name:record.firstName||'', last_name:record.lastName||'',
-                    email:record.email||null, phone:record.mobile||null,
-                    passport_number:record.passport||null,
-                    preferred_country:'Serbia',
-                    preferred_position:(record.roles||'').split(',')[0]?.trim()||null,
-                    status:'new'
-                };
-                let cr;
-                if(candidate?.id) cr=await supabaseClient.from('candidates').update(candidatePayload).eq('id',candidate.id).select().single();
-                else cr=await supabaseClient.from('candidates').insert(candidatePayload).select().single();
-                if(cr.error) throw cr.error;
-                candidate=cr.data;
-                const roles=(record.roles||'').split(',').map(x=>x.trim()).filter(Boolean);
-                const app={candidate_id:candidate.id,country:'Serbia',purpose:'Jobs & Career',selected_industry:null,selected_position:roles[0]||null,status:'submitted',source:'serbia_gateway',candidate_message:null};
-                const ar=await supabaseClient.from('applications').insert(app).select().single();
-                if(ar.error) throw ar.error;
-                const application=ar.data;
-                if(roles.length){
-                    const answers=roles.map((role,i)=>({application_id:application.id,question_key:'preferred_role_'+(i+1),question:'Selected role',answer:role}));
-                    await supabaseClient.from('application_answers').insert(answers);
-                }
-                const ref=application.application_ref||record.refNumber;
-                localStorage.setItem('serbia_ref',ref);
-                localStorage.setItem('serbia_candidate_id',candidate.id);
-                localStorage.setItem('serbia_application_id',application.id);
-                return {status:'submitted',ref,candidateId:candidate.id,applicationId:application.id,message:'Application saved to Supabase.'};
-            }catch(error){
-                console.error('Supabase proposal save failed:',error);
-                queueOfflineSubmission('proposal',record);
-                return {status:'queued',message:'Saved locally and queued. Check Supabase configuration.'};
-            }
-        }
-
-        function queueOfflineSubmission(actionType,data){
-            const key='serbia_gateway_offline_queue';
-            const q=JSON.parse(localStorage.getItem(key)||'[]');
-            q.push({actionType,data,queuedAt:new Date().toISOString()});
-            localStorage.setItem(key,JSON.stringify(q));
-        }
-
-        async function flushOfflineQueue(){
-            if(!supabaseClient) return;
-            const q=JSON.parse(localStorage.getItem('serbia_gateway_offline_queue')||'[]');
-            if(!q.length) return;
-            // Proposal records are intentionally not replayed automatically because a duplicate
-            // submission could create duplicate applications. Staff can reconcile queued entries.
-            return q;
-        }
-
-        async function simulateGoogleSheetCall(actionType,data={}){
-            if(actionType==='login') return {status:'supabase'};
-            if(actionType==='signup') return {status:'supabase'};
-            return saveProposalToSupabase(data);
-        }
-
-        async function uploadDataUrl(path,dataUrl,contentType='image/png'){
-            if(!supabaseClient || !dataUrl) return null;
-            const blob=await (await fetch(dataUrl)).blob();
-            const {error}=await supabaseClient.storage.from('hireme-files').upload(path,blob,{contentType,upsert:true});
-            if(error) throw error;
-            return path;
-        }
-
-        async function uploadCandidateFile(candidateId,folder,file){
-            if(!supabaseClient) throw new Error('Supabase is not configured.');
-            if(file.size>7*1024*1024) throw new Error('File is larger than 7 MB.');
-            const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-            const path=`${candidateId}/${folder}/${Date.now()}-${safe}`;
-            const {error}=await supabaseClient.storage.from('hireme-files').upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false});
-            if(error) throw error;
-            return path;
-        }
-
-        function normalizePaymentMethod(v){return ({'UPI':'upi','Bank Transfer':'bank_transfer','NEFT/RTGS':'bank_transfer','Cash/Office':'cash_office'})[v]||'other';}
-
-        async function syncPaymentToBackend(payment,p){
-            if(!supabaseClient) { queueOfflineSubmission('payment_proof',{payment,p}); return; }
-            const session=await getAuthSession();
-            if(!session) throw new Error('Please login before submitting payment proof.');
-            const {data:cs,error:ce}=await supabaseClient.from('candidates').select('id').eq('user_id',session.user.id).maybeSingle();
-            if(ce) throw ce;
-            if(!cs) throw new Error('Candidate profile not linked to this account.');
-            let appId=localStorage.getItem('serbia_application_id');
-            if(!appId){
-                const {data:app}=await supabaseClient.from('applications').select('id').eq('candidate_id',cs.id).order('created_at',{ascending:false}).limit(1).maybeSingle();
-                appId=app?.id;
-            }
-            if(!appId) throw new Error('Application not found. Please submit your application first.');
-            const stageCode=payment.stageId==='stage-1'?'PACKAGE_START':payment.stageId==='stage-2'?'WORK_PERMIT_APPROVED':payment.stageId==='stage-3'?'VISA_DOCUMENTS_READY':'AFTER_JOINING';
-            const {data:stage,error:se}=await supabaseClient.from('payment_stages').select('*').eq('country','Serbia').eq('stage_code',stageCode).maybeSingle();
-            if(se) throw se;
-            const {data:proposal}=await supabaseClient.from('proposals').select('id').eq('application_id',appId).order('created_at',{ascending:false}).limit(1).maybeSingle();
-            const {data:req,error:re}=await supabaseClient.from('payment_requests').insert({
-                candidate_id:cs.id,application_id:appId,proposal_id:proposal?.id||null,payment_stage_id:stage?.id||null,
-                amount:payment.amount,currency:'INR',description:payment.stageLabel,status:'submitted',created_by:session.user.id
-            }).select('id,request_ref').single();
-            if(re) throw re;
-            const file=document.getElementById('payment-proof-file')?.files?.[0];
-            let proofPath=null;
-            if(file) proofPath=await uploadCandidateFile(cs.id,'payments',file);
-            const {data:pay,error:pe}=await supabaseClient.from('payments').insert({
-                payment_request_id:req.id,candidate_id:cs.id,application_id:appId,amount:payment.amount,currency:'INR',
-                payment_method:normalizePaymentMethod(payment.method),transaction_id:payment.txnId,payment_date:payment.txnDate,
-                paid_from:payment.from,proof_path:proofPath,proof_name:file?.name||null,status:'under_review'
-            }).select('id').single();
-            if(pe) throw pe;
-            const receiptNo='RCP-'+new Date().getFullYear()+'-'+Math.floor(100000+Math.random()*900000);
-            const rr=await supabaseClient.from('payment_receipts').insert({payment_id:pay.id,receipt_ref:receiptNo,amount:payment.amount,currency:'INR',receipt_status:'issued'}).select('id').maybeSingle();
-            if(rr.error) console.warn('Receipt insert warning:',rr.error);
-            await supabaseClient.from('notifications').insert({candidate_id:cs.id,application_id:appId,title:'Payment Proof Submitted',message:'Your payment proof is under verification. Further processing will be updated in your dashboard.',notification_type:'payment'});
-            return {status:'submitted',receiptNo};
-        }
 
         // ==========================================
         // 2. Signature Pad Initialization
@@ -2002,142 +1859,82 @@
         // ==========================================
         // 3. Form Submission & PDF Generation
         // ==========================================
-        async function submitProposal() {
-            const form = document.getElementById("proposal-form");
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-
-            const fname = document.getElementById("fname").value.trim();
-            const lname = document.getElementById("lname").value.trim();
-            const passport = document.getElementById("passport").value.trim();
-            const mobile = document.getElementById("mobile").value.trim();
+        function submitProposal() {
+            // Gather Data
+            const fname = document.getElementById('fname').value.trim();
+            const lname = document.getElementById('lname').value.trim();
+            const passport = document.getElementById('passport').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
             const roleEls = document.querySelectorAll('input[name="roles"]:checked');
-
+            
+            // Validation
             if (roleEls.length === 0) {
                 showToast("Please select at least one position.", "error");
                 return;
             }
-            if (!signaturePad || signaturePad.isEmpty()) {
+            if (signaturePad && signaturePad.isEmpty()) {
                 showToast("Please provide your digital signature.", "error");
                 return;
             }
 
-            const emailEl = document.querySelector('#proposal-form input[type="email"]');
-            const email = emailEl ? emailEl.value.trim() : "";
-            const fullName = `${fname} ${lname}`.trim();
-            const role = Array.from(roleEls).map(el => el.value).join(", ");
-            const refNumber = `SRB-${new Date().getFullYear()}-${Date.now().toString().slice(-8)}`;
-            const dateStr = new Date().toLocaleDateString("en-US", {
-                year: "numeric", month: "long", day: "numeric"
-            });
-            const sigData = signaturePad.toDataURL("image/png");
+            const fullName = `${fname} ${lname}`;
+            const role = Array.from(roleEls).map(el => el.value).join(', ');
+            const refNumber = `SRB-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+            const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const sigData = signaturePad.toDataURL();
 
-            const record = {
-                refNumber,
-                date: new Date().toISOString(),
-                fullName,
-                firstName: fname,
-                lastName: lname,
-                passport,
-                mobile,
-                email,
-                roles: role,
-                signatureDataUrl: sigData,
-                source: location.href,
-                userAgent: navigator.userAgent
-            };
-
-            localStorage.setItem("serbia_last_application", JSON.stringify(record));
-            localStorage.setItem("serbia_mobile", mobile);
-            showToast("Saving your application securely...", "info", 1800);
-
-            // Save the candidate record through Supabase.
-            const apiResult = await saveProposalToSupabase(record);
-            if(apiResult.ref) { record.refNumber = apiResult.ref; localStorage.setItem("serbia_ref", apiResult.ref); }
-
-            document.getElementById("pdf-name").textContent = fullName;
-            document.getElementById("pdf-sign-name").textContent = fullName;
-            document.getElementById("pdf-passport").textContent = passport;
-            document.getElementById("pdf-mobile").textContent = mobile;
-            document.getElementById("pdf-role").textContent = role;
-            document.getElementById("pdf-ref").textContent = refNumber;
-            document.getElementById("pdf-date").textContent = dateStr;
-            document.getElementById("pdf-signature-img").src = sigData;
-
-            showToast(
-                apiResult.status === "submitted"
-                    ? "Application received. Generating your proposal..."
-                    : "Application saved. Generating your proposal...",
-                "success",
-                2200
-            );
-
-            const element = document.getElementById("pdf-template");
-            const opt = {
-                margin: 0,
-                filename: `Serbia_Proposal_${fname}_${lname}.pdf`,
-                image: { type: "jpeg", quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, logging: false },
-                jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
-            };
-
-            element.style.left = "0";
-            element.style.top = "0";
-            element.style.zIndex = "-100";
-
-            try {
-                await html2pdf().set(opt).from(element).save();
-                element.style.left = "-9999px";
-
-                // Proposal PDF is generated locally; the application record is already stored in Supabase.
+            // Simulate saving Proposal to Google Sheets BEFORE generating PDF
+            showToast("Syncing data securely to system...", "info");
+            
+            simulateGoogleSheetCall('proposal', { name: fullName, passport, role, ref: refNumber }).then(() => {
                 
+                // Proceed to Populate PDF Template
+                document.getElementById('pdf-name').textContent = fullName;
+                document.getElementById('pdf-sign-name').textContent = fullName;
+                document.getElementById('pdf-passport').textContent = passport;
+                document.getElementById('pdf-mobile').textContent = mobile;
+                document.getElementById('pdf-role').textContent = role;
+                document.getElementById('pdf-ref').textContent = refNumber;
+                document.getElementById('pdf-date').textContent = dateStr;
+                document.getElementById('pdf-signature-img').src = sigData;
 
-                showToast(`Proposal ${refNumber} generated successfully.`, "success", 4500);
+                // Generate PDF
+                showToast("Data Synced! Generating official proposal PDF...", "success");
+                const element = document.getElementById('pdf-template');
+                
+                const opt = {
+                    margin:       0,
+                    filename:     `Serbia_Proposal_${fname}_${lname}.pdf`,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2, useCORS: true, logging: false },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
 
-                setTimeout(() => {
-                    form.reset();
-                    clearSignature();
-                }, 1000);
-            } catch (err) {
-                element.style.left = "-9999px";
-                console.error(err);
-                showToast("The proposal could not be generated. Your application data is saved.", "error", 5000);
-            }
+                // Temporarily ensure template is visible for html2canvas to render
+                element.style.left = '0';
+                element.style.top = '0';
+                element.style.zIndex = '-100';
+
+                html2pdf().set(opt).from(element).save().then(() => {
+                    // Hide template again
+                    element.style.left = '-9999px';
+                    
+                    showToast("Proposal saved & downloaded successfully!", "success");
+                    
+                    // Reset form beautifully
+                    setTimeout(() => {
+                        document.getElementById('proposal-form').reset();
+                        clearSignature();
+                    }, 1000);
+                }).catch(err => {
+                    element.style.left = '-9999px';
+                    showToast("Error generating PDF.", "error");
+                    console.error(err);
+                });
+            });
         }
 
 
-
-        async function signupCandidate(form){
-            if(!supabaseClient){showToast('Supabase is not configured yet.','error');return;}
-            const email=form.email.value.trim(),password=form.password.value,fullName=form.fullName.value.trim(),mobile=form.mobile.value.trim(),passport=form.passport.value.trim();
-            const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name:fullName}}});
-            if(error){showToast(error.message,'error',5000);return;}
-            if(data.user){
-                const {data:claimed}=await supabaseClient.rpc('claim_candidate_application',{p_ref:localStorage.getItem('serbia_ref')||'',p_mobile:mobile});
-                if(claimed){showToast('Account created and application linked.','success');}
-                else showToast('Account created. Check email if confirmation is enabled, then login.','success',5000);
-            }
-            closeModal('signup-modal');
-        }
-
-        async function loginAndOpenDashboard(email){
-            const form=document.querySelector('#login-modal form');
-            const password=form?.password?.value||'';
-            if(!supabaseClient){showToast('Supabase is not configured yet. Add your project URL and publishable/anon key.','error',5000);return;}
-            const {error}=await supabaseClient.auth.signInWithPassword({email:email.trim(),password});
-            if(error){showToast(error.message,'error',5000);return;}
-            const session=await getAuthSession();
-            const localRef=localStorage.getItem('serbia_ref')||'';
-            const localMobile=localStorage.getItem('serbia_mobile')||document.getElementById('mobile')?.value||'';
-            if(localRef&&localMobile) await supabaseClient.rpc('claim_candidate_application',{p_ref:localRef,p_mobile:localMobile});
-            const {data:c}=await supabaseClient.from('candidates').select('*').eq('user_id',session.user.id).maybeSingle();
-            if(c){const p=ensurePortal();p.ref=c.application_ref;p.name=c.full_name;p.mobile=c.mobile;p.passport=c.passport_number||'';p.email=c.email||session.user.email||'';savePortal(p);}
-            closeModal('login-modal');
-            showToast('Welcome back. Opening your candidate dashboard…','success');
-            setTimeout(()=>openCandidateDashboard(true),250);
-        }
 
         // ==========================================
         // Candidate Dashboard + Payment Center
@@ -2152,7 +1949,7 @@
                 {id:'stage-3', label:'Work Permit & Visa Docs Ready', amount:50000, status:'Upcoming'}
             ],
             bank: {
-                accountName:'Kaniz Fatma', bankName:'SBI (State Bank of India)', accountNumber:'44624622176', ifsc:'SBIN0005602', branch:'Picnic Garden', accountType:'Designated Company Finance Account', upi:'Not applicable', note:'Designated company/finance payment account. The account holder name is displayed exactly as registered with the bank. Make payment only against an active payment request shown in your dashboard.'
+                accountName:'ADD OFFICIAL ACCOUNT HOLDER NAME', bankName:'ADD BANK NAME', accountNumber:'ADD ACCOUNT NUMBER', ifsc:'ADD IFSC CODE', branch:'ADD BRANCH', accountType:'Current / Savings', upi:'ADD-OFFICIAL-UPI@BANK', swift:'ADD SWIFT CODE (IF APPLICABLE)', note:'Configure these official details before going live.'
             }
         };
         let activePaymentRequest = null;
@@ -2172,26 +1969,7 @@
             return {id:'deferred',label:'Deferred Balance After Job Joining',amount:PAYMENT_CONFIG.deferredTotal,status:'Upcoming'};
         }
         function showDashboardPanel(name,btn){document.querySelectorAll('.dashboard-panel').forEach(x=>x.classList.remove('active'));document.getElementById('dash-'+name)?.classList.add('active');document.querySelectorAll('.dashboard-nav button').forEach(x=>x.classList.remove('active'));btn?.classList.add('active');}
-        async function openCandidateDashboard(forcePayment=true){await hydratePortalFromSupabase();const p=ensurePortal();renderDashboard();openModal('dashboard-modal');if(forcePayment && currentStage(p).status!=='Upcoming')setTimeout(openPaymentRequest,350);else if(forcePayment && !p.payments.length)setTimeout(openPaymentRequest,350)}
-        async function hydratePortalFromSupabase(){
-            if(!supabaseClient) return;
-            const session=await getAuthSession();
-            if(!session) return;
-            try{
-                const {data:c,error:ce}=await supabaseClient.from('candidates').select('*').eq('user_id',session.user.id).maybeSingle();
-                if(ce||!c) return;
-                const {data:a}=await supabaseClient.from('applications').select('*').eq('candidate_id',c.id).order('created_at',{ascending:false}).limit(1).maybeSingle();
-                const {data:payments}=await supabaseClient.from('payments').select('*, payment_requests(request_ref), payment_receipts(receipt_ref)').eq('candidate_id',c.id).order('submitted_at',{ascending:false});
-                const {data:notifs}=await supabaseClient.from('notifications').select('*').eq('candidate_id',c.id).order('created_at',{ascending:false}).limit(30);
-                const p=ensurePortal();
-                p.ref=c.application_ref;p.name=c.full_name;p.mobile=c.mobile;p.passport=c.passport_number||'';p.email=c.email||session.user.email||'';
-                p.payments=(payments||[]).map(x=>({receiptNo:x.payment_receipts?.[0]?.receipt_number||'',stageId:'stage-1',stageLabel:'Payment Stage',amount:Number(x.amount),method:x.method,txnId:x.transaction_id,txnDate:x.payment_date,from:x.paid_from,status:x.status==='verified'?'Verified':'Under Review',submittedAt:x.submitted_at}));
-                p.paid=p.payments.filter(x=>['Verified','Paid'].includes(x.status)).reduce((n,x)=>n+Number(x.amount),0);
-                p.notifications=(notifs||[]).map(n=>({text:n.message,date:n.created_at,type:n.notification_type}));
-                savePortal(p);
-            }catch(e){console.warn('Dashboard hydration failed',e)}
-        }
-
+        function openCandidateDashboard(forcePayment=true){const p=ensurePortal();renderDashboard();openModal('dashboard-modal');if(forcePayment && currentStage(p).status!=='Upcoming')setTimeout(openPaymentRequest,350);else if(forcePayment && !p.payments.length)setTimeout(openPaymentRequest,350)}
         function renderDashboard(){
             const p=ensurePortal(), st=currentStage(p), paid=p.paid, due=st.amount;
             document.getElementById('dash-welcome').textContent='Welcome, '+p.name.split(' ')[0];
@@ -2209,156 +1987,123 @@
         function paymentCard(x){return `<div class="border border-white/10 rounded-2xl p-4 mb-3"><div class="flex justify-between gap-3"><div><div class="font-bold">${escapeHtml(x.stageLabel)}</div><div class="text-xs text-white/40 mt-1">${x.txnId?'UTR: '+escapeHtml(x.txnId):'Payment request submitted'}</div></div><span class="status-pill ${x.status==='Verified'?'status-paid':'status-review'}">${escapeHtml(x.status)}</span></div><div class="flex justify-between mt-3 text-sm"><span>Amount</span><strong>₹${Number(x.amount).toLocaleString('en-IN')}</strong></div></div>`}
         function openPaymentRequest(){const p=ensurePortal(),st=currentStage(p);activePaymentRequest=st;document.getElementById('payment-invoice-breakup').innerHTML=`<div class="payment-row"><span>Serbia Career Package</span><strong>₹${PAYMENT_CONFIG.packageTotal.toLocaleString('en-IN')}</strong></div><div class="payment-row"><span>Paid / submitted so far</span><strong>₹${p.paid.toLocaleString('en-IN')}</strong></div><div class="payment-row"><span class="font-bold text-teal-300">Current stage due</span><strong class="text-teal-300 text-xl">₹${st.amount.toLocaleString('en-IN')}</strong></div><div class="text-xs text-white/40 mt-3">${escapeHtml(st.label)}</div>`;document.getElementById('pay-payer-name').value=p.name;document.getElementById('pay-payer-mobile').value=p.mobile;document.getElementById('pay-payer-email').value=p.email||'';document.getElementById('pay-amount').value='₹'+st.amount.toLocaleString('en-IN');openModal('payment-request-modal')}
         function submitPaymentRequest(){const method=document.querySelector('input[name="paymentMethod"]:checked')?.value;if(!method)return;const p=ensurePortal();activePaymentRequest=activePaymentRequest||currentStage(p);activePaymentRequest.method=method;activePaymentRequest.payerName=document.getElementById('pay-payer-name').value.trim();activePaymentRequest.payerMobile=document.getElementById('pay-payer-mobile').value.trim();activePaymentRequest.payerEmail=document.getElementById('pay-payer-email').value.trim();p.name=activePaymentRequest.payerName;p.mobile=activePaymentRequest.payerMobile;p.email=activePaymentRequest.payerEmail;savePortal(p);document.getElementById('bank-requested-amount').textContent='₹'+activePaymentRequest.amount.toLocaleString('en-IN');document.getElementById('bank-payment-reference').textContent='Payment request reference: '+p.ref+' · Method: '+method;document.getElementById('bank-details-box').innerHTML=Object.entries(PAYMENT_CONFIG.bank).filter(([k])=>k!=='note').map(([k,v])=>`<div class="bg-white/5 rounded-xl p-3"><div class="text-[10px] uppercase text-white/40">${k.replace(/([A-Z])/g,' $1')}</div><div class="font-bold text-sm mt-1 break-all">${escapeHtml(v)}</div></div>`).join('')+`<div class="md:col-span-2 text-xs text-orange-200 bg-orange-500/10 border border-orange-400/20 rounded-xl p-3">${escapeHtml(PAYMENT_CONFIG.bank.note)}</div>`;document.getElementById('txn-amount').value=activePaymentRequest.amount;document.getElementById('txn-date').value=new Date().toISOString().slice(0,10);closeModal('payment-request-modal');openModal('bank-payment-modal')}
-        async function submitPaymentProof(){const p=ensurePortal(),file=document.getElementById('payment-proof-file').files[0];if(!file){showToast('Please upload payment proof.','error');return}if(Number(document.getElementById('txn-amount').value)!==Number(activePaymentRequest.amount)){showToast('Amount must match the current payment request.','error');return}const txnId=document.getElementById('txn-id').value.trim();const receiptNo='RCP-'+new Date().getFullYear()+'-'+Math.floor(100000+Math.random()*900000);const proof=await compressProof(file);const payment={receiptNo,stageId:activePaymentRequest.id,stageLabel:activePaymentRequest.label,amount:Number(activePaymentRequest.amount),method:activePaymentRequest.method,txnId,txnDate:document.getElementById('txn-date').value,from:document.getElementById('txn-from').value.trim(),status:'Under Review',submittedAt:new Date().toISOString(),proofName:file.name,proofData:proof};const backendPayment={...payment};delete backendPayment.proofData;p.payments.push(backendPayment);p.notifications.unshift({text:'Payment proof submitted. Your transaction is under verification. Further processing will be updated in your dashboard.',date:new Date().toLocaleString(),type:'Payment'});p.documents=p.documents.map(d=>d.name==='Payment Proof'?{name:d.name,status:'Submitted'}:d);savePortal(p);closeModal('bank-payment-modal');renderDashboard();try{const sync=await syncPaymentToBackend(payment,p);if(sync?.receiptNo) backendPayment.receiptNo=sync.receiptNo;showPaymentReceipt(backendPayment);showToast('Payment proof submitted successfully.','success',4000);}catch(e){showPaymentReceipt(backendPayment);showToast(e.message||'Payment could not be submitted to Supabase.','error',5000);}}
+        async function submitPaymentProof(){const p=ensurePortal(),file=document.getElementById('payment-proof-file').files[0];if(!file){showToast('Please upload payment proof.','error');return}if(Number(document.getElementById('txn-amount').value)!==Number(activePaymentRequest.amount)){showToast('Amount must match the current payment request.','error');return}const txnId=document.getElementById('txn-id').value.trim();const receiptNo='RCP-'+new Date().getFullYear()+'-'+Math.floor(100000+Math.random()*900000);const proof=await compressProof(file);const payment={receiptNo,stageId:activePaymentRequest.id,stageLabel:activePaymentRequest.label,amount:Number(activePaymentRequest.amount),method:activePaymentRequest.method,txnId,txnDate:document.getElementById('txn-date').value,from:document.getElementById('txn-from').value.trim(),status:'Under Review',submittedAt:new Date().toISOString(),proofName:file.name,proofData:proof};p.payments.push(payment);p.notifications.unshift({text:'Payment proof submitted. Your transaction is under verification. Further processing will be updated in your dashboard.',date:new Date().toLocaleString(),type:'Payment'});p.documents=p.documents.map(d=>d.name==='Payment Proof'?{name:d.name,status:'Submitted'}:d);savePortal(p);closeModal('bank-payment-modal');renderDashboard();showPaymentReceipt(payment);syncPaymentToBackend(payment,p);}
         function showPaymentReceipt(x){document.getElementById('payment-receipt-content').innerHTML=`<div class="receipt-paper"><div class="flex justify-between gap-3 border-b pb-4"><div><div class="text-xs font-black tracking-widest text-indigo-600">PAYMENT RECEIPT</div><h2 class="text-2xl font-black">Serbia Career Gateway</h2></div><div class="text-right"><div class="font-black">${x.receiptNo}</div><div class="muted text-xs">${new Date(x.submittedAt).toLocaleString()}</div></div></div><div class="grid grid-cols-2 gap-3 py-4 border-b"><div><div class="muted text-xs">Candidate</div><strong>${escapeHtml(getPortal().name)}</strong></div><div><div class="muted text-xs">Reference</div><strong>${escapeHtml(getPortal().ref)}</strong></div><div><div class="muted text-xs">Stage</div><strong>${escapeHtml(x.stageLabel)}</strong></div><div><div class="muted text-xs">Status</div><strong>Under Review</strong></div></div><div class="payment-row"><span>Amount submitted</span><strong>₹${x.amount.toLocaleString('en-IN')}</strong></div><div class="payment-row"><span>Payment method</span><strong>${escapeHtml(x.method)}</strong></div><div class="payment-row"><span>Transaction / UTR</span><strong>${escapeHtml(x.txnId)}</strong></div><div class="payment-row"><span>Payment date</span><strong>${escapeHtml(x.txnDate)}</strong></div><div class="mt-4 text-xs muted">This receipt confirms submission of payment proof for verification. It is not confirmation of bank settlement until verified by the company.</div></div>`;openModal('payment-receipt-modal')}
         function viewReceipt(no){const p=getPortal(),x=p.payments.find(y=>y.receiptNo===no);if(x)showPaymentReceipt(x)}
         async function downloadPaymentReceipt(){const el=document.getElementById('payment-receipt-content');if(window.html2pdf)await html2pdf().set({margin:.2,filename:(getPortal().ref||'candidate')+'_Payment_Receipt.pdf',html2canvas:{scale:2},jsPDF:{unit:'in',format:'a4'}}).from(el).save();}
-        async function compressProof(file){return new Promise((resolve,reject)=>{if(file.size>7*1024*1024){reject(new Error('Proof file is larger than 7 MB'));return}if(file.type==='application/pdf'){const r=new FileReader();r.onload=e=>resolve(e.target.result);r.readAsDataURL(file);return}const img=new Image();const r=new FileReader();r.onload=e=>{img.onload=()=>{const max=1400,scale=Math.min(1,max/img.width);const c=document.createElement('canvas');c.width=img.width*scale;c.height=img.height*scale;c.getContext('2d').drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.72))};img.src=e.target.result};r.readAsDataURL(file)})}
+        async function compressProof(file){return new Promise(resolve=>{if(file.type==='application/pdf'){resolve('PDF:'+file.name);return}const img=new Image();const r=new FileReader();r.onload=e=>{img.onload=()=>{const max=1400,scale=Math.min(1,max/img.width);const c=document.createElement('canvas');c.width=img.width*scale;c.height=img.height*scale;c.getContext('2d').drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.72))};img.src=e.target.result};r.readAsDataURL(file)})}
+        async function syncPaymentToBackend(payment,p){if(!window.SERBIA_APP_CONFIG?.apiUrl)return;try{await fetch(window.SERBIA_APP_CONFIG.apiUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'payment_proof',ref:p.ref,candidate:p.name,payment:{...payment,proofData:payment.proofData}})});}catch(e){console.warn('Payment sync queued locally',e)}}
         function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
         // ==========================================
         // 4. Progressive Web App (PWA) Logic
         // ==========================================
         function initPWA() {
-            const installBtn = document.getElementById("pwa-install-btn");
-            if (!installBtn) return;
+            // Dynamic Manifest Generation
+            const manifest = {
+                name: "Serbia Career Proposal",
+                short_name: "SerbiaProposal",
+                description: "Digital application for Serbia careers.",
+                start_url: ".",
+                display: "standalone",
+                background_color: "#0f172a",
+                theme_color: "#8b5cf6",
+                icons: [
+                    {
+                        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Truck_icon.svg/192px-Truck_icon.svg.png",
+                        sizes: "192x192",
+                        type: "image/png",
+                        purpose: "any maskable"
+                    },
+                    {
+                        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Truck_icon.svg/512px-Truck_icon.svg.png",
+                        sizes: "512x512",
+                        type: "image/png",
+                        purpose: "any maskable"
+                    }
+                ]
+            };
+            
+            const manifestDataUrl = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+            document.getElementById('manifest-link').setAttribute('href', manifestDataUrl);
 
-            let deferredPrompt = null;
-            const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-            const isAndroid = /android/i.test(navigator.userAgent);
-            const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
-            const isSecure = location.protocol === "https:" || location.hostname === "localhost";
+            // Dynamic Service Worker Generation with Advanced Lazy Caching Strategy
+            const swCode = `
+                const CACHE_NAME = 'serbia-proposal-v2';
+                const ASSETS = [ 
+                    location.href, 
+                    'https://cdn.tailwindcss.com', 
+                    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+                    'https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'
+                ];
+                
+                self.addEventListener('install', e => {
+                    self.skipWaiting();
+                    e.waitUntil(
+                        caches.open(CACHE_NAME).then(cache => {
+                            // Lazy cache non-critical assets in the background
+                            cache.addAll(ASSETS.slice(1)); 
+                            // Prioritize the main document
+                            return cache.add(ASSETS[0]);
+                        })
+                    );
+                });
+                
+                self.addEventListener('activate', e => {
+                    e.waitUntil(caches.keys().then(keys => Promise.all(
+                        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+                    )));
+                });
 
-            function setInstallButton(label, visible = true) {
-                const old = installBtn.querySelector(".pwa-install-label");
-                if (old) old.remove();
-                const text = document.createElement("span");
-                text.className = "pwa-install-label hidden sm:inline";
-                text.textContent = label;
-                const icon = installBtn.querySelector("i");
-                if (icon) icon.after(text); else installBtn.appendChild(text);
-                installBtn.classList.toggle("hidden", !visible);
+                // Stale-While-Revalidate Strategy for blazing fast loads
+                self.addEventListener('fetch', e => {
+                    if (e.request.method !== 'GET') return;
+                    e.respondWith(
+                        caches.match(e.request).then(cachedRes => {
+                            const fetchPromise = fetch(e.request).then(networkRes => {
+                                caches.open(CACHE_NAME).then(cache => cache.put(e.request, networkRes.clone()));
+                                return networkRes;
+                            }).catch(() => null);
+                            
+                            // Return the cached response immediately if available, while fetching in background
+                            return cachedRes || fetchPromise;
+                        })
+                    );
+                });
+            `;
+            
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register(URL.createObjectURL(swBlob))
+                    .catch(err => console.log('SW Registration failed', err));
             }
 
-            function showInstallInstructions() {
-                const old = document.getElementById("pwa-install-help");
-                if (old) old.remove();
+            // Handle Install Prompt
+            let deferredPrompt;
+            const installBtn = document.getElementById('pwa-install-btn');
 
-                const overlay = document.createElement("div");
-                overlay.id = "pwa-install-help";
-                overlay.className = "fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm";
-
-                let body, steps;
-                if (!isSecure) {
-                    body = "This page is not being served from an installable web address yet.";
-                    steps = [
-                        "Deploy this project to HTTPS (for example your Vercel domain).",
-                        "Open the HTTPS URL in Chrome, Edge or Safari.",
-                        "Tap/click Install App again."
-                    ];
-                } else if (isIOS) {
-                    body = "iPhone and iPad do not expose a programmatic install prompt. Safari installs the PWA from Share.";
-                    steps = [
-                        "Open this HTTPS website in Safari.",
-                        "Tap Share.",
-                        "Choose Add to Home Screen.",
-                        "Tap Add. Serbia Gateway will open as an app."
-                    ];
-                } else if (isAndroid) {
-                    body = "Chrome will show the native install prompt when this PWA is eligible.";
-                    steps = [
-                        "Use Chrome and make sure this is the HTTPS website.",
-                        "If the native prompt appears, choose Install.",
-                        "If it does not appear yet, tap ⋮ → Install app / Add to Home screen.",
-                        "If Chrome only shows Add to Home screen, use that option."
-                    ];
-                } else {
-                    body = "Use Chrome or Edge on this HTTPS website.";
-                    steps = [
-                        "Look for the install icon in the address bar.",
-                        "Or open the browser menu and choose Install Serbia Gateway.",
-                        "Confirm the installation."
-                    ];
-                }
-
-                overlay.innerHTML = `
-                    <div class="glass-card bg-slate-900/95 border border-purple-400/30 max-w-md w-full p-6 shadow-2xl">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
-                                <i class="fa-solid fa-mobile-screen-button text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-white m-0">Install Serbia Gateway</h3>
-                                <p class="text-xs text-white/60 m-0">Install as a mobile/desktop app</p>
-                            </div>
-                        </div>
-                        <p class="text-sm text-white/80 mb-4">${body}</p>
-                        <ol class="space-y-3 text-sm text-white/90 list-decimal pl-5">
-                            ${steps.map(s => `<li>${s}</li>`).join("")}
-                        </ol>
-                        ${!isSecure ? `<div class="mt-5 bg-red-500/10 border border-red-500/30 rounded-xl p-3 text-xs text-red-100"><strong>HTTPS required:</strong> Do not test PWA installation by double-clicking the HTML file. Use the live HTTPS URL or localhost.</div>` : ``}
-                        <button type="button" id="pwa-install-close" class="mt-5 w-full bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold py-3 rounded-xl">Close</button>
-                    </div>`;
-
-                document.body.appendChild(overlay);
-                document.getElementById("pwa-install-close").onclick = () => overlay.remove();
-                overlay.addEventListener("click", e => { if (e.target === overlay) overlay.remove(); });
-            }
-
-            // Chromium fires this only after the browser decides the PWA is installable.
-            window.addEventListener("beforeinstallprompt", event => {
-                event.preventDefault();
-                deferredPrompt = event;
-                if (!isStandalone()) setInstallButton("Install App", true);
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
             });
 
-            installBtn.addEventListener("click", async () => {
-                if (isStandalone()) {
-                    showToast("Serbia Gateway is already installed as an app.", "success", 3000);
-                    return;
-                }
-
+            installBtn.addEventListener('click', async () => {
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
-                    const choice = await deferredPrompt.userChoice;
-                    if (choice.outcome === "accepted") showToast("Installing Serbia Gateway...", "success", 3000);
-                    deferredPrompt = null;
-                    return;
-                }
-
-                // Fallback for iOS, browsers that delay beforeinstallprompt, and non-installable local URLs.
-                showInstallInstructions();
-            });
-
-            window.addEventListener("appinstalled", () => {
-                deferredPrompt = null;
-                setInstallButton("Installed", true);
-                installBtn.classList.remove("animate-bounce");
-                showToast("Serbia Gateway installed successfully.", "success", 4000);
-            });
-
-            // Service worker is required for reliable PWA installation and offline app shell.
-            if ("serviceWorker" in navigator && isSecure) {
-                window.addEventListener("load", async () => {
-                    try {
-                        const registration = await navigator.serviceWorker.register("./sw.js", { scope: "./" });
-                        await registration.update();
-                        console.log("Serbia Gateway PWA ready:", registration.scope);
-                    } catch (err) {
-                        console.warn("PWA service worker registration failed:", err);
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        showToast("App is installing...", "info");
                     }
-                });
-            }
+                    deferredPrompt = null;
+                } else {
+                    showToast("Please use your browser's 'Add to Home Screen' option from the menu to install.", "info");
+                }
+            });
 
-            if (isStandalone()) {
-                setInstallButton("Installed", true);
-                installBtn.classList.remove("animate-bounce");
-            } else {
-                // Keep the button visible so iOS and browsers delaying the native prompt have a usable fallback.
-                setInstallButton("Install App", true);
-            }
-
-            window.addEventListener("online", flushOfflineQueue);
+            window.addEventListener('appinstalled', () => {
+                showToast("App installed successfully!", "success");
+            });
         }
 
         // Initialize everything on load

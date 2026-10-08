@@ -22,8 +22,8 @@
     <!-- SUPABASE CONFIG: use your project's publishable/anon key only. Never put service_role here. -->
     <script>
         window.SERBIA_APP_CONFIG = {
-            supabaseUrl: "https://csjfidgeeqyqdbxnilno.supabase.co",
-            supabaseAnonKey: "sb_publishable_eFBP7b8ypQbYotxRXK53Xw_g-miKB_8",
+            supabaseUrl: "https://YOUR_PROJECT.supabase.co",
+            supabaseAnonKey: "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY",
             appVersion: "2.0.0"
         };
     </script>
@@ -1393,7 +1393,7 @@
         <div id="payment-invoice-breakup" class="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5"></div>
         <form id="payment-request-form" onsubmit="event.preventDefault(); submitPaymentRequest();">
           <div class="grid md:grid-cols-2 gap-4 mb-4"><div><label class="form-label">Payer Name</label><input id="pay-payer-name" class="glass-input" required></div><div><label class="form-label">Mobile</label><input id="pay-payer-mobile" type="tel" class="glass-input" required></div><div><label class="form-label">Email</label><input id="pay-payer-email" type="email" class="glass-input" required></div><div><label class="form-label">Amount to Pay</label><input id="pay-amount" class="glass-input font-black" readonly></div></div>
-          <label class="form-label">Payment Method</label><div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4" id="payment-methods"><label class="payment-method"><input type="radio" name="paymentMethod" value="Bank Transfer"> Bank Transfer</label><label class="payment-method"><input type="radio" name="paymentMethod" value="NEFT/RTGS"> NEFT / RTGS</label><label class="payment-method"><input type="radio" name="paymentMethod" value="Cash/Office"> Cash / Office</label></div>
+          <label class="form-label">Payment Method</label><div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4" id="payment-methods"><label class="payment-method"><input type="radio" name="paymentMethod" value="UPI" required> UPI</label><label class="payment-method"><input type="radio" name="paymentMethod" value="Bank Transfer"> Bank Transfer</label><label class="payment-method"><input type="radio" name="paymentMethod" value="NEFT/RTGS"> NEFT / RTGS</label><label class="payment-method"><input type="radio" name="paymentMethod" value="Cash/Office"> Cash / Office</label></div>
           <div class="bg-blue-500/10 border border-blue-400/20 rounded-xl p-3 text-xs text-blue-200 mb-5"><i class="fa-solid fa-circle-info mr-1"></i> After you continue, the official bank/payment details will be displayed. Do not upload a proof until the transfer is actually completed.</div>
           <button class="w-full bg-gradient-to-r from-teal-500 to-blue-600 py-3.5 rounded-xl font-black shadow-lg">Continue to Payment Details <i class="fa-solid fa-arrow-right ml-2"></i></button>
         </form>
@@ -1841,41 +1841,22 @@
         async function saveProposalToSupabase(record){
             if(!supabaseClient) return {status:"local",message:"Supabase is not configured."};
             try{
-                const session=await getAuthSession();
-                let candidate=null;
+                let session=await getAuthSession();
+                const payload={firstName:record.firstName,lastName:record.lastName,passport:record.passport,mobile:record.mobile,email:record.email||"",roles:record.roles?record.roles.split(',').map(x=>x.trim()).filter(Boolean):[],signaturePath:null};
+                let result;
                 if(session){
-                    const {data:existing}=await supabaseClient.from('candidates').select('*').eq('user_id',session.user.id).maybeSingle();
-                    if(existing) candidate=existing;
+                    result=await supabaseClient.rpc('create_candidate_application',{
+                        p_first_name:payload.firstName,p_last_name:payload.lastName,p_passport:payload.passport,p_mobile:payload.mobile,p_email:payload.email,p_roles:payload.roles,p_signature_path:null
+                    });
+                }else{
+                    result=await supabaseClient.rpc('create_public_candidate_application',{
+                        p_first_name:payload.firstName,p_last_name:payload.lastName,p_passport:payload.passport,p_mobile:payload.mobile,p_email:payload.email,p_roles:payload.roles,p_signature_path:null
+                    });
                 }
-                const candidatePayload={
-                    ...(candidate?.id?{id:candidate.id}:{}),
-                    ...(session?.user?.id?{user_id:session.user.id}:{}),
-                    first_name:record.firstName||'', last_name:record.lastName||'',
-                    email:record.email||null, phone:record.mobile||null,
-                    passport_number:record.passport||null,
-                    preferred_country:'Serbia',
-                    preferred_position:(record.roles||'').split(',')[0]?.trim()||null,
-                    status:'new'
-                };
-                let cr;
-                if(candidate?.id) cr=await supabaseClient.from('candidates').update(candidatePayload).eq('id',candidate.id).select().single();
-                else cr=await supabaseClient.from('candidates').insert(candidatePayload).select().single();
-                if(cr.error) throw cr.error;
-                candidate=cr.data;
-                const roles=(record.roles||'').split(',').map(x=>x.trim()).filter(Boolean);
-                const app={candidate_id:candidate.id,country:'Serbia',purpose:'Jobs & Career',selected_industry:null,selected_position:roles[0]||null,status:'submitted',source:'serbia_gateway',candidate_message:null};
-                const ar=await supabaseClient.from('applications').insert(app).select().single();
-                if(ar.error) throw ar.error;
-                const application=ar.data;
-                if(roles.length){
-                    const answers=roles.map((role,i)=>({application_id:application.id,question_key:'preferred_role_'+(i+1),question:'Selected role',answer:role}));
-                    await supabaseClient.from('application_answers').insert(answers);
-                }
-                const ref=application.application_ref||record.refNumber;
+                if(result.error) throw result.error;
+                const ref=typeof result.data==='string'?result.data:(result.data?.candidate?.application_ref||record.refNumber);
                 localStorage.setItem('serbia_ref',ref);
-                localStorage.setItem('serbia_candidate_id',candidate.id);
-                localStorage.setItem('serbia_application_id',application.id);
-                return {status:'submitted',ref,candidateId:candidate.id,applicationId:application.id,message:'Application saved to Supabase.'};
+                return {status:'submitted',ref,message:'Application saved to Supabase.'};
             }catch(error){
                 console.error('Supabase proposal save failed:',error);
                 queueOfflineSubmission('proposal',record);
@@ -1908,7 +1889,7 @@
         async function uploadDataUrl(path,dataUrl,contentType='image/png'){
             if(!supabaseClient || !dataUrl) return null;
             const blob=await (await fetch(dataUrl)).blob();
-            const {error}=await supabaseClient.storage.from('hireme-files').upload(path,blob,{contentType,upsert:true});
+            const {error}=await supabaseClient.storage.from('candidate-files').upload(path,blob,{contentType,upsert:true});
             if(error) throw error;
             return path;
         }
@@ -1918,7 +1899,7 @@
             if(file.size>7*1024*1024) throw new Error('File is larger than 7 MB.');
             const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
             const path=`${candidateId}/${folder}/${Date.now()}-${safe}`;
-            const {error}=await supabaseClient.storage.from('hireme-files').upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false});
+            const {error}=await supabaseClient.storage.from('candidate-files').upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false});
             if(error) throw error;
             return path;
         }
@@ -1927,42 +1908,30 @@
 
         async function syncPaymentToBackend(payment,p){
             if(!supabaseClient) { queueOfflineSubmission('payment_proof',{payment,p}); return; }
-            const session=await getAuthSession();
-            if(!session) throw new Error('Please login before submitting payment proof.');
-            const {data:cs,error:ce}=await supabaseClient.from('candidates').select('id').eq('user_id',session.user.id).maybeSingle();
-            if(ce) throw ce;
-            if(!cs) throw new Error('Candidate profile not linked to this account.');
-            let appId=localStorage.getItem('serbia_application_id');
-            if(!appId){
-                const {data:app}=await supabaseClient.from('applications').select('id').eq('candidate_id',cs.id).order('created_at',{ascending:false}).limit(1).maybeSingle();
-                appId=app?.id;
-            }
-            if(!appId) throw new Error('Application not found. Please submit your application first.');
-            const stageCode=payment.stageId==='stage-1'?'PACKAGE_START':payment.stageId==='stage-2'?'WORK_PERMIT_APPROVED':payment.stageId==='stage-3'?'VISA_DOCUMENTS_READY':'AFTER_JOINING';
-            const {data:stage,error:se}=await supabaseClient.from('payment_stages').select('*').eq('country','Serbia').eq('stage_code',stageCode).maybeSingle();
-            if(se) throw se;
-            const {data:proposal}=await supabaseClient.from('proposals').select('id').eq('application_id',appId).order('created_at',{ascending:false}).limit(1).maybeSingle();
-            const {data:req,error:re}=await supabaseClient.from('payment_requests').insert({
-                candidate_id:cs.id,application_id:appId,proposal_id:proposal?.id||null,payment_stage_id:stage?.id||null,
-                amount:payment.amount,currency:'INR',description:payment.stageLabel,status:'submitted',created_by:session.user.id
-            }).select('id,request_ref').single();
-            if(re) throw re;
-            const file=document.getElementById('payment-proof-file')?.files?.[0];
-            let proofPath=null;
-            if(file) proofPath=await uploadCandidateFile(cs.id,'payments',file);
-            const {data:pay,error:pe}=await supabaseClient.from('payments').insert({
-                payment_request_id:req.id,candidate_id:cs.id,application_id:appId,amount:payment.amount,currency:'INR',
-                payment_method:normalizePaymentMethod(payment.method),transaction_id:payment.txnId,payment_date:payment.txnDate,
-                paid_from:payment.from,proof_path:proofPath,proof_name:file?.name||null,status:'under_review'
-            }).select('id').single();
-            if(pe) throw pe;
-            const receiptNo='RCP-'+new Date().getFullYear()+'-'+Math.floor(100000+Math.random()*900000);
-            const rr=await supabaseClient.from('payment_receipts').insert({payment_id:pay.id,receipt_ref:receiptNo,amount:payment.amount,currency:'INR',receipt_status:'issued'}).select('id').maybeSingle();
-            if(rr.error) console.warn('Receipt insert warning:',rr.error);
-            await supabaseClient.from('notifications').insert({candidate_id:cs.id,application_id:appId,title:'Payment Proof Submitted',message:'Your payment proof is under verification. Further processing will be updated in your dashboard.',notification_type:'payment'});
-            return {status:'submitted',receiptNo};
+            try{
+                const session=await getAuthSession();
+                if(!session) throw new Error('Please login before submitting payment proof.');
+                const {data:cs,error:ce}=await supabaseClient.from('candidates').select('id').eq('user_id',session.user.id).maybeSingle();
+                if(ce) throw ce;
+                if(!cs) throw new Error('Candidate profile not linked to this account.');
+                const {data:app,error:ae}=await supabaseClient.from('applications').select('id').eq('candidate_id',cs.id).eq('proposal_ref',p.ref).maybeSingle();
+                if(ae) throw ae;
+                if(!app) throw new Error('Application not found.');
+                const {data:stage,error:se}=await supabaseClient.from('payment_stages').select('id').eq('application_id',app.id).eq('stage_code',payment.stageId).maybeSingle();
+                if(se) throw se;
+                const {data:req,error:re}=await supabaseClient.from('payment_requests').insert({application_id:app.id,candidate_id:cs.id,payment_stage_id:stage?.id||null,request_ref:`PAY-${Date.now()}`,amount:payment.amount,method:normalizePaymentMethod(payment.method),payer_name:p.name,payer_mobile:p.mobile,payer_email:p.email||'',status:'submitted'}).select('id').single();
+                if(re) throw re;
+                const file=document.getElementById('payment-proof-file')?.files?.[0];
+                let proofPath=null;
+                if(file) proofPath=await uploadCandidateFile(cs.id,'payments',file);
+                const {data:pay,error:pe}=await supabaseClient.from('payments').insert({payment_request_id:req.id,candidate_id:cs.id,application_id:app.id,amount:payment.amount,method:normalizePaymentMethod(payment.method),transaction_id:payment.txnId,payment_date:payment.txnDate,paid_from:payment.from,proof_path:proofPath,proof_name:file?.name||null,status:'under_review'}).select('id').single();
+                if(pe) throw pe;
+                const receiptNo='RCP-'+new Date().getFullYear()+'-'+Math.floor(100000+Math.random()*900000);
+                await supabaseClient.from('payment_receipts').insert({payment_id:pay.id,receipt_number:receiptNo});
+                await supabaseClient.from('notifications').insert({candidate_id:cs.id,title:'Payment Proof Submitted',message:'Your payment proof is under verification. Further processing will be updated in your dashboard.',notification_type:'payment'});
+                return {status:'submitted',receiptNo};
+            }catch(e){console.error('Supabase payment sync failed:',e);throw e;}
         }
-
         // ==========================================
         // 2. Signature Pad Initialization
         // ==========================================
@@ -2152,7 +2121,7 @@
                 {id:'stage-3', label:'Work Permit & Visa Docs Ready', amount:50000, status:'Upcoming'}
             ],
             bank: {
-                accountName:'Kaniz Fatma', bankName:'SBI (State Bank of India)', accountNumber:'44624622176', ifsc:'SBIN0005602', branch:'Picnic Garden', accountType:'Designated Company Finance Account', upi:'Not applicable', note:'Designated company/finance payment account. The account holder name is displayed exactly as registered with the bank. Make payment only against an active payment request shown in your dashboard.'
+                accountName:'ADD OFFICIAL ACCOUNT HOLDER NAME', bankName:'ADD BANK NAME', accountNumber:'ADD ACCOUNT NUMBER', ifsc:'ADD IFSC CODE', branch:'ADD BRANCH', accountType:'Current / Savings', upi:'ADD-OFFICIAL-UPI@BANK', swift:'ADD SWIFT CODE (IF APPLICABLE)', note:'Configure these official details before going live.'
             }
         };
         let activePaymentRequest = null;
@@ -2181,7 +2150,7 @@
                 const {data:c,error:ce}=await supabaseClient.from('candidates').select('*').eq('user_id',session.user.id).maybeSingle();
                 if(ce||!c) return;
                 const {data:a}=await supabaseClient.from('applications').select('*').eq('candidate_id',c.id).order('created_at',{ascending:false}).limit(1).maybeSingle();
-                const {data:payments}=await supabaseClient.from('payments').select('*, payment_requests(request_ref), payment_receipts(receipt_ref)').eq('candidate_id',c.id).order('submitted_at',{ascending:false});
+                const {data:payments}=await supabaseClient.from('payments').select('*, payment_requests(request_ref), payment_receipts(receipt_number)').eq('candidate_id',c.id).order('submitted_at',{ascending:false});
                 const {data:notifs}=await supabaseClient.from('notifications').select('*').eq('candidate_id',c.id).order('created_at',{ascending:false}).limit(30);
                 const p=ensurePortal();
                 p.ref=c.application_ref;p.name=c.full_name;p.mobile=c.mobile;p.passport=c.passport_number||'';p.email=c.email||session.user.email||'';

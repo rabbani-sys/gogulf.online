@@ -1,4 +1,4 @@
-const CACHE = "serbia-gateway-v2";
+const CACHE = "serbia-gateway-v3-supabase";
 const APP_SHELL = ["./", "./index.html", "./manifest.webmanifest"];
 
 self.addEventListener("install", event => {
