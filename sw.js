@@ -1,4 +1,4 @@
-const CACHE='serbia-gateway-v4.0';
+const CACHE='serbia-gateway-v4.1';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const k of await caches.keys())if(k!==CACHE)await caches.delete(k);await clients.claim()})()));
 self.addEventListener('fetch',e=>{
