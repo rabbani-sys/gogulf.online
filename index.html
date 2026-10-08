@@ -1216,7 +1216,8 @@ document.addEventListener("DOMContentLoaded",()=>{
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-bold py-5 rounded-2xl shadow-[0_0_20px_rgba(139,92,246,0.5)] hover:shadow-[0_0_30px_rgba(139,92,246,0.8)] transition-all transform hover:-translate-y-1 text-lg flex items-center justify-center gap-3">
+                <div id="proposal-submit-status" class="text-xs text-white/50 mb-3">After signing, your account will be created automatically and your dashboard will open in this tab.</div>
+<button type="submit" class="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-bold py-5 rounded-2xl shadow-[0_0_20px_rgba(139,92,246,0.5)] hover:shadow-[0_0_30px_rgba(139,92,246,0.8)] transition-all transform hover:-translate-y-1 text-lg flex items-center justify-center gap-3">
                     <i class="fa-solid fa-file-pdf"></i> Generate Official Proposal
                 </button>
             </form>
@@ -1861,17 +1862,11 @@ document.addEventListener("DOMContentLoaded",()=>{
         let signaturePad;
         
         function initSignaturePad() {
-            const canvas = document.getElementById('signature-pad');
-            const wrapper = canvas.parentElement;
-
-            function resizeCanvas() {
-                const ratio =  Math.max(window.devicePixelRatio || 1, 1);
-                // Set actual canvas size to match visual CSS size
-                canvas.width = wrapper.offsetWidth * ratio;
-                canvas.height = wrapper.offsetHeight * ratio;
-                canvas.getContext("2d").scale(ratio, ratio);
-                if (signaturePad) signaturePad.clear();
-            }
+    const canvas = document.getElementById('signature-pad');
+    if (!canvas) return;
+    canvas.style.touchAction = 'none';
+    // V4.2 drawing is handled by initReliableSignature().
+}
 
             window.addEventListener("resize", resizeCanvas);
             
@@ -1889,101 +1884,132 @@ document.addEventListener("DOMContentLoaded",()=>{
 
         function clearSignature() {
   try { if (window.clearReliableSignature) window.clearReliableSignature(); } catch(e) {}
-  try { if (window.signaturePad && typeof window.signaturePad.clear === "function") window.signaturePad.clear(); } catch(e) {}
+  try { if (signaturePad && typeof signaturePad.clear === "function") signaturePad.clear(); } catch(e) {}
 }
 
         // ==========================================
         // 3. Form Submission & PDF Generation
         // ==========================================
-        async async function submitProposal() {
-            // Gather Data
-            const fname = document.getElementById('fname').value.trim();
-            const lname = document.getElementById('lname').value.trim();
-            const passport = document.getElementById('passport').value.trim();
-            const mobile = document.getElementById('mobile').value.trim();
-            const roleEls = document.querySelectorAll('input[name="roles"]:checked');
-            
-            // Validation
-            if (roleEls.length === 0) {
-                showToast("Please select at least one position.", "error");
-                return;
-            }
-            if (signaturePad && signaturePad.isEmpty()) {
-                showToast("Please provide your digital signature.", "error");
-                return;
-            }
+        async function submitProposal() {
+    try {
+        const fname = document.getElementById('fname')?.value.trim() || '';
+        const lname = document.getElementById('lname')?.value.trim() || '';
+        const passport = document.getElementById('passport')?.value.trim() || '';
+        const mobile = document.getElementById('mobile')?.value.trim() || '';
+        const email = document.getElementById('email')?.value.trim() || '';
+        const roleEls = document.querySelectorAll('input[name="roles"]:checked');
 
-            const fullName = `${fname} ${lname}`;
-            const role = Array.from(roleEls).map(el => el.value).join(', ');
-            const refNumber = `SRB-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-            const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-            const sigData = signaturePad.toDataURL();
-
-            // Simulate saving Proposal to Google Sheets BEFORE generating PDF
-            showToast("Syncing data securely to system...", "info");
-            
-            simulateGoogleSheetCall('proposal', { name: fullName, passport, role, ref: refNumber }).then(async () => {
-                
-                // Proceed to Populate PDF Template
-                document.getElementById('pdf-name').textContent = fullName;
-                document.getElementById('pdf-sign-name').textContent = fullName;
-                document.getElementById('pdf-passport').textContent = passport;
-                document.getElementById('pdf-mobile').textContent = mobile;
-                document.getElementById('pdf-role').textContent = role;
-                document.getElementById('pdf-ref').textContent = refNumber;
-                document.getElementById('pdf-date').textContent = dateStr;
-                document.getElementById('pdf-signature-img').src = sigData;
-
-                // Generate PDF
-                
-                // Finalize the signed proposal, then create the candidate portal account automatically.
-                try {
-                    await forceDashboardAfterProposal({
-                        firstName: fname,
-                        lastName: lname,
-                        email: document.getElementById('email')?.value?.trim() || '',
-                        passport: passport,
-                        mobile: mobile
-                    });
-                } catch (accountErr) {
-                    console.error("Automatic account creation:", accountErr);
-                    showToast("Proposal saved, but automatic account creation needs attention.", "error");
-                }
-
-                showToast("Data Synced! Generating official proposal PDF...", "success");
-                const element = document.getElementById('pdf-template');
-                
-                const opt = {
-                    margin:       0,
-                    filename:     `Serbia_Proposal_${fname}_${lname}.pdf`,
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true, logging: false },
-                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-                };
-
-                // Temporarily ensure template is visible for html2canvas to render
-                element.style.left = '0';
-                element.style.top = '0';
-                element.style.zIndex = '-100';
-
-                html2pdf().set(opt).from(element).save().then(() => {
-                    // Hide template again
-                    element.style.left = '-9999px';
-                    
-                    showToast("Proposal saved & downloaded successfully!", "success");
-                    
-                    // Reset form beautifully
-                    setTimeout(() => {
-                        document.getElementById('proposal-form').reset();
-                        clearSignature();
-                    }, 1000);
-                }).catch(err => {
-                    element.style.left = '-9999px';
-                    showToast("Error generating PDF.", "error");
-                    console.error(err);
-                });
-            });
+        if (!fname || !lname || !passport || !mobile) {
+            showToast("Please complete your required personal details.", "error");
+            return;
         }
+        if (roleEls.length === 0) {
+            showToast("Please select at least one position.", "error");
+            return;
+        }
+
+        // V4.2: use the working white-canvas signature engine first.
+        const hasSig = window.hasReliableSignature
+            ? window.hasReliableSignature()
+            : (typeof signaturePad !== "undefined" && signaturePad && !signaturePad.isEmpty());
+
+        if (!hasSig) {
+            showToast("Please sign inside the white signature box before continuing.", "error");
+            return;
+        }
+
+        const fullName = `${fname} ${lname}`.trim();
+        const role = Array.from(roleEls).map(el => el.value).join(', ');
+        const refNumber = `SRB-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+        const dateStr = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+        const sigData = window.getReliableSignatureData
+            ? window.getReliableSignatureData()
+            : signaturePad.toDataURL('image/png');
+
+        showToast("Preparing your signed proposal...", "info");
+
+        // Persist the signed-proposal payload locally before any asynchronous operation.
+        sessionStorage.setItem("serbia_pending_proposal", JSON.stringify({
+            firstName: fname, lastName: lname, email, passport, mobile, role, refNumber, dateStr
+        }));
+
+        // Keep compatibility with the original UI, but never allow this legacy
+        // mock call to block the real signed-proposal flow.
+        try {
+            await Promise.race([
+                simulateGoogleSheetCall('proposal', {name:fullName, passport, role, ref:refNumber}),
+                new Promise(resolve => setTimeout(resolve, 2500))
+            ]);
+        } catch (legacyError) {
+            console.warn("Legacy sync skipped:", legacyError);
+        }
+
+        // Populate PDF template.
+        const setText=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+        setText('pdf-name',fullName);
+        setText('pdf-sign-name',fullName);
+        setText('pdf-passport',passport);
+        setText('pdf-mobile',mobile);
+        setText('pdf-role',role);
+        setText('pdf-ref',refNumber);
+        setText('pdf-date',dateStr);
+        const sigImg=document.getElementById('pdf-signature-img');
+        if(sigImg) sigImg.src=sigData;
+
+        // Account creation and dashboard are the primary success path.
+        try {
+            await forceDashboardAfterProposal({
+                firstName: fname,
+                lastName: lname,
+                email,
+                passport,
+                mobile
+            });
+        } catch (accountErr) {
+            console.error("Automatic account creation failed:", accountErr);
+            showToast(
+                "Proposal is signed, but the portal account could not be opened. Please check Supabase Email Confirmation is OFF.",
+                "error"
+            );
+            return;
+        }
+
+        // Generate the signed PDF after the portal is successfully opened.
+        try {
+            const element=document.getElementById('pdf-template');
+            if (element && typeof html2pdf !== "undefined") {
+                const oldLeft=element.style.left;
+                const oldTop=element.style.top;
+                const oldZ=element.style.zIndex;
+                element.style.left='0';
+                element.style.top='0';
+                element.style.zIndex='-100';
+
+                await html2pdf().set({
+                    margin:0,
+                    filename:`Serbia_Proposal_${fname}_${lname}.pdf`,
+                    image:{type:'jpeg',quality:.98},
+                    html2canvas:{scale:2,useCORS:true,logging:false},
+                    jsPDF:{unit:'in',format:'letter',orientation:'portrait'}
+                }).from(element).save();
+
+                element.style.left=oldLeft || '-9999px';
+                element.style.top=oldTop;
+                element.style.zIndex=oldZ;
+            }
+        } catch(pdfError) {
+            console.error("PDF generation error:",pdfError);
+            showToast("Dashboard opened. PDF generation will need to be retried.", "error");
+        }
+
+        sessionStorage.removeItem("serbia_pending_proposal");
+        showToast("Proposal signed successfully. Welcome to your dashboard.", "success");
+
+    } catch (err) {
+        console.error("submitProposal failed:",err);
+        showToast("We could not complete the proposal. Please check the form and signature and try again.", "error");
+    }
+}
 
         // ==========================================
         // 4. Progressive Web App (PWA) Logic
@@ -2330,7 +2356,7 @@ window.SerbiaCandidateAuth = {
 </script>
 
 <script>
-/* V4.1 — robust white-space signature pad fix */
+/* V4.2 — robust white-space signature pad fix */
 (function(){
   function initReliableSignature(){
     var canvas=document.getElementById("signature-pad");

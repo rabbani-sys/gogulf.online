@@ -1,6 +1,6 @@
-# Serbia Career Gateway — FINAL LIVE V4.1
+# Serbia Career Gateway — FINAL LIVE V4.2
 
-## Critical fixes in V4.1
+## Critical fixes in V4.2
 - Fixed the JavaScript parse error that stopped the entire application from running and left the splash screen permanently visible.
 - Added a production safety fallback that always releases the splash screen.
 - Fixed automatic proposal account creation flow.
@@ -22,17 +22,17 @@ Replace the old GitHub project files with this ZIP contents. Use HTTPS. After re
 Do not put a service-role key or database password in GitHub.
 
 
-## V4.1 navigation freeze
+## V4.2 navigation freeze
 - After proposal signature/account creation, dashboard opens in the same tab.
 - No Login Portal text is shown in the top navigation.
 - Candidate dashboard uses icon-based navigation.
 
 
-## V4.1 dashboard access
+## V4.2 dashboard access
 A persistent Dashboard CTA appears after authentication. After a signed proposal creates the account, the dashboard opens automatically in the same tab. Dashboard contains icon navigation for Overview, Application, Proposal, Payments, Documents, Timeline, Notifications and Support.
 
 
-## V4.1 final readiness
+## V4.2 final readiness
 - Visible Dashboard CTA after account/session creation.
 - Same-tab automatic dashboard entry after signed proposal.
 - Email Address field explicitly marked Optional in the proposal form.
@@ -41,5 +41,14 @@ A persistent Dashboard CTA appears after authentication. After a signed proposal
 - Splash-screen emergency fallback prevents a blank/stuck first screen.
 
 
-## V4.1 signature fix
+## V4.2 signature fix
 The signature canvas uses a dedicated pointer-event drawing layer, prevents touch scrolling over the signing area, preserves a white canvas, and supplies signature data directly to proposal submission.
+
+
+## V4.2 critical flow fix
+- Fixed JavaScript parse error that prevented proposal submission.
+- Rebuilt submitProposal as one async end-to-end flow.
+- Signature validation now uses the reliable white-canvas engine.
+- Removed conflicting SignaturePad initialization.
+- Proposal email remains optional.
+- Signed proposal creates account and opens dashboard in the same tab before PDF generation.
