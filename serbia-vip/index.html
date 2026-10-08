@@ -12,6 +12,10 @@
     <meta name="application-name" content="Serbia Gateway">
     <meta name="format-detection" content="telephone=no">
     <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Serbia Gateway">
     <title>Serbia Career Proposal | Digital Application</title>
 
 
@@ -210,6 +214,18 @@
         .splash-scale-down {
             transform: scale(0.95);
         }
+
+/* ===== Candidate Dashboard & Payment Center ===== */
+.dashboard-modal{background:rgba(2,6,23,.96);backdrop-filter:blur(24px)}
+.dashboard-nav button{transition:.2s}.dashboard-nav button.active{background:linear-gradient(135deg,rgba(139,92,246,.35),rgba(20,184,166,.18));border-color:rgba(167,139,250,.5);color:#fff}
+.dashboard-panel{display:none}.dashboard-panel.active{display:block}
+.payment-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.payment-row:last-child{border-bottom:0}.receipt-paper{background:#fff;color:#0f172a;border-radius:18px;padding:22px}.receipt-paper .muted{color:#64748b}
+.status-pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.status-pending{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
+.status-paid{background:rgba(16,185,129,.12);color:#6ee7b7;border:1px solid rgba(16,185,129,.25)}
+.status-review{background:rgba(59,130,246,.12);color:#93c5fd;border:1px solid rgba(59,130,246,.25)}
+
     </style>
 </head>
 <body id="main-body" class="overflow-y-hidden">
@@ -306,7 +322,7 @@
             </div>
             
             <span id="api-status" class="hidden md:inline text-[0.65rem] text-white/50 uppercase tracking-wider">Production</span>
-            <button id="pwa-install-btn" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border border-white/30 text-white px-3 py-2 sm:px-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2 text-sm z-50">
+            <button id="pwa-install-btn" type="button" aria-label="Install Serbia Gateway app" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border border-white/30 text-white px-3 py-2 sm:px-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2 text-sm z-50">
                 <i class="fa-solid fa-mobile-screen-button animate-bounce"></i> <span class="hidden sm:inline">Install App</span>
             </button>
         </div>
@@ -1323,6 +1339,79 @@
         </div>
     </div>
 
+
+    <!-- Candidate Dashboard -->
+    <div id="dashboard-modal" class="fixed inset-0 z-[230] hidden items-center justify-center dashboard-modal opacity-0 transition-all duration-300">
+      <div class="absolute inset-0 bg-black/70" onclick="closeModal('dashboard-modal')"></div>
+      <div class="relative z-10 w-full h-full md:h-[94vh] md:max-w-6xl md:rounded-3xl border border-white/10 overflow-hidden flex flex-col md:flex-row shadow-2xl">
+        <aside class="w-full md:w-64 shrink-0 bg-slate-950/95 border-b md:border-b-0 md:border-r border-white/10 p-4 md:p-5">
+          <div class="flex items-center justify-between mb-5">
+            <div><div class="text-xs text-purple-300 font-bold uppercase tracking-widest">Candidate Portal</div><div class="text-lg font-black">My Dashboard</div></div>
+            <button class="md:hidden w-9 h-9 rounded-xl bg-white/5" onclick="closeModal('dashboard-modal')"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div id="dashboard-candidate-mini" class="bg-white/5 rounded-2xl p-3 mb-4 border border-white/10"></div>
+          <nav class="dashboard-nav grid grid-cols-4 md:grid-cols-1 gap-2">
+            <button class="active text-left rounded-xl border border-transparent px-3 py-3 text-xs font-bold" onclick="showDashboardPanel('overview',this)"><i class="fa-solid fa-gauge mr-2"></i>Overview</button>
+            <button class="text-left rounded-xl border border-transparent px-3 py-3 text-xs font-bold" onclick="showDashboardPanel('application',this)"><i class="fa-solid fa-file-signature mr-2"></i>Application</button>
+            <button class="text-left rounded-xl border border-transparent px-3 py-3 text-xs font-bold" onclick="showDashboardPanel('payments',this)"><i class="fa-solid fa-credit-card mr-2"></i>Payments</button>
+            <button class="text-left rounded-xl border border-transparent px-3 py-3 text-xs font-bold" onclick="showDashboardPanel('documents',this)"><i class="fa-solid fa-folder-open mr-2"></i>Documents</button>
+            <button class="text-left rounded-xl border border-transparent px-3 py-3 text-xs font-bold" onclick="showDashboardPanel('timeline',this)"><i class="fa-solid fa-route mr-2"></i>Process</button>
+            <button class="text-left rounded-xl border border-transparent px-3 py-3 text-xs font-bold" onclick="showDashboardPanel('notifications',this)"><i class="fa-solid fa-bell mr-2"></i>Notifications</button>
+            <button class="text-left rounded-xl border border-transparent px-3 py-3 text-xs font-bold" onclick="showDashboardPanel('receipts',this)"><i class="fa-solid fa-receipt mr-2"></i>Receipts</button>
+            <button class="text-left rounded-xl border border-transparent px-3 py-3 text-xs font-bold" onclick="showDashboardPanel('support',this)"><i class="fa-solid fa-headset mr-2"></i>Support</button>
+          </nav>
+        </aside>
+        <main class="flex-1 overflow-y-auto p-4 md:p-7">
+          <div class="hidden md:flex justify-end mb-2"><button onclick="closeModal('dashboard-modal')" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10"><i class="fa-solid fa-xmark"></i></button></div>
+          <section id="dash-overview" class="dashboard-panel active">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6"><div><p class="text-purple-300 text-sm font-bold">Welcome back</p><h2 id="dash-welcome" class="text-3xl font-black">Candidate</h2><p class="text-white/50 text-sm">Your Serbia career process in one place.</p></div><button onclick="openPaymentRequest()" class="bg-gradient-to-r from-purple-600 to-teal-500 px-5 py-3 rounded-xl font-black shadow-lg"><i class="fa-solid fa-bolt mr-2"></i>Pay Current Request</button></div>
+            <div id="dash-kpis" class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5"></div>
+            <div class="grid lg:grid-cols-3 gap-5"><div class="lg:col-span-2 glass-card p-5"><div class="flex justify-between items-center mb-4"><h3 class="font-black">Current Payment Request</h3><span id="dash-payment-status" class="status-pill status-pending">Pending</span></div><div id="dash-current-payment"></div></div><div class="glass-card p-5"><h3 class="font-black mb-4">Next Steps</h3><div id="dash-next-steps" class="space-y-3 text-sm"></div></div></div>
+          </section>
+          <section id="dash-application" class="dashboard-panel"><div class="glass-card p-5"><h2 class="text-2xl font-black mb-4">Application Details</h2><div id="dash-application-data" class="grid md:grid-cols-2 gap-3"></div></div></section>
+          <section id="dash-payments" class="dashboard-panel"><div class="glass-card p-5"><div class="flex justify-between items-center mb-5"><h2 class="text-2xl font-black">Payment Center</h2><button onclick="openPaymentRequest()" class="bg-teal-500/20 text-teal-300 border border-teal-400/30 px-4 py-2 rounded-xl font-bold">Make Payment</button></div><div id="dash-payment-history"></div></div></section>
+          <section id="dash-documents" class="dashboard-panel"><div class="glass-card p-5"><h2 class="text-2xl font-black mb-5">Documents</h2><div id="dash-documents-data" class="grid md:grid-cols-2 gap-3"></div></div></section>
+          <section id="dash-timeline" class="dashboard-panel"><div class="glass-card p-5"><h2 class="text-2xl font-black mb-5">Process Timeline</h2><div id="dash-timeline-data" class="space-y-3"></div></div></section>
+          <section id="dash-notifications" class="dashboard-panel"><div class="glass-card p-5"><h2 class="text-2xl font-black mb-5">Notifications</h2><div id="dash-notifications-data" class="space-y-3"></div></div></section>
+          <section id="dash-receipts" class="dashboard-panel"><div class="glass-card p-5"><h2 class="text-2xl font-black mb-5">Payment Receipts</h2><div id="dash-receipts-data" class="grid md:grid-cols-2 gap-4"></div></div></section>
+          <section id="dash-support" class="dashboard-panel"><div class="glass-card p-5"><h2 class="text-2xl font-black mb-3">Support</h2><p class="text-white/60 text-sm mb-5">Use your application reference when contacting support.</p><button onclick="closeModal('dashboard-modal');openModal('chatbot-modal')" class="bg-purple-600 px-5 py-3 rounded-xl font-bold"><i class="fa-solid fa-robot mr-2"></i>Ask GLORA</button></div></section>
+        </main>
+      </div>
+    </div>
+
+    <!-- Payment Request Modal -->
+    <div id="payment-request-modal" class="fixed inset-0 z-[250] hidden items-center justify-center opacity-0 transition-all duration-300">
+      <div class="absolute inset-0 bg-black/75 backdrop-blur-md" onclick="closeModal('payment-request-modal')"></div>
+      <div class="relative z-10 w-full max-w-2xl max-h-[92vh] overflow-y-auto glass-card bg-slate-950/95 border border-teal-400/20 rounded-3xl p-5 md:p-7 mx-3">
+        <button onclick="closeModal('payment-request-modal')" class="absolute top-4 right-4 w-9 h-9 rounded-xl bg-white/5"><i class="fa-solid fa-xmark"></i></button>
+        <div class="mb-5 pr-10"><div class="text-xs uppercase tracking-widest text-teal-300 font-black">Payment Request / Invoice</div><h2 class="text-2xl font-black">Current Stage Payment</h2><p class="text-white/50 text-sm">Review the breakup, choose a payment method, and submit your payment details.</p></div>
+        <div id="payment-invoice-breakup" class="bg-white/5 border border-white/10 rounded-2xl p-4 mb-5"></div>
+        <form id="payment-request-form" onsubmit="event.preventDefault(); submitPaymentRequest();">
+          <div class="grid md:grid-cols-2 gap-4 mb-4"><div><label class="form-label">Payer Name</label><input id="pay-payer-name" class="glass-input" required></div><div><label class="form-label">Mobile</label><input id="pay-payer-mobile" type="tel" class="glass-input" required></div><div><label class="form-label">Email</label><input id="pay-payer-email" type="email" class="glass-input" required></div><div><label class="form-label">Amount to Pay</label><input id="pay-amount" class="glass-input font-black" readonly></div></div>
+          <label class="form-label">Payment Method</label><div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4" id="payment-methods"><label class="payment-method"><input type="radio" name="paymentMethod" value="UPI" required> UPI</label><label class="payment-method"><input type="radio" name="paymentMethod" value="Bank Transfer"> Bank Transfer</label><label class="payment-method"><input type="radio" name="paymentMethod" value="NEFT/RTGS"> NEFT / RTGS</label><label class="payment-method"><input type="radio" name="paymentMethod" value="Cash/Office"> Cash / Office</label></div>
+          <div class="bg-blue-500/10 border border-blue-400/20 rounded-xl p-3 text-xs text-blue-200 mb-5"><i class="fa-solid fa-circle-info mr-1"></i> After you continue, the official bank/payment details will be displayed. Do not upload a proof until the transfer is actually completed.</div>
+          <button class="w-full bg-gradient-to-r from-teal-500 to-blue-600 py-3.5 rounded-xl font-black shadow-lg">Continue to Payment Details <i class="fa-solid fa-arrow-right ml-2"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bank Details + Proof Modal -->
+    <div id="bank-payment-modal" class="fixed inset-0 z-[260] hidden items-center justify-center opacity-0 transition-all duration-300">
+      <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeModal('bank-payment-modal')"></div>
+      <div class="relative z-10 w-full max-w-3xl max-h-[94vh] overflow-y-auto glass-card bg-slate-950/95 border border-blue-400/20 rounded-3xl p-5 md:p-7 mx-3">
+        <button onclick="closeModal('bank-payment-modal')" class="absolute top-4 right-4 w-9 h-9 rounded-xl bg-white/5"><i class="fa-solid fa-xmark"></i></button>
+        <div class="mb-5 pr-10"><div class="text-xs uppercase tracking-widest text-blue-300 font-black">Payment Instructions</div><h2 class="text-2xl font-black">Transfer & Submit Proof</h2><p class="text-white/50 text-sm">Use only the official account details shown here.</p></div>
+        <div id="bank-details-box" class="grid md:grid-cols-2 gap-3 mb-5"></div>
+        <div class="bg-white/5 rounded-2xl p-4 mb-5"><div class="flex justify-between text-sm mb-1"><span class="text-white/50">Requested Amount</span><strong id="bank-requested-amount"></strong></div><div class="text-xs text-white/40" id="bank-payment-reference"></div></div>
+        <form id="payment-proof-form" onsubmit="event.preventDefault(); submitPaymentProof();"><div class="grid md:grid-cols-2 gap-4"><div><label class="form-label">Transaction / UTR ID</label><input id="txn-id" class="glass-input" placeholder="Enter UTR / transaction ID" required></div><div><label class="form-label">Payment Date</label><input id="txn-date" type="date" class="glass-input" required></div><div><label class="form-label">Paid From (Bank/UPI)</label><input id="txn-from" class="glass-input" placeholder="e.g. SBI / Google Pay" required></div><div><label class="form-label">Amount Paid</label><input id="txn-amount" type="number" min="1" class="glass-input" required></div></div><div class="mt-4"><label class="form-label">Upload Payment Screenshot / Receipt</label><input id="payment-proof-file" type="file" accept="image/*,.pdf" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm" required><p class="text-xs text-white/40 mt-2">Accepted: JPG, PNG, WEBP or PDF. Keep the transaction ID visible.</p></div><label class="flex items-start gap-2 text-xs text-white/60 mt-4"><input id="payment-confirm" type="checkbox" required class="mt-1"><span>I confirm that the payment details submitted above are accurate and the transaction was made by me / on my behalf.</span></label><button class="w-full mt-5 bg-gradient-to-r from-blue-600 to-purple-600 py-3.5 rounded-xl font-black">Submit Payment Proof <i class="fa-solid fa-cloud-arrow-up ml-2"></i></button></form>
+      </div>
+    </div>
+
+    <!-- Payment Receipt Modal -->
+    <div id="payment-receipt-modal" class="fixed inset-0 z-[270] hidden items-center justify-center opacity-0 transition-all duration-300">
+      <div class="absolute inset-0 bg-black/80 backdrop-blur-md"></div><div class="relative z-10 w-full max-w-xl max-h-[92vh] overflow-y-auto p-4"><div id="payment-receipt-content"></div><div class="flex gap-2 mt-3"><button onclick="downloadPaymentReceipt()" class="flex-1 bg-teal-500 text-slate-950 py-3 rounded-xl font-black"><i class="fa-solid fa-download mr-2"></i>Download Receipt</button><button onclick="closeModal('payment-receipt-modal')" class="px-5 bg-white/10 rounded-xl font-bold">Close</button></div></div>
+    </div>
+
     <!-- Login Portal Modal -->
     <div id="login-modal" class="fixed inset-0 z-[200] hidden items-center justify-center opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('login-modal')"></div>
@@ -1343,7 +1432,7 @@
                 <p class="text-white/60 text-sm">Access your personalized candidate portal</p>
             </div>
             
-            <form class="relative z-10" onsubmit="event.preventDefault(); simulateGoogleSheetCall('login', {uid: this.userid.value});">
+            <form class="relative z-10" onsubmit="event.preventDefault(); loginAndOpenDashboard(this.userid.value);">
                 <div class="mb-4">
                     <div class="relative">
                         <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-white/40"></i>
@@ -1938,42 +2027,215 @@
             }
         }
 
+
+
+        async function loginAndOpenDashboard(uid){
+            const result=await simulateGoogleSheetCall('login',{uid:uid});
+            const p=ensurePortal(); p.ref=uid||p.ref; savePortal(p);
+            closeModal('login-modal');
+            showToast('Welcome back. Opening your candidate dashboard…','success');
+            setTimeout(()=>openCandidateDashboard(true),250);
+        }
+
+        // ==========================================
+        // Candidate Dashboard + Payment Center
+        // ==========================================
+        const PAYMENT_CONFIG = {
+            packageTotal: 300000,
+            processingTotal: 150000,
+            deferredTotal: 150000,
+            stages: [
+                {id:'stage-1', label:'Package Start / Registration', amount:50000, status:'Due'},
+                {id:'stage-2', label:'Work Permit Approved + Soft Copy', amount:50000, status:'Upcoming'},
+                {id:'stage-3', label:'Work Permit & Visa Docs Ready', amount:50000, status:'Upcoming'}
+            ],
+            bank: {
+                accountName:'ADD OFFICIAL ACCOUNT HOLDER NAME', bankName:'ADD BANK NAME', accountNumber:'ADD ACCOUNT NUMBER', ifsc:'ADD IFSC CODE', branch:'ADD BRANCH', accountType:'Current / Savings', upi:'ADD-OFFICIAL-UPI@BANK', swift:'ADD SWIFT CODE (IF APPLICABLE)', note:'Configure these official details before going live.'
+            }
+        };
+        let activePaymentRequest = null;
+        const portalKey='serbia_candidate_portal_v1';
+        function getPortal(){ try{return JSON.parse(localStorage.getItem(portalKey)||'{}')}catch(e){return {}} }
+        function savePortal(p){localStorage.setItem(portalKey,JSON.stringify(p));}
+        function ensurePortal(){
+            const p=getPortal();
+            if(!p.ref){p.ref=localStorage.getItem('serbia_ref')||'SRB-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000);localStorage.setItem('serbia_ref',p.ref)}
+            p.name=p.name||((document.getElementById('fname')?.value||'')+' '+(document.getElementById('lname')?.value||'')).trim()||'Candidate';
+            p.mobile=p.mobile||document.getElementById('mobile')?.value||''; p.passport=p.passport||document.getElementById('passport')?.value||''; p.email=p.email||'';
+            p.total=PAYMENT_CONFIG.packageTotal; p.paid=Number(p.paid||0); p.payments=p.payments||[]; p.notifications=p.notifications||[]; p.documents=p.documents||[{name:'Proposal / Application',status:'Generated'},{name:'Digital Signature',status:'Captured'},{name:'Passport',status:'Pending upload'},{name:'Payment Proof',status:'Pending'}];
+            savePortal(p); return p;
+        }
+        function currentStage(p){
+            for(const st of PAYMENT_CONFIG.stages){if(!p.payments.some(x=>x.stageId===st.id&&['Submitted','Verified','Paid'].includes(x.status))) return st;}
+            return {id:'deferred',label:'Deferred Balance After Job Joining',amount:PAYMENT_CONFIG.deferredTotal,status:'Upcoming'};
+        }
+        function showDashboardPanel(name,btn){document.querySelectorAll('.dashboard-panel').forEach(x=>x.classList.remove('active'));document.getElementById('dash-'+name)?.classList.add('active');document.querySelectorAll('.dashboard-nav button').forEach(x=>x.classList.remove('active'));btn?.classList.add('active');}
+        function openCandidateDashboard(forcePayment=true){const p=ensurePortal();renderDashboard();openModal('dashboard-modal');if(forcePayment && currentStage(p).status!=='Upcoming')setTimeout(openPaymentRequest,350);else if(forcePayment && !p.payments.length)setTimeout(openPaymentRequest,350)}
+        function renderDashboard(){
+            const p=ensurePortal(), st=currentStage(p), paid=p.paid, due=st.amount;
+            document.getElementById('dash-welcome').textContent='Welcome, '+p.name.split(' ')[0];
+            document.getElementById('dashboard-candidate-mini').innerHTML=`<div class="font-bold text-sm">${escapeHtml(p.name)}</div><div class="text-[11px] text-white/40 mt-1">${escapeHtml(p.ref)}</div>`;
+            document.getElementById('dash-kpis').innerHTML=[['₹'+paid.toLocaleString('en-IN'),'Paid'],['₹'+(PAYMENT_CONFIG.packageTotal-paid).toLocaleString('en-IN'),'Balance'],[p.ref,'Reference'],[st.label,'Current stage']].map(x=>`<div class="glass-card p-4"><div class="text-lg font-black break-words">${escapeHtml(x[0])}</div><div class="text-[11px] text-white/40 uppercase tracking-wider mt-1">${escapeHtml(x[1])}</div></div>`).join('');
+            document.getElementById('dash-current-payment').innerHTML=`<div class="payment-row"><span>Stage</span><strong>${escapeHtml(st.label)}</strong></div><div class="payment-row"><span>Current request</span><strong class="text-teal-300">₹${st.amount.toLocaleString('en-IN')}</strong></div><div class="payment-row"><span>Total package</span><strong>₹${PAYMENT_CONFIG.packageTotal.toLocaleString('en-IN')}</strong></div><div class="pt-4"><button onclick="openPaymentRequest()" class="w-full bg-teal-500/20 text-teal-300 border border-teal-400/30 py-3 rounded-xl font-black">Review Payment Request</button></div>`;
+            document.getElementById('dash-next-steps').innerHTML=['Complete current payment stage','Upload payment proof + UTR','Wait for payment verification','Continue to the next processing milestone'].map((x,i)=>`<div class="flex gap-3 items-start"><span class="w-6 h-6 rounded-full bg-purple-500/15 text-purple-300 flex items-center justify-center text-xs font-bold">${i+1}</span><span>${x}</span></div>`).join('');
+            document.getElementById('dash-application-data').innerHTML=[['Reference',p.ref],['Candidate',p.name],['Passport',p.passport||'Not provided'],['Mobile',p.mobile||'Not provided'],['Email',p.email||'Not provided'],['Package','Serbia Career Package']].map(x=>`<div class="bg-white/5 rounded-xl p-3"><div class="text-[10px] uppercase text-white/40">${x[0]}</div><div class="font-bold text-sm mt-1">${escapeHtml(x[1])}</div></div>`).join('');
+            document.getElementById('dash-payment-history').innerHTML=p.payments.length?p.payments.map(paymentCard).join(''):`<div class="text-white/50 text-sm">No payment submitted yet. Your current request is ₹${due.toLocaleString('en-IN')}.</div>`;
+            document.getElementById('dash-documents-data').innerHTML=p.documents.map(d=>`<div class="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between"><span>${escapeHtml(d.name)}</span><span class="status-pill ${d.status==='Verified'?'status-paid':'status-pending'}">${escapeHtml(d.status)}</span></div>`).join('');
+            document.getElementById('dash-timeline-data').innerHTML=PAYMENT_CONFIG.stages.map((x,i)=>{const paidStage=p.payments.find(y=>y.stageId===x.id&&['Submitted','Verified','Paid'].includes(y.status));return `<div class="flex gap-4 p-4 rounded-xl bg-white/5 border border-white/10"><div class="w-9 h-9 rounded-full ${paidStage?'bg-teal-500/20 text-teal-300':'bg-white/5 text-white/40'} flex items-center justify-center font-black">${i+1}</div><div class="flex-1"><div class="font-bold">${x.label}</div><div class="text-xs text-white/40 mt-1">₹${x.amount.toLocaleString('en-IN')}</div></div><span class="status-pill ${paidStage?'status-paid':'status-pending'}">${paidStage?'Submitted':'Upcoming'}</span></div>`}).join('')+`<div class="flex gap-4 p-4 rounded-xl bg-blue-500/5 border border-blue-400/10"><div class="w-9 h-9 rounded-full bg-blue-500/10 text-blue-300 flex items-center justify-center"><i class="fa-solid fa-flag-checkered"></i></div><div><div class="font-bold">After Job Joining</div><div class="text-xs text-white/40">Deferred balance ₹${PAYMENT_CONFIG.deferredTotal.toLocaleString('en-IN')} through agreed arrangement.</div></div></div>`;
+            document.getElementById('dash-notifications-data').innerHTML=(p.notifications.length?p.notifications:[{text:'Your candidate dashboard is ready. Complete the current payment request to move forward.',date:new Date().toLocaleString(),type:'Action'}]).map(n=>`<div class="bg-white/5 border border-white/10 rounded-xl p-4"><div class="font-bold text-sm">${escapeHtml(n.text)}</div><div class="text-xs text-white/40 mt-1">${escapeHtml(n.date||'')}</div></div>`).join('');
+            document.getElementById('dash-receipts-data').innerHTML=p.payments.filter(x=>x.receiptNo).map(x=>`<div class="bg-white/5 rounded-2xl p-4"><div class="flex justify-between"><strong>${x.receiptNo}</strong><span class="status-pill ${x.status==='Verified'?'status-paid':'status-review'}">${x.status}</span></div><div class="text-sm text-white/60 mt-2">₹${Number(x.amount).toLocaleString('en-IN')} · ${escapeHtml(x.method)}</div><button onclick="viewReceipt('${x.receiptNo}')" class="mt-3 text-xs text-teal-300 font-bold">View Receipt</button></div>`).join('')||'<div class="text-white/50 text-sm">Receipts will appear here after payment proof is submitted.</div>';
+        }
+        function paymentCard(x){return `<div class="border border-white/10 rounded-2xl p-4 mb-3"><div class="flex justify-between gap-3"><div><div class="font-bold">${escapeHtml(x.stageLabel)}</div><div class="text-xs text-white/40 mt-1">${x.txnId?'UTR: '+escapeHtml(x.txnId):'Payment request submitted'}</div></div><span class="status-pill ${x.status==='Verified'?'status-paid':'status-review'}">${escapeHtml(x.status)}</span></div><div class="flex justify-between mt-3 text-sm"><span>Amount</span><strong>₹${Number(x.amount).toLocaleString('en-IN')}</strong></div></div>`}
+        function openPaymentRequest(){const p=ensurePortal(),st=currentStage(p);activePaymentRequest=st;document.getElementById('payment-invoice-breakup').innerHTML=`<div class="payment-row"><span>Serbia Career Package</span><strong>₹${PAYMENT_CONFIG.packageTotal.toLocaleString('en-IN')}</strong></div><div class="payment-row"><span>Paid / submitted so far</span><strong>₹${p.paid.toLocaleString('en-IN')}</strong></div><div class="payment-row"><span class="font-bold text-teal-300">Current stage due</span><strong class="text-teal-300 text-xl">₹${st.amount.toLocaleString('en-IN')}</strong></div><div class="text-xs text-white/40 mt-3">${escapeHtml(st.label)}</div>`;document.getElementById('pay-payer-name').value=p.name;document.getElementById('pay-payer-mobile').value=p.mobile;document.getElementById('pay-payer-email').value=p.email||'';document.getElementById('pay-amount').value='₹'+st.amount.toLocaleString('en-IN');openModal('payment-request-modal')}
+        function submitPaymentRequest(){const method=document.querySelector('input[name="paymentMethod"]:checked')?.value;if(!method)return;const p=ensurePortal();activePaymentRequest=activePaymentRequest||currentStage(p);activePaymentRequest.method=method;activePaymentRequest.payerName=document.getElementById('pay-payer-name').value.trim();activePaymentRequest.payerMobile=document.getElementById('pay-payer-mobile').value.trim();activePaymentRequest.payerEmail=document.getElementById('pay-payer-email').value.trim();p.name=activePaymentRequest.payerName;p.mobile=activePaymentRequest.payerMobile;p.email=activePaymentRequest.payerEmail;savePortal(p);document.getElementById('bank-requested-amount').textContent='₹'+activePaymentRequest.amount.toLocaleString('en-IN');document.getElementById('bank-payment-reference').textContent='Payment request reference: '+p.ref+' · Method: '+method;document.getElementById('bank-details-box').innerHTML=Object.entries(PAYMENT_CONFIG.bank).filter(([k])=>k!=='note').map(([k,v])=>`<div class="bg-white/5 rounded-xl p-3"><div class="text-[10px] uppercase text-white/40">${k.replace(/([A-Z])/g,' $1')}</div><div class="font-bold text-sm mt-1 break-all">${escapeHtml(v)}</div></div>`).join('')+`<div class="md:col-span-2 text-xs text-orange-200 bg-orange-500/10 border border-orange-400/20 rounded-xl p-3">${escapeHtml(PAYMENT_CONFIG.bank.note)}</div>`;document.getElementById('txn-amount').value=activePaymentRequest.amount;document.getElementById('txn-date').value=new Date().toISOString().slice(0,10);closeModal('payment-request-modal');openModal('bank-payment-modal')}
+        async function submitPaymentProof(){const p=ensurePortal(),file=document.getElementById('payment-proof-file').files[0];if(!file){showToast('Please upload payment proof.','error');return}if(Number(document.getElementById('txn-amount').value)!==Number(activePaymentRequest.amount)){showToast('Amount must match the current payment request.','error');return}const txnId=document.getElementById('txn-id').value.trim();const receiptNo='RCP-'+new Date().getFullYear()+'-'+Math.floor(100000+Math.random()*900000);const proof=await compressProof(file);const payment={receiptNo,stageId:activePaymentRequest.id,stageLabel:activePaymentRequest.label,amount:Number(activePaymentRequest.amount),method:activePaymentRequest.method,txnId,txnDate:document.getElementById('txn-date').value,from:document.getElementById('txn-from').value.trim(),status:'Under Review',submittedAt:new Date().toISOString(),proofName:file.name,proofData:proof};const backendPayment={...payment};delete backendPayment.proofData;p.payments.push(backendPayment);p.notifications.unshift({text:'Payment proof submitted. Your transaction is under verification. Further processing will be updated in your dashboard.',date:new Date().toLocaleString(),type:'Payment'});p.documents=p.documents.map(d=>d.name==='Payment Proof'?{name:d.name,status:'Submitted'}:d);savePortal(p);closeModal('bank-payment-modal');renderDashboard();showPaymentReceipt(backendPayment);syncPaymentToBackend(payment,p);}
+        function showPaymentReceipt(x){document.getElementById('payment-receipt-content').innerHTML=`<div class="receipt-paper"><div class="flex justify-between gap-3 border-b pb-4"><div><div class="text-xs font-black tracking-widest text-indigo-600">PAYMENT RECEIPT</div><h2 class="text-2xl font-black">Serbia Career Gateway</h2></div><div class="text-right"><div class="font-black">${x.receiptNo}</div><div class="muted text-xs">${new Date(x.submittedAt).toLocaleString()}</div></div></div><div class="grid grid-cols-2 gap-3 py-4 border-b"><div><div class="muted text-xs">Candidate</div><strong>${escapeHtml(getPortal().name)}</strong></div><div><div class="muted text-xs">Reference</div><strong>${escapeHtml(getPortal().ref)}</strong></div><div><div class="muted text-xs">Stage</div><strong>${escapeHtml(x.stageLabel)}</strong></div><div><div class="muted text-xs">Status</div><strong>Under Review</strong></div></div><div class="payment-row"><span>Amount submitted</span><strong>₹${x.amount.toLocaleString('en-IN')}</strong></div><div class="payment-row"><span>Payment method</span><strong>${escapeHtml(x.method)}</strong></div><div class="payment-row"><span>Transaction / UTR</span><strong>${escapeHtml(x.txnId)}</strong></div><div class="payment-row"><span>Payment date</span><strong>${escapeHtml(x.txnDate)}</strong></div><div class="mt-4 text-xs muted">This receipt confirms submission of payment proof for verification. It is not confirmation of bank settlement until verified by the company.</div></div>`;openModal('payment-receipt-modal')}
+        function viewReceipt(no){const p=getPortal(),x=p.payments.find(y=>y.receiptNo===no);if(x)showPaymentReceipt(x)}
+        async function downloadPaymentReceipt(){const el=document.getElementById('payment-receipt-content');if(window.html2pdf)await html2pdf().set({margin:.2,filename:(getPortal().ref||'candidate')+'_Payment_Receipt.pdf',html2canvas:{scale:2},jsPDF:{unit:'in',format:'a4'}}).from(el).save();}
+        async function compressProof(file){return new Promise((resolve,reject)=>{if(file.size>7*1024*1024){reject(new Error('Proof file is larger than 7 MB'));return}if(file.type==='application/pdf'){const r=new FileReader();r.onload=e=>resolve(e.target.result);r.readAsDataURL(file);return}const img=new Image();const r=new FileReader();r.onload=e=>{img.onload=()=>{const max=1400,scale=Math.min(1,max/img.width);const c=document.createElement('canvas');c.width=img.width*scale;c.height=img.height*scale;c.getContext('2d').drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.72))};img.src=e.target.result};r.readAsDataURL(file)})}
+        async function syncPaymentToBackend(payment,p){if(!window.SERBIA_APP_CONFIG?.apiUrl)return;try{await fetch(window.SERBIA_APP_CONFIG.apiUrl,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'payment_proof',ref:p.ref,candidate:p.name,payment:{...payment,proofData:payment.proofData}})});}catch(e){console.warn('Payment sync queued locally',e)}}
+        function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+
         // ==========================================
         // 4. Progressive Web App (PWA) Logic
         // ==========================================
         function initPWA() {
-            // Production service worker is a real /sw.js file.
-            if ("serviceWorker" in navigator) {
-                window.addEventListener("load", () => {
-                    navigator.serviceWorker.register("./sw.js")
-                        .then(() => console.log("Serbia Gateway service worker registered."))
-                        .catch(err => console.warn("Service worker registration failed:", err));
-                });
+            const installBtn = document.getElementById("pwa-install-btn");
+            if (!installBtn) return;
+
+            let deferredPrompt = null;
+
+            const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+            const isAndroid = /android/i.test(navigator.userAgent);
+            const isStandalone = window.matchMedia("(display-mode: standalone)").matches ||
+                                  window.navigator.standalone === true;
+
+            function setInstallButton(label, visible = true) {
+                installBtn.querySelector("span")?.remove();
+                const icon = installBtn.querySelector("i");
+                const text = document.createElement("span");
+                text.className = "hidden sm:inline";
+                text.textContent = label;
+                if (icon) icon.after(text);
+                installBtn.classList.toggle("hidden", !visible);
             }
 
-            let deferredPrompt;
-            const installBtn = document.getElementById("pwa-install-btn");
+            function showInstallInstructions() {
+                const old = document.getElementById("pwa-install-help");
+                if (old) old.remove();
 
-            window.addEventListener("beforeinstallprompt", (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                installBtn.classList.remove("opacity-50");
+                const overlay = document.createElement("div");
+                overlay.id = "pwa-install-help";
+                overlay.className = "fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm";
+
+                let title = "Install Serbia Gateway";
+                let body = "";
+                let steps = [];
+
+                if (isIOS) {
+                    body = "On iPhone/iPad, Safari installs PWAs from the Share menu.";
+                    steps = [
+                        "Open this website in Safari (not inside WhatsApp, Facebook or another in-app browser).",
+                        "Tap the Share button in Safari.",
+                        "Choose “Add to Home Screen”.",
+                        "Tap “Add”. The Serbia Gateway icon will appear on your Home Screen."
+                    ];
+                } else if (isAndroid) {
+                    body = "Chrome can install Serbia Gateway as a mobile app when the site is served over HTTPS.";
+                    steps = [
+                        "Open this page in Chrome.",
+                        "If Chrome shows “Install app”, tap it.",
+                        "Otherwise tap ⋮ → Add to Home screen / Install app.",
+                        "Confirm Install."
+                    ];
+                } else {
+                    body = "Install the web app from a supported Chromium browser.";
+                    steps = [
+                        "Use Chrome or Edge.",
+                        "Look for the install icon in the address bar, or open the browser menu.",
+                        "Choose Install Serbia Gateway."
+                    ];
+                }
+
+                overlay.innerHTML = `
+                    <div class="glass-card bg-slate-900/95 border border-purple-400/30 max-w-md w-full p-6 shadow-2xl">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
+                                <i class="fa-solid fa-mobile-screen-button text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white m-0">${title}</h3>
+                                <p class="text-xs text-white/60 m-0">Mobile app installation</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-white/80 mb-4">${body}</p>
+                        <ol class="space-y-3 text-sm text-white/90 list-decimal pl-5">
+                            ${steps.map(s => `<li>${s}</li>`).join("")}
+                        </ol>
+                        <div class="mt-5 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 text-xs text-yellow-100">
+                            <strong>Important:</strong> PWA installation requires the live site to use HTTPS. A local <code>file://</code> HTML file cannot be installed as a PWA.
+                        </div>
+                        <button type="button" id="pwa-install-close" class="mt-5 w-full bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold py-3 rounded-xl">Close</button>
+                    </div>`;
+
+                document.body.appendChild(overlay);
+                document.getElementById("pwa-install-close").onclick = () => overlay.remove();
+                overlay.addEventListener("click", e => { if (e.target === overlay) overlay.remove(); });
+            }
+
+            // Real install prompt on Android Chrome / supported Chromium browsers.
+            window.addEventListener("beforeinstallprompt", event => {
+                event.preventDefault();
+                deferredPrompt = event;
+                if (!isStandalone) setInstallButton("Install App", true);
             });
 
             installBtn.addEventListener("click", async () => {
-                if (!deferredPrompt) {
-                    showToast("Use your browser menu → Install app / Add to Home Screen.", "info", 4000);
+                if (isStandalone) {
+                    showToast("Serbia Gateway is already installed as an app.", "success", 3000);
                     return;
                 }
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === "accepted") showToast("App is installing...", "success");
-                deferredPrompt = null;
+
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const choice = await deferredPrompt.userChoice;
+                    if (choice.outcome === "accepted") {
+                        showToast("Installing Serbia Gateway...", "success", 3000);
+                    }
+                    deferredPrompt = null;
+                    return;
+                }
+
+                showInstallInstructions();
             });
 
             window.addEventListener("appinstalled", () => {
-                showToast("Serbia Gateway installed successfully.", "success");
+                deferredPrompt = null;
+                setInstallButton("Installed", true);
+                showToast("Serbia Gateway installed successfully.", "success", 4000);
             });
+
+            // Register service worker from the site root. This is required for PWA eligibility.
+            if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+                window.addEventListener("load", async () => {
+                    try {
+                        const registration = await navigator.serviceWorker.register("./sw.js", { scope: "./" });
+                        console.log("Serbia Gateway service worker registered:", registration.scope);
+                        await registration.update();
+                    } catch (err) {
+                        console.warn("Service worker registration failed:", err);
+                    }
+                });
+            }
+
+            // Installed-app detection.
+            if (isStandalone) {
+                setInstallButton("Installed", true);
+                installBtn.classList.remove("animate-bounce");
+            } else if (isIOS) {
+                // iOS Safari has no beforeinstallprompt; keep a visible button that opens instructions.
+                setInstallButton("Install App", true);
+            }
 
             window.addEventListener("online", flushOfflineQueue);
         }
