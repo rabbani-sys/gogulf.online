@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#8b5cf6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Serbia Gateway">
+    <meta name="description" content="Serbia Career Gateway — digital career application and proposal portal">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Serbia Gateway">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="manifest" href="manifest.webmanifest">
+    <title>Serbia Career Proposal | Digital Application</title>
+
+
+    <!-- PRODUCTION CONFIG: replace the Apps Script URL after deployment -->
+    <script>
+        window.SERBIA_APP_CONFIG = {
+            apiUrl: "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE",
+            appVersion: "1.0.0"
+        };
+    </script>
+
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <script defer src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap');
+
+        :root {
+            /* Fluid Typography using clamp() for perfect scaling on all devices */
+            --step--2: clamp(0.78rem, calc(0.71rem + 0.35vw), 0.96rem);
+            --step--1: clamp(0.94rem, calc(0.84rem + 0.51vw), 1.20rem);
+            --step-0: clamp(1.13rem, calc(0.98rem + 0.73vw), 1.50rem);
+            --step-1: clamp(1.35rem, calc(1.15rem + 1.02vw), 1.88rem);
+            --step-2: clamp(1.62rem, calc(1.34rem + 1.41vw), 2.34rem);
+            --step-3: clamp(1.94rem, calc(1.56rem + 1.93vw), 2.93rem);
+            --step-4: clamp(2.33rem, calc(1.81rem + 2.62vw), 3.66rem);
+            --step-5: clamp(2.80rem, calc(2.09rem + 3.53vw), 4.58rem);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            background-color: #0f172a;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Mesh Gradient Background */
+        .animated-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background: linear-gradient(45deg, #4c1d95, #7c3aed, #db2777, #ea580c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Blobs */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.6;
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .blob-1 { width: 400px; height: 400px; background: #3b82f6; top: -100px; left: -100px; }
+        .blob-2 { width: 350px; height: 350px; background: #f43f5e; bottom: -50px; right: -50px; animation-delay: -5s; }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 1.5rem;
+        }
+        
+        .glass-input {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            width: 100%;
+            font-size: var(--step--1);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+        }
+        .glass-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+        /* Typography Application */
+        h1 { font-size: var(--step-4); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; }
+        h2 { font-size: var(--step-3); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+        h3 { font-size: var(--step-1); font-weight: 600; }
+        p { font-size: var(--step-0); line-height: 1.6; color: rgba(255, 255, 255, 0.85); }
+        .text-small { font-size: var(--step--1); }
+        .text-tiny { font-size: var(--step--2); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.5); }
+
+        /* Role Selector Styles */
+        .role-checkbox:checked + label {
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+        .role-checkbox:checked + label .role-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+        #role-general:checked + label { background: linear-gradient(135deg, #3b82f6, #8b5cf6); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4); }
+        #role-logistics:checked + label { background: linear-gradient(135deg, #f97316, #eab308); box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4); }
+        #role-support:checked + label { background: linear-gradient(135deg, #ec4899, #a855f7); box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4); }
+        
+        /* Toast Animation */
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(20px) translateX(-50%); }
+            10% { opacity: 1; transform: translateY(0) translateX(-50%); }
+            90% { opacity: 1; transform: translateY(0) translateX(-50%); }
+            100% { opacity: 0; transform: translateY(-20px) translateX(-50%); }
+        }
+        .toast-animate {
+            animation: slideUpFade 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Mobile Footer Dock */
+        .mobile-dock {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: env(safe-area-inset-bottom, 16px);
+        }
+        
+        .dock-item {
+            transition: all 0.3s ease;
+        }
+        .dock-item.active {
+            color: #8b5cf6;
+        }
+        .dock-item.active i {
+            transform: translateY(-4px) scale(1.1);
+        }
+        
+        /* Tracking Stepper Custom Styles */
+        .tracking-line {
+            position: absolute;
+            left: 1.25rem;
+            top: 2.5rem;
+            bottom: -0.5rem;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+        .tracking-line.active {
+            background: linear-gradient(to bottom, #8b5cf6, #3b82f6);
+        }
+        .step-icon-container {
+            z-index: 10;
+        }
+
+        /* Hide PDF template from view but keep it for generation */
+        #pdf-template {
+            position: absolute; left: -9999px; top: -9999px; width: 800px;
+            background: white; color: black; z-index: -100;
+        }
+
+        /* Splash Screen Animations */
+        @keyframes splashProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        .splash-fade-out {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden;
+        }
+        .splash-scale-down {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body id="main-body" class="overflow-y-hidden">
+
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0f172a] transition-all duration-700 ease-in-out">
+        <div class="animated-bg"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        
+        <div id="splash-card" class="glass-card relative z-10 p-6 md:p-10 max-w-2xl mx-4 text-center transform transition-all duration-700 ease-in-out flex flex-col items-center border-purple-500/30 shadow-[0_0_50px_rgba(139,92,246,0.3)] w-full">
+            <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white text-3xl md:text-4xl mb-4 md:mb-6 shadow-xl shadow-purple-500/20">
+                <i class="fa-solid fa-building-user"></i>
+            </div>
+            
+            <h1 class="text-xl md:text-2xl font-extrabold text-white mb-2 leading-tight uppercase tracking-wider">
+                Welcome to<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">Rabbani's Placement & Education Consultancy</span>
+            </h1>
+            <p class="text-white/70 text-[0.65rem] md:text-xs font-bold tracking-widest uppercase mb-5">Services Private Limited (CIN: U85500WB2024PTC269758)</p>
+            
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent mb-5"></div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left w-full mb-8">
+                <div class="bg-white/5 border border-white/10 p-4 rounded-xl flex items-start gap-3 h-full">
+                    <i class="fa-solid fa-location-dot text-red-400 mt-1 text-lg"></i>
+                    <div>
+                        <span class="block text-[0.65rem] font-bold text-white/50 uppercase tracking-wider mb-1">Head Office</span>
+                        <span class="text-sm text-white/90 leading-relaxed block">19c 2, 3rd Floor Tiljala, Shibtala Lane,<br>Kolkata - 700039, West Bengal - India</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 h-full justify-between">
+                    <div class="bg-white/5 border border-white/10 p-2.5 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-headset text-green-400 text-lg w-5 text-center"></i>
+                        <div>
+                            <span class="block text-[0.65rem] font-bold text-white/50 uppercase tracking-wider">24x7 Contact</span>
+                            <span class="text-sm text-white/90 font-semibold tracking-wide">6290804416</span>
+                        </div>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-2.5 rounded-xl flex items-center gap-3 overflow-hidden">
+                        <i class="fa-solid fa-envelope text-blue-400 text-lg w-5 text-center shrink-0"></i>
+                        <div class="min-w-0">
+                            <span class="block text-[0.65rem] font-bold text-white/50 uppercase tracking-wider">Email Support</span>
+                            <span class="text-[0.75rem] text-white/90 font-semibold truncate block">cv@rabbaniplacement.online</span>
+                        </div>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-2.5 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-globe text-purple-400 text-lg w-5 text-center"></i>
+                        <div>
+                            <span class="block text-[0.65rem] font-bold text-white/50 uppercase tracking-wider">Website</span>
+                            <a href="https://www.mgsbazaar.com" target="_blank" class="text-sm text-blue-300 hover:text-blue-200 font-semibold">www.mgsbazaar.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="hideSplashScreen()" class="group relative px-8 py-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 hover:from-blue-500/40 hover:to-purple-500/40 border border-white/20 rounded-full text-white font-bold tracking-wide transition-all overflow-hidden flex items-center justify-center gap-3 shadow-lg">
+                <span class="relative z-10 flex items-center gap-2 text-sm md:text-base">Explore Now <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></span>
+                <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-400 to-pink-400" style="animation: splashProgress 4s linear forwards;"></div>
+            </button>
+        </div>
+    </div>
+
+    <div class="animated-bg"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Navigation & PWA Install -->
+    <nav class="fixed top-0 w-full z-50 glass-card !rounded-none !border-x-0 !border-t-0 border-b border-white/10 px-6 py-4 flex justify-between items-center transition-all duration-300" id="main-nav">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-white to-white/60 flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-plane-departure text-purple-700 text-xl"></i>
+            </div>
+            <div>
+                <div class="font-bold text-white" style="font-size: var(--step-0); line-height: 1.1;">Serbia Gateway</div>
+                <div class="text-white/70 font-semibold tracking-widest text-tiny uppercase mt-0.5">The Digital Proposal Hub</div>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#" onclick="openModal('visa-track-modal', event)" class="text-white/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-solid fa-passport text-lg text-blue-400"></i>
+                    Track Your Visa
+                </a>
+                <a href="#" onclick="openModal('chatbot-modal', event)" class="text-white/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-solid fa-robot text-lg text-purple-400"></i>
+                    Help & Support
+                </a>
+                <a href="#" onclick="openModal('login-modal', event)" class="text-white/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-solid fa-arrow-right-to-bracket text-lg text-green-400"></i>
+                    Login Portal
+                </a>
+            </div>
+            
+            <span id="api-status" class="hidden md:inline text-[0.65rem] text-white/50 uppercase tracking-wider">Production</span>
+            <button id="pwa-install-btn" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border border-white/30 text-white px-3 py-2 sm:px-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2 text-sm z-50">
+                <i class="fa-solid fa-mobile-screen-button animate-bounce"></i> <span class="hidden sm:inline">Install App</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-32 md:pb-20 px-4 md:px-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        
+        <!-- Left Column: Hero Info -->
+        <div class="lg:col-span-4 lg:sticky lg:top-32">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border-white/20 mb-6">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                </span>
+                <span class="text-small font-bold text-white uppercase tracking-wider">Fast-Track Application</span>
+            </div>
+            
+            <h1 class="mb-4">Secure your career in <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300">Serbia.</span></h1>
+            <p class="mb-8">Complete your digital proposal in minutes. Select your role, provide your details, and sign securely to generate your official application document.</p>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div class="glass-card p-5 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-yellow-500/10 rounded-full blur-xl group-hover:bg-yellow-500/20 transition-colors"></div>
+                    <i class="fa-solid fa-bolt text-yellow-400 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <div style="font-size: var(--step-1);" class="font-bold text-white relative z-10">100%</div>
+                    <div class="text-white/60 text-xs sm:text-sm mt-1 flex flex-wrap items-center gap-1.5 relative z-10">
+                        <i class="fa-solid fa-laptop-file text-yellow-300/70"></i> Digital Process
+                    </div>
+                </div>
+                <div class="glass-card p-5 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-green-500/10 rounded-full blur-xl group-hover:bg-green-500/20 transition-colors"></div>
+                    <i class="fa-solid fa-shield-halved text-green-400 text-3xl mb-3 group-hover:scale-110 transition-transform"></i>
+                    <div style="font-size: var(--step-1);" class="font-bold text-white relative z-10">Verified</div>
+                    <div class="text-white/60 text-xs sm:text-[0.8rem] mt-1 flex flex-wrap items-center gap-1.5 relative z-10">
+                        <i class="fa-solid fa-lock text-green-300/70"></i> Secure <span class="text-white/30">&</span> <i class="fa-solid fa-scale-balanced text-blue-300/70"></i> Legal
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Content, Tracker & Form -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+            
+            <!-- Serbia Insights Section -->
+            <div class="glass-card p-6 md:p-8 relative overflow-hidden group">
+                <div class="light-sweep"></div>
+                <div class="flex items-center gap-3 mb-6">
+                    <i class="fa-solid fa-earth-europe text-2xl text-purple-400"></i>
+                    <h2 class="text-xl md:text-2xl font-bold m-0">Why Choose Serbia?</h2>
+                </div>
+                
+                <!-- Welcome & Introduction -->
+                <div class="mb-8 border-b border-white/10 pb-6 relative z-10">
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-3">Welcome to Serbia <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">| Your Gateway to Europe</span></h3>
+                    <p class="text-sm text-white/80 leading-relaxed mb-4">
+                        Welcome to Serbia, a country located in Southeast Europe at the crossroads of Central and Southeastern Europe. Serbia offers a growing economy, diverse employment opportunities, relatively affordable living costs, and a strategic location connecting European markets.
+                    </p>
+                    <p class="text-sm text-white/80 leading-relaxed">
+                        For international candidates, Serbia can offer opportunities across transportation, logistics, manufacturing, construction, hospitality, agriculture, technology and other sectors, depending on current employer demand and applicable work-permit requirements.
+                    </p>
+                </div>
+
+                <!-- About Serbia Quick Facts -->
+                <div class="mb-8 relative z-10">
+                    <h4 class="font-bold text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot text-blue-400"></i> 🌍 About Serbia
+                    </h4>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-3">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 hover:bg-white/10 transition-colors">
+                            <div class="text-[0.65rem] uppercase tracking-wider text-white/50 font-bold mb-1"><i class="fa-solid fa-building-columns mr-1 text-white/40"></i> Capital</div>
+                            <strong class="text-sm text-white">Belgrade</strong>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 hover:bg-white/10 transition-colors">
+                            <div class="text-[0.65rem] uppercase tracking-wider text-white/50 font-bold mb-1"><i class="fa-solid fa-map mr-1 text-white/40"></i> Region</div>
+                            <strong class="text-sm text-white">Southeast Europe</strong>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 hover:bg-white/10 transition-colors">
+                            <div class="text-[0.65rem] uppercase tracking-wider text-white/50 font-bold mb-1"><i class="fa-solid fa-money-bill-wave mr-1 text-white/40"></i> Currency</div>
+                            <strong class="text-sm text-white">Serbian Dinar (RSD)</strong>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 hover:bg-white/10 transition-colors">
+                            <div class="text-[0.65rem] uppercase tracking-wider text-white/50 font-bold mb-1"><i class="fa-solid fa-language mr-1 text-white/40"></i> Official Language</div>
+                            <strong class="text-sm text-white">Serbian</strong>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 hover:bg-white/10 transition-colors">
+                            <div class="text-[0.65rem] uppercase tracking-wider text-white/50 font-bold mb-1"><i class="fa-solid fa-clock mr-1 text-white/40"></i> Time Zone</div>
+                            <strong class="text-sm text-white">CET</strong>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3 hover:bg-white/10 transition-colors">
+                            <div class="text-[0.65rem] uppercase tracking-wider text-white/50 font-bold mb-1"><i class="fa-solid fa-users mr-1 text-white/40"></i> Population</div>
+                            <strong class="text-sm text-white">~6.6 million</strong>
+                        </div>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-xl p-3 hover:bg-white/10 transition-colors">
+                        <div class="text-[0.65rem] uppercase tracking-wider text-white/50 font-bold mb-1"><i class="fa-solid fa-city mr-1 text-white/40"></i> Major Cities</div>
+                        <strong class="text-sm text-white">Belgrade, Novi Sad, Niš, Kragujevac, Subotica</strong>
+                    </div>
+                </div>
+                
+                <h4 class="font-bold text-white mb-4 border-t border-white/10 pt-6 relative z-10"><i class="fa-solid fa-chart-line mr-2 text-green-400"></i> Market Advantages</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10">
+                    <div class="bg-white/5 border border-white/10 p-5 rounded-2xl hover:bg-white/10 transition-colors">
+                        <i class="fa-solid fa-arrow-trend-up text-green-400 text-2xl mb-3"></i>
+                        <h4 class="font-bold text-white mb-2">Booming Economy</h4>
+                        <p class="text-tiny text-white/70 leading-relaxed">Serbia is experiencing rapid industrial growth, creating a vast need for skilled international talent.</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-5 rounded-2xl hover:bg-white/10 transition-colors">
+                        <i class="fa-solid fa-users-slash text-orange-400 text-2xl mb-3"></i>
+                        <h4 class="font-bold text-white mb-2">Manpower Shortage</h4>
+                        <p class="text-tiny text-white/70 leading-relaxed">Local labor shortages mean companies are actively sponsoring foreign workers with attractive packages.</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-5 rounded-2xl hover:bg-white/10 transition-colors">
+                        <i class="fa-solid fa-steering-wheel text-blue-400 text-2xl mb-3"></i>
+                        <h4 class="font-bold text-white mb-2">High Demand: Drivers</h4>
+                        <p class="text-tiny text-white/70 leading-relaxed">Transport and logistics are expanding heavily. Drivers are urgently needed across the region.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works Section -->
+            <div class="glass-card p-6 md:p-8">
+                <div class="flex items-center gap-3 mb-8">
+                    <i class="fa-solid fa-route text-2xl text-blue-400"></i>
+                    <h2 class="text-xl md:text-2xl font-bold m-0">How It Works</h2>
+                </div>
+
+                <div class="relative">
+                    
+                    <!-- Step 1 -->
+                    <div class="relative pl-14 pb-8">
+                        <div class="tracking-line active"></div>
+                        <div class="step-icon-container absolute left-0 top-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-sm">
+                            <span class="text-white font-bold text-sm">1</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-base">Submit Digital Proposal</h4>
+                            <p class="text-tiny text-white/60 mt-1">Fill out the fast-track application form below and provide your digital signature.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative pl-14 pb-8">
+                        <div class="tracking-line active"></div>
+                        <div class="step-icon-container absolute left-0 top-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-sm">
+                            <span class="text-white font-bold text-sm">2</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-base">Document Verification</h4>
+                            <p class="text-tiny text-white/60 mt-1">Our agency reviews your passport and credentials to ensure strict compliance.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative pl-14 pb-8">
+                        <div class="tracking-line active"></div>
+                        <div class="step-icon-container absolute left-0 top-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-sm">
+                            <span class="text-white font-bold text-sm">3</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-base">Employer Matching</h4>
+                            <p class="text-tiny text-white/60 mt-1">Your verified profile is presented to top transport and logistics companies.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="relative pl-14 pb-8">
+                        <div class="tracking-line active"></div>
+                        <div class="step-icon-container absolute left-0 top-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-sm">
+                            <span class="text-white font-bold text-sm">4</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-base">Work Permit Processing</h4>
+                            <p class="text-tiny text-white/60 mt-1">Upon selection, the employer files for your official work permit and ministry clearance.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="relative pl-14">
+                        <div class="step-icon-container absolute left-0 top-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 shadow-sm">
+                            <span class="text-white font-bold text-sm">5</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-base">Visa & Flight Dispatch</h4>
+                            <p class="text-tiny text-white/60 mt-1">Final embassy stamping, physical courier of documents, and flight itinerary generation.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Explore Job Details Section -->
+            <div class="glass-card p-6 md:p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <i class="fa-solid fa-briefcase text-2xl text-yellow-400"></i>
+                    <h2 class="text-xl md:text-2xl font-bold m-0">Explore Job Details</h2>
+                </div>
+
+                <!-- Primary Roles: Drivers -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-white/90 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-steering-wheel text-blue-400"></i> High-Demand Driving Roles
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <!-- Driver Card 1 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all relative group flex flex-col justify-between">
+                            <div>
+                                <div class="absolute top-3 right-3 text-green-400"><i class="fa-solid fa-circle-check"></i></div>
+                                <i class="fa-solid fa-car text-2xl mb-2 text-blue-300"></i>
+                                <h4 class="font-bold text-sm text-white">Light Driver</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€1,000 - €1,400</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 117k - 164k</span>
+                                <span class="text-[0.65rem] text-white/60">₹90k - ₹1.26L</span>
+                            </div>
+                        </div>
+                        <!-- Driver Card 2 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all relative group flex flex-col justify-between">
+                            <div>
+                                <div class="absolute top-3 right-3 text-green-400"><i class="fa-solid fa-circle-check"></i></div>
+                                <i class="fa-solid fa-taxi text-2xl mb-2 text-yellow-300"></i>
+                                <h4 class="font-bold text-sm text-white">Cab Driver</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€1,200 - €1,600</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 140k - 187k</span>
+                                <span class="text-[0.65rem] text-white/60">₹1.08L - ₹1.44L</span>
+                            </div>
+                        </div>
+                        <!-- Driver Card 3 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all relative group flex flex-col justify-between">
+                            <div>
+                                <div class="absolute top-3 right-3 text-green-400"><i class="fa-solid fa-circle-check"></i></div>
+                                <i class="fa-solid fa-truck-pickup text-2xl mb-2 text-orange-300"></i>
+                                <h4 class="font-bold text-sm text-white">Medium Driver</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€1,300 - €1,700</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 152k - 199k</span>
+                                <span class="text-[0.65rem] text-white/60">₹1.17L - ₹1.53L</span>
+                            </div>
+                        </div>
+                        <!-- Driver Card 4 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all relative group flex flex-col justify-between">
+                            <div>
+                                <div class="absolute top-3 right-3 text-green-400"><i class="fa-solid fa-circle-check"></i></div>
+                                <i class="fa-solid fa-truck text-2xl mb-2 text-red-300"></i>
+                                <h4 class="font-bold text-sm text-white">Heavy Driver</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€1,500 - €2,000</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 175k - 234k</span>
+                                <span class="text-[0.65rem] text-white/60">₹1.35L - ₹1.80L</span>
+                            </div>
+                        </div>
+                        <!-- Driver Card 5 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all relative group flex flex-col justify-between">
+                            <div>
+                                <div class="absolute top-3 right-3 text-green-400"><i class="fa-solid fa-circle-check"></i></div>
+                                <i class="fa-solid fa-truck-fast text-2xl mb-2 text-purple-300"></i>
+                                <h4 class="font-bold text-sm text-white">Truck Driver</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€1,600 - €2,200</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 187k - 257k</span>
+                                <span class="text-[0.65rem] text-white/60">₹1.44L - ₹1.98L</span>
+                            </div>
+                        </div>
+                        <!-- Driver Card 6 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all relative group flex flex-col justify-between">
+                            <div>
+                                <div class="absolute top-3 right-3 text-green-400"><i class="fa-solid fa-circle-check"></i></div>
+                                <i class="fa-solid fa-bus text-2xl mb-2 text-green-300"></i>
+                                <h4 class="font-bold text-sm text-white">Bus Driver</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€1,400 - €2,000</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 164k - 234k</span>
+                                <span class="text-[0.65rem] text-white/60">₹1.26L - ₹1.80L</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Roles: Backup/Support -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold text-white/90 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-people-carry-box text-orange-400"></i> Backup & Support Roles
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <!-- Helper Card 1 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all flex flex-col justify-between">
+                            <div>
+                                <i class="fa-solid fa-warehouse text-2xl mb-2 text-slate-300"></i>
+                                <h4 class="font-bold text-sm text-white">Warehouse Helper</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€800 - €1,100</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 93k - 128k</span>
+                                <span class="text-[0.65rem] text-white/60">₹72k - ₹99k</span>
+                            </div>
+                        </div>
+                        <!-- Helper Card 2 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all flex flex-col justify-between">
+                            <div>
+                                <i class="fa-solid fa-kitchen-set text-2xl mb-2 text-teal-300"></i>
+                                <h4 class="font-bold text-sm text-white">Kitchen Helper</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€750 - €1,000</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 87k - 117k</span>
+                                <span class="text-[0.65rem] text-white/60">₹67k - ₹90k</span>
+                            </div>
+                        </div>
+                        <!-- Helper Card 3 -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-all flex flex-col justify-between">
+                            <div>
+                                <i class="fa-solid fa-broom text-2xl mb-2 text-pink-300"></i>
+                                <h4 class="font-bold text-sm text-white">Indoor Helper</h4>
+                            </div>
+                            <div class="mt-3 flex flex-col gap-0.5 border-t border-white/10 pt-2">
+                                <span class="text-tiny font-bold text-green-300">€750 - €1,000</span>
+                                <span class="text-[0.65rem] text-white/60">RSD 87k - 117k</span>
+                                <span class="text-[0.65rem] text-white/60">₹67k - ₹90k</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Important Salary Note -->
+                <div class="bg-yellow-500/10 border border-yellow-500/30 p-4 rounded-xl mb-8 flex items-start gap-3 backdrop-blur-sm">
+                    <i class="fa-solid fa-circle-exclamation text-yellow-400 mt-1 text-lg"></i>
+                    <p class="text-tiny text-white/80 m-0 leading-relaxed">
+                        <strong class="text-yellow-400">Important Note:</strong> The salaries listed above are approximate equivalent ranges. The final confirmed salary structure will be officially stated in your employer offer letter upon successful selection.
+                    </p>
+                </div>
+
+                <!-- Terms & Conditions Summary -->
+                <div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 p-5 rounded-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full"></div>
+                    <h4 class="font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fa-solid fa-file-contract mr-2"></i> Standard Contract & Benefits</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 text-sm">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-check text-green-400 w-5 text-center"></i>
+                            <span class="text-white/70">Contract Period:</span> <strong class="text-white">1 Year</strong>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-passport text-blue-400 w-5 text-center"></i>
+                            <span class="text-white/70">Visa Type:</span> <strong class="text-white">Type D (Employment)</strong>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-yellow-400 w-5 text-center"></i>
+                            <span class="text-white/70">Duty Hours:</span> <strong class="text-white">8-10 Hours / Day</strong>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-stamp text-purple-400 w-5 text-center"></i>
+                            <span class="text-white/70">Work Permit:</span> <strong class="text-white">1 Year Duration</strong>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-house-chimney text-orange-400 w-5 text-center"></i>
+                            <span class="text-white/70">Accommodation:</span> <strong class="text-white">Provided</strong>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-id-card text-teal-400 w-5 text-center"></i>
+                            <span class="text-white/70">TRC (Resident Card):</span> <strong class="text-white">1 Year</strong>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-utensils text-pink-400 w-5 text-center"></i>
+                            <span class="text-white/70">Food:</span> <strong class="text-white">Provided / Allowance</strong>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-plane-arrival text-slate-400 w-5 text-center"></i>
+                            <span class="text-white/70">Initial Visa:</span> <strong class="text-white">6 Months Duration</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-3 border-t border-white/10 flex items-start gap-3">
+                        <i class="fa-solid fa-rotate text-blue-300 mt-1"></i>
+                        <p class="text-tiny text-white/60 m-0 leading-snug">
+                            <strong class="text-white/90">Contract Renewal:</strong> Extension of contract, TRC, and work permit is subject to employer-employee relations and mutual understanding upon completion of the first year.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Eligibility Requirements -->
+                <div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 p-5 rounded-2xl relative overflow-hidden mt-6 shadow-[0_0_20px_rgba(16,185,129,0.05)]">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full"></div>
+                    <h4 class="font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fa-solid fa-clipboard-list mr-2 text-emerald-400"></i> Eligibility & Requirements</h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Nationality -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3.5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 shadow-sm border border-blue-500/30">
+                                <i class="fa-solid fa-globe text-lg"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-white/50 text-[0.65rem] uppercase font-bold tracking-wider">Nationality</span>
+                                <strong class="text-white text-sm">All Countries</strong>
+                            </div>
+                        </div>
+                        
+                        <!-- Gender -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3.5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center shrink-0 shadow-sm border border-pink-500/30">
+                                <i class="fa-solid fa-venus-mars text-lg"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-white/50 text-[0.65rem] uppercase font-bold tracking-wider">Gender</span>
+                                <strong class="text-white text-sm">Men & Women</strong>
+                            </div>
+                        </div>
+                        
+                        <!-- Age -->
+                        <div class="flex items-center gap-3 bg-white/5 p-3.5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 shadow-sm border border-orange-500/30">
+                                <i class="fa-solid fa-user-clock text-lg"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-white/50 text-[0.65rem] uppercase font-bold tracking-wider">Age Limit</span>
+                                <strong class="text-white text-sm">Up to 55 Years</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employer-Provided Documents Section -->
+            <div class="glass-card p-6 md:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center shrink-0 border border-pink-500/30">
+                        <i class="fa-solid fa-folder-open text-xl"></i>
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-bold m-0">Employer-Provided Documents</h2>
+                </div>
+                
+                <p class="text-sm text-white/80 leading-relaxed mb-2">
+                    Once the employment opportunity is confirmed, the Serbian employer provides the documentation required for the employment and immigration process.
+                </p>
+                <p class="text-sm text-white/80 leading-relaxed mb-6 font-semibold">
+                    The employer-side document package may include:
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <!-- Item 1 -->
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-colors flex gap-3 group">
+                        <i class="fa-solid fa-envelope-open-text text-blue-400 text-xl shrink-0 mt-1 group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-white leading-tight mb-1">Invitation Letter</h4>
+                            <span class="text-[0.65rem] text-blue-300 font-medium block mb-2 tracking-wide">(Pozivno pismo)</span>
+                            <p class="text-tiny text-white/70 m-0 leading-snug">Official invitation/supporting document issued by the employer in Serbia.</p>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-colors flex gap-3 group">
+                        <i class="fa-solid fa-building-circle-check text-green-400 text-xl shrink-0 mt-1 group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-white leading-tight mb-1">Company Registration</h4>
+                            <span class="text-[0.65rem] text-green-300 font-medium block mb-2 tracking-wide">Certificate / Extract</span>
+                            <p class="text-tiny text-white/70 m-0 leading-snug">Official document confirming the registration and legal status of the Serbian employing company.</p>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-colors flex gap-3 group">
+                        <i class="fa-solid fa-file-contract text-purple-400 text-xl shrink-0 mt-1 group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-white leading-tight mb-1">Employment Contract</h4>
+                            <span class="text-[0.65rem] text-purple-300 font-medium block mb-2 tracking-wide">(Ugovor o radu)</span>
+                            <p class="text-tiny text-white/70 m-0 leading-snug">Employment agreement containing the position, salary, employment conditions and other applicable terms.</p>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-colors flex gap-3 group">
+                        <i class="fa-solid fa-certificate text-yellow-400 text-xl shrink-0 mt-1 group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-white leading-tight mb-1">Employer Confirmation</h4>
+                            <span class="text-[0.65rem] text-yellow-300 font-medium block mb-2 tracking-wide">Certificate (Potvrda)</span>
+                            <p class="text-tiny text-white/70 m-0 leading-snug">Supporting confirmation issued by the employer for the employment or immigration process.</p>
+                        </div>
+                    </div>
+                    <!-- Item 5 -->
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-colors flex gap-3 group">
+                        <i class="fa-solid fa-sitemap text-teal-400 text-xl shrink-0 mt-1 group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-white leading-tight mb-1">Job Systematization</h4>
+                            <span class="text-[0.65rem] text-teal-300 font-medium block mb-2 tracking-wide">(Pravilnik o sistematizaciji)</span>
+                            <p class="text-tiny text-white/70 m-0 leading-snug">Employer document describing the relevant job position and its requirements.</p>
+                        </div>
+                    </div>
+                    <!-- Item 6 -->
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-colors flex gap-3 group">
+                        <i class="fa-solid fa-list-check text-orange-400 text-xl shrink-0 mt-1 group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-white leading-tight mb-1">Job Position List</h4>
+                            <span class="text-[0.65rem] text-orange-300 font-medium block mb-2 tracking-wide">(Lista radnih mesta)</span>
+                            <p class="text-tiny text-white/70 m-0 leading-snug">Employer's list identifying the relevant available position.</p>
+                        </div>
+                    </div>
+                    <!-- Item 7 -->
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-white/10 transition-colors flex gap-3 group sm:col-span-2">
+                        <i class="fa-solid fa-house-circle-check text-pink-400 text-xl shrink-0 mt-1 group-hover:scale-110 transition-transform"></i>
+                        <div>
+                            <h4 class="font-bold text-sm text-white leading-tight mb-1">Accommodation Letter</h4>
+                            <span class="text-[0.65rem] text-pink-300 font-medium block mb-2 tracking-wide">(Pismo potvrde o smeštaju)</span>
+                            <p class="text-tiny text-white/70 m-0 leading-snug">Confirmation concerning accommodation arrangements in Serbia, where provided by the employer.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-red-500/10 border border-red-500/30 p-4 rounded-xl flex items-start gap-3 backdrop-blur-sm">
+                    <i class="fa-solid fa-triangle-exclamation text-red-400 mt-1 text-lg"></i>
+                    <p class="text-tiny text-white/90 m-0 leading-relaxed">
+                        <strong class="text-red-400">Important:</strong> The exact documents supplied by the employer may vary depending on the job, employer, immigration route and requirements of the Serbian authorities.
+                    </p>
+                </div>
+            </div>
+
+            <!-- End-to-End Career Package Section -->
+            <div class="glass-card p-6 md:p-8 border-t-[4px] border-t-emerald-500">
+                <div class="flex flex-col items-center text-center mb-8 relative z-10">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white text-3xl mb-4 shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+                        <i class="fa-solid fa-plane-circle-check"></i>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold m-0 text-white tracking-tight uppercase">Serbia End-To-End Career Package</h2>
+                    <p class="text-emerald-400 font-bold tracking-widest text-sm mt-2 uppercase"><i class="fa-solid fa-magnifying-glass"></i> Job Search • <i class="fa-solid fa-file-signature"></i> Work Permit • <i class="fa-solid fa-passport"></i> Visa • <i class="fa-solid fa-plane-departure"></i> Travel Support</p>
+                </div>
+
+                <!-- Price Banner -->
+                <div class="bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600 p-5 rounded-2xl mb-8 flex flex-col md:flex-row items-center justify-between shadow-[0_10px_40px_rgba(16,185,129,0.3)] border border-white/20">
+                    <div class="flex items-center gap-3 mb-2 md:mb-0">
+                        <i class="fa-solid fa-sack-dollar text-3xl text-yellow-300"></i>
+                        <h3 class="text-xl md:text-2xl font-bold text-white m-0 tracking-wide">TOTAL PACKAGE PRICE</h3>
+                    </div>
+                    <div class="text-3xl md:text-4xl font-extrabold text-white tracking-tighter bg-black/20 px-6 py-2 rounded-xl border border-white/10">
+                        ₹3,00,000
+                    </div>
+                </div>
+
+                <!-- Package Details Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
+                    
+                    <!-- Payment Plan Sub-Card -->
+                    <div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-2xl p-5 md:p-6 overflow-hidden relative group">
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-teal-500/10 rounded-full blur-2xl group-hover:bg-teal-500/20 transition-colors"></div>
+                        <h4 class="font-bold text-lg text-white mb-5 flex items-center gap-2 border-b border-white/10 pb-3">
+                            <i class="fa-solid fa-money-check-dollar text-teal-400"></i> Payment Plan
+                        </h4>
+                        
+                        <!-- Timeline Flow -->
+                        <div class="flex flex-col gap-3 mb-6 relative">
+                            <div class="absolute left-2.5 top-3 bottom-3 w-px bg-white/20"></div>
+                            
+                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/5 ml-6 relative">
+                                <div class="absolute -left-[1.35rem] w-5 h-5 rounded-full bg-slate-800 border-2 border-white/40 flex items-center justify-center"><div class="w-2 h-2 rounded-full bg-teal-400"></div></div>
+                                <span class="text-sm font-semibold text-white/90">Package Start</span>
+                                <span class="font-bold text-teal-300">₹50,000</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/5 ml-6 relative">
+                                <div class="absolute -left-[1.35rem] w-5 h-5 rounded-full bg-slate-800 border-2 border-white/40 flex items-center justify-center"><div class="w-2 h-2 rounded-full bg-teal-400"></div></div>
+                                <span class="text-sm font-semibold text-white/90">Work Permit Approved + Soft Copy</span>
+                                <span class="font-bold text-teal-300">₹50,000</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/5 ml-6 relative">
+                                <div class="absolute -left-[1.35rem] w-5 h-5 rounded-full bg-slate-800 border-2 border-white/40 flex items-center justify-center"><div class="w-2 h-2 rounded-full bg-teal-400"></div></div>
+                                <span class="text-sm font-semibold text-white/90">Work Permit & Visa Docs Ready</span>
+                                <span class="font-bold text-teal-300">₹50,000</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center bg-teal-500/20 p-3 rounded-xl border border-teal-500/30 ml-6 mt-1">
+                                <span class="text-sm font-bold text-teal-100">Total Payable During Processing</span>
+                                <span class="font-bold text-teal-300">₹1,50,000</span>
+                            </div>
+                        </div>
+
+                        <!-- Deferred Payment -->
+                        <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl mt-4">
+                            <div class="flex justify-between items-center mb-3 pb-3 border-b border-blue-500/20">
+                                <span class="text-sm font-bold text-blue-200"><i class="fa-solid fa-clock-rotate-left mr-1"></i> After Job Joining (Serbia)</span>
+                                <span class="font-bold text-blue-300 text-lg">₹1,50,000</span>
+                            </div>
+                            <ul class="text-tiny text-white/80 space-y-2 mb-3">
+                                <li><i class="fa-solid fa-calendar-days text-blue-400 mr-1 w-4"></i> <strong>Deferred ₹1.5 lakh:</strong> Payable after joining, through an agreed EMI schedule of up to 24 months.</li>
+                                <li><i class="fa-solid fa-shield-halved text-blue-400 mr-1 w-4"></i> <strong>Security:</strong> Post-dated cheques or another legally permissible security arrangement may be required.</li>
+                            </ul>
+                            <div class="bg-black/30 p-3 rounded-lg border-l-2 border-blue-400">
+                                <p class="text-[0.65rem] md:text-xs text-blue-200/80 font-medium italic m-0 leading-relaxed">
+                                    "Pehle ₹1.5 lakh 3 stages mein pay hoga. Baaki ₹1.5 lakh Serbia mein job join karne ke baad maximum 24 months mein pay karna hoga."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Package Includes Sub-Card -->
+                    <div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-2xl p-5 md:p-6 overflow-hidden relative group">
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-colors"></div>
+                        <h4 class="font-bold text-lg text-white mb-5 flex items-center gap-2 border-b border-white/10 pb-3">
+                            <i class="fa-solid fa-box-open text-blue-400"></i> Package Includes
+                        </h4>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Job Search & Matching</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Employer & Interview Coordination</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Employment Documents</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Work Permit Support</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Visa Application Support</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Applicable Visa/Embassy Fees</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Required Translation</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">PCC Support (if required)</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Medical & Insurance (if applicable)</span></div>
+                            <div class="flex items-start gap-2"><i class="fa-solid fa-plane text-blue-400 mt-0.5"></i> <span class="text-sm text-white/90 font-bold">One-Way Air Ticket (Delhi → Serbia)</span></div>
+                            <div class="flex items-start gap-2 sm:col-span-2"><i class="fa-solid fa-circle-check text-green-400 mt-0.5"></i> <span class="text-sm text-white/90">Pre-Departure & Joining Support</span></div>
+                        </div>
+                        
+                        <div class="bg-black/30 p-3 rounded-lg border-l-2 border-green-400 mt-auto">
+                            <p class="text-[0.65rem] md:text-xs text-green-200/80 font-medium italic m-0 leading-relaxed">
+                                "Job search se lekar work permit, visa aur Serbia travel/joining tak complete support package mein included hai."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Refund & Cancellation Policy -->
+                <div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-2xl p-5 md:p-6 mt-6 overflow-hidden relative">
+                    <h4 class="font-bold text-lg text-white mb-5 flex items-center gap-2 border-b border-white/10 pb-3">
+                        <i class="fa-solid fa-arrow-right-arrow-left text-orange-400"></i> Refund & Cancellation Policy
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <!-- 100% Refund -->
+                        <div class="bg-green-500/10 border border-green-500/20 p-4 rounded-xl flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-circle text-green-400 text-xs shadow-[0_0_10px_rgba(74,222,128,0.8)]"></i>
+                                <h5 class="font-bold text-green-400 m-0">100% Refund</h5>
+                            </div>
+                            <ul class="text-tiny text-white/80 space-y-2 mb-3 flex-grow">
+                                <li>If employer selection/work permit is not completed within <strong>3 months</strong> (subject to candidate cooperation).</li>
+                                <li>If visa is refused specifically due to a work-permit or employer/documentation issue.</li>
+                            </ul>
+                            <div class="bg-black/30 p-2.5 rounded-lg border-l-2 border-green-500/50 mt-2">
+                                <p class="text-[0.6rem] text-green-200/70 italic m-0 leading-tight">
+                                    "3 months mein selection/work permit nahi hota, ya employer/work-permit documentation ki wajah se visa refuse hota hai, toh eligible amount ka 100% refund."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Other Visa Refusal -->
+                        <div class="bg-yellow-500/10 border border-yellow-500/20 p-4 rounded-xl flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-circle text-yellow-400 text-xs shadow-[0_0_10px_rgba(250,204,21,0.8)]"></i>
+                                <h5 class="font-bold text-yellow-400 m-0">Other Visa Refusal</h5>
+                            </div>
+                            <p class="text-tiny text-white/80 leading-relaxed mb-3 flex-grow">
+                                For refusal due to other reasons, <strong>₹20,000–₹30,000</strong> may be retained as processing/service cost and the eligible balance refunded.
+                            </p>
+                        </div>
+
+                        <!-- Candidate Cancellation -->
+                        <div class="bg-orange-500/10 border border-orange-500/20 p-4 rounded-xl flex flex-col h-full md:col-span-2 lg:col-span-1">
+                            <div class="flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-circle text-orange-400 text-xs shadow-[0_0_10px_rgba(251,146,60,0.8)]"></i>
+                                <h5 class="font-bold text-orange-400 m-0">Candidate Cancellation</h5>
+                            </div>
+                            <ul class="text-tiny text-white/80 space-y-2 mb-3 flex-grow list-disc pl-4">
+                                <li><strong>Before selection/WP approval:</strong> 100% eligible refund.</li>
+                                <li><strong>After offer/WP confirmation:</strong> ₹30,000 deduction; eligible balance refunded.</li>
+                                <li><strong>After advanced processing:</strong> Refund subject to the signed agreement and costs already incurred.</li>
+                            </ul>
+                            <p class="text-xs text-orange-300 font-semibold mb-2"><i class="fa-solid fa-stopwatch mr-1"></i> Refund processing: Within 30 days.</p>
+                            <div class="bg-black/30 p-2.5 rounded-lg border-l-2 border-orange-500/50 mt-auto">
+                                <p class="text-[0.6rem] text-orange-200/70 italic m-0 leading-tight">
+                                    "Cancellation ya visa refusal ke case mein refund candidate ke process stage ke according hoga aur eligible refund 30 days ke andar process hoga."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Important Disclaimer Box -->
+                <div class="bg-red-500/10 border border-red-500/30 p-5 rounded-2xl mt-6 flex flex-col sm:flex-row gap-4 items-start shadow-[0_0_20px_rgba(239,68,68,0.1)]">
+                    <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center shrink-0 border border-red-500/30 text-2xl shadow-sm">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-red-400 mb-2 uppercase tracking-wider text-sm">Important Notice</h4>
+                        <ul class="text-tiny text-white/90 space-y-2 mb-3 list-disc pl-4">
+                            <li>The package <strong>does not guarantee</strong> job selection, work-permit approval, visa approval or a specific processing time.</li>
+                            <li>Any embassy/visa-centre travel, additional government/third-party charges, extra medical tests, legalization or other costs outside the listed package <strong>will be borne by the candidate</strong>.</li>
+                            <li><strong>Estimated processing:</strong> 30–120 days, depending on employer, government and visa processing.</li>
+                        </ul>
+                        <div class="bg-black/30 p-3 rounded-lg border-l-2 border-red-500/50">
+                            <p class="text-xs text-red-200/80 font-medium italic m-0">
+                                "Embassy/visa centre travel ya package ke bahar koi additional expense hota hai toh woh candidate ko pay karna hoga."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="proposal-form" class="glass-card p-6 md:p-10" onsubmit="event.preventDefault(); submitProposal();">
+                
+                <!-- Section 1: Identity -->
+                <div class="mb-10">
+                    <div class="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
+                        <div class="w-8 h-8 rounded-full bg-white text-purple-700 font-bold flex items-center justify-center shrink-0">1</div>
+                        <h3>Personal Identity</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-tiny font-bold uppercase tracking-wider text-white/70 mb-2 ml-1">First Name</label>
+                            <input type="text" id="fname" class="glass-input" placeholder="e.g. John" required>
+                        </div>
+                        <div>
+                            <label class="block text-tiny font-bold uppercase tracking-wider text-white/70 mb-2 ml-1">Last Name</label>
+                            <input type="text" id="lname" class="glass-input" placeholder="e.g. Doe" required>
+                        </div>
+                        <div>
+                            <label class="block text-tiny font-bold uppercase tracking-wider text-white/70 mb-2 ml-1">Passport Number</label>
+                            <input type="text" id="passport" class="glass-input" placeholder="e.g. A1234567" required>
+                        </div>
+                        <div>
+                            <label class="block text-tiny font-bold uppercase tracking-wider text-white/70 mb-2 ml-1">Mobile Number</label>
+                            <input type="tel" id="mobile" class="glass-input" placeholder="+1 234 567 8900" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Role Selection -->
+                <div class="mb-10">
+                    <div class="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
+                        <div class="w-8 h-8 rounded-full bg-white text-purple-700 font-bold flex items-center justify-center shrink-0">2</div>
+                        <h3>Select Position(s)</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <input type="checkbox" name="roles" id="role-general" value="General Driving" class="role-checkbox hidden" checked>
+                            <label for="role-general" class="cursor-pointer glass-card p-5 pt-7 flex flex-col items-center text-center transition-all hover:bg-white/10 hover:border-blue-400/50 h-full relative overflow-hidden group">
+                                <div class="absolute top-0 left-0 bg-gradient-to-r from-blue-600 to-blue-400 text-white text-[0.6rem] font-bold px-3 py-1 rounded-br-xl rounded-tl-xl uppercase tracking-wider shadow-md">Priority Choice</div>
+                                <div class="role-check absolute top-3 right-3 text-green-400 opacity-0 scale-50 transition-all duration-300 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                                    <i class="fa-solid fa-circle-check text-2xl"></i>
+                                </div>
+                                <div class="flex items-center justify-center gap-2 mb-3 text-2xl text-blue-300 group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-car"></i>
+                                    <i class="fa-solid fa-truck"></i>
+                                    <i class="fa-solid fa-bus"></i>
+                                </div>
+                                <span class="font-bold text-small">General Driver</span>
+                                <span class="text-tiny text-white/60 mt-1">€1,000 - €2,200</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" name="roles" id="role-logistics" value="Logistics" class="role-checkbox hidden" checked>
+                            <label for="role-logistics" class="cursor-pointer glass-card p-5 pt-7 flex flex-col items-center text-center transition-all hover:bg-white/10 hover:border-orange-400/50 h-full relative overflow-hidden group">
+                                <div class="absolute top-0 left-0 bg-gradient-to-r from-orange-600 to-orange-400 text-white text-[0.6rem] font-bold px-3 py-1 rounded-br-xl rounded-tl-xl uppercase tracking-wider shadow-md">2nd Option</div>
+                                <div class="role-check absolute top-3 right-3 text-green-400 opacity-0 scale-50 transition-all duration-300 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                                    <i class="fa-solid fa-circle-check text-2xl"></i>
+                                </div>
+                                <i class="fa-solid fa-boxes-stacked text-3xl mb-3 text-orange-300 group-hover:scale-110 transition-transform"></i>
+                                <span class="font-bold text-small">Logistics</span>
+                                <span class="text-tiny text-white/60 mt-1">€900 - €1,300</span>
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" name="roles" id="role-support" value="Helper" class="role-checkbox hidden" checked>
+                            <label for="role-support" class="cursor-pointer glass-card p-5 pt-7 flex flex-col items-center text-center transition-all hover:bg-white/10 hover:border-pink-400/50 h-full relative overflow-hidden group">
+                                <div class="absolute top-0 left-0 bg-gradient-to-r from-pink-600 to-pink-400 text-white text-[0.6rem] font-bold px-3 py-1 rounded-br-xl rounded-tl-xl uppercase tracking-wider shadow-md">Last Option</div>
+                                <div class="role-check absolute top-3 right-3 text-green-400 opacity-0 scale-50 transition-all duration-300 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                                    <i class="fa-solid fa-circle-check text-2xl"></i>
+                                </div>
+                                <i class="fa-solid fa-people-carry-box text-3xl mb-3 text-pink-300 group-hover:scale-110 transition-transform"></i>
+                                <span class="font-bold text-small">Support / Helper</span>
+                                <span class="text-tiny text-white/60 mt-1">€750 - €1,100</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Signature -->
+                <div class="mb-8">
+                    <div class="flex items-center gap-4 mb-6 border-b border-white/10 pb-4">
+                        <div class="w-8 h-8 rounded-full bg-white text-purple-700 font-bold flex items-center justify-center shrink-0">3</div>
+                        <h3>Digital Signature</h3>
+                    </div>
+                    
+                    <div class="bg-white/5 border border-white/20 rounded-2xl p-4 mb-4">
+                        <p class="text-tiny text-white/80 leading-relaxed m-0">
+                            By signing below, I confirm that the details provided are accurate and I authorize the generation of my official Serbia Career Service Proposal. I understand this initiates the documentation process.
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl overflow-hidden relative border-2 border-transparent focus-within:border-blue-400 transition-colors shadow-inner">
+                        <!-- Watermark -->
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10">
+                            <i class="fa-solid fa-signature text-8xl text-slate-900"></i>
+                        </div>
+                        <canvas id="signature-pad" class="w-full h-48 md:h-56 cursor-crosshair touch-none"></canvas>
+                        
+                        <div class="absolute bottom-3 right-3 flex gap-2">
+                            <button type="button" onclick="clearSignature()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-tiny px-3 py-1.5 rounded-lg font-bold shadow transition-colors pointer-events-auto">
+                                <i class="fa-solid fa-rotate-left mr-1"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-bold py-5 rounded-2xl shadow-[0_0_20px_rgba(139,92,246,0.5)] hover:shadow-[0_0_30px_rgba(139,92,246,0.8)] transition-all transform hover:-translate-y-1 text-lg flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-file-pdf"></i> Generate Official Proposal
+                </button>
+            </form>
+        </div>
+
+        <!-- Footer Area -->
+        <div class="lg:col-span-12 w-full mt-8 border-t border-white/10 pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-6 z-40 relative">
+            <div class="text-white/50 text-[0.65rem] md:text-xs text-center md:text-left leading-relaxed font-semibold tracking-wide">
+                &copy; 2026 RABBANI'S PLACEMENT & EDUCATION CONSULTANCY SERVICES PRIVATE LIMITED.<br>
+                <span class="text-white/30">CIN: U85500WB2024PTC269758. All rights reserved.</span>
+            </div>
+            
+            <!-- Legal Menu Dropdown -->
+            <div class="relative group z-50">
+                <button type="button" class="flex items-center gap-2 text-white/80 hover:text-white text-sm font-semibold transition-colors bg-white/5 hover:bg-white/10 px-6 py-2.5 rounded-full border border-white/10 backdrop-blur-md cursor-pointer shadow-lg">
+                    <i class="fa-solid fa-scale-balanced text-purple-400"></i> Legal & Disclaimer
+                    <i class="fa-solid fa-chevron-up text-xs transition-transform duration-300 group-hover:rotate-180 ml-1"></i>
+                </button>
+                
+                <!-- Dropdown Menu (Expands upwards) -->
+                <div class="absolute bottom-full left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:right-0 mb-3 w-56 bg-slate-800/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 overflow-hidden pointer-events-none group-hover:pointer-events-auto">
+                    <a href="#" onclick="openModal('legal-modal', event)" class="flex items-center gap-3 px-4 py-3.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors border-b border-white/5">
+                        <i class="fa-solid fa-file-contract text-blue-400 w-5 text-center"></i> Terms & Condition
+                    </a>
+                    <a href="#" onclick="openModal('legal-modal', event)" class="flex items-center gap-3 px-4 py-3.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors border-b border-white/5">
+                        <i class="fa-solid fa-shield-halved text-green-400 w-5 text-center"></i> Policies
+                    </a>
+                    <a href="#" onclick="openModal('legal-modal', event)" class="flex items-center gap-3 px-4 py-3.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors">
+                        <i class="fa-solid fa-triangle-exclamation text-orange-400 w-5 text-center"></i> Disclaimers
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation Dock (PWA App feel) -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full z-50 mobile-dock rounded-t-3xl shadow-[0_-5px_25px_rgba(0,0,0,0.5)]">
+        <div class="flex justify-around items-center pt-3 pb-2 px-4">
+            <a href="#" onclick="window.scrollTo(0,0)" class="dock-item active flex flex-col items-center gap-1 w-16">
+                <i class="fa-solid fa-house text-xl mb-0.5"></i>
+                <span class="text-[0.65rem] font-semibold">Home</span>
+            </a>
+            <a href="#proposal-form" class="dock-item text-white/60 hover:text-white flex flex-col items-center gap-1 w-16">
+                <i class="fa-solid fa-file-signature text-xl mb-0.5"></i>
+                <span class="text-[0.65rem] font-semibold">Apply</span>
+            </a>
+            <a href="#" onclick="openModal('chatbot-modal', event)" class="dock-item text-white/60 hover:text-white flex flex-col items-center gap-1 w-16">
+                <i class="fa-solid fa-robot text-xl mb-0.5"></i>
+                <span class="text-[0.65rem] font-semibold">Support</span>
+            </a>
+            <a href="#" onclick="openModal('login-modal', event)" class="dock-item text-white/60 hover:text-white flex flex-col items-center gap-1 w-16">
+                <i class="fa-solid fa-arrow-right-to-bracket text-xl mb-0.5"></i>
+                <span class="text-[0.65rem] font-semibold">Login</span>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Hidden PDF Template (Rendered cleanly on white background) -->
+    <div id="pdf-template">
+        <div style="padding: 60px; font-family: 'Helvetica', sans-serif; background: white; color: #1e293b; min-height: 1050px;">
+            
+            <!-- Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #6366f1; padding-bottom: 20px; margin-bottom: 40px;">
+                <div>
+                    <h1 style="margin: 0; font-size: 32px; color: #0f172a; font-weight: 800;">Serbia Career Gateway</h1>
+                    <p style="margin: 5px 0 0 0; color: #64748b; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;">The Digital Proposal Hub</p>
+                </div>
+                <div style="text-align: right;">
+                    <div style="background: #e0e7ff; color: #4338ca; padding: 10px 15px; border-radius: 8px; font-weight: bold; font-size: 14px;">Ref: <span id="pdf-ref">---</span></div>
+                    <div style="margin-top: 8px; font-size: 12px; color: #64748b;" id="pdf-date"></div>
+                </div>
+            </div>
+
+            <!-- Candidate Info -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 40px;">
+                <h3 style="margin: 0 0 15px 0; font-size: 16px; color: #334155; text-transform: uppercase; letter-spacing: 1px;">Candidate Details</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 10px 0; width: 25%; color: #64748b; font-size: 14px;">Full Name</td>
+                        <td style="padding: 10px 0; font-weight: bold; font-size: 18px;" id="pdf-name">---</td>
+                    </tr>
+                    <tr style="border-top: 1px solid #e2e8f0;">
+                        <td style="padding: 10px 0; color: #64748b; font-size: 14px;">Passport Number</td>
+                        <td style="padding: 10px 0; font-weight: bold; font-size: 16px;" id="pdf-passport">---</td>
+                    </tr>
+                    <tr style="border-top: 1px solid #e2e8f0;">
+                        <td style="padding: 10px 0; color: #64748b; font-size: 14px;">Contact</td>
+                        <td style="padding: 10px 0; font-weight: bold; font-size: 16px;" id="pdf-mobile">---</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Role Applied -->
+            <div style="margin-bottom: 40px;">
+                <h3 style="margin: 0 0 15px 0; font-size: 16px; color: #334155; text-transform: uppercase; letter-spacing: 1px;">Selected Position</h3>
+                <div style="background: #eff6ff; border-left: 5px solid #3b82f6; padding: 20px; border-radius: 0 8px 8px 0;">
+                    <h2 id="pdf-role" style="margin: 0 0 5px 0; font-size: 24px; color: #1e3a8a;">---</h2>
+                    <p style="margin: 0; color: #3b82f6; font-size: 14px; font-weight: bold;">Location: Republic of Serbia, Europe</p>
+                </div>
+            </div>
+
+            <!-- Terms -->
+            <div style="margin-bottom: 60px;">
+                <h3 style="margin: 0 0 15px 0; font-size: 16px; color: #334155; text-transform: uppercase; letter-spacing: 1px;">Agreement Scope</h3>
+                <p style="font-size: 14px; line-height: 1.8; color: #475569;">
+                    This document serves as the official digital proposal and intent for application for the selected position in the Republic of Serbia. 
+                    The candidate confirms that all provided identity details are accurate. This proposal authorizes the processing agency to initiate document 
+                    verification, employer matching, and preliminary visa consultation workflows.
+                </p>
+                <p style="font-size: 14px; line-height: 1.8; color: #475569; margin-top: 10px;">
+                    Final salary, accommodation, working hours, benefits, and employment conditions are subject to the specific vacancy and final employer contract.
+                </p>
+            </div>
+
+            <!-- Signatures -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div style="width: 45%;">
+                    <div style="height: 100px; border-bottom: 2px solid #cbd5e1; margin-bottom: 10px; position: relative;">
+                        <img id="pdf-signature-img" src="" style="max-height: 120px; max-width: 100%; position: absolute; bottom: 0; left: 0;">
+                    </div>
+                    <div style="font-weight: bold; font-size: 14px;" id="pdf-sign-name">---</div>
+                    <div style="font-size: 12px; color: #64748b;">Candidate Digital Signature</div>
+                </div>
+                
+                <div style="width: 45%; text-align: right;">
+                    <div style="height: 100px; border-bottom: 2px solid #cbd5e1; margin-bottom: 10px; display: flex; align-items: flex-end; justify-content: flex-end;">
+                        <div style="color: #6366f1; font-weight: 900; font-size: 24px; font-style: italic; opacity: 0.5; padding-bottom: 10px;">VERIFIED</div>
+                    </div>
+                    <div style="font-weight: bold; font-size: 14px;">The Digital Proposal Hub</div>
+                    <div style="font-size: 12px; color: #64748b;">Authorized Digital System</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <style>
+        /* Shared Modal & Chatbot Animations */
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px; height: 6px;
+            background-color: #cbd5e1;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+            margin-right: 3px;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        
+        .chat-bubble { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+
+    <!-- GLORA AI Chatbot Modal -->
+    <div id="chatbot-modal" class="fixed inset-0 z-[200] hidden items-center justify-center opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('chatbot-modal')"></div>
+        <div class="glass-card bg-slate-900/95 relative z-10 w-full max-w-lg mx-4 h-[80vh] max-h-[600px] flex flex-col transform scale-95 translate-y-10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border border-purple-500/30 shadow-[0_0_40px_rgba(139,92,246,0.2)] overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-4 border-b border-white/10 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-blue-400 flex items-center justify-center text-white shadow-lg">
+                            <i class="fa-solid fa-robot text-xl"></i>
+                        </div>
+                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-slate-900 rounded-full"></span>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold m-0 leading-tight">GLORA AI</h3>
+                        <span class="text-green-400 text-[0.65rem] uppercase font-bold tracking-wider">Online • Virtual Assistant</span>
+                    </div>
+                </div>
+                <button onclick="closeModal('chatbot-modal')" class="text-white/50 hover:text-white transition-colors w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Chat History -->
+            <div id="chat-history" class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 scroll-smooth">
+                <!-- Initial GLORA Message -->
+                <div class="flex items-end gap-2 chat-bubble">
+                    <div class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 border border-purple-500/30 text-xs">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-white/10 border border-white/10 rounded-2xl rounded-bl-none p-3 max-w-[85%]">
+                        <p class="text-sm text-white/90 m-0">Hello! I am <strong>GLORA</strong>, your dedicated AI Assistant. How can I assist you with your Serbia application today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input & Predefined Services -->
+            <div class="p-4 border-t border-white/10 bg-black/20 shrink-0">
+                <div class="flex flex-wrap gap-2 mb-3" id="quick-replies">
+                    <button onclick="sendChatMessage('How do I track my visa?')" class="bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 text-blue-300 text-xs py-1.5 px-3 rounded-full transition-colors"><i class="fa-solid fa-passport mr-1"></i> Track Visa</button>
+                    <button onclick="sendChatMessage('What are the required documents?')" class="bg-purple-500/20 hover:bg-purple-500/40 border border-purple-500/30 text-purple-300 text-xs py-1.5 px-3 rounded-full transition-colors"><i class="fa-solid fa-file-lines mr-1"></i> Required Docs</button>
+                    <button onclick="sendChatMessage('Tell me about salary & benefits')" class="bg-green-500/20 hover:bg-green-500/40 border border-green-500/30 text-green-300 text-xs py-1.5 px-3 rounded-full transition-colors"><i class="fa-solid fa-money-bill-wave mr-1"></i> Salary Details</button>
+                    <button onclick="sendChatMessage('Connect me to a human agent')" class="bg-orange-500/20 hover:bg-orange-500/40 border border-orange-500/30 text-orange-300 text-xs py-1.5 px-3 rounded-full transition-colors"><i class="fa-solid fa-headset mr-1"></i> Live Agent</button>
+                </div>
+                <div class="relative">
+                    <input type="text" id="chat-input" placeholder="Type your message..." class="w-full bg-white/5 border border-white/10 rounded-full py-3 pl-4 pr-12 text-sm text-white outline-none focus:border-purple-500/50 transition-colors" onkeypress="if(event.key === 'Enter') sendChatMessage(this.value); this.value='';">
+                    <button onclick="const i = document.getElementById('chat-input'); if(i.value) { sendChatMessage(i.value); i.value=''; }" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center hover:bg-purple-400 transition-colors">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Portal Modal -->
+    <div id="login-modal" class="fixed inset-0 z-[200] hidden items-center justify-center opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('login-modal')"></div>
+        <div class="glass-card bg-slate-900/90 relative z-10 w-full max-w-md p-8 mx-4 transform scale-95 translate-y-10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border border-green-500/30 shadow-[0_0_50px_rgba(74,222,128,0.15)] overflow-hidden">
+            <!-- Decorative blobs -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl"></div>
+            
+            <button onclick="closeModal('login-modal')" class="absolute top-4 right-4 text-white/50 hover:text-white transition-colors w-8 h-8 rounded-full z-20 bg-white/5 flex items-center justify-center hover:bg-white/10">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="text-center mb-8 relative z-10">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-green-500 to-emerald-400 mx-auto flex items-center justify-center text-white text-3xl mb-4 shadow-[0_0_20px_rgba(74,222,128,0.4)] rotate-3">
+                    <i class="fa-solid fa-fingerprint -rotate-3"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-1">Secure Login</h3>
+                <p class="text-white/60 text-sm">Access your personalized candidate portal</p>
+            </div>
+            
+            <form class="relative z-10" onsubmit="event.preventDefault(); simulateGoogleSheetCall('login', {uid: this.userid.value});">
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-white/40"></i>
+                        <input type="text" name="userid" placeholder="User ID / Application Ref" class="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white outline-none focus:border-green-500/50 focus:bg-white/10 transition-all" required>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-white/40"></i>
+                        <input type="password" name="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white outline-none focus:border-green-500/50 focus:bg-white/10 transition-all" required>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end mb-6">
+                    <a href="#" onclick="showToast('Password reset link sent to registered email or mobile!', 'success')" class="text-xs text-green-400 hover:text-green-300 font-medium">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login Securely
+                </button>
+            </form>
+            
+            <div class="mt-8 pt-6 border-t border-white/10 text-center relative z-10">
+                <p class="text-sm text-white/60 mb-3">Don't have a User ID yet?</p>
+                <div class="flex flex-col gap-2">
+                    <a href="#proposal-form" onclick="closeModal('login-modal')" class="text-sm text-blue-400 hover:text-blue-300 font-bold border border-blue-400/30 bg-blue-400/10 rounded-xl py-2 transition-colors">
+                        <i class="fa-solid fa-file-signature mr-1"></i> Create a Proposal First
+                    </a>
+                    <span class="text-xs text-white/30 font-bold">OR</span>
+                    <a href="#" onclick="closeModal('login-modal'); setTimeout(() => openModal('signup-modal'), 300);" class="text-sm text-purple-400 hover:text-purple-300 font-bold border border-purple-400/30 bg-purple-400/10 rounded-xl py-2 transition-colors">
+                        <i class="fa-solid fa-user-plus mr-1"></i> Sign Up / Register
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up / Registration Modal -->
+    <div id="signup-modal" class="fixed inset-0 z-[200] hidden items-center justify-center opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('signup-modal')"></div>
+        <div class="glass-card bg-slate-900/95 relative z-10 w-full max-w-lg p-6 md:p-8 mx-4 max-h-[90vh] overflow-y-auto transform scale-95 translate-y-10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border border-purple-500/30 shadow-[0_0_50px_rgba(168,85,247,0.15)]">
+            <button onclick="closeModal('signup-modal')" class="absolute top-4 right-4 text-white/50 hover:text-white transition-colors w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 z-20">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="mb-6 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white text-xl shadow-lg">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-1">Create Account</h3>
+                    <p class="text-white/60 text-xs">Register to track your application process</p>
+                </div>
+            </div>
+            
+            <form onsubmit="event.preventDefault(); simulateGoogleSheetCall('signup', {email: this.email.value});">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Full Name</label>
+                        <input type="text" placeholder="John Doe" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                    </div>
+                    <div>
+                        <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Passport Number</label>
+                        <input type="text" placeholder="A1234567" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Email Address</label>
+                        <input type="email" name="email" placeholder="john@example.com" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                    </div>
+                    <div>
+                        <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Mobile Number</label>
+                        <input type="tel" placeholder="+1 234 567 8900" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                    </div>
+                    <div>
+                        <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Create Password</label>
+                        <input type="password" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                    </div>
+                </div>
+                
+                <div class="mb-6 flex items-start gap-2">
+                    <input type="checkbox" id="terms" class="mt-1" required>
+                    <label for="terms" class="text-xs text-white/60 leading-tight">I agree to the Terms of Service and authorize my data to be securely stored for application processing.</label>
+                </div>
+                
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                    Register Account
+                </button>
+                
+                <div class="mt-5 text-center">
+                    <a href="#" onclick="closeModal('signup-modal'); setTimeout(() => openModal('login-modal'), 300);" class="text-sm text-white/60 hover:text-white transition-colors">
+                        Already have an account? <strong class="text-purple-400">Login</strong>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Track Visa Modal -->
+    <div id="visa-track-modal" class="fixed inset-0 z-[200] hidden items-center justify-center opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeVisaTrackModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="glass-card bg-slate-900/90 relative z-10 w-full max-w-md p-8 mx-4 transform scale-95 translate-y-10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border border-white/20 shadow-[0_0_40px_rgba(59,130,246,0.3)]">
+            <button onclick="closeVisaTrackModal()" class="absolute top-4 right-4 text-white/50 hover:text-white transition-colors w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 rounded-full bg-blue-500/20 text-blue-400 mx-auto flex items-center justify-center text-3xl mb-4 border border-blue-500/30">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">Track Your Visa</h3>
+                <p class="text-white/70 text-sm leading-relaxed">To view your live visa status, flight dispatch timeline, and document progression, please log in or contact our support.</p>
+            </div>
+            
+            <div class="flex flex-col gap-3">
+                <button onclick="closeModal('visa-track-modal'); setTimeout(() => openModal('login-modal'), 300);" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg">
+                    <i class="fa-solid fa-arrow-right-to-bracket text-lg"></i> Login to Portal
+                </button>
+                
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-white/10"></div>
+                    <span class="flex-shrink-0 mx-4 text-white/40 text-xs uppercase font-bold tracking-widest">OR</span>
+                    <div class="flex-grow border-t border-white/10"></div>
+                </div>
+                
+                <button onclick="closeModal('visa-track-modal'); setTimeout(() => openModal('chatbot-modal'), 300);" class="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-robot text-lg"></i> Ask GLORA AI
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legal & Compliance Modal -->
+    <div id="legal-modal" class="fixed inset-0 z-[200] hidden items-center justify-center opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('legal-modal')"></div>
+        <div class="glass-card bg-slate-900/95 relative z-10 w-full max-w-4xl mx-4 h-[85vh] max-h-[800px] flex flex-col transform scale-95 translate-y-10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] border border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.1)] overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-5 border-b border-white/10 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-slate-600 to-slate-400 flex items-center justify-center text-white shadow-lg border border-white/20">
+                        <i class="fa-solid fa-scale-balanced text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold m-0 text-lg md:text-xl leading-tight">Legal & Compliance</h3>
+                        <span class="text-white/50 text-[0.65rem] uppercase font-bold tracking-wider">Official Policies & Disclaimers</span>
+                    </div>
+                </div>
+                <button onclick="closeModal('legal-modal')" class="text-white/50 hover:text-white transition-colors w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 shrink-0">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Scrollable Body -->
+            <div class="flex-1 overflow-y-auto p-6 md:p-8 space-y-8 text-white/80 custom-scrollbar">
+                
+                <!-- About Us -->
+                <section>
+                    <h4 class="text-xl font-bold text-white mb-3 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fa-solid fa-building text-blue-400"></i> 1. About Us
+                    </h4>
+                    <p class="text-sm leading-relaxed mb-3">
+                        <strong class="text-white">RABBANI'S PLACEMENT & EDUCATION CONSULTANCY SERVICES PRIVATE LIMITED</strong> (CIN: U85500WB2024PTC269758) is a registered recruitment and placement consultancy based in Kolkata, West Bengal, India. 
+                    </p>
+                    <p class="text-sm leading-relaxed">
+                        We specialize in bridging the gap between skilled, semi-skilled, and unskilled professionals and reputable employers across Europe, with a primary focus on the Republic of Serbia. Our core objective is to facilitate lawful, transparent, and strictly compliant overseas employment opportunities.
+                    </p>
+                </section>
+
+                <!-- Terms & Conditions -->
+                <section>
+                    <h4 class="text-xl font-bold text-white mb-3 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fa-solid fa-file-signature text-purple-400"></i> 2. Terms & Conditions
+                    </h4>
+                    <ul class="list-disc pl-5 space-y-3 text-sm leading-relaxed">
+                        <li><strong class="text-white">Scope of Service:</strong> We act purely as an intermediary and facilitation agency between the candidate and the prospective overseas employer. We assist in document preparation, application formatting, and coordination.</li>
+                        <li><strong class="text-white">Authenticity of Documents:</strong> The candidate is solely responsible for providing 100% genuine documentation (Passport, Educational Certificates, Police Clearance, Driving Licenses, etc.). Any discovery of forged or manipulated documents will result in immediate termination of processing without refund, and potential reporting to authorities.</li>
+                        <li><strong class="text-white">Code of Conduct:</strong> Candidates must maintain professional behavior during interviews and interactions. Any misconduct may result in application cancellation.</li>
+                        <li><strong class="text-white">Medical Fitness:</strong> Placement is subject to the candidate clearing mandatory medical examinations as required by the employer and the destination country's embassy.</li>
+                    </ul>
+                </section>
+
+                <!-- Data & Privacy Policy -->
+                <section>
+                    <h4 class="text-xl font-bold text-white mb-3 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fa-solid fa-shield-halved text-green-400"></i> 3. Data & Privacy Policy
+                    </h4>
+                    <p class="text-sm leading-relaxed mb-3">
+                        Protecting your personal data is our priority. By engaging with our digital proposal hub and submitting your application, you consent to the following:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-3 text-sm leading-relaxed">
+                        <li><strong class="text-white">Data Collection:</strong> We collect Personally Identifiable Information (PII) including passport details, biometric signatures, and contact numbers exclusively for employment processing.</li>
+                        <li><strong class="text-white">Data Sharing:</strong> Your profile and documents will only be shared with prospective employers in Serbia, official translation agencies (if required), and relevant government/immigration authorities.</li>
+                        <li><strong class="text-white">Data Security:</strong> All digital applications and records are securely stored. We do not sell, rent, or distribute your data to unauthorized third-party marketers.</li>
+                    </ul>
+                </section>
+
+                <!-- Official Disclaimers -->
+                <section>
+                    <h4 class="text-xl font-bold text-white mb-3 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fa-solid fa-triangle-exclamation text-orange-400"></i> 4. Important Disclaimers
+                    </h4>
+                    <div class="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4 space-y-3">
+                        <p class="text-sm leading-relaxed"><strong class="text-orange-400">No Visa Guarantee:</strong> Rabbani's Placement does not and cannot guarantee the issuance of a visa, work permit, or resident permit. The final decision rests absolutely with the employer, the National Employment Service of Serbia, and the respective Embassy/Consulate.</p>
+                        
+                        <p class="text-sm leading-relaxed"><strong class="text-orange-400">Timeline Variations:</strong> Processing times (estimated at 30-120 days) are strictly tentative. Delays caused by governmental backlogs, diplomatic holidays, or courier disruptions are beyond our control and do not constitute a breach of service.</p>
+                        
+                        <p class="text-sm leading-relaxed"><strong class="text-orange-400">External Liabilities:</strong> Costs outside the agreed package (e.g., travel expenses to the embassy in New Delhi, external medical tests, personal shopping, or apostille/legalization fees if newly mandated) are the sole financial responsibility of the candidate.</p>
+                    </div>
+                </section>
+
+                <!-- Refund Policy Reference -->
+                <section>
+                    <h4 class="text-xl font-bold text-white mb-3 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fa-solid fa-money-bill-transfer text-teal-400"></i> 5. Refund Policy Summary
+                    </h4>
+                    <p class="text-sm leading-relaxed mb-2">
+                        Our refund policy is designed to be fair and transparent, aligned with the operational costs incurred at different stages:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2 text-sm leading-relaxed text-white/70">
+                        <li>100% eligible refund if the employer rejects the profile or fails to secure the work permit within 3 months.</li>
+                        <li>100% eligible refund if a visa is rejected purely due to an employer-side documentation error.</li>
+                        <li>Standard deductions (₹20,000 - ₹30,000) apply for candidate-initiated cancellations after offer letter issuance or visa refusals due to candidate background/interview performance.</li>
+                    </ul>
+                    <p class="text-xs text-teal-400 mt-3 font-semibold italic">By submitting the digital proposal, you electronically acknowledge and accept these terms in full.</p>
+                </section>
+                
+            </div>
+            
+            <!-- Footer -->
+            <div class="bg-black/40 p-4 border-t border-white/10 text-center shrink-0">
+                <p class="text-xs text-white/50 m-0">Last Updated: October 2026 | Rabbani's Placement & Education Consultancy Services Pvt. Ltd.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Toast Container -->
+    <div id="toast-container" class="fixed top-24 left-1/2 z-[100] w-full max-w-sm pointer-events-none flex flex-col gap-3"></div>
+
+    <script>
+        // ==========================================
+        // 0. Splash Screen Logic
+        // ==========================================
+        let splashTimer;
+        
+        function hideSplashScreen() {
+            clearTimeout(splashTimer);
+            const splash = document.getElementById('splash-screen');
+            const card = document.getElementById('splash-card');
+            const body = document.getElementById('main-body');
+            
+            if (splash && !splash.classList.contains('splash-fade-out')) {
+                card.classList.add('splash-scale-down');
+                splash.classList.add('splash-fade-out');
+                
+                // Allow scrolling on the main page
+                body.classList.remove('overflow-y-hidden');
+                
+                setTimeout(() => {
+                    splash.remove();
+                }, 700);
+            }
+        }
+
+        // ==========================================
+        // 1. UI & Toast Notifications & Generic Modals
+        // ==========================================
+        
+        function openModal(modalId, e) {
+            if(e) e.preventDefault();
+            const modal = document.getElementById(modalId);
+            if(!modal) return;
+            const modalBox = modal.querySelector('.glass-card');
+            
+            modal.classList.remove('hidden');
+            void modal.offsetWidth; // trigger reflow
+            
+            modal.classList.remove('opacity-0');
+            modalBox.classList.remove('scale-95', 'translate-y-10');
+            modalBox.classList.add('scale-100', 'translate-y-0');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if(!modal) return;
+            const modalBox = modal.querySelector('.glass-card');
+            
+            modal.classList.add('opacity-0');
+            modalBox.classList.remove('scale-100', 'translate-y-0');
+            modalBox.classList.add('scale-95', 'translate-y-10');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 500); 
+        }
+        
+        // Legacy function mapping for safety
+        function openVisaTrackModal(e) { openModal('visa-track-modal', e); }
+        function closeVisaTrackModal() { closeModal('visa-track-modal'); }
+
+        function showToast(message, type = 'success', duration = 3500) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            // Allow generic types like 'info'
+            let bgClass = 'bg-blue-500'; 
+            let icon = 'fa-info-circle';
+            if(type === 'success') { bgClass = 'bg-green-500'; icon = 'fa-check-circle'; }
+            if(type === 'error') { bgClass = 'bg-red-500'; icon = 'fa-triangle-exclamation'; }
+
+            toast.className = `toast-animate mx-4 ${bgClass} text-white px-5 py-4 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] font-semibold flex items-center gap-3 backdrop-blur-md`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-xl"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, duration);
+        }
+
+        // ==========================================
+        // 1.5 GLORA AI Chatbot Logic
+        // ==========================================
+        
+        const gloraResponses = {
+            "How do I track my visa?": "To track your visa, you can log in to the portal using your application reference number. If you don't have an account, click the Login button in the top menu and select 'Sign Up'.",
+            "What are the required documents?": "The standard requirements are: a valid passport (min 1 year validity), 4 passport-size photos, police clearance certificate, and your signed employment contract/proposal.",
+            "Tell me about salary & benefits": "Salaries range from €750 for helpers to €2,200 for heavy truck drivers. Contracts are standard 1-year terms with Type D employment visas. Accommodation is typically provided by the employer.",
+            "Connect me to a human agent": "I have notified our support team. An agent will review your application and contact you on your registered mobile number shortly. You can also reach us via the Contact section in your portal.",
+            "default": "I'm still learning! For detailed inquiries, please log into your portal and raise a support ticket, or connect with a human agent."
+        };
+
+        function sendChatMessage(text) {
+            if(!text || text.trim() === '') return;
+            const history = document.getElementById('chat-history');
+            
+            // 1. Add User Message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'flex items-end gap-2 chat-bubble justify-end';
+            userMsg.innerHTML = `
+                <div class="bg-blue-600 rounded-2xl rounded-br-none p-3 max-w-[85%] shadow-md">
+                    <p class="text-sm text-white m-0"></p>
+                </div>
+            `;
+            userMsg.querySelector("p").textContent = text;
+            history.appendChild(userMsg);
+            history.scrollTop = history.scrollHeight;
+
+            // 2. Show GLORA Typing Indicator
+            const typingMsg = document.createElement('div');
+            typingMsg.className = 'flex items-end gap-2 chat-bubble';
+            typingMsg.id = 'glora-typing';
+            typingMsg.innerHTML = `
+                <div class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 border border-purple-500/30 text-xs">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="bg-white/10 border border-white/10 rounded-2xl rounded-bl-none p-3 px-4">
+                    <div class="typing-indicator flex items-center h-4">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            `;
+            history.appendChild(typingMsg);
+            history.scrollTop = history.scrollHeight;
+
+            // 3. Process Response (Simulate network delay)
+            setTimeout(() => {
+                const typingEl = document.getElementById('glora-typing');
+                if(typingEl) typingEl.remove();
+
+                const responseText = gloraResponses[text] || gloraResponses["default"];
+                
+                const botMsg = document.createElement('div');
+                botMsg.className = 'flex items-end gap-2 chat-bubble';
+                botMsg.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 border border-purple-500/30 text-xs">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-white/10 border border-white/10 rounded-2xl rounded-bl-none p-3 max-w-[85%]">
+                        <p class="text-sm text-white/90 m-0 leading-relaxed">${responseText}</p>
+                    </div>
+                `;
+                history.appendChild(botMsg);
+                history.scrollTop = history.scrollHeight;
+            }, 1200);
+        }
+
+        // ==========================================
+        // 1.6 Production Google Apps Script API
+        // ==========================================
+        const APP_CONFIG = window.SERBIA_APP_CONFIG || {};
+        const API_URL = APP_CONFIG.apiUrl || "";
+
+        function queueOfflineSubmission(actionType, data) {
+            const key = "serbia_gateway_offline_queue";
+            const queue = JSON.parse(localStorage.getItem(key) || "[]");
+            queue.push({ actionType, data, queuedAt: new Date().toISOString() });
+            localStorage.setItem(key, JSON.stringify(queue));
+        }
+
+        async function sendToGoogle(actionType, data = {}) {
+            if (!API_URL || API_URL.includes("PASTE_GOOGLE_APPS_SCRIPT")) {
+                console.warn("Google Apps Script URL is not configured.");
+                queueOfflineSubmission(actionType, data);
+                return { status: "local", message: "API not configured; saved locally." };
+            }
+
+            const payload = JSON.stringify({
+                action: actionType,
+                appVersion: APP_CONFIG.appVersion || "1.0.0",
+                timestamp: new Date().toISOString(),
+                data
+            });
+
+            try {
+                // text/plain avoids a browser preflight for Apps Script Web Apps.
+                await fetch(API_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: payload,
+                    keepalive: true
+                });
+                return { status: "submitted", message: "Submitted to Google Apps Script." };
+            } catch (error) {
+                console.error("Google API submission failed:", error);
+                queueOfflineSubmission(actionType, data);
+                return { status: "queued", message: "Saved offline and queued for retry." };
+            }
+        }
+
+        async function flushOfflineQueue() {
+            if (!API_URL || API_URL.includes("PASTE_GOOGLE_APPS_SCRIPT")) return;
+            const key = "serbia_gateway_offline_queue";
+            const queue = JSON.parse(localStorage.getItem(key) || "[]");
+            if (!queue.length) return;
+
+            const remaining = [];
+            for (const item of queue) {
+                const result = await sendToGoogle(item.actionType, item.data);
+                if (result.status !== "submitted") remaining.push(item);
+            }
+            localStorage.setItem(key, JSON.stringify(remaining));
+        }
+
+        // Backward-compatible name used by the existing UI.
+        async function simulateGoogleSheetCall(actionType, data = {}) {
+            return sendToGoogle(actionType, data);
+        }
+
+        // ==========================================
+        // 2. Signature Pad Initialization
+        // ==========================================
+        let signaturePad;
+        
+        function initSignaturePad() {
+            const canvas = document.getElementById('signature-pad');
+            const wrapper = canvas.parentElement;
+
+            function resizeCanvas() {
+                const ratio =  Math.max(window.devicePixelRatio || 1, 1);
+                // Set actual canvas size to match visual CSS size
+                canvas.width = wrapper.offsetWidth * ratio;
+                canvas.height = wrapper.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+                if (signaturePad) signaturePad.clear();
+            }
+
+            window.addEventListener("resize", resizeCanvas);
+            
+            // Give layout a moment to settle before sizing
+            setTimeout(() => {
+                resizeCanvas();
+                signaturePad = new SignaturePad(canvas, {
+                    penColor: 'rgb(15, 23, 42)', // Dark blue/slate for PDF clarity
+                    minWidth: 2,
+                    maxWidth: 4,
+                    backgroundColor: 'rgba(255, 255, 255, 0)' // Transparent background
+                });
+            }, 100);
+        }
+
+        function clearSignature() {
+            if (signaturePad) signaturePad.clear();
+        }
+
+        // ==========================================
+        // 3. Form Submission & PDF Generation
+        // ==========================================
+        async function submitProposal() {
+            const form = document.getElementById("proposal-form");
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const fname = document.getElementById("fname").value.trim();
+            const lname = document.getElementById("lname").value.trim();
+            const passport = document.getElementById("passport").value.trim();
+            const mobile = document.getElementById("mobile").value.trim();
+            const roleEls = document.querySelectorAll('input[name="roles"]:checked');
+
+            if (roleEls.length === 0) {
+                showToast("Please select at least one position.", "error");
+                return;
+            }
+            if (!signaturePad || signaturePad.isEmpty()) {
+                showToast("Please provide your digital signature.", "error");
+                return;
+            }
+
+            const emailEl = document.querySelector('#proposal-form input[type="email"]');
+            const email = emailEl ? emailEl.value.trim() : "";
+            const fullName = `${fname} ${lname}`.trim();
+            const role = Array.from(roleEls).map(el => el.value).join(", ");
+            const refNumber = `SRB-${new Date().getFullYear()}-${Date.now().toString().slice(-8)}`;
+            const dateStr = new Date().toLocaleDateString("en-US", {
+                year: "numeric", month: "long", day: "numeric"
+            });
+            const sigData = signaturePad.toDataURL("image/png");
+
+            const record = {
+                refNumber,
+                date: new Date().toISOString(),
+                fullName,
+                firstName: fname,
+                lastName: lname,
+                passport,
+                mobile,
+                email,
+                roles: role,
+                signatureDataUrl: sigData,
+                source: location.href,
+                userAgent: navigator.userAgent
+            };
+
+            localStorage.setItem("serbia_last_application", JSON.stringify(record));
+            showToast("Saving your application securely...", "info", 1800);
+
+            // Send the candidate record + signature to Apps Script.
+            const apiResult = await sendToGoogle("proposal", record);
+
+            document.getElementById("pdf-name").textContent = fullName;
+            document.getElementById("pdf-sign-name").textContent = fullName;
+            document.getElementById("pdf-passport").textContent = passport;
+            document.getElementById("pdf-mobile").textContent = mobile;
+            document.getElementById("pdf-role").textContent = role;
+            document.getElementById("pdf-ref").textContent = refNumber;
+            document.getElementById("pdf-date").textContent = dateStr;
+            document.getElementById("pdf-signature-img").src = sigData;
+
+            showToast(
+                apiResult.status === "submitted"
+                    ? "Application received. Generating your proposal..."
+                    : "Application saved. Generating your proposal...",
+                "success",
+                2200
+            );
+
+            const element = document.getElementById("pdf-template");
+            const opt = {
+                margin: 0,
+                filename: `Serbia_Proposal_${fname}_${lname}.pdf`,
+                image: { type: "jpeg", quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false },
+                jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
+            };
+
+            element.style.left = "0";
+            element.style.top = "0";
+            element.style.zIndex = "-100";
+
+            try {
+                await html2pdf().set(opt).from(element).save();
+                element.style.left = "-9999px";
+
+                // Also tell Apps Script that PDF generation completed.
+                await sendToGoogle("proposal_pdf_generated", {
+                    refNumber,
+                    fullName,
+                    filename: opt.filename
+                });
+
+                showToast(`Proposal ${refNumber} generated successfully.`, "success", 4500);
+
+                setTimeout(() => {
+                    form.reset();
+                    clearSignature();
+                }, 1000);
+            } catch (err) {
+                element.style.left = "-9999px";
+                console.error(err);
+                showToast("The proposal could not be generated. Your application data is saved.", "error", 5000);
+            }
+        }
+
+        // ==========================================
+        // 4. Progressive Web App (PWA) Logic
+        // ==========================================
+        function initPWA() {
+            // Production service worker is a real /sw.js file.
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", () => {
+                    navigator.serviceWorker.register("./sw.js")
+                        .then(() => console.log("Serbia Gateway service worker registered."))
+                        .catch(err => console.warn("Service worker registration failed:", err));
+                });
+            }
+
+            let deferredPrompt;
+            const installBtn = document.getElementById("pwa-install-btn");
+
+            window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.classList.remove("opacity-50");
+            });
+
+            installBtn.addEventListener("click", async () => {
+                if (!deferredPrompt) {
+                    showToast("Use your browser menu → Install app / Add to Home Screen.", "info", 4000);
+                    return;
+                }
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === "accepted") showToast("App is installing...", "success");
+                deferredPrompt = null;
+            });
+
+            window.addEventListener("appinstalled", () => {
+                showToast("Serbia Gateway installed successfully.", "success");
+            });
+
+            window.addEventListener("online", flushOfflineQueue);
+        }
+
+        // Initialize everything on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initSignaturePad();
+            initPWA();
+            
+            // Auto hide splash screen after 4 seconds
+            splashTimer = setTimeout(hideSplashScreen, 4000);
+        });
+
+    </script>
+</body>
+</html>
