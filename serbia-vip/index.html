@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Serbia Proposal">
     <link rel="manifest" id="manifest-link">
-    <title>Serbia Career Proposal | Digital Application</title>
+    <meta name="application-version" content="V3.2-FINAL-LIVE"><title>Serbia Career Gateway | Digital Application</title>
 
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -307,7 +307,7 @@
         </div>
         <button type="button" onclick="document.getElementById('candidate-dashboard').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-white/20 text-white">Close</button>
       </div>
-      <div class="rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 mb-6">
+      <div id="serbia-password-box" class="rounded-2xl border border-amber-300/30 bg-amber-400/10 p-4 mb-6">
         <div class="font-bold text-amber-200">Security: change your initial password</div>
         <p class="text-sm text-white/70 mt-1">Your account was created automatically after signing your proposal. Please choose a new password before continuing.</p>
         <div class="mt-3 flex flex-col sm:flex-row gap-2">
@@ -1423,12 +1423,12 @@
                         <input type="text" placeholder="A1234567" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
                     </div>
                     <div class="sm:col-span-2">
-                        <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Email Address</label>
-                        <input type="email" name="email" placeholder="john@example.com" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                        <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Email Address <span class="normal-case text-white/40">(Optional)</span></label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com (optional)" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10">
                     </div>
                     <div>
                         <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Mobile Number</label>
-                        <input type="tel" placeholder="+1 234 567 8900" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
+                        <input type="tel" id="mobile" placeholder="+1 234 567 8900" class="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-sm text-white outline-none focus:border-purple-500/50 focus:bg-white/10" required>
                     </div>
                     <div>
                         <label class="block text-[0.65rem] font-bold uppercase tracking-wider text-white/50 mb-1 ml-1">Create Password</label>
@@ -1608,18 +1608,11 @@
             const splash = document.getElementById('splash-screen');
             const card = document.getElementById('splash-card');
             const body = document.getElementById('main-body');
-            
-            if (splash && !splash.classList.contains('splash-fade-out')) {
-                card.classList.add('splash-scale-down');
-                splash.classList.add('splash-fade-out');
-                
-                // Allow scrolling on the main page
-                body.classList.remove('overflow-y-hidden');
-                
-                setTimeout(() => {
-                    splash.remove();
-                }, 700);
-            }
+            if (!splash) { if (body) body.classList.remove('overflow-y-hidden'); return; }
+            if (card) card.classList.add('splash-scale-down');
+            splash.classList.add('splash-fade-out');
+            if (body) body.classList.remove('overflow-y-hidden');
+            setTimeout(() => { if (splash.parentNode) splash.remove(); }, 750);
         }
 
         // ==========================================
@@ -1841,7 +1834,7 @@
             // Simulate saving Proposal to Google Sheets BEFORE generating PDF
             showToast("Syncing data securely to system...", "info");
             
-            simulateGoogleSheetCall('proposal', { name: fullName, passport, role, ref: refNumber }).then(() => {
+            simulateGoogleSheetCall('proposal', { name: fullName, passport, role, ref: refNumber }).then(async () => {
                 
                 // Proceed to Populate PDF Template
                 document.getElementById('pdf-name').textContent = fullName;
@@ -2072,7 +2065,7 @@ async function createCandidateAccountAfterProposal(data) {
    */
   const authEmail = email && email.trim()
     ? email.trim().toLowerCase()
-    : `${username.toLowerCase()}@candidate.local`;
+    : `${username.toLowerCase()}@candidate.rabbaniplacement.online`;
 
   const { data: signUpData, error: signUpError } = await SerbiaSB.auth.signUp({
     email: authEmail,
@@ -2098,6 +2091,11 @@ async function createCandidateAccountAfterProposal(data) {
     });
     if (loginError) throw signUpError;
     return { user: loginData.user, username, mustChangePassword: true, existing: true };
+  }
+
+  if (signUpData.user && !signUpData.session) {
+    const login = await SerbiaSB.auth.signInWithPassword({ email: authEmail, password });
+    if (login.error) throw new Error("Account created but automatic login failed. Turn OFF Supabase Email Confirmation.");
   }
 
   if (signUpData.user) {
@@ -2151,5 +2149,12 @@ window.SerbiaCandidateAuth = {
 };
 </script>
 
+<script>
+(function(){
+ window.addEventListener('error',function(e){console.error('Gateway error',e.error||e.message);try{hideSplashScreen()}catch(_){}});
+ window.addEventListener('unhandledrejection',function(e){console.error('Gateway promise error',e.reason)});
+ document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){try{hideSplashScreen()}catch(_){var x=document.getElementById('splash-screen');var b=document.getElementById('main-body');if(b)b.classList.remove('overflow-y-hidden');if(x)x.remove()}},4500)});
+})();
+</script>
 </body>
 </html>

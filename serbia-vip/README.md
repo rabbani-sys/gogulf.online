@@ -1,27 +1,22 @@
-# Serbia Career Gateway — FINAL FROZEN V3.1
+# Serbia Career Gateway — FINAL LIVE V3.2
 
-## Frozen changes
-1. Supabase email-confirmation dependency removed from the candidate UX.
-2. Duplicate top-menu Install App controls removed; the remaining control is icon-only.
-3. After a valid proposal signature, the candidate account is created automatically and the candidate is taken to the dashboard.
-4. Username rule:
-   - email supplied -> email is the username
-   - no email -> first name + last 4 passport characters
-5. Initial password uses the same value as the username.
-6. Candidate is prompted to change the initial password immediately in the dashboard.
+## Critical fixes in V3.2
+- Fixed the JavaScript parse error that stopped the entire application from running and left the splash screen permanently visible.
+- Added a production safety fallback that always releases the splash screen.
+- Fixed automatic proposal account creation flow.
+- Candidate is taken to the dashboard after a signed proposal.
+- Email is optional.
+- If email exists: username = email.
+- If no email: username = first name + last 4 passport characters.
+- Initial password = generated username; candidate is immediately prompted to change it.
+- Only one top-menu Install App control remains, icon-only.
+- Removed visible Production wording.
+- Added mobile field ID so the account bootstrap receives the submitted mobile number.
 
-## Supabase
-URL:
-https://csjfidgeeqyqdbxnilno.supabase.co
-
-Use only the publishable browser key in the frontend.
-
-## Important Auth setting
-For the requested no-confirmation flow, in Supabase Dashboard go to:
-Authentication -> Providers -> Email
-and turn OFF "Confirm email".
-
-Do not expose or put a service-role key in this project.
+## Supabase requirement
+In Supabase Dashboard, Authentication -> Providers -> Email, turn OFF Confirm email. This is an account-level setting and cannot safely be disabled from browser JavaScript.
 
 ## Deployment
-Upload/replace the project files in GitHub. Serve over HTTPS for PWA installation.
+Replace the old GitHub project files with this ZIP contents. Use HTTPS. After replacement, hard refresh the site and, if the old PWA is installed, uninstall/reinstall it so the new service-worker/cache is used.
+
+Do not put a service-role key or database password in GitHub.
