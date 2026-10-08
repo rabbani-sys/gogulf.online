@@ -289,6 +289,7 @@
                 
             </div>
             
+            <button id="candidate-dashboard-cta" onclick="openCandidateDashboard()" class="hidden bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-2 text-sm" aria-label="Open candidate dashboard"><i class="fa-solid fa-grid-2"></i><span class="hidden sm:inline">Dashboard</span></button>
             <button id="pwa-install-btn" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border border-white/30 text-white px-3 py-2 sm:px-4 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] flex items-center gap-2 text-sm z-50"><i class="fa-solid fa-mobile-screen-button animate-bounce"></i></button>
         </div>
     </nav>
@@ -349,13 +350,13 @@
           <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><i class="fa-solid fa-route text-yellow-300 text-xl"></i><div class="text-white/50 text-xs mt-3">Process</div><div class="text-white font-bold">Track</div></div>
         </div>
       </div>
-      <div id="dash-application" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Application</h3><p class="text-white/60 mt-2">Your Serbia career application details and status will appear here.</p></div>
-      <div id="dash-proposal" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Proposal</h3><p class="text-white/60 mt-2">Your signed proposal and proposal status will appear here.</p></div>
-      <div id="dash-payments" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Payment Center</h3><p class="text-white/60 mt-2">Active payment requests, bank instructions, payment proofs and receipts will appear here.</p></div>
-      <div id="dash-documents" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Documents</h3><p class="text-white/60 mt-2">Upload and track your required documents here.</p></div>
-      <div id="dash-timeline" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Process Timeline</h3><p class="text-white/60 mt-2">Track your application from submission through joining.</p></div>
-      <div id="dash-notifications" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Notifications</h3><p class="text-white/60 mt-2">Important application and payment updates will appear here.</p></div>
-      <div id="dash-support" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Support</h3><p class="text-white/60 mt-2">Create and manage your support requests here.</p></div>
+      <div id="dash-application" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Application</h3><p class="text-white/60 mt-2">Application reference, selected role, country, status and submitted details.</p><div class="grid sm:grid-cols-3 gap-3 mt-5"><div class="rounded-xl bg-white/5 p-4"><i class="fa-solid fa-id-card text-blue-300"></i><div class="text-xs text-white/50 mt-2">Application Ref</div><div id="dash-application-ref" class="font-bold text-white mt-1">—</div></div><div class="rounded-xl bg-white/5 p-4"><i class="fa-solid fa-circle-check text-green-300"></i><div class="text-xs text-white/50 mt-2">Status</div><div class="font-bold text-white mt-1">Submitted</div></div><div class="rounded-xl bg-white/5 p-4"><i class="fa-solid fa-briefcase text-purple-300"></i><div class="text-xs text-white/50 mt-2">Career</div><div class="font-bold text-white mt-1">Serbia</div></div></div></div>
+      <div id="dash-proposal" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Proposal</h3><p class="text-white/60 mt-2">Your signed proposal, package, signature status and PDF access.</p><div class="mt-5 rounded-2xl bg-white/5 border border-white/10 p-5 flex items-center justify-between gap-4"><div><div class="text-xs text-white/50">Status</div><div class="font-bold text-green-300 mt-1"><i class="fa-solid fa-file-signature mr-2"></i>Signed</div></div><button class="px-4 py-2 rounded-xl bg-white/10 text-white font-bold">Proposal Details</button></div></div>
+      <div id="dash-payments" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Payment Center</h3><p class="text-white/60 mt-2">Payment requests, invoice breakup, bank details, payment proof and receipts.</p><div class="grid sm:grid-cols-3 gap-3 mt-5"><div class="rounded-xl bg-white/5 p-4"><i class="fa-solid fa-file-invoice-dollar text-yellow-300"></i><div class="font-bold text-white mt-2">Payment Requests</div></div><div class="rounded-xl bg-white/5 p-4"><i class="fa-solid fa-building-columns text-blue-300"></i><div class="font-bold text-white mt-2">Bank Details</div></div><div class="rounded-xl bg-white/5 p-4"><i class="fa-solid fa-receipt text-green-300"></i><div class="font-bold text-white mt-2">Receipts</div></div></div></div>
+      <div id="dash-documents" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Documents</h3><p class="text-white/60 mt-2">Upload, review and track passport, CV, education, police clearance, medical, visa and payment documents.</p><div class="mt-5 rounded-2xl bg-white/5 border border-white/10 p-5"><i class="fa-solid fa-cloud-arrow-up text-blue-300 text-2xl"></i><div class="font-bold text-white mt-2">Document Center</div><div class="text-sm text-white/50 mt-1">Required documents and their verification status will be shown here.</div></div></div>
+      <div id="dash-timeline" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Process Timeline</h3><p class="text-white/60 mt-2">Application → Profile Review → Interview → Proposal → Documents → Payment → Work Permit → Visa → Travel → Joining.</p><div class="mt-5 grid grid-cols-2 md:grid-cols-4 gap-2"><div class="rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white/70"><i class="fa-solid fa-circle text-purple-300 mr-2"></i>Application</div><div class="rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white/70"><i class="fa-solid fa-circle text-purple-300 mr-2"></i>Interview</div><div class="rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white/70"><i class="fa-solid fa-circle text-purple-300 mr-2"></i>Proposal</div><div class="rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white/70"><i class="fa-solid fa-circle text-purple-300 mr-2"></i>Documents</div><div class="rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white/70"><i class="fa-solid fa-circle text-purple-300 mr-2"></i>Payment</div><div class="rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white/70"><i class="fa-solid fa-circle text-purple-300 mr-2"></i>Work Permit</div><div class="rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white/70"><i class="fa-solid fa-circle text-purple-300 mr-2"></i>Visa</div><div class="rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white/70"><i class="fa-solid fa-circle text-purple-300 mr-2"></i>Joining</div></div></div>
+      <div id="dash-notifications" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Notifications</h3><p class="text-white/60 mt-2">Application, document, payment and processing notifications.</p><div class="mt-5 rounded-xl bg-white/5 p-4 text-white/60"><i class="fa-solid fa-bell text-yellow-300 mr-2"></i>Your latest notifications will appear here.</div></div>
+      <div id="dash-support" class="dash-panel hidden"><h3 class="text-2xl font-bold text-white">Support</h3><p class="text-white/60 mt-2">Create and manage support tickets, messages and assistance requests.</p><button class="mt-5 px-5 py-3 rounded-xl bg-white text-slate-900 font-bold"><i class="fa-solid fa-plus mr-2"></i>New Support Request</button></div>
     </div>
   </div>
 </section>
@@ -2101,6 +2102,7 @@ window.SERBIA_SUPABASE_URL = "https://csjfidgeeqyqdbxnilno.supabase.co";
 window.SERBIA_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eFBP7b8ypQbYotxRXK53Xw_g-miKB_8";
 
 const SerbiaSB = window.supabase
+window.SerbiaSB = SerbiaSB;
   ? window.supabase.createClient(window.SERBIA_SUPABASE_URL, window.SERBIA_SUPABASE_PUBLISHABLE_KEY)
   : null;
 
@@ -2214,6 +2216,41 @@ window.SerbiaCandidateAuth = {
  window.addEventListener('error',function(e){console.error('Gateway error',e.error||e.message);try{hideSplashScreen()}catch(_){}});
  window.addEventListener('unhandledrejection',function(e){console.error('Gateway promise error',e.reason)});
  document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){try{hideSplashScreen()}catch(_){var x=document.getElementById('splash-screen');var b=document.getElementById('main-body');if(b)b.classList.remove('overflow-y-hidden');if(x)x.remove()}},4500)});
+})();
+</script>
+
+<script>
+(function(){
+  function showDashboardCTA(show){
+    const b=document.getElementById("candidate-dashboard-cta");
+    if(b) b.classList.toggle("hidden", !show);
+  }
+  async function refreshDashboardAccess(){
+    try{
+      if(window.SerbiaSB && window.SerbiaSB.auth){
+        const {data}=await window.SerbiaSB.auth.getSession();
+        showDashboardCTA(!!data.session);
+      } else {
+        showDashboardCTA(!!sessionStorage.getItem("serbia_candidate_user_id"));
+      }
+    }catch(e){
+      showDashboardCTA(!!sessionStorage.getItem("serbia_candidate_user_id"));
+    }
+  }
+  window.addEventListener("serbia:account-created", function(){
+    showDashboardCTA(true);
+    setTimeout(function(){
+      if(typeof openCandidateDashboard==="function") openCandidateDashboard();
+    },50);
+  });
+  document.addEventListener("DOMContentLoaded", function(){
+    refreshDashboardAccess();
+    if(window.SerbiaSB && window.SerbiaSB.auth){
+      window.SerbiaSB.auth.onAuthStateChange(function(_event,session){
+        showDashboardCTA(!!session);
+      });
+    }
+  });
 })();
 </script>
 </body>
