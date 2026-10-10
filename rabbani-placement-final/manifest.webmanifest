@@ -1,0 +1,32 @@
+{
+  "id": "./",
+  "name": "Rabbani's Global Career Hub",
+  "short_name": "Career Hub",
+  "description": "Explore global destinations, career services, proposals and support.",
+  "start_url": "./digital_proposal_exploring_signature_hub_complete_pdf.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5f7ff",
+  "theme_color": "#3659d9",
+  "icons": [
+    {
+      "src": "pwa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
